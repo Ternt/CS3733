@@ -18,3 +18,64 @@ model HighScore {
   time  DateTime
   score Int
 }
+
+model NodeDB {
+  nodeID    String @unique
+  xcoord    Int
+  ycoord    Int
+  floor     String
+  building  String
+  longName  String
+  shortName String
+  nodeType  String
+
+  requests ServiceRequest[]
+}
+
+model EdgeDB {
+  startNodeID String
+  endNodeID   String
+  blocked     Boolean
+
+  @@unique([startNodeID, endNodeID])
+}
+
+model ServiceRequest {
+  requestID  Int                @id @default(autoincrement())
+  type       ServiceRequestType
+  notes      String
+  location   NodeDB             @relation(fields: [locationID], references: [nodeID])
+  locationID String
+
+  maintenance_detail MaintenanceRequest?
+  flower_detail      FlowerRequest?
+}
+
+model MaintenanceRequest {
+  request         ServiceRequest  @relation(fields: [requestID], references: [requestID])
+  requestID       Int             @unique
+  maintenanceType MaintenanceType
+  workersNeeded   Int
+}
+
+model FlowerRequest {
+  request       ServiceRequest @relation(fields: [requestID], references: [requestID])
+  requestID     Int            @unique
+  flowerType    FlowerType
+  numberFlowers Int
+}
+
+enum ServiceRequestType {
+  MAINTENANCE
+  FLOWERS
+}
+
+enum FlowerType {
+  ROSE
+  DANDELION
+}
+
+enum MaintenanceType {
+  PLUMBING
+  ELEVATOR
+}
