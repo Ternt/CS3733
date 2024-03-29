@@ -5,11 +5,21 @@ import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
 import { PrismaClient } from "database";
 import { populateDatabase } from "./helper/manageDatabases";
-//import data from "./../map/00_thelowerlevel1.png";
+import { PathfindingGraph } from "./graph/pathfinding.ts";
 
 // import database
 const prisma = new PrismaClient();
 populateDatabase(prisma);
+
+// test pathfinding
+const graph = new PathfindingGraph();
+graph.loadNodes("../../map/L1Nodes.csv");
+graph.loadEdges("../../map/L1Edges.csv");
+
+//Should Work
+graph.printPath(graph.pathfind("CCONF001L1", "CCONF002L1"));
+//Should Fail
+graph.printPath(graph.pathfind("CCONF001L1", "GHALL003L1"));
 
 const app: Express = express(); // Setup the backend
 
