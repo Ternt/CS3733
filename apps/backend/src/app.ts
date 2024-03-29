@@ -3,6 +3,13 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
+import { PrismaClient } from "database";
+import { populateDatabase } from "./helper/manageDatabases";
+//import data from "./../map/00_thelowerlevel1.png";
+
+// import database
+const prisma = new PrismaClient();
+populateDatabase(prisma);
 
 const app: Express = express(); // Setup the backend
 
