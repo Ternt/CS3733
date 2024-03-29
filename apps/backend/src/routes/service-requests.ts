@@ -13,7 +13,7 @@ router.get("/", async function (req: Request, res: Response) {
   const serviceRequests = await PrismaClient.serviceRequest.findMany();
 
   if (serviceRequests == null) {
-    // if no data
+    // if no service request data is in the db
     console.error("No service requests have been submitted.");
     res.sendStatus(204);
   } else {
