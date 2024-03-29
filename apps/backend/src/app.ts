@@ -2,9 +2,27 @@ import createError, { HttpError } from "http-errors";
 import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+import { PrismaClient } from "database";
+import { populateDatabase } from "./helper/manageDatabases";
+import { PathfindingGraph } from "./graph/pathfinding.ts";
+
 import exampleRouter from "./routes/example.ts";
 import serviceRequestRouter from "./routes/service-requests.ts";
 import mapRouter from "./routes/map.ts";
+
+// import database
+const prisma = new PrismaClient();
+populateDatabase(prisma);
+
+// test pathfinding
+const graph = new PathfindingGraph();
+graph.loadNodes("../../map/L1Nodes.csv");
+graph.loadEdges("../../map/L1Edges.csv");
+
+//Should Work
+graph.printPath(graph.pathfind("CCONF001L1", "CCONF002L1"));
+//Should Fail
+graph.printPath(graph.pathfind("CCONF001L1", "GHALL003L1"));
 
 const app: Express = express(); // Setup the backend
 
