@@ -10,7 +10,17 @@ router.post("/", async function (req: Request, res: Response) {
 });
 
 router.get("/", async function (req: Request, res: Response) {
-  const serviceRequests = await PrismaClient.serviceRequest.findMany();
+  const serviceRequests = await PrismaClient.serviceRequest.findMany({
+    select: {
+      requestID: true,
+      type: true,
+      notes: true,
+      location: true,
+
+      maintenanceDetail: true,
+      flowerDetail: true,
+    },
+  });
 
   if (serviceRequests == null) {
     // if no service request data is in the db
