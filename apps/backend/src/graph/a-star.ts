@@ -32,6 +32,7 @@ export class AStarGraph extends BaseGraph {
 
       const neighbours = this.edges
         .get(current)!
+        .filter((edge) => !edge.blocked)
         .map((edge) => edge.neighborOf(current)!.id);
 
       for (const neighbour of neighbours) {
