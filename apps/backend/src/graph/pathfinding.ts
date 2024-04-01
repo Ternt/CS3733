@@ -72,33 +72,7 @@ export class PathfindingGraph extends BaseGraph {
   }
 
   pathfind(startId: string, endId: string) {
-    const backtrackMap: Map<string, string> = this.graphBFS(startId);
-    if (!backtrackMap.get(endId)) {
-      console.error(
-        "PATH FINDING FAILED: NO PATH FROM " + startId + " TO " + endId,
-      );
-      return;
-    }
-    let tmp: string = endId;
-    const path: string[] = [];
-
-    while (tmp !== startId) {
-      path.push(tmp);
-      tmp = backtrackMap.get(tmp)!;
-    }
-    path.push(tmp);
-
-    return path;
-  }
-
-  printPath(path: string[] | undefined) {
-    let string = "Path: ";
-    if (path) {
-      while (path.length !== 0) {
-        string = string.concat(path.pop() + " -> ");
-      }
-      string = string.concat(" END");
-      console.log(string);
-    }
+    const came_from: Map<string, string> = this.graphBFS(startId);
+    return this.backtrack(came_from, startId, endId);
   }
 }
