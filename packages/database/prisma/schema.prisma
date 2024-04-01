@@ -47,8 +47,8 @@ model ServiceRequest {
   location   NodeDB             @relation(fields: [locationID], references: [nodeID])
   locationID String
 
-  maintenance_detail MaintenanceRequest?
-  flower_detail      FlowerRequest?
+  maintenanceDetail MaintenanceRequest?
+  flowerDetail      FlowerRequest?
 }
 
 model MaintenanceRequest {
