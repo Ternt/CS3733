@@ -1,12 +1,24 @@
 import express, { Router, Request, Response } from "express";
-// import { Prisma } from "database";
+import { Prisma } from "database";
 import PrismaClient from "../bin/database-connection.ts";
 
 const router: Router = express.Router();
 
 router.post("/", async function (req: Request, res: Response) {
-  // TODO
-  res.sendStatus(400); // Send error
+  const serviceRequest: Prisma.ServiceRequestCreateInput = req.body;
+
+  try {
+    // Attempt to create in the database
+    await PrismaClient.serviceRequest.create({ data: serviceRequest });
+    console.info("Successfully saved service request attempt"); // Log that it was successful
+  } catch (error) {
+    // Log any failures
+    console.error(
+      `Unable to save service request attempt ${serviceRequest}: ${error}`,
+    );
+    res.sendStatus(400); // Send error
+    return; // Don't try to send duplicate statuses
+  }
 });
 
 router.get("/", async function (req: Request, res: Response) {
