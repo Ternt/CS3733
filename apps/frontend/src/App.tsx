@@ -1,8 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import ExampleRoute from "./routes/ExampleRoute.tsx";
-import {MapCanvas} from "./components/mapCanvas.tsx";
-import ll1 from "./assets/BWHospitalMaps/00_thelowerlevel1.png";
+import MapPage from "./routes/mapPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -15,19 +14,19 @@ function App() {
           path: "",
           element: <ExampleRoute />,
         },
-          {
-              path: "/map",
-              element: <MapCanvas image={ll1}/>,
-          },
+        {
+          path: "/map",
+          element: <MapPage />,
+        },
       ],
     },
   ]);
 
-    return <RouterProvider router={router}/>;
+  return <RouterProvider router={router} />;
 
-    function Root() {
-        return (
-            <div className="w-full flex flex-col px-20 gap-5">
+  function Root() {
+    return (
+      <div className="w-full flex flex-col px-20 gap-5">
         <h1>Welcome to your starter code.</h1>
         <Outlet />
       </div>
