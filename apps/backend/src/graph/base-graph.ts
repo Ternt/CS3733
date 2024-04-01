@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv-parse/sync";
+// import PrismaClient from "../bin/database-connection.ts";
 
 export enum Floor {
   L2 = -1,
@@ -180,7 +181,6 @@ export class BaseGraph {
     }
   }
 
-  // todo: write the csv files into directory... maybe /src/data-from-[date, time]/
   public saveGraph() {
     const nodeData = this.saveNodes();
     const edgeData = this.saveEdges();
