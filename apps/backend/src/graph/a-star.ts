@@ -9,8 +9,6 @@ export class AStarGraph extends BaseGraph {
   }
 
   aStar(startId: string, endId: string): GraphNode[] {
-    let path: GraphNode[] = [];
-    // const visited_list = [];
     const frontier = new PriorityQueue();
     frontier.push([startId, 0]);
     const came_from = new Map<string, string>();
@@ -20,15 +18,10 @@ export class AStarGraph extends BaseGraph {
 
     while (!frontier.isEmpty()) {
       const current = frontier.pop()[0];
-      // console.log(current);
 
       if (current == endId) {
         break;
       }
-
-      // get the neighbour of the current node
-      // console.log("current", current);
-      // console.log(this.edges.get(current));
 
       const neighbours = this.edges
         .get(current)!
@@ -50,51 +43,9 @@ export class AStarGraph extends BaseGraph {
       }
     }
 
-    if (!came_from.get(endId)) {
-      console.error(
-        "PATH FINDING FAILED: NO PATH FROM " + startId + " TO " + endId,
-      );
-      return [];
-    }
-
-    let tmp: string = endId;
-    const pathTmp: string[] = [];
-    while (tmp !== startId) {
-      pathTmp.push(tmp);
-      tmp = came_from.get(tmp)!;
-    }
-    pathTmp.push(tmp);
-    this.printPath(pathTmp);
-    path = pathTmp.map((node) => this.nodes.get(node)!);
-
-    return path;
-  }
-
-  cost(StartNodeID: string, EndNodeID: string): number {
-    const startNode = this.nodes.get(StartNodeID)!;
-    const endNode = this.nodes.get(EndNodeID)!;
-    // console.log(EndNodeID);
-    // console.log(endNode);
-    // console.log(this.nodes);
-    const startZ = startNode.floor.valueOf() + 1;
-    const endZ = endNode.floor.valueOf() + 1;
-    const cost =
-      ((startNode.xCoord - endNode.xCoord) ** 2 +
-        (startNode.yCoord - endNode.yCoord) ** 2) **
-        (1 / 2) +
-      Math.abs(startZ - endZ) * 50;
-
-    return cost;
-  }
-
-  printPath(path: string[] | undefined) {
-    let string = "Path: ";
-    if (path) {
-      while (path.length !== 0) {
-        string = string.concat(path.pop() + " -> ");
-      }
-      string = string.concat(" END");
-      console.log(string);
-    }
+    // backtrack and create path
+    const path: string[] = this.backtrack(came_from, startId, endId);
+    this.printPath(path);
+    return path.map((node) => this.nodes.get(node)!);
   }
 }

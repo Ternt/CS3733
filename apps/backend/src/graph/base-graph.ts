@@ -55,6 +55,7 @@ export class GraphNode {
     this.shortName = shortName;
   }
 }
+
 export class Edge {
   start: GraphNode;
   end: GraphNode;
@@ -344,5 +345,56 @@ export class BaseGraph {
     // Remove Node itself
     this.nodes.delete(aNode.id);
     this.edges.delete(aNode.id);
+  }
+
+  printPath(path: string[] | undefined) {
+    // check if no path
+    if (path === undefined || path.length == 0) {
+      console.log("NO PATH");
+    }
+
+    let string = "Path: ";
+    string = string.concat(path!.join(" -> "));
+    console.log(string);
+  }
+
+  cost(StartNodeID: string, EndNodeID: string): number {
+    const startNode = this.nodes.get(StartNodeID)!;
+    const endNode = this.nodes.get(EndNodeID)!;
+    const startZ = startNode.floor.valueOf() + 1;
+    const endZ = endNode.floor.valueOf() + 1;
+    const cost =
+      ((startNode.xCoord - endNode.xCoord) ** 2 +
+        (startNode.yCoord - endNode.yCoord) ** 2) **
+        (1 / 2) +
+      Math.abs(startZ - endZ) * 50;
+
+    return cost;
+  }
+
+  backtrack(
+    came_from: Map<string, string>,
+    start: string,
+    end: string,
+  ): string[] {
+    // check that path exists
+    if (!came_from.get(end)) {
+      console.error(
+        "PATH FINDING FAILED: NO PATH FROM " + start + " TO " + end,
+      );
+      return [];
+    }
+
+    // backtrack and create path
+    const path: string[] = [];
+    let tmp: string = end;
+
+    while (tmp !== start) {
+      path.push(tmp);
+      tmp = came_from.get(tmp)!;
+    }
+    path.push(tmp);
+
+    return path;
   }
 }
