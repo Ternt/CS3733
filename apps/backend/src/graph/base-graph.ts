@@ -1,7 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv-parse/sync";
-// import PrismaClient from "../bin/database-connection.ts";
+// import { Prisma } from "database";
+import PrismaClient from "../bin/database-connection.ts";
 
 export enum Floor {
   L2 = -1,
@@ -105,6 +106,58 @@ export class BaseGraph {
     this.edges = new Map<string, Edge[]>();
   }
 
+  async loadNodes2() {
+    const dbContent = await PrismaClient.nodeDB.findMany();
+
+    for (const record of dbContent) {
+      const node = new GraphNode(
+        record.nodeID,
+        record.xcoord,
+        record.ycoord,
+        Floor[record.floor as keyof typeof Floor],
+        record.building,
+        NodeType[record.nodeType as keyof typeof NodeType],
+        record.longName,
+        record.shortName,
+      );
+
+      this.nodes.set(node.id, node);
+      this.edges.set(node.id, []);
+
+      console.log(node);
+    }
+  }
+
+  async loadEdges2() {
+    const dbContent = await PrismaClient.edgeDB.findMany();
+
+    for (const record of dbContent) {
+      const edge = new Edge(
+        this.nodes.get(record.startNodeID)!,
+        this.nodes.get(record.endNodeID)!,
+      );
+
+      // check if edge is valid
+      if (edge.start === undefined || edge.end === undefined) {
+        console.error(
+          "reading edge",
+          "(",
+          record.startNodeID,
+          "->",
+          record.endNodeID,
+          ")",
+          "failed",
+        );
+        continue;
+      }
+
+      // add bidirectional edges
+      this.edges.get(edge.start.id)?.push(edge);
+      this.edges.get(edge.end.id)?.push(edge);
+
+      console.log(edge);
+    }
+  }
   loadNodes(pathString: string) {
     const csvFilePath = path.resolve(__dirname, pathString);
     const headers = [

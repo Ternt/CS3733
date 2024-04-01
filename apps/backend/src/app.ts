@@ -5,22 +5,26 @@ import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
 import { PrismaClient } from "database";
 import { populateDatabase } from "./helper/manageDatabases";
-//import { PathfindingGraph } from "./graph/pathfinding.ts";
-import { AStarGraph } from "./graph/a-star.ts";
+import { PathfindingGraph } from "./graph/pathfinding.ts";
+// import { AStarGraph } from "./graph/a-star.ts";
 // import database
 const prisma = new PrismaClient();
 populateDatabase(prisma);
 
 // test pathfinding
-const graph = new AStarGraph();
-graph.loadNodes("../../map/L1Nodes.csv");
-graph.loadEdges("../../map/L1Edges.csv");
-graph.aStar("CCONF001L1", "CCONF002L1");
-graph.aStar("CCONF001L1", "GHALL003L1");
+const graph = new PathfindingGraph();
+graph.loadNodes2();
+graph.loadEdges2();
+
+// graph.loadNodes("../../map/L1Nodes.csv");
+// graph.loadEdges("../../map/L1Edges.csv");
+graph.pathfind("CCONF001L1", "CCONF002L1");
+graph.pathfind("CCONF001L1", "GHALL003L1");
+
 //Should Work
-//graph.printPath(graph.pathfind("CCONF001L1", "CCONF002L1"));
+graph.printPath(graph.pathfind("CCONF001L1", "CCONF002L1"));
 //Should Fail
-//graph.printPath(graph.pathfind("CCONF001L1", "GHALL003L1"));
+graph.printPath(graph.pathfind("CCONF001L1", "GHALL003L1"));
 
 const app: Express = express(); // Setup the backend
 
