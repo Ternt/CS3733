@@ -16,6 +16,7 @@ export class AStarGraph extends BaseGraph {
     came_from.set(startId, "");
     cost_so_far.set(startId, 0);
 
+    // A-Star Algorithm
     while (!frontier.isEmpty()) {
       const current = frontier.pop()[0];
 
@@ -29,7 +30,6 @@ export class AStarGraph extends BaseGraph {
         .map((edge) => edge.neighborOf(current)!.id);
 
       for (const neighbour of neighbours) {
-        // console.log("neighbour", neighbour);
         const new_cost = cost_so_far[current] + this.cost(current, neighbour);
         if (
           !cost_so_far.has(neighbour) ||
