@@ -11,6 +11,7 @@ router.post("/", async function (req: Request, res: Response) {
     // Attempt to create in the database
     await PrismaClient.serviceRequest.create({ data: serviceRequest });
     console.info("Successfully saved service request attempt"); // Log that it was successful
+    res.sendStatus(200);
   } catch (error) {
     // Log any failures
     console.error(
