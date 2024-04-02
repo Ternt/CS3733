@@ -15,7 +15,7 @@ populateDatabase(prisma);
 const graph = new AStarGraph();
 graph.loadNodes("../../map/L1Nodes.csv");
 graph.loadEdges("../../map/L1Edges.csv");
-graph.aStar("CCONF001L1", "CCONF002L1");
+graph.aStar("WELEV00HL1", "CDEPT004L1");
 graph.aStar("CCONF001L1", "GHALL003L1");
 //Should Work
 //graph.printPath(graph.pathfind("CCONF001L1", "CCONF002L1"));
