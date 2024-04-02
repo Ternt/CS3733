@@ -7,26 +7,19 @@ import { PrismaClient } from "database";
 import { populateDatabase } from "./helper/manageDatabases";
 import { PathfindingGraph } from "./graph/pathfinding.ts";
 // import { AStarGraph } from "./graph/a-star.ts";
-// import database
+
 const prisma = new PrismaClient();
-
-// test pathfinding + graph loading
 const graph = new PathfindingGraph();
-
 (async () => {
   await populateDatabase(prisma);
   await graph.loadNodesFromDB();
   await graph.loadEdgesFromDB();
 
-  graph.pathfind("CCONF001L1", "CCONF002L1");
-  graph.pathfind("CCONF001L1", "GHALL003L1");
-
   graph.printPath(graph.pathfind("CCONF001L1", "CCONF002L1")); // Should Work
   graph.printPath(graph.pathfind("CCONF001L1", "GHALL003L1")); // Should Fail
+  // graph.loadNodesFromCSV("../../map/L1Nodes.csv");
+  // graph.loadEdgesFromCSV("../../map/L1Edges.csv");
 })();
-
-// graph.loadNodesFromCSV("../../map/L1Nodes.csv");
-// graph.loadEdgesFromCSV("../../map/L1Edges.csv");
 
 const app: Express = express(); // Setup the backend
 
@@ -45,7 +38,8 @@ app.use(cookieParser()); // Cookie parser
 
 // Setup routers. ALL ROUTERS MUST use /api as a start point, or they
 // won't be reached by the default proxy and prod setup
-app.use("/api/high-score", exampleRouter);
+app.use("/api/map", exampleRouter);
+app.use("/api/service-requests", exampleRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });

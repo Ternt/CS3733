@@ -399,7 +399,7 @@ export class BaseGraph {
   printPath(path: string[] | undefined) {
     // check if no path
     if (path === undefined || path.length == 0) {
-      console.log("NO PATH");
+      return;
     }
 
     let string = "Path: ";
@@ -429,6 +429,7 @@ export class BaseGraph {
     // check that path exists
     if (!came_from.get(end)) {
       console.error(
+        "\x1b[31m%s\x1b[0m", // output color to make debugging easier
         "PATH FINDING FAILED: NO PATH FROM " + start + " TO " + end,
       );
       return [];
