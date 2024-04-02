@@ -10,11 +10,11 @@ export class AStarGraph extends BaseGraph {
 
   aStar(startId: string, endId: string): GraphNode[] {
     const frontier = new PriorityQueue();
-    frontier.push([startId, 0]);
+    frontier.push([startId, 0.0]);
     const came_from = new Map<string, string>();
     const cost_so_far = new Map<string, number>();
     came_from.set(startId, "");
-    cost_so_far.set(startId, 0);
+    cost_so_far.set(startId, 0.0);
 
     // A-Star Algorithm
     while (!frontier.isEmpty()) {
@@ -30,7 +30,9 @@ export class AStarGraph extends BaseGraph {
         .map((edge) => edge.neighborOf(current)!.id);
 
       for (const neighbour of neighbours) {
-        const new_cost = cost_so_far[current] + this.cost(current, neighbour);
+        const new_cost =
+          cost_so_far.get(current) + this.cost(current, neighbour);
+
         if (
           !cost_so_far.has(neighbour) ||
           new_cost < cost_so_far.get(neighbour)!
