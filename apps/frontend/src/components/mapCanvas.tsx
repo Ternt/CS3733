@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import axios from "axios";
-import {graphHelper, pointHelper} from "../helpers/clickCorrectionMath.ts";
+import {graphHelper, pointHelper, customPathHelper} from "../helpers/clickCorrectionMath.ts";
 import {vec2} from "../helpers/vec2.ts";
 
 let startLocation = "CCONF001L1"; // Default location to start pathfinding from
@@ -44,24 +44,30 @@ export function MapCanvas(props: mapCanvasProps) {
       .get("/api/astar-api?startNode=" + startNode + "&endNode=" + endNode)
       .then((res) => {
         createPath(res.data.path, endCoord);
-        console.log(res.data.path);
+        //console.log(res.data.path);
       });
   }
 
   /**
    * Draw a path between several nodes
-   * @param nodes Array of node ids in order of connection
+   * @param pathNodes Array of node ids in order of connection
    */
-  function createPath(nodes: string[], endCoord: vec2 | null = null) {
+  function createPath(pathNodes: string[], endCoord: vec2 | null = null) {
     //console.log(nodes);
+      const pathLength = pathNodes.length;
     if (endCoord != null) {
-      for (let i = 0; i < nodes.length - 2; i++) {
-        connectNodes(nodes[i], nodes[i + 1]); // TODO: Make path go through points when there's only two points in a path and selected point is through that point
+      for (let i = 0; i < pathLength - 2; i++) {
+        connectNodes(pathNodes[i], pathNodes[i + 1]); // TODO: Make path go through points when there's only two points in a path and selected point is through that point
       }
-      connectNodeToPoint(nodes[nodes.length - 2], endCoord);
+      if (customPathHelper({path: pathNodes, end: endCoord, nodes: nodes}) != pathNodes[pathLength - 2]) {
+          connectNodes(pathNodes[pathLength - 2], pathNodes[pathLength - 1]); // Connect 2TL and last nodes
+          connectNodeToPoint(pathNodes[pathLength - 1], endCoord);
+      } else {
+          connectNodeToPoint(pathNodes[pathLength - 2], endCoord);
+      }
     } else {
       for (let i = 0; i < nodes.length - 1; i++) {
-        connectNodes(nodes[i], nodes[i + 1]);
+        connectNodes(pathNodes[i], pathNodes[i + 1]);
       }
     }
   }
