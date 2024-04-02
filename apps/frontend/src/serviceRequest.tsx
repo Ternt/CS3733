@@ -20,7 +20,6 @@ function ServiceRequest() {
   const [location, setLocation] = useState("");
 
   // Define a function to handle form submission
-  // Define a function to handle form submission
   const submitService = () => {
     // Check if the service is not "Null option"
     if (service !== "Null option") {
