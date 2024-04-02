@@ -1,0 +1,16 @@
+@import "../../sass/vars.scss";
+
+.map-render {
+  height: 100vh;
+  position: relative;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  background-color: $bkg-s;
+
+  img {
+    height: calc(100% - 2rem);
+    width: 70vw;
+    object-fit: contain;
+  }
+}

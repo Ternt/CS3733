@@ -1,0 +1,56 @@
+.on-screen-keyboard {
+  width: fit-content;
+  height: fit-content;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #888888;
+  pointer-events: all;
+  filter: drop-shadow(0px 5px 5px #000000a0);
+
+  .row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+
+    .key {
+      height: 2.5rem;
+      background-color: #6b6d6e;
+      border: 1px solid #2f2f2f;
+      border-radius: 3px;
+      color: #e4e4e4;
+      user-select: none;
+      margin: 0.2rem;
+      font-size: 1.3rem;
+      font-family: "Open Sans", sans-serif;
+
+      &:hover {
+        background-color: lightgray;
+        color: #252323;
+      }
+    }
+    .spacer {
+      width: 1rem;
+      height: 2rem;
+    }
+  }
+}
+
+.keyboard-wrapper {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  pointer-events: none;
+}
