@@ -30,8 +30,9 @@ export class AStarGraph extends BaseGraph {
         .map((edge) => edge.neighborOf(current)!.id);
 
       for (const neighbour of neighbours) {
-        const new_cost =
-          cost_so_far.get(current) + this.cost(current, neighbour);
+        const soFar = cost_so_far.get(current);
+        if (soFar === undefined) continue;
+        const new_cost = soFar + this.cost(current, neighbour);
 
         if (
           !cost_so_far.has(neighbour) ||
