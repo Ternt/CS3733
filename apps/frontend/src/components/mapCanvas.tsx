@@ -9,7 +9,6 @@ export function MapCanvas(props: mapCanvasProps) {
   const canvasRef = useRef(null);
   let nodes, edges;
   updateMapPaths();
-  console.log(nodes + edges);
 
   async function updateMapPaths() {
       await axios.get("/api/map").then((res) => {
@@ -25,7 +24,7 @@ export function MapCanvas(props: mapCanvasProps) {
     };
     type node = {
         point: vec2;
-        id: string;
+        nodeID: string;
     };
     type edge = {
         startNodeID: node;
@@ -36,6 +35,11 @@ export function MapCanvas(props: mapCanvasProps) {
         y: number;
         nodes: node[];
         edges: edge[];
+    };
+    type findClosestNodeOnGraphProps = {
+        x: number;
+        y: number;
+        nodes: node[];
     };
 
     function dot(ax:number, ay:number, bx:number, by:number):number{
@@ -96,14 +100,65 @@ export function MapCanvas(props: mapCanvasProps) {
         return closestPoint;
     }
 
+    /**
+     * Find the closest node to a selected point
+     * @param props Set of coordinates for the input and an array of nodes to check
+     */
+    function pointHelper(props: findClosestNodeOnGraphProps){
+        let closestNode: string | null = null;
+        let closestDist: number = Infinity;
+
+        for(let i = 0; i < props.nodes.length; i++) {
+            const node = props.nodes[i];
+            if (!node) continue;
+
+            const pn: vec2 = {
+                x: nodes.filter((nodeItem) => nodeItem.nodeID === node.nodeID)[0].xcoord,
+                y: nodes.filter((nodeItem) => nodeItem.nodeID === node.nodeID)[0].ycoord
+            };
+
+            // TODO adjust for screen scaling of the image
+            // let x1 = startNode.x * zoomScale + offset.x;
+            // let y1 = startNode.y * zoomScale + offset.y;
+            // let x2 = endNode.x * zoomScale + offset.x;
+            // let y2 = endNode.y * zoomScale + offset.y;
+
+            const mousePos: vec2 = {x: props.x, y: props.y};
+            const dist:number = distance(pn, mousePos);
+            if (dist < closestDist){
+                closestDist = dist;
+                closestNode = node.nodeID;
+            }
+
+
+        }
+
+        //console.log(closestNode);
+        return closestNode;
+    }
+
+    async function getPath(startNode: string, endNode: string, endCoord: vec2 | null = null) {
+        await axios.get("/api/astar-api?startNode="+startNode+"&endNode="+endNode).then((res) => {
+            createPath(res.data.path, endCoord);
+        });
+    }
+
   /**
    * Draw a path between several nodes
    * @param nodes Array of node ids in order of connection
    */
-  function createPath(nodes: string[]) {
-    for (let i = 0; i < nodes.length - 1; i++) {
-      connectNodes(nodes[i], nodes[i + 1]);
-    }
+  function createPath(nodes: string[], endCoord: vec2 | null = null) {
+      //console.log(nodes);
+      if (endCoord != null) {
+          for (let i = 0; i < nodes.length - 2; i++) {
+              connectNodes(nodes[i], nodes[i + 1]);
+          }
+          connectNodeToPoint(nodes[nodes.length - 2], endCoord);
+      } else {
+          for (let i = 0; i < nodes.length - 1; i++) {
+              connectNodes(nodes[i], nodes[i + 1]);
+          }
+      }
   }
 
   /**
@@ -125,6 +180,21 @@ export function MapCanvas(props: mapCanvasProps) {
         endNode[0].ycoord,
       );
     }
+  }
+
+  async function connectNodeToPoint(startNodeStr: string, endCoord: vec2) {
+      let startNode: object;
+      await axios.get("/api/map").then((res) => {
+          startNode = res.data.nodes.filter((node) => node.nodeID == startNodeStr);
+      });
+      if (startNode !== undefined) {
+          drawLine(
+              startNode[0].xcoord,
+              startNode[0].ycoord,
+              endCoord.x,
+              endCoord.y,
+          );
+      }
   }
 
   /**
@@ -170,6 +240,9 @@ export function MapCanvas(props: mapCanvasProps) {
               context.lineWidth = 15;
               context.arc(coords.x, coords.y, 5, 0, 2 * Math.PI);
               context.stroke();
+
+              const closestNode = pointHelper({x: coords.x, y: coords.y, nodes});
+              getPath(closestNode, "CCONF003L1", coords);
           } catch (TypeError) {
             console.log("Selected point too far from any path");
           }
@@ -178,7 +251,7 @@ export function MapCanvas(props: mapCanvasProps) {
       });
     image.onload = () => {
       context.drawImage(image, 0, 0, 5000, 3400); // Change parameters to zoom in and pan around the image
-      createPath(["CHALL004L1", "CLABS005L1", "CREST002L1"]); // Hardcoded path for now.
+      //getPath("CCONF001L1", "CCONF003L1");
     };
   });
 
@@ -190,5 +263,3 @@ export function MapCanvas(props: mapCanvasProps) {
 }
 
 export default MapCanvas;
-
-// /api/a-star-api/startNode=c7utht?endNode=C7jgfg
