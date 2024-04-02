@@ -1,0 +1,23 @@
+@import "../../sass/vars.scss";
+
+.header {
+  background-color: $bkg-p;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem;
+
+  .icon {
+    width: auto;
+    height: auto;
+    font-size: 4rem;
+    color: $acc-p;
+  }
+
+  img {
+    width: 50%;
+  }
+}
