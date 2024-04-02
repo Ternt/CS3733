@@ -8,6 +8,7 @@ type mapCanvasProps = {
 export function MapCanvas(props: mapCanvasProps) {
   const canvasRef = useRef(null);
   let nodes, edges;
+  let pathDrawn: boolean = false;
   updateMapPaths();
 
   async function updateMapPaths() {
@@ -151,7 +152,7 @@ export function MapCanvas(props: mapCanvasProps) {
       //console.log(nodes);
       if (endCoord != null) {
           for (let i = 0; i < nodes.length - 2; i++) {
-              connectNodes(nodes[i], nodes[i + 1]);
+              connectNodes(nodes[i], nodes[i + 1]); // TODO: Make path go through points when there's only two points in a path and selected point is through that point
           }
           connectNodeToPoint(nodes[nodes.length - 2], endCoord);
       } else {
@@ -167,11 +168,14 @@ export function MapCanvas(props: mapCanvasProps) {
    * @param endNodeStr The nodeID of the ending node
    */
   async function connectNodes(startNodeStr: string, endNodeStr: string) {
-    let startNode: object, endNode: object;
-    await axios.get("/api/map").then((res) => {
-      startNode = res.data.nodes.filter((node) => node.nodeID == startNodeStr);
-      endNode = res.data.nodes.filter((node) => node.nodeID == endNodeStr);
-    });
+    //let startNode: object, endNode: object;
+    // await axios.get("/api/map").then((res) => {
+    //   startNode = res.data.nodes.filter((node) => node.nodeID == startNodeStr);
+    //   endNode = res.data.nodes.filter((node) => node.nodeID == endNodeStr);
+    // });
+
+      const startNode = nodes.filter((node) => node.nodeID == startNodeStr);
+      const endNode = nodes.filter((node) => node.nodeID == endNodeStr);
     if (startNode !== undefined && endNode !== undefined) {
       drawLine(
         startNode[0].xcoord,
@@ -221,6 +225,11 @@ export function MapCanvas(props: mapCanvasProps) {
     context.stroke(); // Draw line
   }
 
+  function resetCanvas(canvas, ctx: CanvasRenderingContext2D, rect, image) {
+      ctx.clearRect(rect.left, rect.top, canvas.width, canvas.height);
+      ctx.drawImage(image, 0, 0, 5000, 3400); // Change parameters to zoom in and pan around the image
+  }
+
   useEffect(() => {
     const image = new Image();
     image.src = props.image;
@@ -232,6 +241,9 @@ export function MapCanvas(props: mapCanvasProps) {
           const x = (e.clientX-rect.left)/(rect.right - rect.left) * canvas.width;
           const y = (e.clientY - rect.top)/(rect.bottom - rect.top) * canvas.height;
 
+          if (pathDrawn) {
+              resetCanvas(canvas, context, rect, image);
+          }
           // Move point to nearest edge
           try {
               const coords = graphHelper({x, y, nodes, edges});
@@ -254,6 +266,7 @@ export function MapCanvas(props: mapCanvasProps) {
       //getPath("CCONF001L1", "CCONF003L1");
     };
   });
+    pathDrawn = true;
 
   return (
     <>
