@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import { PrismaClient } from "database";
 import { populateDatabase } from "./helper/manageDatabases";
+import { uniqueSearch } from "./helper/manageDatabases.ts";
 import { PathfindingGraph } from "./graph/pathfinding.ts";
 
 import exampleRouter from "./routes/example.ts";
@@ -13,7 +14,12 @@ import astarRouter from "./routes/a-star-api.ts";
 
 // import database
 const prisma = new PrismaClient();
+
+//comment out after populating tables so that uniqueSearch tests work
 populateDatabase(prisma);
+
+//test return data from database
+uniqueSearch(prisma, "EdgeDB", "blocked", "CDEPT003L1", "CHALL014L1");
 
 // test pathfinding
 const graph = new PathfindingGraph();
