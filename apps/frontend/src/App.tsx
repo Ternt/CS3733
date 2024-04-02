@@ -1,6 +1,8 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import ExampleRoute from "./routes/ExampleRoute.tsx";
+import ServiceRequest from "./serviceRequest.tsx";
+import { ThemeProvider } from "@mui/material/styles"; // Import ThemeProvider
+import CustomTheme from "./components/CustomTheme.tsx"; // Import your custom theme
 function App() {
   const router = createBrowserRouter([
     {
@@ -10,17 +12,22 @@ function App() {
       children: [
         {
           path: "",
-          element: <ExampleRoute />,
+          element: <ServiceRequest />,
         },
       ],
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider theme={CustomTheme}>
+      {" "}
+      {/* Wrap RouterProvider with ThemeProvider */}
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
   function Root() {
     return (
       <div className="w-full flex flex-col px-20 gap-5">
-        <h1>Welcome to your starter code.</h1>
         <Outlet />
       </div>
     );
