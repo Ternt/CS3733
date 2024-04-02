@@ -106,7 +106,7 @@ export class BaseGraph {
     this.edges = new Map<string, Edge[]>();
   }
 
-  async loadNodes2() {
+  async loadNodesFromDB() {
     const dbContent = await PrismaClient.nodeDB.findMany();
 
     for (const record of dbContent) {
@@ -126,7 +126,7 @@ export class BaseGraph {
     }
   }
 
-  async loadEdges2() {
+  async loadEdgesFromDB() {
     const dbContent = await PrismaClient.edgeDB.findMany();
 
     for (const record of dbContent) {
@@ -154,7 +154,7 @@ export class BaseGraph {
       this.edges.get(edge.end.id)?.push(edge);
     }
   }
-  loadNodes(pathString: string) {
+  loadNodesFromCSV(pathString: string) {
     const csvFilePath = path.resolve(__dirname, pathString);
     const headers = [
       "nodeID",
@@ -192,7 +192,7 @@ export class BaseGraph {
     }
   }
 
-  public loadEdges(pathString: string) {
+  public loadEdgesFromCSV(pathString: string) {
     const csvFilePath = path.resolve(__dirname, pathString);
     const headers = ["startNodeID", "endNodeID"];
     const fileContent = fs.readFileSync(csvFilePath, { encoding: "utf-8" });

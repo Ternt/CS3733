@@ -9,22 +9,24 @@ import { PathfindingGraph } from "./graph/pathfinding.ts";
 // import { AStarGraph } from "./graph/a-star.ts";
 // import database
 const prisma = new PrismaClient();
-populateDatabase(prisma);
 
-// test pathfinding
+// test pathfinding + graph loading
 const graph = new PathfindingGraph();
-graph.loadNodes2();
-graph.loadEdges2();
 
-//graph.loadNodes("../../map/L1Nodes.csv");
-//graph.loadEdges("../../map/L1Edges.csv");
-graph.pathfind("CCONF001L1", "CCONF002L1");
-graph.pathfind("CCONF001L1", "GHALL003L1");
+(async () => {
+  await populateDatabase(prisma);
+  await graph.loadNodesFromDB();
+  await graph.loadEdgesFromDB();
 
-//Should Work
-graph.printPath(graph.pathfind("CCONF001L1", "CCONF002L1"));
-//Should Fail
-graph.printPath(graph.pathfind("CCONF001L1", "GHALL003L1"));
+  graph.pathfind("CCONF001L1", "CCONF002L1");
+  graph.pathfind("CCONF001L1", "GHALL003L1");
+
+  graph.printPath(graph.pathfind("CCONF001L1", "CCONF002L1")); // Should Work
+  graph.printPath(graph.pathfind("CCONF001L1", "GHALL003L1")); // Should Fail
+})();
+
+// graph.loadNodesFromCSV("../../map/L1Nodes.csv");
+// graph.loadEdgesFromCSV("../../map/L1Edges.csv");
 
 const app: Express = express(); // Setup the backend
 
