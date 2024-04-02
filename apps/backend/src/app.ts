@@ -18,7 +18,7 @@ const prisma = new PrismaClient();
 populateDatabase(prisma);
 
 //test return data from database
-uniqueSearch("CHALL007L1", "NodeDB", "nodeID", prisma);
+uniqueSearch(prisma, "EdgeDB", "blocked", "CDEPT003L1", "CHALL014L1");
 
 // test pathfinding
 const graph = new PathfindingGraph();

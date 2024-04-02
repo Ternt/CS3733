@@ -74,10 +74,11 @@ async function populateEdges(prisma: PrismaClient) {
 //verify the "keyof" type so we can call multiple different tables without
 //errors popping up.
 export async function uniqueSearch<T>(
-  id: string,
+  prisma: PrismaClient,
   model: string,
   field: keyof T,
-  prisma: PrismaClient,
+  id: string,
+  id2?: string,
 ) {
   try {
     let returnData;
@@ -93,17 +94,24 @@ export async function uniqueSearch<T>(
         });
         break;
       }
-      // case 'EdgeDB': {
-      //   returnData = await prisma.edgeDB.findUnique({
-      //     where: {
-      //       startNodeID_endNodeID: id,
-      //     },
-      //     select: {
-      //       [field]: true,
-      //     },
-      //   });
-      //   break;
-      // }
+      case "EdgeDB": {
+        if (id2 == null) {
+          console.error("Error EdgeDB needs 2 id fields to call data:");
+          return null;
+        }
+        returnData = await prisma.edgeDB.findUnique({
+          where: {
+            startNodeID_endNodeID: {
+              startNodeID: id,
+              endNodeID: id2,
+            },
+          },
+          select: {
+            [field]: true,
+          },
+        });
+        break;
+      }
       case "ServiceRequest": {
         returnData = await prisma.serviceRequest.findUnique({
           where: {
@@ -115,28 +123,28 @@ export async function uniqueSearch<T>(
         });
         break;
       }
-      // case "MaintenanceRequest": {
-      //   returnData = await prisma.MaintenanceRequest.findUnique({
-      //     where: {
-      //       requestID: parseInt(id),
-      //     },
-      //     select: {
-      //       [field]: true,
-      //     },
-      //   });
-      //   break;
-      // }
-      // case "FlowerRequest": {
-      //   returnData = await prisma.FlowerRequest.findUnique({
-      //     where: {
-      //       requestID: parseInt(id),
-      //     },
-      //     select: {
-      //       [field]: true,
-      //     },
-      //   });
-      //   break;
-      // }
+      case "MaintenanceRequest": {
+        returnData = await prisma.maintenanceRequest.findUnique({
+          where: {
+            requestID: parseInt(id),
+          },
+          select: {
+            [field]: true,
+          },
+        });
+        break;
+      }
+      case "FlowerRequest": {
+        returnData = await prisma.flowerRequest.findUnique({
+          where: {
+            requestID: parseInt(id),
+          },
+          select: {
+            [field]: true,
+          },
+        });
+        break;
+      }
       default: {
         console.log("Error: model not in database.");
         break;
