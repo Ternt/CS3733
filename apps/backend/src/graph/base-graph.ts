@@ -123,8 +123,6 @@ export class BaseGraph {
 
       this.nodes.set(node.id, node);
       this.edges.set(node.id, []);
-
-      console.log(node);
     }
   }
 
@@ -154,8 +152,6 @@ export class BaseGraph {
       // add bidirectional edges
       this.edges.get(edge.start.id)?.push(edge);
       this.edges.get(edge.end.id)?.push(edge);
-
-      console.log(edge);
     }
   }
   loadNodes(pathString: string) {
