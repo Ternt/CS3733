@@ -16,8 +16,8 @@ const graph = new PathfindingGraph();
 graph.loadNodes2();
 graph.loadEdges2();
 
-// graph.loadNodes("../../map/L1Nodes.csv");
-// graph.loadEdges("../../map/L1Edges.csv");
+//graph.loadNodes("../../map/L1Nodes.csv");
+//graph.loadEdges("../../map/L1Edges.csv");
 graph.pathfind("CCONF001L1", "CCONF002L1");
 graph.pathfind("CCONF001L1", "GHALL003L1");
 

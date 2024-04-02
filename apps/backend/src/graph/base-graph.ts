@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv-parse/sync";
-// import { Prisma } from "database";
+//import { Prisma } from "database";
 import PrismaClient from "../bin/database-connection.ts";
 
 export enum Floor {
