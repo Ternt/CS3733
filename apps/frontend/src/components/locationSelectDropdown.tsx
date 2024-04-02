@@ -17,8 +17,8 @@ function LocationSelectDropdown(props: dropdownProps) {
         <>
             <div className="form">
                 <label>Start/Kiosk Location: </label>
-                <select name="languages" id="lang" onChange={handleLocationInput}>
-                    <option selected value="CCONF001L1">Default</option>
+                <select defaultValue="CC)NF001L1" name="languages" id="lang" onChange={handleLocationInput}>
+                    <option value="CCONF001L1">Default</option>
                     <option value="WELEV00HL1">H Elevators</option>
                     <option value="WELEV00JL1">Elevator J</option>
                     <option value="WELEV00KL1">Elevator K</option>

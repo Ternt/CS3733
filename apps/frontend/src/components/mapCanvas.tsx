@@ -1,5 +1,7 @@
 import { useRef, useEffect } from "react";
 import axios from "axios";
+import {graphHelper, pointHelper} from "../helpers/clickCorrectionMath.ts";
+import {vec2} from "../helpers/vec2.ts";
 
 let startLocation = "CCONF001L1"; // Default location to start pathfinding from
 
@@ -25,133 +27,6 @@ export function MapCanvas(props: mapCanvasProps) {
       nodes = res.data.nodes;
       edges = res.data.edges;
     });
-  }
-
-  const MAX_SNAP_DIST = 75; // Maximum distance from an edge that will snap to an edge
-  type vec2 = {
-    x: number;
-    y: number;
-  };
-  type node = {
-    point: vec2;
-    nodeID: string;
-  };
-  type edge = {
-    startNodeID: node;
-    endNodeID: node;
-  };
-  type findClosestPointOnGraphProps = {
-    x: number;
-    y: number;
-    nodes: node[];
-    edges: edge[];
-  };
-  type findClosestNodeOnGraphProps = {
-    x: number;
-    y: number;
-    nodes: node[];
-  };
-
-  function dot(ax: number, ay: number, bx: number, by: number): number {
-    return ax * bx + ay * by;
-  }
-
-  function clamp(val: number, min: number, max: number): number {
-    return Math.min(Math.max(val, min), max);
-  }
-
-  function distance(a: vec2, b: vec2): number {
-    return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
-  }
-
-    /**
-     * Determine the closest point on an edge to a selected point,
-     * if the selected point was close enough to an edge
-     * @param props Object containing values for the selected coordinate and the nodes and edges arrays
-     */
-  function graphHelper(props: findClosestPointOnGraphProps) {
-    let closestPoint: vec2 | null = null;
-    let closestDist: number = Infinity;
-
-    for (let i = 0; i < props.edges.length; i++) {
-      const edge = props.edges[i];
-      const startNode = edge.startNodeID;
-      const endNode = edge.endNodeID;
-      if (!startNode || !endNode) continue;
-
-      const pa: vec2 = {
-        x: nodes.filter((node) => node.nodeID === startNode)[0].xcoord,
-        y: nodes.filter((node) => node.nodeID === startNode)[0].ycoord,
-      };
-      const pb: vec2 = {
-        x: nodes.filter((node) => node.nodeID === endNode)[0].xcoord,
-        y: nodes.filter((node) => node.nodeID === endNode)[0].ycoord,
-      };
-
-      // TODO adjust pa and pb for screen scaling of the image
-      // let x1 = startNode.x * zoomScale + offset.x;
-      // let y1 = startNode.y * zoomScale + offset.y;
-      // let x2 = endNode.x * zoomScale + offset.x;
-      // let y2 = endNode.y * zoomScale + offset.y;
-
-      const t: number = clamp(
-        dot(props.x - pa.x, props.y - pa.y, pb.x - pa.x, pb.y - pa.y) /
-          dot(pb.x - pa.x, pb.y - pa.y, pb.x - pa.x, pb.y - pa.y),
-        0,
-        1,
-      );
-
-      const d: vec2 = {
-        x: pa.x + t * (pb.x - pa.x),
-        y: pa.y + t * (pb.y - pa.y),
-      };
-      const mousePos: vec2 = { x: props.x, y: props.y };
-      const dist: number = distance(d, mousePos);
-      if (dist < closestDist && dist <= MAX_SNAP_DIST) {
-        closestDist = dist;
-        closestPoint = d;
-      }
-    }
-
-    //console.log(closestPoint);
-    return closestPoint;
-  }
-
-  /**
-   * Find the closest node to a selected point
-   * @param props Set of coordinates for the input and an array of nodes to check
-   */
-  function pointHelper(props: findClosestNodeOnGraphProps) {
-    let closestNode: string | null = null;
-    let closestDist: number = Infinity;
-
-    for (let i = 0; i < props.nodes.length; i++) {
-      const node = props.nodes[i];
-      if (!node) continue;
-
-      const pn: vec2 = {
-        x: nodes.filter((nodeItem) => nodeItem.nodeID === node.nodeID)[0]
-          .xcoord,
-        y: nodes.filter((nodeItem) => nodeItem.nodeID === node.nodeID)[0]
-          .ycoord,
-      };
-
-      // TODO adjust for screen scaling of the image
-      // let x1 = startNode.x * zoomScale + offset.x;
-      // let y1 = startNode.y * zoomScale + offset.y;
-      // let x2 = endNode.x * zoomScale + offset.x;
-      // let y2 = endNode.y * zoomScale + offset.y;
-
-      const mousePos: vec2 = { x: props.x, y: props.y };
-      const dist: number = distance(pn, mousePos);
-      if (dist < closestDist) {
-        closestDist = dist;
-        closestNode = node.nodeID;
-      }
-    }
-
-    //console.log(closestNode);
-    return closestNode;
   }
 
     /**
@@ -197,12 +72,6 @@ export function MapCanvas(props: mapCanvasProps) {
    * @param endNodeStr The nodeID of the ending node
    */
   async function connectNodes(startNodeStr: string, endNodeStr: string) {
-    //let startNode: object, endNode: object;
-    // await axios.get("/api/map").then((res) => {
-    //   startNode = res.data.nodes.filter((node) => node.nodeID == startNodeStr);
-    //   endNode = res.data.nodes.filter((node) => node.nodeID == endNodeStr);
-    // });
-
     const startNode = nodes.filter((node) => node.nodeID == startNodeStr);
     const endNode = nodes.filter((node) => node.nodeID == endNodeStr);
     if (startNode !== undefined && endNode !== undefined) {
@@ -305,7 +174,6 @@ export function MapCanvas(props: mapCanvasProps) {
     });
     image.onload = () => {
       context.drawImage(image, 0, 0, 5000, 3400); // Change parameters to zoom in and pan around the image
-      //getPath("CCONF001L1", "CCONF003L1");
     };
   });
   pathDrawn = true;
