@@ -15,7 +15,6 @@ export class AStarGraph extends BaseGraph {
     const cost_so_far = new Map<string, number>();
     came_from.set(startId, "");
     cost_so_far.set(startId, 0.0);
-    console.log(cost_so_far.get(startId));
 
     // A-Star Algorithm
     while (!frontier.isEmpty()) {
