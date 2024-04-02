@@ -9,6 +9,7 @@ import { PathfindingGraph } from "./graph/pathfinding.ts";
 import exampleRouter from "./routes/example.ts";
 import serviceRequestRouter from "./routes/service-requests.ts";
 import mapRouter from "./routes/map.ts";
+import astarRouter from "./routes/a-star-api.ts";
 
 // import database
 const prisma = new PrismaClient();
@@ -44,6 +45,7 @@ app.use(cookieParser()); // Cookie parser
 app.use("/api/high-score", exampleRouter);
 app.use("/api/service-requests", serviceRequestRouter);
 app.use("/api/map", mapRouter);
+app.use("/api/astar-api", astarRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
