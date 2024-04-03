@@ -5,7 +5,7 @@ import "./displayCSV.scss";
 let NodeList: [];
 let EdgeList: [];
 
-const EdgeCSVDisplay: React.FC = () => {
+const MapDataDisplay: React.FC = () => {
     const [nodeTable, setNodeTable] = useState(<></>);
     const [edgeTable, setEdgeTable] = useState(<></>);
     useEffect(() => {
@@ -88,5 +88,5 @@ const EdgeCSVDisplay: React.FC = () => {
     </div>);
 };
 
-export default EdgeCSVDisplay;
+export default MapDataDisplay;
 
