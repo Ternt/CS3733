@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv-parse/sync";
+//import { Prisma } from "database";
+import PrismaClient from "../bin/database-connection.ts";
 
 export enum Floor {
   L2 = -1,
@@ -104,7 +106,55 @@ export class BaseGraph {
     this.edges = new Map<string, Edge[]>();
   }
 
-  loadNodes(pathString: string) {
+  async loadNodesFromDB() {
+    const dbContent = await PrismaClient.nodeDB.findMany();
+
+    for (const record of dbContent) {
+      const node = new GraphNode(
+        record.nodeID,
+        record.xcoord,
+        record.ycoord,
+        Floor[record.floor as keyof typeof Floor],
+        record.building,
+        NodeType[record.nodeType as keyof typeof NodeType],
+        record.longName,
+        record.shortName,
+      );
+
+      this.nodes.set(node.id, node);
+      this.edges.set(node.id, []);
+    }
+  }
+
+  async loadEdgesFromDB() {
+    const dbContent = await PrismaClient.edgeDB.findMany();
+
+    for (const record of dbContent) {
+      const edge = new Edge(
+        this.nodes.get(record.startNodeID)!,
+        this.nodes.get(record.endNodeID)!,
+      );
+
+      // check if edge is valid
+      if (edge.start === undefined || edge.end === undefined) {
+        console.error(
+          "reading edge",
+          "(",
+          record.startNodeID,
+          "->",
+          record.endNodeID,
+          ")",
+          "failed",
+        );
+        continue;
+      }
+
+      // add bidirectional edges
+      this.edges.get(edge.start.id)?.push(edge);
+      this.edges.get(edge.end.id)?.push(edge);
+    }
+  }
+  loadNodesFromCSV(pathString: string) {
     const csvFilePath = path.resolve(__dirname, pathString);
     const headers = [
       "nodeID",
@@ -142,7 +192,7 @@ export class BaseGraph {
     }
   }
 
-  public loadEdges(pathString: string) {
+  public loadEdgesFromCSV(pathString: string) {
     const csvFilePath = path.resolve(__dirname, pathString);
     const headers = ["startNodeID", "endNodeID"];
     const fileContent = fs.readFileSync(csvFilePath, { encoding: "utf-8" });
@@ -180,7 +230,6 @@ export class BaseGraph {
     }
   }
 
-  // todo: write the csv files into directory... maybe /src/data-from-[date, time]/
   public saveGraph() {
     const nodeData = this.saveNodes();
     const edgeData = this.saveEdges();
@@ -350,7 +399,7 @@ export class BaseGraph {
   printPath(path: string[] | undefined) {
     // check if no path
     if (path === undefined || path.length == 0) {
-      console.log("NO PATH");
+      return;
     }
 
     let string = "Path: ";
@@ -380,6 +429,7 @@ export class BaseGraph {
     // check that path exists
     if (!came_from.get(end)) {
       console.error(
+        "\x1b[31m%s\x1b[0m", // output color to make debugging easier
         "PATH FINDING FAILED: NO PATH FROM " + start + " TO " + end,
       );
       return [];

@@ -6,8 +6,8 @@ const router: Router = express.Router();
 //Return all map edges and nodes
 router.get("/", async function (req: Request, res: Response) {
   const graph = new AStarGraph();
-  graph.loadNodes("../../map/L1Nodes.csv");
-  graph.loadEdges("../../map/L1Edges.csv");
+  await graph.loadNodesFromDB();
+  await graph.loadEdgesFromDB();
 
   let startNode: string = "";
   let endNode: string = "";
