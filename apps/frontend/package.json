@@ -10,8 +10,8 @@
     "preview": "vite preview",
     "lint": "yarn shared:prettierlint && yarn shared:eslint && yarn shared:tslint",
     "lint:fix": "yarn shared:prettierlint:fix && yarn shared:eslint:fix && yarn shared:tslint",
-    "docker:build": "cd $PROJECT_CWD && docker build --target prod-frontend --tag irwright13/softeng-mqp:frontend --platform linux/amd64 .",
-    "docker:upload": "docker push irwright13/softeng-mqp:frontend"
+    "docker:build": "cd $PROJECT_CWD && docker build --target prod-frontend --tag wbarker18/team-d-prod-front:frontend --platform linux/amd64 .",
+    "docker:upload": "docker push wbarker18/team-d-prod-front:frontend"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.1.1",

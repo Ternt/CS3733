@@ -5,13 +5,13 @@ x-prod-args: &prod-args
   PORT: *prod-port # Duplicate this under the name that the env variable will expect. Build args will override as necessary
 
 x-db-info: &db-args
-  POSTGRES_PASSWORD: YOUR_TEAM_PASSWORD
-  POSTGRES_USER: YOUR_TEAM_USERBAME
-  POSTGRES_DB: YOUR_TEAM_DB
+  POSTGRES_PASSWORD: c3RqkRT5cGVNqoU9K5qk
+  POSTGRES_USER: postgres
+  POSTGRES_DB: postgres
 
 # Port and URL for the DB
 x-db-loc: &db-loc
-  POSTGRES_CONTAINER: YOUR_TEAM_RDS
+  POSTGRES_CONTAINER: team-d-prod.cl2wysyoc6sw.us-east-2.rds.amazonaws.com
   POSTGRES_PORT: &pg-port "5432"
 
   # The environment variables will expect this to already be formed, build args will override it
@@ -43,7 +43,7 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
 
       # Auto-certificate generation parameters
-      - "--certificatesresolvers.letsencrypt.acme.email=mrgosselin@wpi.edu"
+      - "--certificatesresolvers.letsencrypt.acme.email=warwickbarker@gmail.com"
       - "--certificatesresolvers.letsencrypt.acme.storage=acme.json"
 
       # Used during resolution
@@ -86,12 +86,12 @@ services:
 
       # The 443 entrypoint is the actual site
       - "traefik.http.routers.frontend-https.entrypoints=websecure"
-      - "traefik.http.routers.frontend-https.rule=Host(`ec2-18-117-240-192.us-east-2.compute.amazonaws.com`)"
+      - "traefik.http.routers.frontend-https.rule=Host(`ec2-18-217-227-54.us-east-2.compute.amazonaws.com`)"
       - "traefik.http.routers.frontend-https.tls=true"
 
       # Despite the "loadbalancer" naming, this just describes what port this container exposes
       - "traefik.http.services.frontend-https.loadbalancer.server.port=80"
-    image: your_team_docker_repo:frountend
+    image: wbarker18/team-d-prod-front:frontend
     restart: always
     healthcheck:
       *health-check
@@ -121,12 +121,12 @@ services:
 
       # The 443 entrypoint is the actual site
       - "traefik.http.routers.backend-https.entrypoints=websecure"
-      - "traefik.http.routers.backend-https.rule=Host(`ec2-18-117-240-192.us-east-2.compute.amazonaws.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.backend-https.rule=Host(`ec2-18-217-227-54.us-east-2.compute.amazonaws.com`) && PathPrefix(`/api`)"
       - "traefik.http.routers.backend-https.tls=true"
 
       # Despite the "loadbalancer" naming, this just describes what port this container exposes
       - "traefik.http.services.backend-https.loadbalancer.server.port=80"
-    image: your_team_docker_repo:backend
+    image: wbarker18/team-d-prod-front:backend
     restart: always
     healthcheck:
       *health-check
