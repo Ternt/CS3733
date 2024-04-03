@@ -4,6 +4,7 @@ import ServiceRequest from "./serviceRequest.tsx";
 import { ThemeProvider } from "@mui/material/styles"; // Import ThemeProvider
 import CustomTheme from "./components/CustomTheme.tsx"; // Import your custom theme
 import MapPage from "./routes/mapPage.tsx";
+import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -13,13 +14,17 @@ function App() {
       element: <Root />,
       children: [
         {
-          path: "",
+          path: "/service-request",
           element: <ServiceRequest />,
         },
         {
-          path: "/map",
+          path: "",
           element: <MapPage />,
         },
+          {
+              path: "/login",
+              element: <LoginPage />,
+          },
       ],
     },
   ]);
