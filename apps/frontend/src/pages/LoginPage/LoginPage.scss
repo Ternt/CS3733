@@ -7,10 +7,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #e4e4e4;
   .card {
     width: 20%;
   }
   .error-message {
     color: $txt-e;
+  }
+  h1 {
+    font-family: sans-serif;
+    color: #2f2f2f;
+    text-align: center;
   }
 }
