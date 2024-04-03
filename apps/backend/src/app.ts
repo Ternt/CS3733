@@ -9,6 +9,8 @@ import { PathfindingGraph } from "./graph/pathfinding.ts";
 import serviceRequestRouter from "./routes/service-requests.ts";
 import mapRouter from "./routes/map.ts";
 import astarRouter from "./routes/a-star-api.ts";
+import uploadNodesRouter from "./routes/upload-nodes.ts";
+import fileUpload from "express-fileupload";
 // import { AStarGraph } from "./graph/a-star.ts";
 
 const prisma = new PrismaClient();
@@ -25,6 +27,9 @@ const graph = new PathfindingGraph();
 })();
 
 const app: Express = express(); // Setup the backend
+
+//const fileUpload = require("express-fileupload");
+app.use(fileUpload());
 
 // Setup generic middlewear
 app.use(
@@ -45,6 +50,7 @@ app.use("/api/high-score", exampleRouter);
 app.use("/api/service-requests", serviceRequestRouter);
 app.use("/api/map", mapRouter);
 app.use("/api/astar-api", astarRouter);
+app.use("/upload-nodes", uploadNodesRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
