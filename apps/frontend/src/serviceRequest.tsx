@@ -111,10 +111,10 @@ function ServiceRequest() {
             fullWidth
           >
             <MenuItem value={"Null option"}></MenuItem>
-            <MenuItem value={"MAINTENANCE"}>Maintenance</MenuItem>
-            <MenuItem value={"MAINTENANCE"}>Maintenance2</MenuItem>
-            <MenuItem value={"MAINTENANCE"}>Maintenance3</MenuItem>
-            <MenuItem value={"FLOWERS"}>Flowers</MenuItem>
+            <MenuItem value={"MAINTENANCE"}>Elevator</MenuItem>
+            <MenuItem value={"MAINTENANCE"}>Power</MenuItem>
+            <MenuItem value={"MAINTENANCE"}>Cleanup</MenuItem>
+            <MenuItem value={"MAINTENANCE"}>Plumbing</MenuItem>
           </Select>
         </FormControl>
         <TextField
