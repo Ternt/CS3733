@@ -152,28 +152,66 @@ function ServiceRequest() {
             fullWidth
           >
             {/* This menu doesnt start with Null Option due to line 12*/}
-            <MenuItem value={"Null Option"}></MenuItem>
-            <MenuItem value={"CCONF001L1"}>Anesthesia Conf Floor L1</MenuItem>
-            <MenuItem value={"CCONF002L1"}>
+
+            <MenuItem value="CCONF001L1">Anesthesia Conf Floor L1</MenuItem>
+            <MenuItem value="CCONF003L1">Abrams Conference Room</MenuItem>
+            <MenuItem value="CCONF002L1">
               Medical Records Conference Room Floor L1
             </MenuItem>
-            <MenuItem value={"CCONF003L1"}>Abrams Conference Room</MenuItem>
-            <MenuItem value={"CDEPT002L1"}>
-              Surgery Family Waiting Floor L1
+            <MenuItem value="CHALL007L1">Hallway 7 Floor L1</MenuItem>
+            <MenuItem value="CHALL014L1">Hallway 14 Floor L1</MenuItem>
+            <MenuItem value="CHALL015L1">Hallway 15 Floor L1</MenuItem>
+            <MenuItem value="CLABS001L1">
+              Outpatient Fluoroscopy Floor L1
             </MenuItem>
-            <MenuItem value={"CDEPT003L1"}>
-              Surgery Family Waiting Exit Floor L1
+            <MenuItem value="CLABS002L1">Pre-Op PACU Floor L1</MenuItem>
+            <MenuItem value="CLABS003L1">Nuclear Medicine Floor L1</MenuItem>
+            <MenuItem value="CLABS004L1">Ultrasound Floor L1</MenuItem>
+            <MenuItem value="CLABS005L1">CSIR MRI Floor L1</MenuItem>
+            <MenuItem value="CREST001L1">Restroom L Elevator Floor L1</MenuItem>
+            <MenuItem value="CREST002L1">Restroom M Elevator Floor L1</MenuItem>
+            <MenuItem value="CREST003L1">Restroom K Elevator Floor L1</MenuItem>
+            <MenuItem value="CREST004L1">Restroom H Elevator Floor L1</MenuItem>
+            <MenuItem value="CRETL001L1">Vending Machine 1 L1</MenuItem>
+            <MenuItem value="GELEV00QL1">
+              Elevator Q MapNode 7 Floor L1
             </MenuItem>
-            <MenuItem value={"CDEPT004L1"}>
+            <MenuItem value="CSERV001L1">Volunteers Floor L1</MenuItem>
+            <MenuItem value="GEXIT001L1">
+              Fenwood Road Exit MapNode 1 Floor L1
+            </MenuItem>
+            <MenuItem value="GHALL002L1">Hallway MapNode 2 Floor L1</MenuItem>
+            <MenuItem value="GHALL003L1">Hallway MapNode 3 Floor L1</MenuItem>
+            <MenuItem value="GHALL004L1">Hallway MapNode 4 Floor L1</MenuItem>
+            <MenuItem value="GHALL005L1">Hallway MapNode 5 Floor L1</MenuItem>
+            <MenuItem value="GHALL006L1">Hallway MapNode 6 Floor L1</MenuItem>
+            <MenuItem value="GSTAI008L1">Stairs MapNode 8 Floor L1</MenuItem>
+            <MenuItem value="WELEV00HL1">Elevator H Floor L1</MenuItem>
+            <MenuItem value="WELEV00JL1">Elevator J Floor L1</MenuItem>
+            <MenuItem value="WELEV00KL1">Elevator K Floor L1</MenuItem>
+            <MenuItem value="WELEV00LL1">Elevator L Floor L1</MenuItem>
+            <MenuItem value="WELEV00ML1">Elevator M Floor L1</MenuItem>
+            <MenuItem value="CDEPT002L1">
+              Day Surgery Family Waiting Floor L1
+            </MenuItem>
+            <MenuItem value="CDEPT003L1">
+              Day Surgery Family Waiting Exit Floor L1
+            </MenuItem>
+            <MenuItem value="CHALL002L1">Hallway 2 Floor L1</MenuItem>
+            <MenuItem value="CHALL001L1">Hallway 1 Floor L1</MenuItem>
+            <MenuItem value="CDEPT004L1">
               Medical Records Film Library Floor L1
             </MenuItem>
-            <MenuItem value={"CHALL001L1"}>Hallway 1 Floor L1</MenuItem>
-            <MenuItem value={"CHALL002L1"}>Hallway 2 Floor L1</MenuItem>
-            <MenuItem value={"CHALL003L1"}>Hallway 3 Floor L1</MenuItem>
-            <MenuItem value={"CHALL004L1"}>Hallway 4 Floor L1</MenuItem>
-            <MenuItem value={"CHALL005L1"}>Hallway 5 Floor L1</MenuItem>
-            <MenuItem value={"CHALL006L1"}>Hallway 6 Floor L1</MenuItem>
-            <MenuItem value={"CHALL007L1"}>Hallway 7 Floor L1</MenuItem>
+            <MenuItem value="CHALL005L1">Hallway 5 Floor L1</MenuItem>
+            <MenuItem value="CHALL004L1">Hallway 4 Floor L1</MenuItem>
+            <MenuItem value="CHALL003L1">Hallway 3 Floor L1</MenuItem>
+            <MenuItem value="CHALL006L1">Hallway 6 Floor L1</MenuItem>
+            <MenuItem value="CHALL009L1">Hallway 9 Floor L1</MenuItem>
+            <MenuItem value="CHALL010L1">Hallway 10 Floor L1</MenuItem>
+            <MenuItem value="CHALL008L1">Hallway 8 Floor L1</MenuItem>
+            <MenuItem value="CHALL011L1">Hallway 11 Floor L1</MenuItem>
+            <MenuItem value="CHALL013L1">Hallway 13 Floor L1</MenuItem>
+            <MenuItem value="CHALL012L1">Hallway 12 Floor L1</MenuItem>
           </Select>
           {/* Call the submitService function when the button is clicked */}
           <Button
