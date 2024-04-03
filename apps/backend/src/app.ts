@@ -6,6 +6,9 @@ import exampleRouter from "./routes/example.ts";
 import { PrismaClient } from "database";
 import { populateDatabase } from "./helper/manageDatabases";
 import { PathfindingGraph } from "./graph/pathfinding.ts";
+import serviceRequestRouter from "./routes/service-requests.ts";
+import mapRouter from "./routes/map.ts";
+import astarRouter from "./routes/a-star-api.ts";
 // import { AStarGraph } from "./graph/a-star.ts";
 
 const prisma = new PrismaClient();
@@ -38,8 +41,10 @@ app.use(cookieParser()); // Cookie parser
 
 // Setup routers. ALL ROUTERS MUST use /api as a start point, or they
 // won't be reached by the default proxy and prod setup
-app.use("/api/map", exampleRouter);
-app.use("/api/service-requests", exampleRouter);
+app.use("/api/high-score", exampleRouter);
+app.use("/api/service-requests", serviceRequestRouter);
+app.use("/api/map", mapRouter);
+app.use("/api/astar-api", astarRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
