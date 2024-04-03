@@ -6,6 +6,7 @@ import CustomTheme from "./components/CustomTheme.tsx"; // Import your custom th
 import MapPage from "./routes/mapPage.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import ServiceRequests from "./showAllSR.tsx";
+import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -30,6 +31,10 @@ function App() {
               path: "/service-request-display",
               element: <ServiceRequests />,
           },
+          {
+              path: "/tables",
+              element: <MapDataDisplay />,
+          },
       ],
     },
   ]);
@@ -50,6 +55,7 @@ function App() {
             <Link to="">Map&emsp;</Link>
             <Link to="/service-request">Service Request&emsp;</Link>
             <Link to="/service-request-display">Service Request Display</Link>
+            <Link to="/tables">Node and Edge Tables</Link>
         </div>
         <Outlet />
       </div>
