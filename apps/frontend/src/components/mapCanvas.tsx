@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
   graphHelper,
   pointHelper,
@@ -114,15 +114,17 @@ export function MapCanvas(props: mapCanvasProps) {
   }
 
   useEffect(() => {
-    axios.get("/api/map").then((res) => {
+    axios.get("/api/map").then((res: AxiosResponse) => {
       const ns: node[] = [];
       const es: edge[] = [];
 
+      const ss: string = "";
       for (const r of res.data.nodes) {
         const v: vec2 = { x: r.xcoord, y: r.ycoord };
         const n: node = { nodeID: r.nodeID, point: v };
         ns.push(n);
       }
+      console.log(ss);
 
       for (const r of res.data.edges) {
         const start: node | undefined = ns.find((n: node) => {
