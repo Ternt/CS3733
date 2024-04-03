@@ -4,6 +4,7 @@ import { useState } from "react";
 import { LoginCredentials } from "../../common/LoginCredentials.ts";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, FormControl, TextField } from "@mui/material";
+import logo from "./Brigham_and_Womens_Hospital_horiz_rgb.png";
 
 export default function LoginPage() {
   const [credential, setCredential] = useState<LoginCredentials>({
@@ -36,6 +37,17 @@ export default function LoginPage() {
   }
 
   return (
+      <>
+      <div className={"login-hero"}>
+          <Card>
+              <img src={logo} alt="Crap"/>
+              <h1><strong>Need help finding something?</strong></h1>
+              <h2><strong>Try this kiosk</strong></h2>
+              <Button href="/" color={"secondary"} variant="contained" fullWidth>
+                  Go to Map
+              </Button>
+          </Card>
+      </div>
     <Box className={"login-page"}>
       <Card>
         <h1>Login</h1>
@@ -78,11 +90,9 @@ export default function LoginPage() {
             Login
           </Button>
           <p className={"error-message"}>{error}</p>
-          <Button href="/" color={"primary"} variant="contained" fullWidth>
-            Return to Map
-          </Button>
         </FormControl>
       </Card>
     </Box>
+          </>
   );
 }
