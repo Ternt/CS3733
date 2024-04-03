@@ -31,7 +31,6 @@ CREST003L1,2300,879,L1,45 Francis,REST,Restroom K Elevator Floor L1,Restroom C00
 CREST004L1,2770,1160,L1,45 Francis,REST,Restroom H Elevator Floor L1,Restroom C004L1
 CRETL001L1,2185,904,L1,45 Francis,RETL,Vending Machine 1 L1,Retail C001L1
 CSERV001L1,2490,1043,L1,45 Francis,SERV,Volunteers Floor L1,Service C001L1
-CSERV001L2,2015,1280,L2,45 Francis,SERV,Interpreter Services Floor L2,Service C001L2
 GELEV00QL1,1637,2116,L1,Shapiro,ELEV,Elevator Q MapNode 7 Floor L1,Elevator Q L1
 GEXIT001L1,1702,2260,L1,Shapiro,EXIT,Fenwood Road Exit MapNode 1 Floor L1,Fenwood Road EntranceExit L1
 GHALL002L1,1702,2167,L1,Shapiro,HALL,Hallway MapNode 2 Floor L1,Hall
