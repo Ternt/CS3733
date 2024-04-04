@@ -9,17 +9,16 @@ import {
   exportNodeDBToCSV,
   exportEdgeDBToCSV,
 } from "./helper/manageDatabases";
-import { PathfindingGraph } from "./graph/pathfinding.ts";
+import { Graph } from "./graph/graph.ts";
 import serviceRequestRouter from "./routes/service-requests.ts";
 import mapRouter from "./routes/map.ts";
-import astarRouter from "./routes/a-star-api.ts";
+import pathfindingRouter from "./routes/pathfind.ts";
 import nodesRouter from "./routes/nodes.ts";
 import edgesRouter from "./routes/edges.ts";
 import fileUpload from "express-fileupload";
-// import { AStarGraph } from "./graph/a-star.ts";
 
 const prisma = new PrismaClient();
-const graph = new PathfindingGraph();
+const graph = new Graph();
 (async () => {
   //await populateDatabase(prisma);
 
@@ -58,7 +57,8 @@ app.use(cookieParser()); // Cookie parser
 app.use("/api/high-score", exampleRouter);
 app.use("/api/service-requests", serviceRequestRouter);
 app.use("/api/map", mapRouter);
-app.use("/api/astar-api", astarRouter);
+app.use("/api/astar-api", pathfindingRouter);
+app.use("/api/pathfind", pathfindingRouter);
 app.use("/nodes", nodesRouter);
 app.use("/edges", edgesRouter);
 app.use("/healthcheck", (req, res) => {
