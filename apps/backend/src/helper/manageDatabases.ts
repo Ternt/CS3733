@@ -1,4 +1,13 @@
-import { PrismaClient } from "database";
+import {
+  FlowerRequest,
+  FlowerType,
+  MaintenanceRequest,
+  MaintenanceType,
+  NodeDB,
+  PrismaClient,
+  ServiceRequest,
+  ServiceRequestType,
+} from "database";
 import * as fs from "fs";
 import csv from "csv-parser";
 import path from "path";
@@ -157,28 +166,194 @@ export async function uniqueSearch<T>(
   }
 }
 
-// async function updateDatabase(prisma: PrismaClient){
-//   const absolutePath = path.join(__dirname, "../../");
+//Update A Field within a DataBase
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function updateAFieldInNodeDB<T>(
+  prisma: PrismaClient,
+  id: number,
+  field: keyof T,
+  change: string | number,
+) {
+  try {
+    const updatedField = await prisma.serviceRequest.update({
+      where: { requestID: id },
+      data: {
+        [field]: change,
+      },
+    });
+    console.log(updatedField);
+  } catch (error) {
+    console.error("NodeDB unsuccessfully updated: ", error);
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function updateAFieldInEdgeDB<T>(
+  prisma: PrismaClient,
+  id: string,
+  id2: string,
+  field: keyof T,
+  change: string | boolean,
+) {
+  try {
+    const updatedField = await prisma.edgeDB.update({
+      where: {
+        startNodeID_endNodeID: {
+          startNodeID: id,
+          endNodeID: id2,
+        },
+      },
+      data: {
+        [field]: change,
+      },
+    });
+    console.log(updatedField.startNodeID);
+  } catch (error) {
+    console.error("EdgeDB unsuccessfully updated: ", error);
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function updateAFieldInServiceReqDB<T>(
+  prisma: PrismaClient,
+  id: number,
+  field: keyof T,
+  change:
+    | string
+    | MaintenanceRequest
+    | FlowerRequest
+    | ServiceRequestType
+    | NodeDB,
+) {
+  try {
+    const updatedField = await prisma.serviceRequest.update({
+      where: { requestID: id },
+      data: {
+        [field]: change,
+      },
+    });
+    console.log(updatedField);
+  } catch (error) {
+    console.error("ServiceRequestDB unsuccessfully updated: ", error);
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function updateAFieldInMaintenanceReqDB<T>(
+  prisma: PrismaClient,
+  id: number,
+  field: keyof T,
+  change: number | MaintenanceType | ServiceRequest,
+) {
+  try {
+    const updatedField = await prisma.serviceRequest.update({
+      where: { requestID: id },
+      data: {
+        [field]: change,
+      },
+    });
+    console.log(updatedField);
+  } catch (error) {
+    console.error("ServiceRequestDB unsuccessfully updated: ", error);
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function updateAFieldInFlowerReqDB<T>(
+  prisma: PrismaClient,
+  id: number,
+  field: keyof T,
+  change: number | FlowerType | ServiceRequest,
+) {
+  try {
+    const updatedField = await prisma.flowerRequest.update({
+      where: { requestID: id },
+      data: {
+        [field]: change,
+      },
+    });
+    console.log(updatedField);
+  } catch (error) {
+    console.error("ServiceRequestDB unsuccessfully updated: ", error);
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function updateFieldAcrossNodeDB(
+  prisma: PrismaClient,
+  field: string,
+  change: string,
+) {
+  try {
+    const allRecords = await prisma.nodeDB.findMany();
+
+    for (const record of allRecords) {
+      await prisma.nodeDB.update({
+        where: { nodeID: record.nodeID },
+        data: { [field]: change },
+      });
+    }
+  } catch (error) {
+    console.error("Error updating fields:", error);
+  }
+}
+
+export async function updateFieldAcrossEdgeDB(
+  prisma: PrismaClient,
+  field: string,
+  change: boolean,
+) {
+  try {
+    const allRecords = await prisma.edgeDB.findMany();
+
+    //console.log(allRecords);
+
+    for (const record of allRecords) {
+      // console.log("A record:");
+      // console.log(record);
+      // console.log(record.startNodeID);
+      // console.log(record.endNodeID);
+      await prisma.edgeDB.updateMany({
+        where: {
+          AND: {
+            startNodeID: record.startNodeID,
+            endNodeID: record.endNodeID,
+          },
+        },
+        data: { blocked: change },
+      });
+    }
+  } catch (error) {
+    console.error("Error updating fields:", error);
+  }
+}
+
+//Export to CSV file
+// async function exportNodeDBToCSV(prisma: PrismaClient, filename: string) {
+//   try {
+//     const data = await prisma.nodeDB.findMany();
 //
-//   fs.createReadStream(absolutePath)
-//       .pipe(csv())
-//       .on("data", async (row) => {
-//         // Create record in database using Prisma
-//         await prisma.nodeDB.create({
-//           data: {
-//             // Map CSV fields
-//             nodeID: row.nodeID,
-//             xcoord: parseInt(row.xcoord),
-//             ycoord: parseInt(row.ycoord),
-//             floor: row.floor,
-//             building: row.building,
-//             nodeType: row.nodeType,
-//             longName: row.longName,
-//             shortName: row.shortName,
-//           },
-//         });
-//       })
-//       .on("end", () => {
-//         console.log("CSV file successfully processed for Nodes");
-//       });
+//     if (data.length === 0) {
+//       console.error("No data found to export.");
+//       return;
+//     }
+//
+//     const columns = Object.keys(data[0]);
+//     let csvContent = columns.join(",") + "/n";
+//     data.forEach((row) => {
+//       csvContent += columns.map((column) => row[column]).join(",") + "/n";
+//     });
+//
+//     const filePath = path.join(__dirname, filename);
+//
+//     fs.writeFile(filePath, csvContent, "utf8", (err) => {
+//       if (err) {
+//         console.error("An error occurred:", err);
+//         return;
+//       }
+//       console.log(`CSV file successfully exported to ${filePath}`);
+//     });
+//   } catch (error) {
+//     console.error("Error exporting to CSV: ", error);
+//   }
 // }
