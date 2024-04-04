@@ -53,7 +53,7 @@ function App() {
     return (
       <>
         <TouchToStart />
-        <div className="w-full flex flex-col px-20 gap-5">
+        <div className="w-full flex flex-col gap-5">
           <NavBar />
           <Outlet />
         </div>

@@ -99,7 +99,12 @@ function ResponsiveAppBar() {
             </Menu>
           </Box>
           {/*<MatIcon icon={"adb"} color={"white"}/>*/}
-          <img className={"logo"} src={logo} alt={"logo"} />
+          <img
+            className={"logo"}
+            src={logo}
+            alt={"logo"}
+            onClick={() => handleMenuItemClick("/login")}
+          />
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
