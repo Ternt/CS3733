@@ -3,6 +3,8 @@
 
 import express, { Router, Request, Response } from "express";
 import { PrismaClient } from "database";
+import path from "path";
+import { exportNodeDBToCSV } from "../helper/manageDatabases.ts";
 
 const router: Router = express.Router();
 
@@ -72,6 +74,10 @@ router.post("/upload/", async function (req: Request, res: Response) {
   res.sendStatus(200);
 });
 
-//router.get("/download/", async function (req: Request, res: Response) {});
+router.get("/download/", async function (req: Request, res: Response) {
+  const prisma = new PrismaClient();
+  await exportNodeDBToCSV(prisma, "../../map/nodes.csv");
+  res.download(path.join(__dirname, "../../map/nodes.csv"));
+});
 
 export default router;

@@ -3,6 +3,8 @@
 
 import express, { Router, Request, Response } from "express";
 import { PrismaClient } from "database";
+import { exportEdgeDBToCSV } from "../helper/manageDatabases";
+import path from "path";
 
 const router: Router = express.Router();
 
@@ -67,6 +69,10 @@ router.post("/upload/", async function (req: Request, res: Response) {
   res.sendStatus(200);
 });
 
-//router.get("/download/", async function (req: Request, res: Response) {});
+router.get("/download/", async function (req: Request, res: Response) {
+  const prisma = new PrismaClient();
+  await exportEdgeDBToCSV(prisma, "../../map/edges.csv");
+  res.download(path.join(__dirname, "../../map/edges.csv"));
+});
 
 export default router;
