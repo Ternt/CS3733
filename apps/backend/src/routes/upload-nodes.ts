@@ -65,7 +65,7 @@ router.post("/", async function (req: Request, res: Response) {
     ]);
   } catch {
     console.log("node file upload failed");
-    res.sendStatus(400);
+    res.sendStatus(406);
     return;
   }
 
