@@ -9,17 +9,16 @@ import {
   exportNodeDBToCSV,
   exportEdgeDBToCSV,
 } from "./helper/manageDatabases";
-import { PathfindingGraph } from "./graph/pathfinding.ts";
+import { Graph } from "./graph/graph.ts";
 import serviceRequestRouter from "./routes/service-requests.ts";
 import mapRouter from "./routes/map.ts";
 import astarRouter from "./routes/a-star-api.ts";
 import nodesRouter from "./routes/nodes.ts";
 import edgesRouter from "./routes/edges.ts";
 import fileUpload from "express-fileupload";
-// import { AStarGraph } from "./graph/a-star.ts";
 
 const prisma = new PrismaClient();
-const graph = new PathfindingGraph();
+const graph = new Graph();
 (async () => {
   //await populateDatabase(prisma);
 
