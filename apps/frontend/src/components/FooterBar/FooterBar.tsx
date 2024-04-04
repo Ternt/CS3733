@@ -8,7 +8,7 @@ export default function FooterBar() {
 
   return (
     <footer className="footer" onClick={() => navigate("/")}>
-      <MatIcon icon={"build_circle"} color={""} />
+      <MatIcon className={"build_circle"} icon={"build_circle"} />
       <Button onClick={() => navigate("/")} type={InputType.Blue}>
         Request Service
       </Button>

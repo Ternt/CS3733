@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Outlet,
-  Link,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import ServiceRequest from "./serviceRequest.tsx";
 import { ThemeProvider } from "@mui/material/styles"; // Import ThemeProvider
 import CustomTheme from "./components/CustomTheme.tsx"; // Import your custom theme
@@ -12,7 +7,8 @@ import MapPage from "./routes/mapPage.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import ServiceRequests from "./showAllSR.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
-import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
+//import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
+import NavBar from "./components/navbar/navbar.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -56,15 +52,8 @@ function App() {
   function Root() {
     return (
       <>
-        <TouchToStart />
-        <div className="w-full flex flex-col px-20 gap-5">
-          <div>
-            <Link to="/login">Login&emsp;</Link>
-            <Link to="">Map&emsp;</Link>
-            <Link to="/service-request">Service Request&emsp;</Link>
-            <Link to="/service-request-display">Service Request Display</Link>
-            <Link to="/tables">Node and Edge Tables</Link>
-          </div>
+        <div className="w-full flex flex-col">
+          <NavBar />
           <Outlet />
         </div>
       </>
