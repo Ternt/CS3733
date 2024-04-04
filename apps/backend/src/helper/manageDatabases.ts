@@ -29,8 +29,6 @@ async function populateNodes(prisma: PrismaClient) {
       .pipe(csv())
       .on("data", async (row) => {
         // Create record in database using Prisma
-        console.log(row);
-
         await prisma.nodeDB.create({
           data: {
             // Map CSV fields
