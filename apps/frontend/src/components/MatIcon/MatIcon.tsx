@@ -1,13 +1,16 @@
 import "./MatIcon.scss";
 
 type MatIconProps = {
+  className: string;
   icon: string;
-  color: string;
 };
 function MatIcon(props: MatIconProps) {
   return (
     <>
-      <span className="icon material-symbols-outlined">{props.icon}</span>
+      <span className={"icon material-symbols-outlined " + props.className}>
+        {" "}
+        {props.icon}
+      </span>
     </>
   );
 }

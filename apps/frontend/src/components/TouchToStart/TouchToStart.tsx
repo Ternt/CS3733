@@ -32,7 +32,7 @@ function TouchToStart() {
         onClick={() => setDisplay(false)}
       >
         <div className="touch-icon">
-          <MatIcon icon={"touch_app"} color={""} />
+          <MatIcon className={"touch_app"} icon={"touch_app"} />
         </div>
         <h1 className="language-text">{LANGUAGES[index]}</h1>
       </div>
