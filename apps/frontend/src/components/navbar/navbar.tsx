@@ -106,7 +106,12 @@ function ResponsiveAppBar() {
             onClick={() => handleMenuItemClick("/login")}
           />
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex", justifyContent: "flex-end" },
+            }}
+          >
             {pages.map((page) => (
               <Button
                 key={page.label}
