@@ -4,7 +4,11 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
 import { PrismaClient } from "database";
-import { populateDatabase } from "./helper/manageDatabases";
+import {
+  // populateDatabase,
+  exportNodeDBToCSV,
+  exportEdgeDBToCSV,
+} from "./helper/manageDatabases";
 import { PathfindingGraph } from "./graph/pathfinding.ts";
 import serviceRequestRouter from "./routes/service-requests.ts";
 import mapRouter from "./routes/map.ts";
@@ -17,9 +21,13 @@ import fileUpload from "express-fileupload";
 const prisma = new PrismaClient();
 const graph = new PathfindingGraph();
 (async () => {
-  await populateDatabase(prisma);
+  //await populateDatabase(prisma);
+
   await graph.loadNodesFromDB();
   await graph.loadEdgesFromDB();
+
+  await exportNodeDBToCSV(prisma, "../../map/nodes.csv");
+  await exportEdgeDBToCSV(prisma, "../../map/edges.csv");
 
   graph.printPath(graph.pathfind("CCONF001L1", "CCONF002L1")); // Should Work
   graph.printPath(graph.pathfind("CCONF001L1", "GHALL003L1")); // Should Fail
