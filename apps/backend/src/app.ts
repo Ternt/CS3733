@@ -17,11 +17,6 @@ const graph = new PathfindingGraph();
   await populateDatabase(prisma);
   await graph.loadNodesFromDB();
   await graph.loadEdgesFromDB();
-
-  graph.printPath(graph.pathfind("CCONF001L1", "CCONF002L1")); // Should Work
-  graph.printPath(graph.pathfind("CCONF001L1", "GHALL003L1")); // Should Fail
-  // graph.loadNodesFromCSV("../../map/L1Nodes.csv");
-  // graph.loadEdgesFromCSV("../../map/L1Edges.csv");
 })();
 
 const app: Express = express(); // Setup the backend

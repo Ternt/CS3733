@@ -428,7 +428,7 @@ export class BaseGraph {
   ): string[] {
     // check that path exists
     if (!came_from.get(end)) {
-      console.error(
+      console.log(
         "\x1b[31m%s\x1b[0m", // output color to make debugging easier
         "PATH FINDING FAILED: NO PATH FROM " + start + " TO " + end,
       );
