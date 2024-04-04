@@ -1,7 +1,7 @@
-import { BaseGraph, GraphNode, Edge } from "./base-graph";
+import { Graph, GraphNode, Edge } from "./graph.ts";
 import { PriorityQueue } from "./priority-queue.ts";
 
-export class AStarGraph extends BaseGraph {
+export class AStarGraph extends Graph {
   constructor() {
     super();
     this.nodes = new Map<string, GraphNode>();

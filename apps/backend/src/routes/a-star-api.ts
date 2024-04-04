@@ -1,11 +1,11 @@
 import express, { Router, Request, Response } from "express";
-import { AStarGraph } from "../graph/a-star.ts";
+import { Graph } from "../graph/graph.ts";
 
 const router: Router = express.Router();
 
 //Return all map edges and nodes
 router.get("/", async function (req: Request, res: Response) {
-  const graph = new AStarGraph();
+  const graph = new Graph();
   await graph.loadNodesFromDB();
   await graph.loadEdgesFromDB();
 
@@ -28,7 +28,7 @@ router.get("/", async function (req: Request, res: Response) {
     res.sendStatus(204); // and send 204, no data
   }
 
-  const path: string[] = graph.aStar(startNode, endNode).map((node) => node.id);
+  const path: string[] = graph.pathfind(startNode, endNode);
   res.json({ path: path });
   res.end();
 });

@@ -1,6 +1,6 @@
-import { BaseGraph, GraphNode, Edge } from "./base-graph";
+import { Graph, GraphNode, Edge } from "./graph.ts";
 
-export class PathfindingGraph extends BaseGraph {
+export class PathfindingGraph extends Graph {
   constructor() {
     super();
     this.nodes = new Map<string, GraphNode>();
