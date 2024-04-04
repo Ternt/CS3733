@@ -4,22 +4,33 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
 import { PrismaClient } from "database";
-import { populateDatabase } from "./helper/manageDatabases";
+import {
+  // populateDatabase,
+  exportNodeDBToCSV,
+  exportEdgeDBToCSV,
+} from "./helper/manageDatabases";
 import { PathfindingGraph } from "./graph/pathfinding.ts";
 import serviceRequestRouter from "./routes/service-requests.ts";
 import mapRouter from "./routes/map.ts";
 import astarRouter from "./routes/a-star-api.ts";
+import nodesRouter from "./routes/nodes.ts";
+import edgesRouter from "./routes/edges.ts";
+import fileUpload from "express-fileupload";
 // import { AStarGraph } from "./graph/a-star.ts";
 
 const prisma = new PrismaClient();
 const graph = new PathfindingGraph();
 (async () => {
-  await populateDatabase(prisma);
   await graph.loadNodesFromDB();
   await graph.loadEdgesFromDB();
+  await exportNodeDBToCSV(prisma, "../../map/nodes.csv");
+  await exportEdgeDBToCSV(prisma, "../../map/edges.csv");
 })();
 
 const app: Express = express(); // Setup the backend
+
+//const fileUpload = require("express-fileupload");
+app.use(fileUpload());
 
 // Setup generic middlewear
 app.use(
@@ -40,6 +51,8 @@ app.use("/api/high-score", exampleRouter);
 app.use("/api/service-requests", serviceRequestRouter);
 app.use("/api/map", mapRouter);
 app.use("/api/astar-api", astarRouter);
+app.use("/nodes", nodesRouter);
+app.use("/edges", edgesRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
