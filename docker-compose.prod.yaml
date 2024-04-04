@@ -15,7 +15,7 @@ x-db-loc: &db-loc
   POSTGRES_PORT: &pg-port "5432"
 
   # The environment variables will expect this to already be formed, build args will override it
-  POSTGRES_URL: "postgresql://team-d-prod.cl2wysyoc6sw.us-east-2.rds.amazonaws.com"
+  POSTGRES_URL: "postgresql://postgres:c3RqkRT5cGVNqoU9K5qk@localhost:postgres/team-d-prod.cl2wysyoc6sw.us-east-2.rds.amazonaws.com?schema=public"
 
 # Health check for all processes
 x-health-check: &health-check
