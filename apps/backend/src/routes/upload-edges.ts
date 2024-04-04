@@ -47,24 +47,19 @@ router.post("/", async function (req: Request, res: Response) {
 
     const data = Array.from(
       rows.map((row) => ({
-        nodeID: row[0],
-        xcoord: parseInt(row[1]),
-        ycoord: parseInt(row[2]),
-        floor: row[3],
-        building: row[4],
-        nodeType: row[5],
-        longName: row[6],
-        shortName: row[7],
+        startNodeID: row[0],
+        endNodeID: row[1],
+        blocked: false,
       })),
     );
 
     // upload node file
     await prisma.$transaction([
-      prisma.nodeDB.deleteMany(),
-      prisma.nodeDB.createMany({ data }),
+      prisma.EdgeDB.deleteMany(),
+      prisma.EdgeDB.createMany({ data }),
     ]);
   } catch {
-    console.log("node file upload failed");
+    console.log("edge file upload failed");
     res.sendStatus(400);
     return;
   }
