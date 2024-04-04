@@ -9,8 +9,8 @@ import { PathfindingGraph } from "./graph/pathfinding.ts";
 import serviceRequestRouter from "./routes/service-requests.ts";
 import mapRouter from "./routes/map.ts";
 import astarRouter from "./routes/a-star-api.ts";
-import uploadNodesRouter from "./routes/upload-nodes.ts";
-import uploadEdgesRouter from "./routes/upload-edges.ts";
+import nodesRouter from "./routes/nodes.ts";
+import edgesRouter from "./routes/edges.ts";
 import fileUpload from "express-fileupload";
 // import { AStarGraph } from "./graph/a-star.ts";
 
@@ -51,8 +51,8 @@ app.use("/api/high-score", exampleRouter);
 app.use("/api/service-requests", serviceRequestRouter);
 app.use("/api/map", mapRouter);
 app.use("/api/astar-api", astarRouter);
-app.use("/upload-nodes", uploadNodesRouter);
-app.use("/upload-edges", uploadEdgesRouter);
+app.use("/nodes", nodesRouter);
+app.use("/edges", edgesRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
