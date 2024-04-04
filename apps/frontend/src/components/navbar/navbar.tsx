@@ -130,7 +130,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <MatIcon className={"UserIcon"} icon={"person"} />
+                <MatIcon className={"UserIcon"} icon={"account_circle"} />
               </IconButton>
             </Tooltip>
             <Menu
