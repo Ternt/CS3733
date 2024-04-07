@@ -278,8 +278,7 @@ async function updateAFieldInFlowerReqDB<T>(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function updateFieldAcrossNodeDB(
+export async function updateFieldAcrossNodeDB(
   prisma: PrismaClient,
   field: string,
   change: string,
@@ -328,32 +327,82 @@ export async function updateFieldAcrossEdgeDB(
   }
 }
 
-//Export to CSV file
-// async function exportNodeDBToCSV(prisma: PrismaClient, filename: string) {
-//   try {
-//     const data = await prisma.nodeDB.findMany();
-//
-//     if (data.length === 0) {
-//       console.error("No data found to export.");
-//       return;
-//     }
-//
-//     const columns = Object.keys(data[0]);
-//     let csvContent = columns.join(",") + "/n";
-//     data.forEach((row) => {
-//       csvContent += columns.map((column) => row[column]).join(",") + "/n";
-//     });
-//
-//     const filePath = path.join(__dirname, filename);
-//
-//     fs.writeFile(filePath, csvContent, "utf8", (err) => {
-//       if (err) {
-//         console.error("An error occurred:", err);
-//         return;
-//       }
-//       console.log(`CSV file successfully exported to ${filePath}`);
-//     });
-//   } catch (error) {
-//     console.error("Error exporting to CSV: ", error);
-//   }
-// }
+// Export to CSV file
+export async function exportNodeDBToCSV(
+  prisma: PrismaClient,
+  filename: string,
+) {
+  try {
+    const data = await prisma.nodeDB.findMany();
+
+    if (data.length === 0) {
+      console.error("No data found to export.");
+      return;
+    }
+
+    const columns = Object.keys(data[0]);
+    let csvContent = columns.join(",") + "\n";
+    const rows: string = data
+      .map((node) => {
+        return [
+          node.nodeID,
+          node.xcoord,
+          node.ycoord,
+          node.floor,
+          node.building,
+          node.longName,
+          node.shortName,
+          node.nodeType,
+        ].join(",");
+      })
+      .join("\n");
+    csvContent += rows;
+
+    const filePath = path.join(__dirname, filename);
+
+    fs.writeFile(filePath, csvContent, "utf8", (err) => {
+      if (err) {
+        console.error("An error occurred:", err);
+        return;
+      }
+      console.log(`CSV file successfully exported to ${filePath}`);
+    });
+  } catch (error) {
+    console.error("Error exporting to CSV: ", error);
+  }
+}
+
+export async function exportEdgeDBToCSV(
+  prisma: PrismaClient,
+  filename: string,
+) {
+  try {
+    const data = await prisma.edgeDB.findMany();
+
+    if (data.length === 0) {
+      console.error("No data found to export.");
+      return;
+    }
+
+    const columns = Object.keys(data[0]);
+    let csvContent = columns.join(",") + "\n";
+    const rows: string = data
+      .map((edge) => {
+        return [edge.endNodeID, edge.endNodeID, edge.blocked].join(",");
+      })
+      .join("\n");
+    csvContent += rows;
+
+    const filePath = path.join(__dirname, filename);
+
+    fs.writeFile(filePath, csvContent, "utf8", (err) => {
+      if (err) {
+        console.error("An error occurred:", err);
+        return;
+      }
+      console.log(`CSV file successfully exported to ${filePath}`);
+    });
+  } catch (error) {
+    console.error("Error exporting to CSV: ", error);
+  }
+}

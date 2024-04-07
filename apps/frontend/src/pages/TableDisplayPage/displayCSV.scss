@@ -23,15 +23,30 @@ $tableLine: $acc-p;
         text-align: left;
         color: $tableHeadText;
         border-bottom: 2px solid $tableLine;
-        &:nth-child(1) { width: 8%; } // Width for the first column
-        &:nth-child(2) { width: 5%; } // Width for the second column
-        &:nth-child(3) { width: 5%; } // Width for the second column
-        &:nth-child(4) { width: 5%; }
-        &:nth-child(5) { width: 8%; }
-        &:nth-child(6) { width: 5%; }
-        &:nth-child(7) { width: 18%; }
-        &:nth-child(8) { width: 15%; }
-
+        &:nth-child(1) {
+          width: 8%;
+        } // Width for the first column
+        &:nth-child(2) {
+          width: 5%;
+        } // Width for the second column
+        &:nth-child(3) {
+          width: 5%;
+        } // Width for the second column
+        &:nth-child(4) {
+          width: 5%;
+        }
+        &:nth-child(5) {
+          width: 8%;
+        }
+        &:nth-child(6) {
+          width: 5%;
+        }
+        &:nth-child(7) {
+          width: 18%;
+        }
+        &:nth-child(8) {
+          width: 15%;
+        }
       }
     }
 
