@@ -5,15 +5,28 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
 import { Typography } from "@mui/material";
+import { Item } from "../../pages/GiftRequestPage/GiftRequestPage.tsx";
 
 type CardProps = {
+  id: string;
   imageURL: string;
   title: string;
   price: string;
   description: string;
+  handleAdd: (item: Item) => void;
 };
 
 function ItemCard(props: CardProps) {
+  function getItem(): Item {
+    return {
+      id: props.id,
+      imageURL: props.imageURL,
+      name: props.title,
+      price: parseInt(props.price),
+      description: props.description,
+    };
+  }
+
   return (
     <Card
       variant="outlined"
@@ -55,7 +68,7 @@ function ItemCard(props: CardProps) {
             </Typography>
 
             <Typography variant="h6" color="text.secondary" textAlign={"right"}>
-              {props.price}
+              {props.price.toString()}
             </Typography>
           </Box>
 
@@ -83,6 +96,7 @@ function ItemCard(props: CardProps) {
           type="submit"
           variant="contained"
           color="secondary"
+          onClick={() => props.handleAdd(item: getItem())}
         >
           Add Item
         </Button>

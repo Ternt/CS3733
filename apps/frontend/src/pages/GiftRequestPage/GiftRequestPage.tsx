@@ -3,8 +3,25 @@ import { Typography } from "@mui/material";
 import ItemCard from "../../components/Card/ItemCard.tsx";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import { useState } from "react";
+
+export type Item = {
+  id: string;
+  imageURL: string;
+  name: string;
+  price: number;
+  description: string;
+};
 
 function GiftRequestPage() {
+  const initialCart: Item[] = [];
+  const [cart, setCart] = useState(initialCart);
+
+  function addItem(item: Item) {
+    setCart([...cart, item]);
+    console.log("added item", item.id);
+  }
+
   return (
     <Box
       sx={{
@@ -86,10 +103,12 @@ function GiftRequestPage() {
         <Grid container>
           {Array.from(Array(25)).map((_, index) => (
             <ItemCard
+              id={index.toString()}
               imageURL="../../src/assets/roses.jpg.webp"
               title={"Roses " + index}
-              price="$99"
+              price="99"
               description="this is a description of roses"
+              handleAdd={addItem}
             />
           ))}
         </Grid>
