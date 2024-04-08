@@ -13,7 +13,7 @@ import logo from "../../assets/logo_white_big.png";
 import { useNavigate } from "react-router-dom";
 
 const pages = [
-  { label: "Map", path: "" },
+  { label: "Map", path: "/map" },
   { label: "Request Service", path: "/service-request" },
   { label: "Service List", path: "/service-request-display" },
   { label: "Node and Edge Tables", path: "/tables" },
@@ -77,7 +77,7 @@ function ResponsiveAppBar() {
             className={"logo"}
             src={logo}
             alt={"logo"}
-            onClick={() => handleMenuItemClick("/login")}
+            onClick={() => handleMenuItemClick("")}
           />
 
           <Box
