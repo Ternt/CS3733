@@ -4,6 +4,8 @@ import ItemCard from "../../components/Card/ItemCard.tsx";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export type Item = {
   id: string;
@@ -13,6 +15,8 @@ export type Item = {
   description: string;
 };
 
+export const StoreContext = React.createContext(null);
+
 function GiftRequestPage() {
   const initialCart: Item[] = [];
   const [cart, setCart] = useState(initialCart);
@@ -21,6 +25,11 @@ function GiftRequestPage() {
     setCart([...cart, item]);
     console.log("added item", item.id);
   }
+
+  const navigate = useNavigate();
+  const handleSubmit = () => {
+    navigate("/gift-checkout", { state: { cart } });
+  };
 
   return (
     <Box
@@ -160,9 +169,9 @@ function GiftRequestPage() {
             Clear
           </Button>
           <Button
-            type="submit"
             variant="contained"
             color="secondary"
+            onClick={handleSubmit}
             style={{
               minWidth: "10vw",
             }}
