@@ -20,18 +20,10 @@ import fileUpload from "express-fileupload";
 const prisma = new PrismaClient();
 const graph = new Graph();
 (async () => {
-  //await populateDatabase(prisma);
-
   await graph.loadNodesFromDB();
   await graph.loadEdgesFromDB();
-
   await exportNodeDBToCSV(prisma, "../../map/nodes.csv");
   await exportEdgeDBToCSV(prisma, "../../map/edges.csv");
-
-  graph.printPath(graph.pathfind("CCONF001L1", "CCONF002L1")); // Should Work
-  graph.printPath(graph.pathfind("CCONF001L1", "GHALL003L1")); // Should Fail
-  // graph.loadNodesFromCSV("../../map/L1Nodes.csv");
-  // graph.loadEdgesFromCSV("../../map/L1Edges.csv");
 })();
 
 const app: Express = express(); // Setup the backend

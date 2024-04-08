@@ -1,6 +1,6 @@
 import { vec2, edge, node } from "./typestuff.ts";
 
-const MAX_SNAP_DIST = 75; // Maximum distance from an edge that will snap to an edge
+const MAX_SNAP_DIST = 75000; // Maximum distance from an edge that will snap to an edge
 
 type findClosestPointOnGraphProps = {
   x: number;
