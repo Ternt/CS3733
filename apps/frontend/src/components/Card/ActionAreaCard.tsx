@@ -11,11 +11,10 @@ interface ActionAreaCardProps {
 
 const ActionAreaCard: React.FC<ActionAreaCardProps> = ({ title }) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: "20vw" }}>
       <CardActionArea>
         <CardMedia
           component="img"
-          height="140"
           image="../ServiceRequests/GiftRequest/media/rose.jpg"
           alt="rose"
         />
