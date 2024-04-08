@@ -15,6 +15,8 @@ function GiftRequestPage() {
     >
       <Box
         sx={{
+          display: "flex",
+          flexDirection: "column",
           bgcolor: "#FFFFFF",
           width: { xs: "60vw", md: "30vw" },
           height: "100vh",
@@ -24,24 +26,54 @@ function GiftRequestPage() {
         }}
       >
         <Box>
-          <Typography textAlign={"center"} variant={"h3"}>
+          <Typography p={3} textAlign={"center"} variant={"h3"}>
             Order Flowers
           </Typography>
         </Box>
         <Box p={3}>
           <Typography variant={"h6"}>
-            Example Text Example Text Example Text Example Text Example Text
-            Example Text Example Text Example Text
+            Rose 1 ________________________ $99 Rose 1 ________________________
+            $99 Rose 1 ________________________ $99 Rose 1
+            ________________________ $99 Rose 1 ________________________ $99
+            Rose 1 ________________________ $99 Rose 1 ________________________
+            $99 Rose 1 ________________________ $99 Rose 1
+            ________________________ $99 Rose 1 ________________________ $99
           </Typography>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingBottom: "20px",
+            marginTop: "auto",
+          }}
+        >
           <Button
-            type="submit" // Ensure the button submits the form
+            type="submit"
             variant="contained"
             color="secondary"
-            style={{ marginTop: "20px" }}
+            style={{
+              minWidth: "10vw",
+            }}
+            sx={{
+              margin: 1,
+            }}
           >
             Submit
+          </Button>
+          <Button
+            type="button"
+            variant="contained"
+            color="secondary"
+            style={{
+              minWidth: "10vw",
+            }}
+            sx={{
+              margin: 1,
+            }}
+          >
+            Clear
           </Button>
         </Box>
       </Box>
