@@ -9,7 +9,7 @@ import ServiceRequests from "./showAllSR.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
 import NavBar from "./components/navbar/navbar.tsx";
-import GiftRequest from "./components/ServiceRequests/GiftRequest/GiftRequest.tsx";
+import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -35,12 +35,12 @@ function App() {
           element: <ServiceRequests />,
         },
         {
-          path: "/tables",
-          element: <MapDataDisplay />,
+          path: "/gift-request",
+          element: <GiftRequestPage />,
         },
         {
-          path: "/gift-request",
-          element: <GiftRequest />,
+          path: "/tables",
+          element: <MapDataDisplay />,
         },
       ],
     },
@@ -58,7 +58,7 @@ function App() {
     return (
       <>
         <TouchToStart />
-        <div className="w-full flex flex-col gap-5">
+        <div className="w-full flex flex-col">
           <NavBar />
           <Outlet />
         </div>
