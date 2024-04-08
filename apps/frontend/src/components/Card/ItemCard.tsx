@@ -96,7 +96,7 @@ function ItemCard(props: CardProps) {
           type="submit"
           variant="contained"
           color="secondary"
-          onClick={() => props.handleAdd(item: getItem())}
+          onClick={() => props.handleAdd(getItem())}
         >
           Add Item
         </Button>
