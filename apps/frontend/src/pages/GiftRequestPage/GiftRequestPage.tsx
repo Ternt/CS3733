@@ -101,6 +101,7 @@ function GiftRequestPage() {
             sx={{
               margin: 1,
             }}
+            onClick={() => setCart([])}
           >
             Clear
           </Button>
