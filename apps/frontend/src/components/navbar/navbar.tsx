@@ -77,7 +77,7 @@ function ResponsiveAppBar() {
             className={"logo"}
             src={logo}
             alt={"logo"}
-            onClick={() => handleMenuItemClick("/hero-page")}
+            onClick={() => handleMenuItemClick("/login")}
           />
 
           <Box
