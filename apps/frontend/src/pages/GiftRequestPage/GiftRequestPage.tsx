@@ -47,15 +47,27 @@ function GiftRequestPage() {
             Order Flowers
           </Typography>
         </Box>
-        <Box p={3}>
-          <Typography variant={"h6"}>
-            Rose 1 ________________________ $99 Rose 1 ________________________
-            $99 Rose 1 ________________________ $99 Rose 1
-            ________________________ $99 Rose 1 ________________________ $99
-            Rose 1 ________________________ $99 Rose 1 ________________________
-            $99 Rose 1 ________________________ $99 Rose 1
-            ________________________ $99 Rose 1 ________________________ $99
-          </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "top",
+          }}
+        >
+          {cart.map((item) => (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                px: 3,
+              }}
+            >
+              <Typography variant={"h6"}>{item.name}</Typography>
+              <Typography variant={"h6"}>{item.price}</Typography>
+            </Box>
+          ))}
         </Box>
         <Box
           sx={{
