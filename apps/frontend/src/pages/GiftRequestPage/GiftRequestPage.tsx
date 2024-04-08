@@ -128,7 +128,12 @@ function GiftRequestPage() {
               p: 1.2,
             }}
           >
-            12345
+            {cart
+              .map((item) => item.price)
+              .reduce(
+                (accumulator, currentValue) => accumulator + currentValue,
+                0,
+              )}
           </Typography>
         </Box>
         <Box
