@@ -3,6 +3,7 @@ import * as path from "path";
 import { parse } from "csv-parse/sync";
 //import { Prisma } from "database";
 import PrismaClient from "../bin/database-connection.ts";
+import { aStarSearch } from "./a-star-search.ts";
 
 export enum Floor {
   L2 = -1,
@@ -97,13 +98,27 @@ export class Edge {
   }
 }
 
-export class BaseGraph {
+export class Graph {
   nodes: Map<string, GraphNode>;
   edges: Map<string, Edge[]>;
+
+  searchAlgorithm: (
+    graph: Graph,
+    start: string,
+    end: string,
+  ) => Map<string, string>;
 
   constructor() {
     this.nodes = new Map<string, GraphNode>();
     this.edges = new Map<string, Edge[]>();
+    this.searchAlgorithm = aStarSearch;
+  }
+
+  pathfind(start: string, end: string) {
+    const came_from = this.searchAlgorithm(this, start, end);
+    const path: string[] = this.backtrack(came_from, start, end);
+    this.printPath(path);
+    return path;
   }
 
   async loadNodesFromDB() {
