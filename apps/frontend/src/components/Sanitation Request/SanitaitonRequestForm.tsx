@@ -132,7 +132,6 @@ function SanitationRequestForm() {
                         <Grid item xs={12}>
                             <InputLabel>Employee Name</InputLabel>
                             <TextField
-                                label="Your Name"
                                 onChange={handleNameInput}
                                 value={formInput.name}
                                 fullWidth
@@ -159,7 +158,6 @@ function SanitationRequestForm() {
                         <Grid item xs={12}>
                             <InputLabel>Location of Mess</InputLabel>
                             <TextField
-                                label="Location"
                                 onChange={handleLocationInput}
                                 value={formInput.location}
                                 fullWidth
