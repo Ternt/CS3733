@@ -97,11 +97,10 @@ function ResponsiveAppBar() {
                   color: "white",
                   display: "block",
                   fontSize: 15,
-                  transition: "margin 0.2s ease-in-out",
+                  transition: "all 0.2s ease-in-out",
                   "&:hover": {
-                    mt: "18px",
-                    background: "#f6bd38",
-                    color: "black",
+                    transform: "translateY(-5px)",
+                    background: "#012d5a",
                   },
                 }}
               >
@@ -117,13 +116,13 @@ function ResponsiveAppBar() {
                 height: 45,
                 paddingX: 5,
                 color: "black",
-                transition: "margin 0.2s ease-in-out",
+                transition: "all 0.2s ease-in-out",
                 fontSize: 15,
                 display: "block",
                 background: "#f6bd38",
 
                 "&:hover": {
-                  mt: "18px",
+                  transform: "translateY(-5px)",
                   background: "#f6bd38",
                   color: "black",
                 },
