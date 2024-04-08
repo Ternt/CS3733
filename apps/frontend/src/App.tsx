@@ -10,6 +10,7 @@ import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
 import NavBar from "./components/navbar/navbar.tsx";
 import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
+import GiftCheckoutPage from "./pages/GiftCheckoutPage/GiftCheckoutPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -37,6 +38,10 @@ function App() {
         {
           path: "/gift-request",
           element: <GiftRequestPage />,
+        },
+        {
+          path: "/gift-checkout",
+          element: <GiftCheckoutPage />,
         },
         {
           path: "/tables",

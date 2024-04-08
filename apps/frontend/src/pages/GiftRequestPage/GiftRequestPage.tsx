@@ -4,6 +4,8 @@ import ItemCard from "../../components/Card/ItemCard.tsx";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export type Item = {
   id: string;
@@ -13,6 +15,8 @@ export type Item = {
   description: string;
 };
 
+export const StoreContext = React.createContext(null);
+
 function GiftRequestPage() {
   const initialCart: Item[] = [];
   const [cart, setCart] = useState(initialCart);
@@ -21,6 +25,11 @@ function GiftRequestPage() {
     setCart([...cart, item]);
     console.log("added item", item.id);
   }
+
+  const navigate = useNavigate();
+  const handleSubmit = () => {
+    navigate("/gift-checkout", { state: { cart } });
+  };
 
   return (
     <Box
@@ -34,12 +43,15 @@ function GiftRequestPage() {
         sx={{
           display: "flex",
           flexDirection: "column",
+          justifyContent: "space-evenly",
+          height: "fit-content",
           bgcolor: "#FFFFFF",
           width: { xs: "60vw", md: "30vw" },
-          height: "100vh",
-          position: "sticky",
+          position: "relative",
           top: 0,
           left: 0,
+          gap: 5,
+          overflowY: "scroll",
         }}
       >
         <Box>
@@ -61,36 +73,87 @@ function GiftRequestPage() {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
+                alignItems: "center",
                 px: 3,
               }}
             >
-              <Typography variant={"h6"}>{item.name}</Typography>
-              <Typography variant={"h6"}>{item.price}</Typography>
+              <Typography
+                noWrap
+                variant={"h6"}
+                sx={{
+                  overflow: "visible",
+                  p: 1.2,
+                }}
+              >
+                {item.name}
+              </Typography>
+              <hr
+                style={{
+                  width: "100%",
+                  padding: "0 1rem",
+                }}
+              />
+              <Typography
+                variant={"h6"}
+                sx={{
+                  overflow: "visible",
+                  p: 1.2,
+                }}
+              >
+                {item.price}
+              </Typography>
             </Box>
           ))}
         </Box>
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
+            flexDirection: "row",
+            justifyContent: "space-between",
             alignItems: "center",
-            paddingBottom: "20px",
-            marginTop: "auto",
+            px: 3,
           }}
         >
-          <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
-            style={{
-              minWidth: "10vw",
-            }}
+          <Typography
+            noWrap
+            variant={"h6"}
             sx={{
-              margin: 1,
+              overflow: "visible",
+              p: 1.2,
             }}
           >
-            Submit
-          </Button>
+            Total:
+          </Typography>
+          <hr
+            style={{
+              width: "100%",
+              padding: "0 1rem",
+            }}
+          />
+          <Typography
+            variant={"h6"}
+            sx={{
+              overflow: "visible",
+              p: 1.2,
+            }}
+          >
+            {cart
+              .map((item) => item.price)
+              .reduce(
+                (accumulator, currentValue) => accumulator + currentValue,
+                0,
+              )}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            pb: "20px",
+            mt: "auto",
+          }}
+        >
           <Button
             type="button"
             variant="contained"
@@ -104,6 +167,19 @@ function GiftRequestPage() {
             onClick={() => setCart([])}
           >
             Clear
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleSubmit}
+            style={{
+              minWidth: "10vw",
+            }}
+            sx={{
+              margin: 1,
+            }}
+          >
+            Submit
           </Button>
         </Box>
       </Box>
