@@ -34,12 +34,15 @@ function GiftRequestPage() {
         sx={{
           display: "flex",
           flexDirection: "column",
+          justifyContent: "space-evenly",
+          height: "fit-content",
           bgcolor: "#FFFFFF",
           width: { xs: "60vw", md: "30vw" },
-          height: "100vh",
-          position: "sticky",
+          position: "relative",
           top: 0,
           left: 0,
+          gap: 5,
+          overflowY: "scroll",
         }}
       >
         <Box>
@@ -61,36 +64,82 @@ function GiftRequestPage() {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
+                alignItems: "center",
                 px: 3,
               }}
             >
-              <Typography variant={"h6"}>{item.name}</Typography>
-              <Typography variant={"h6"}>{item.price}</Typography>
+              <Typography
+                noWrap
+                variant={"h6"}
+                sx={{
+                  overflow: "visible",
+                  p: 1.2,
+                }}
+              >
+                {item.name}
+              </Typography>
+              <hr
+                style={{
+                  width: "100%",
+                  padding: "0 1rem",
+                }}
+              />
+              <Typography
+                variant={"h6"}
+                sx={{
+                  overflow: "visible",
+                  p: 1.2,
+                }}
+              >
+                {item.price}
+              </Typography>
             </Box>
           ))}
         </Box>
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
+            flexDirection: "row",
+            justifyContent: "space-between",
             alignItems: "center",
-            paddingBottom: "20px",
-            marginTop: "auto",
+            px: 3,
           }}
         >
-          <Button
-            type="submit"
-            variant="contained"
-            color="secondary"
-            style={{
-              minWidth: "10vw",
-            }}
+          <Typography
+            noWrap
+            variant={"h6"}
             sx={{
-              margin: 1,
+              overflow: "visible",
+              p: 1.2,
             }}
           >
-            Submit
-          </Button>
+            Total:
+          </Typography>
+          <hr
+            style={{
+              width: "100%",
+              padding: "0 1rem",
+            }}
+          />
+          <Typography
+            variant={"h6"}
+            sx={{
+              overflow: "visible",
+              p: 1.2,
+            }}
+          >
+            12345
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            pb: "20px",
+            mt: "auto",
+          }}
+        >
           <Button
             type="button"
             variant="contained"
@@ -104,6 +153,19 @@ function GiftRequestPage() {
             onClick={() => setCart([])}
           >
             Clear
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            style={{
+              minWidth: "10vw",
+            }}
+            sx={{
+              margin: 1,
+            }}
+          >
+            Submit
           </Button>
         </Box>
       </Box>
