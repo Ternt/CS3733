@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { SanitationFormFields } from "./sanitationFields.ts";
 import RequestList from "../../helpers/requestList.ts";
 import Checkbox from "../../components/Form Elements/Checkbox.tsx";
-import Radio from "../../components/Form Elements/Radio.tsx";
+//import Radio from "../../components/Form Elements/Radio.tsx";
 import sanitationImage from "../../assets/sanitation_background.jpg";
 import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import {
@@ -18,6 +18,10 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormLabel,
 } from "@mui/material";
 
 const sanitationRequests = new RequestList();
@@ -54,8 +58,8 @@ function SanitationRequestForm() {
     setFormInput({ ...formInput, type: checkedBoxes });
   }
 
-  function updateSizeInput(input: string) {
-    setFormInput({ ...formInput, size: input });
+  function updateSizeInput(e: ChangeEvent<HTMLInputElement>) {
+    setFormInput({ ...formInput, size: (e.target as HTMLInputElement).value });
   }
 
   function isComplete(): boolean {
@@ -182,12 +186,30 @@ function SanitationRequestForm() {
               items={["Solid Waste", "Liquid Spill", "Other"]}
             />
 
-            <Radio
-              label={"Mess Size"}
+            <FormLabel id="mess-size">Mess Size</FormLabel>
+            <RadioGroup
+              row
+              name="mess-size"
+              aria-labelledby="mess-size"
+              value={formInput.size}
               onChange={updateSizeInput}
-              groupName={"messSize"}
-              items={["Small", "Medium", "Large"]}
-            />
+            >
+              <FormControlLabel
+                value="small"
+                control={<Radio />}
+                label="Small"
+              />
+              <FormControlLabel
+                value="medium"
+                control={<Radio />}
+                label="Medium"
+              />
+              <FormControlLabel
+                value="large"
+                control={<Radio />}
+                label="Large"
+              />
+            </RadioGroup>
 
             <TextField
               required
