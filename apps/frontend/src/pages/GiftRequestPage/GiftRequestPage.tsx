@@ -19,6 +19,7 @@ export const StoreContext = React.createContext(null);
 
 function GiftRequestPage() {
   const initialCart: Item[] = [];
+
   const [cart, setCart] = useState(initialCart);
 
   function addItem(item: Item) {
