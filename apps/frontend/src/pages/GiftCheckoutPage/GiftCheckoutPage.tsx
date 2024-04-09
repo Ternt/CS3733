@@ -7,6 +7,23 @@ import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableHead from "@mui/material/TableHead";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+type Form = {
+  name: string;
+  priority: string;
+  card: string;
+  location: string;
+  shippingType: string;
+  status: string;
+  itemIDs: string[];
+};
 
 function GiftCheckoutPage() {
   const location = useLocation();
@@ -20,6 +37,9 @@ function GiftCheckoutPage() {
     shippingType: "",
     status: "",
   });
+
+  const initialForms: Form[] = [];
+  const [forms, setForms] = useState(initialForms);
 
   function isComplete(): boolean {
     return (
@@ -38,7 +58,19 @@ function GiftCheckoutPage() {
   };
 
   function handleSubmit() {
-    navigate("/gift-request");
+    setForms([
+      ...forms,
+      {
+        name: data.name,
+        priority: data.priority,
+        card: data.card,
+        location: data.location,
+        shippingType: data.shippingType,
+        status: data.status,
+        itemIDs: cart.map((item: Item) => item.id).join(", "),
+      },
+    ]);
+    handleClear();
   }
 
   function handleClear() {
@@ -356,6 +388,42 @@ function GiftCheckoutPage() {
                 </Button>
               </Box>
             </Box>
+
+            <TableContainer component={Paper}>
+              <Table
+                sx={{
+                  [`& .${tableCellClasses.root}`]: {
+                    border: "none",
+                  },
+                }}
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="left">Name</TableCell>
+                    <TableCell align="left">Priority</TableCell>
+                    <TableCell align="left">Card</TableCell>
+                    <TableCell align="left">Location</TableCell>
+                    <TableCell align="left">Shipping Type</TableCell>
+                    <TableCell align="left">Status</TableCell>
+                    <TableCell align="left">Item IDs</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {forms.map((form) => (
+                    <TableRow>
+                      <TableCell align="left">{form.name}</TableCell>
+                      <TableCell align="left">{form.priority}</TableCell>
+                      <TableCell align="left">{form.card}</TableCell>
+                      <TableCell align="left">{form.location}</TableCell>
+                      <TableCell align="left">{form.shippingType}</TableCell>
+                      <TableCell align="left">{form.status}</TableCell>
+                      <TableCell align="left">{form.itemIDs}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Box>
         </Box>
       </Box>
