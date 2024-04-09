@@ -13,6 +13,7 @@ import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
 import GiftCheckoutPage from "./pages/GiftCheckoutPage/GiftCheckoutPage.tsx";
 import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
 import FlowerCheckoutPage from "./pages/FlowerCheckoutPage/FlowerCheckoutPage.tsx";
+import SanitationRequestForm from "./components/Sanitation Request/SanitaitonRequestForm.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -24,6 +25,10 @@ function App() {
         {
           path: "/service-request",
           element: <ServiceRequest />,
+        },
+        {
+          path: "/sanitation",
+          element: <SanitationRequestForm />,
         },
         {
           path: "",
