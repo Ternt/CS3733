@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 
 type dropdownProps = {
   onChange: (value: string) => void;
+  value: string;
 };
 
 type selectNode = {
@@ -30,7 +31,6 @@ function LocationSelectFormDropdown(props: dropdownProps) {
   const nodesRef = useRef(nodes);
 
   function getNodes(): selectNode[] {
-    console.log("aAa");
     if (nodes !== null) {
       return nodes!;
     } else {
@@ -47,34 +47,33 @@ function LocationSelectFormDropdown(props: dropdownProps) {
     axios.get("/api/map").then((res: AxiosResponse) => {
       const ns: selectNode[] = [];
 
-      const ss: string = "";
       for (const r of res.data.nodes.filter(
         (node) => node.nodeType !== "HALL",
       )) {
         const n: selectNode = { nodeID: r.nodeID, name: r.longName };
         ns.push(n);
       }
-      console.log(ss);
 
       setNodes(ns);
     });
   }, []);
 
   return (
-    <>
-      <TextField
-        required
-        select
-        id="location"
-        label={"Location"}
-        margin="normal"
-        onChange={handleLocationInput}
-      >
-        {getNodes().map((node) => (
-          <MenuItem value={node.nodeID}>{node.name}</MenuItem>
-        ))}
-      </TextField>
-    </>
+    <TextField
+      required
+      select
+      id="location"
+      label={"Location"}
+      margin="normal"
+      onChange={handleLocationInput}
+      value={props.value}
+    >
+      {getNodes().map((node) => (
+        <MenuItem value={node.nodeID} key={node.nodeID}>
+          {node.name}
+        </MenuItem>
+      ))}
+    </TextField>
   );
 }
 

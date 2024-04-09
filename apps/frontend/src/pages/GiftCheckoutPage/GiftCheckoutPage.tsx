@@ -124,8 +124,9 @@ function GiftCheckoutPage() {
               alignItems: "top",
             }}
           >
-            {cart.map((item: Item) => (
+            {cart.map((item: Item, index: number) => (
               <Box
+                key={index}
                 sx={{
                   display: "flex",
                   flexDirection: "row",
@@ -313,6 +314,7 @@ function GiftCheckoutPage() {
                   onChange={(v: string) => {
                     setData({ ...data, location: v });
                   }}
+                  value={data.location}
                 />
 
                 <TextField
