@@ -39,12 +39,6 @@ type mapCanvasProps = {
   startLocation: string;
 };
 
-/**
- * Make an API call to determine the path between two nodes.
- * @param startNode The nodeID of the starting node
- * @param endNode The nodeID of the ending node
- * @param endCoord The XY coordinate of a selected point, if desired
- */
 function getPath(
   startNode: string,
   endNode: string,
@@ -107,13 +101,6 @@ function createPath(
   }
 }
 
-/**
- * Draw a line on the canvas between the specified positions
- * @param startX X-coordinate of the start point
- * @param startY Y-coordinate of the start point
- * @param endX X-coordinate of the end point
- * @param endY Y-coordinate of the end point
- */
 function drawLine(
   a: vec2,
   b: vec2,
@@ -171,11 +158,11 @@ export function MapCanvas(props: mapCanvasProps) {
 
       for (const r of res.data.edges) {
         const start: node | undefined = ns.find((n: node) => {
-          return n.nodeID === r.startNodeID;
+          return n.nodeID === r["startNodeID"];
         });
         if (start === undefined) continue;
         const end: node | undefined = ns.find((n: node) => {
-          return n.nodeID === r.endNodeID;
+          return n.nodeID === r["endNodeID"];
         });
         if (end === undefined) continue;
         const e: edge = { startNode: start, endNode: end };
@@ -205,13 +192,9 @@ export function MapCanvas(props: mapCanvasProps) {
       // Draw circle
       context.beginPath();
       context.lineWidth = 15;
-      context.arc(
-        selectedPoint.x,
-        selectedPoint.y,
-        vieweingFloor === selectedPoint.z ? 8 : 0,
-        0,
-        2 * Math.PI,
-      );
+      if (vieweingFloor === selectedPoint.z) {
+        context.arc(selectedPoint.x, selectedPoint.y, 8, 0, 2 * Math.PI);
+      }
       context.stroke();
       const closestNode = pointHelper({
         pos: selectedPoint,
