@@ -85,34 +85,63 @@ export default function MedicineDeliveryForm() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Container sx={{ margin: 0 }}>
+        <Container
+          sx={{
+            margin: 0,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Box
             sx={{
-              width: 507,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "500px",
               height: "100vh",
             }}
           >
             <Box
               sx={{
                 bgcolor: "primary.main",
-                textAlign: "center",
+                width: "500px",
                 paddingTop: "20px",
                 paddingBottom: "20px",
+                textAlign: "center",
               }}
             >
-              <Typography variant="h5" sx={{ color: "secondary.main" }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  color: "secondary.main",
+                }}
+              >
                 MEDICINE DELIVERY
               </Typography>
             </Box>
-            <Box sx={{ bgcolor: "#FF0000", paddingBottom: 3 }}>
+            <Box
+              sx={{
+                width: "500px",
+                bgcolor: "background.default",
+              }}
+            >
               <Box
                 sx={{
                   display: "flex",
+                  flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <FormControl variant="filled" sx={{ m: 3, width: 210 }}>
+                <FormControl
+                  variant="filled"
+                  sx={{
+                    m: 3,
+                    width: 210,
+                  }}
+                >
                   <InputLabel id="medicine-label">Medicine</InputLabel>
                   <Select
                     value={formValues.medicine}
@@ -136,41 +165,64 @@ export default function MedicineDeliveryForm() {
               </Box>
               <Box
                 sx={{
+                  px: "80px",
                   display: "flex",
-                  alignItems: "center",
+                  flexDirection: "column",
                   justifyContent: "center",
                 }}
               >
-                <FormControl>
-                  <FormLabel id={"medicine-form"}>Form</FormLabel>
-                  <RadioGroup row name="form" onChange={handleSelectChange}>
-                    <FormControlLabel
-                      value="Tab or Cap"
-                      control={<Radio />}
-                      label="Tab or Cap"
-                    />
-                    <FormControlLabel
-                      value="Cream"
-                      control={<Radio />}
-                      label="Cream"
-                    />
-                    <FormControlLabel
-                      value="Inhaler"
-                      control={<Radio />}
-                      label="Inhaler"
-                    />
-                    <FormControlLabel
-                      value="Chewable"
-                      control={<Radio />}
-                      label="Chewable"
-                    />
-                    <FormControlLabel
-                      value="Liquid"
-                      control={<Radio />}
-                      label="Liquid"
-                    />
-                  </RadioGroup>
-                </FormControl>
+                <FormLabel id={"medicine-form"}>Form</FormLabel>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItem: "center",
+                  }}
+                >
+                  <FormControl
+                    sx={{
+                      width: "200px",
+                      marginX: 3,
+                    }}
+                  >
+                    <RadioGroup name="form" onChange={handleSelectChange}>
+                      <FormControlLabel
+                        value="Tab or Cap"
+                        control={<Radio />}
+                        label="Tab or Cap"
+                      />
+                      <FormControlLabel
+                        value="Cream"
+                        control={<Radio />}
+                        label="Cream"
+                      />
+                      <FormControlLabel
+                        value="Inhaler"
+                        control={<Radio />}
+                        label="Inhaler"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                  <FormControl
+                    sx={{
+                      width: "150px",
+                      marginX: 3,
+                    }}
+                  >
+                    <RadioGroup name="form" onChange={handleSelectChange}>
+                      <FormControlLabel
+                        value="Chewable"
+                        control={<Radio />}
+                        label="Chewable"
+                      />
+                      <FormControlLabel
+                        value="Liquid"
+                        control={<Radio />}
+                        label="Liquid"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Box>
               </Box>
               <Box
                 sx={{
@@ -285,7 +337,14 @@ export default function MedicineDeliveryForm() {
                   justifyContent: "center",
                 }}
               >
-                <Button variant="contained" onClick={handleSubmit}>
+                <Button
+                  variant="contained"
+                  onClick={handleSubmit}
+                  sx={{
+                    backgroundColor: "secondary.main",
+                    color: "primary.main",
+                  }}
+                >
                   Submit
                 </Button>
               </Box>

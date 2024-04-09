@@ -1,6 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import ServiceRequest from "./serviceRequest.tsx";
+//import ServiceRequest from "./serviceRequest.tsx";
 import { ThemeProvider } from "@mui/material/styles"; // Import ThemeProvider
 import CustomTheme from "./components/CustomTheme.tsx"; // Import your custom theme
 import MapPage from "./routes/mapPage.tsx";
@@ -9,7 +9,7 @@ import ServiceRequests from "./showAllSR.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
 import NavBar from "./components/navbar/navbar.tsx";
-
+import MedicineDeliveryForm from "./pages/MedicineDeliveryRequest.tsx";
 function App() {
   const router = createBrowserRouter([
     {
@@ -19,7 +19,7 @@ function App() {
       children: [
         {
           path: "/service-request",
-          element: <ServiceRequest />,
+          element: <MedicineDeliveryForm />,
         },
         {
           path: "",
