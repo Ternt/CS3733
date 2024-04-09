@@ -1,9 +1,14 @@
-import "./LoginPage.scss";
-import Card from "../../components/Card/Card.tsx";
 import { useState } from "react";
 import { LoginCredentials } from "../../common/LoginCredentials.ts";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, FormControl, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  FormControl,
+  TextField,
+  Typography,
+} from "@mui/material";
 import background from "./login-page-background.png";
 
 export default function LoginPage() {
@@ -38,27 +43,34 @@ export default function LoginPage() {
 
   return (
     <>
-      {/*
-          <div className={"login-hero"}>
-              <Card>
-                  <img src={logo} alt="Crap"/>
-                  <h1><strong>Need help finding something?</strong></h1>
-                  <h2><strong>Try this kiosk</strong></h2>
-                  <Button href="/" color={"secondary"} variant="contained" fullWidth>
-                      Go to Map
-                  </Button>
-              </Card>
-          </div>
-          */}
-
       <img
         src={background}
         alt={"login-background"}
-        className={"login-background"}
+        style={{
+          width: "100vw",
+          height: "50vh",
+          objectFit: "cover",
+        }}
       />
-      <Box className={"login-page"}>
-        <Card>
-          <h1>Login</h1>
+      <Box>
+        <Card
+          sx={{
+            width: "20vw",
+            position: "absolute",
+            left: "50%",
+            top: "60%",
+            transform: "translate(-50%,-50%)",
+            boxShadow: 5,
+            px: 5,
+            pt: 5,
+            pb: 10,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "flex-start",
+          }}
+        >
+          <Typography variant={"h5"}>Login</Typography>
           <FormControl fullWidth>
             <TextField
               id="input-with-sx"
@@ -82,7 +94,12 @@ export default function LoginPage() {
             >
               Login
             </Button>
-            <p className={"error-message"}>{error}</p>
+            <Typography
+              variant={"subtitle2"}
+              sx={{ color: "red", textAlign: "center" }}
+            >
+              {error}
+            </Typography>
           </FormControl>
         </Card>
       </Box>
