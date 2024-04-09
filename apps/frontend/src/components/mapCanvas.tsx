@@ -189,6 +189,10 @@ export function MapCanvas(props: mapCanvasProps) {
     image.onload = () => {
       context.drawImage(image, 0, 0, canvasElement.width, canvasElement.height); // Change parameters to zoom in and pan around the image
 
+      if (selectedPoint.x === -1 || selectedPoint.y === -1) {
+        return;
+      }
+
       // Draw circle
       context.beginPath();
       context.lineWidth = 15;
