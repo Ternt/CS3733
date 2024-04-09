@@ -25,7 +25,7 @@ type Form = {
   itemIDs: string[];
 };
 
-function GiftCheckoutPage() {
+function FlowerCheckoutPage() {
   const location = useLocation();
   const { cart } = location.state;
 
@@ -113,7 +113,7 @@ function GiftCheckoutPage() {
         >
           <Box>
             <Typography p={3} textAlign={"center"} variant={"h3"}>
-              Buy Gifts
+              Buy Flowers
             </Typography>
           </Box>
           <Box
@@ -431,4 +431,4 @@ function GiftCheckoutPage() {
   );
 }
 
-export default GiftCheckoutPage;
+export default FlowerCheckoutPage;

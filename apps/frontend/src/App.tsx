@@ -11,6 +11,8 @@ import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
 import NavBar from "./components/navbar/navbar.tsx";
 import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
 import GiftCheckoutPage from "./pages/GiftCheckoutPage/GiftCheckoutPage.tsx";
+import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
+import FlowerCheckoutPage from "./pages/FlowerCheckoutPage/FlowerCheckoutPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -42,6 +44,14 @@ function App() {
         {
           path: "/gift-checkout",
           element: <GiftCheckoutPage />,
+        },
+        {
+          path: "/flower-request",
+          element: <FlowerRequestPage />,
+        },
+        {
+          path: "/flower-checkout",
+          element: <FlowerCheckoutPage />,
         },
         {
           path: "/tables",
