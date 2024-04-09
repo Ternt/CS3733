@@ -9,6 +9,7 @@ import ServiceRequests from "./showAllSR.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
 import NavBar from "./components/navbar/navbar.tsx";
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -36,6 +37,10 @@ function App() {
         {
           path: "/tables",
           element: <MapDataDisplay />,
+        },
+        {
+          path: "/admin",
+          element: <AdminDashboard />,
         },
       ],
     },

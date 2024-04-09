@@ -5,12 +5,14 @@ const MAX_SNAP_DIST = 75000; // Maximum distance from an edge that will snap to 
 type findClosestPointOnGraphProps = {
   x: number;
   y: number;
+  floor: number;
   nodes: node[];
   edges: edge[];
 };
 type findClosestNodeOnGraphProps = {
   x: number;
   y: number;
+  floor: number;
   nodes: node[];
 };
 type findEdgeboundPathProps = {
@@ -45,6 +47,10 @@ export function graphHelper(props: findClosestPointOnGraphProps) {
     const startNode = edge.startNode;
     const endNode = edge.endNode;
     if (!startNode || !endNode) continue;
+    if (startNode.point.z !== props.floor || endNode.point.z !== props.floor) {
+      console.log(startNode.point.z, props.floor);
+      continue;
+    }
 
     const pa: vec2 = props.nodes.filter(
       (node) => node.nodeID == startNode.nodeID,
@@ -68,8 +74,9 @@ export function graphHelper(props: findClosestPointOnGraphProps) {
     const d: vec2 = {
       x: pa.x + t * (pb.x - pa.x),
       y: pa.y + t * (pb.y - pa.y),
+      z: -1,
     };
-    const mousePos: vec2 = { x: props.x, y: props.y };
+    const mousePos: vec2 = { x: props.x, y: props.y, z: -1 };
     const dist: number = distance(d, mousePos);
     if (dist < closestDist && dist <= MAX_SNAP_DIST) {
       closestDist = dist;
@@ -91,7 +98,7 @@ export function pointHelper(props: findClosestNodeOnGraphProps) {
 
   for (let i = 0; i < props.nodes.length; i++) {
     const node = props.nodes[i];
-    if (!node) continue;
+    if (!node || node.point.z !== props.floor) continue;
 
     const pn: vec2 = props.nodes.filter(
       (nodeItem) => nodeItem.nodeID === node.nodeID,
@@ -103,7 +110,7 @@ export function pointHelper(props: findClosestNodeOnGraphProps) {
     // let x2 = endNode.x * zoomScale + offset.x;
     // let y2 = endNode.y * zoomScale + offset.y;
 
-    const mousePos: vec2 = { x: props.x, y: props.y };
+    const mousePos: vec2 = { x: props.x, y: props.y, z: -1 };
     const dist: number = distance(pn, mousePos);
     if (dist < closestDist) {
       closestDist = dist;

@@ -7,8 +7,33 @@ import {
 } from "../helpers/clickCorrectionMath.ts";
 import { vec2, node, edge } from "../helpers/typestuff.ts";
 
+import L0 from "../assets/BWHospitalMaps/00_thelowerlevel2.png";
+import L1 from "../assets/BWHospitalMaps/00_thelowerlevel1.png";
+import L2 from "../assets/BWHospitalMaps/01_thefirstfloor.png";
+import L3 from "../assets/BWHospitalMaps/02_thesecondfloor.png";
+import L4 from "../assets/BWHospitalMaps/03_thethirdfloor.png";
+
+const MAPS = [L0, L1, L2, L3, L4];
+
+function FLOOR_NAME_TO_INDEX(f: string) {
+  switch (f) {
+    case "L2":
+      return 0;
+    case "L1":
+      return 1;
+    case "1":
+      return 2;
+    case "2":
+      return 3;
+    case "3":
+      return 4;
+  }
+  console.error("No index for " + f);
+  return -1;
+}
+
 type mapCanvasProps = {
-  image: string;
+  floor: number;
   startLocation: string;
 };
 
@@ -26,7 +51,12 @@ function getPath(
   ctx: CanvasRenderingContext2D,
 ) {
   axios
-    .get("/api/astar-api?startNode=" + startNode + "&endNode=" + endNode)
+    .get(
+      "/api/astar-api?algorithm=bfs&startNode=" +
+        startNode +
+        "&endNode=" +
+        endNode,
+    )
     .then((res) => {
       createPath(res.data.path, endCoord, nodes, ctx);
     });
@@ -120,7 +150,11 @@ export function MapCanvas(props: mapCanvasProps) {
 
       const ss: string = "";
       for (const r of res.data.nodes) {
-        const v: vec2 = { x: r.xcoord, y: r.ycoord };
+        const v: vec2 = {
+          x: r.xcoord,
+          y: r.ycoord,
+          z: FLOOR_NAME_TO_INDEX(r.floor),
+        };
         const n: node = { nodeID: r.nodeID, point: v };
         ns.push(n);
       }
@@ -143,6 +177,7 @@ export function MapCanvas(props: mapCanvasProps) {
       setEdges(es);
     });
   }, []);
+
   useEffect(() => {
     console.log(props.startLocation);
     console.log("aaa");
@@ -152,7 +187,7 @@ export function MapCanvas(props: mapCanvasProps) {
     }
 
     const image: CanvasImageSource = new Image();
-    image.src = props.image;
+    image.src = MAPS[props.floor];
     const context = canvasElement.getContext("2d");
     if (context === null) return;
 
@@ -168,8 +203,7 @@ export function MapCanvas(props: mapCanvasProps) {
       const y =
         ((e.clientY - rect.top) / (rect.bottom - rect.top)) *
         canvasElement.height;
-      context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      context.drawImage(image, 0, 0, 5000, 3400); // Change parameters to zoom in and pan around the image
+      context.drawImage(image, 0, 0, canvasElement.width, canvasElement.height); // Change parameters to zoom in and pan around the image
       // Move point to nearest edge
       if (nodesRef.current === null || edgesRef.current === null) return;
       const coords = graphHelper({
@@ -177,6 +211,7 @@ export function MapCanvas(props: mapCanvasProps) {
         y,
         nodes: nodesRef.current,
         edges: edgesRef.current,
+        floor: props.floor,
       });
       if (coords === null) return;
 
@@ -190,6 +225,7 @@ export function MapCanvas(props: mapCanvasProps) {
         x: coords.x,
         y: coords.y,
         nodes: nodesRef.current,
+        floor: props.floor,
       });
       if (closestNode === null) return;
 
@@ -203,7 +239,7 @@ export function MapCanvas(props: mapCanvasProps) {
     }
     canvasElement.addEventListener("click", render);
     image.onload = () => {
-      context.drawImage(image, 0, 0, 5000, 3400); // Change parameters to zoom in and pan around the image
+      context.drawImage(image, 0, 0, canvasElement.width, canvasElement.height); // Change parameters to zoom in and pan around the image
     };
 
     return () => canvasElement.removeEventListener("click", render);
@@ -211,7 +247,12 @@ export function MapCanvas(props: mapCanvasProps) {
 
   return (
     <>
-      <canvas width={5000} height={3400} ref={canvasRef} />
+      <canvas
+        width={5000}
+        height={3400}
+        style={{ width: "100%" }}
+        ref={canvasRef}
+      />
     </>
   );
 }
