@@ -14,6 +14,12 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 const theme = createTheme({
@@ -88,6 +94,7 @@ export default function MedicineDeliveryForm() {
           sx={{
             margin: 0,
             display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -344,6 +351,43 @@ export default function MedicineDeliveryForm() {
                 </Button>
               </Box>
             </Box>
+          </Box>
+
+          <Box sx={{ display: "flex", margin: 8 }}>
+            <TableContainer>
+              <Table>
+                <TableHead
+                  sx={{
+                    backgroundColor: "#012d5a",
+                  }}
+                >
+                  <TableRow>
+                    <TableCell sx={{ color: "#f6bd38" }}>Name</TableCell>
+                    <TableCell sx={{ color: "#f6bd38" }}>Priority</TableCell>
+                    <TableCell sx={{ color: "#f6bd38" }}>Location</TableCell>
+                    <TableCell sx={{ color: "#f6bd38" }}>Type</TableCell>
+                    <TableCell sx={{ color: "#f6bd38" }}>Size</TableCell>
+                    <TableCell sx={{ color: "#f6bd38" }}>
+                      Assignment Status
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {formData.map((request: form, index: number) => (
+                    <TableRow key={index}>
+                      <TableCell component="th" scope="row">
+                        {request.medicine}
+                      </TableCell>
+                      <TableCell>{request.dosage}</TableCell>
+                      <TableCell>{request.location}</TableCell>
+                      <TableCell>{request.physicianName}</TableCell>
+                      <TableCell>{request.patientName}</TableCell>
+                      <TableCell>{request.priority}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Box>
         </Box>
       </ThemeProvider>
