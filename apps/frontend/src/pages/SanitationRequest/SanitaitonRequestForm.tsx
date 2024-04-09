@@ -6,11 +6,8 @@ import Radio from "../../components/Form Elements/Radio.tsx";
 import sanitationImage from "../../assets/sanitation_background.jpg";
 import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import {
-  Grid,
   TextField,
   FormControl,
-  InputLabel,
-  Select,
   MenuItem,
   Button,
   Box,
@@ -21,10 +18,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  // RadioGroup,
-  // FormLabel,
-  // FormControlLabel,
-  // Radio
 } from "@mui/material";
 
 const sanitationRequests = new RequestList();
@@ -36,18 +29,19 @@ function SanitationRequestForm() {
 
   const [formInput, setFormInput] = useState<SanitationFormFields>({
     name: "",
-    priority: "Low",
+    priority: "",
     location: "",
-    type: "Unspecified",
-    size: "Unspecified",
-    assignmentStatus: "Unassigned",
+    type: "",
+    size: "",
+    assignmentStatus: "",
   });
 
   function handleNameInput(e: ChangeEvent<HTMLInputElement>) {
     setFormInput({ ...formInput, name: e.target.value });
   }
 
-  function handleTypeInput() {
+  function handleTypeInput(v: string) {
+    console.log(v);
     // @ts-expect-error Specified type more specifically and typescript doesn't like that
     const boxes: NodeListOf<HTMLInputElement> =
       document.getElementsByName("type");
@@ -64,6 +58,17 @@ function SanitationRequestForm() {
     setFormInput({ ...formInput, size: input });
   }
 
+  function isComplete(): boolean {
+    return (
+      formInput.name != "" &&
+      formInput.priority != "" &&
+      formInput.location != "" &&
+      formInput.type != "" &&
+      formInput.size != "" &&
+      formInput.assignmentStatus != ""
+    );
+  }
+
   function submitForm() {
     setSubmittedRequests((prevRequests) => [...prevRequests, formInput]);
     sanitationRequests.addRequestToList(formInput);
@@ -75,11 +80,11 @@ function SanitationRequestForm() {
     setFormInput({
       ...formInput,
       name: "",
-      priority: "Low",
+      priority: "",
       location: "",
-      type: "Unspecified",
-      size: "Unspecified",
-      assignmentStatus: "Unassigned",
+      type: "",
+      size: "",
+      assignmentStatus: "",
     });
     const form = document.getElementById("sanitationForm");
     if (form == null) {
@@ -127,98 +132,115 @@ function SanitationRequestForm() {
             justifyContent: "center",
           }}
         >
-          <Grid container spacing={2} p={10} pt={2}>
-            <Grid item xs={12}>
-              <InputLabel>Employee Name</InputLabel>
-              <TextField
-                onChange={handleNameInput}
-                value={formInput.name}
-                fullWidth
-              />
-            </Grid>
+          <FormControl
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "top",
+            }}
+          >
+            <TextField
+              required
+              label="Employee Name"
+              onChange={handleNameInput}
+              margin="normal"
+              value={formInput.name}
+              fullWidth
+            />
 
-            <Grid item xs={12}>
-              <InputLabel>Priority</InputLabel>
-              <FormControl fullWidth>
-                <Select
-                  value={formInput.priority}
-                  onChange={(event) => {
-                    setFormInput({
-                      ...formInput,
-                      priority: event.target.value,
-                    });
-                  }}
-                >
-                  <MenuItem value={"Low"}>Low</MenuItem>
-                  <MenuItem value={"Medium"}>Medium</MenuItem>
-                  <MenuItem value={"High"}>High</MenuItem>
-                  <MenuItem value={"Emergency"}>Emergency</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <LocationSelectFormDropdown
-                  value={formInput.location}
-                  onChange={(v: string) => {
-                    setFormInput({ ...formInput, location: v });
-                  }}
-                />
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12}>
-              <Checkbox
-                label={"Type of mess (Choose all that apply):"}
-                onChange={handleTypeInput}
-                groupName={"type"}
-                items={["Solid Waste", "Liquid Spill", "Other"]}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <Radio
-                label={"Mess Size"}
-                onChange={updateSizeInput}
-                groupName={"messSize"}
-                items={["Small", "Medium", "Large"]}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <InputLabel>Assignment Status:</InputLabel>
-              <FormControl fullWidth>
-                <Select
-                  value={formInput.assignmentStatus}
-                  onChange={(event) => {
-                    setFormInput({
-                      ...formInput,
-                      assignmentStatus: event.target.value,
-                    });
-                  }}
-                >
-                  <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-                  <MenuItem value={"Assigned"}>Assigned</MenuItem>
-                  <MenuItem value={"In Progress"}>In Progress</MenuItem>
-                  <MenuItem value={"Closed"}>Closed</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              style={{ display: "flex", justifyContent: "space-between" }}
+            <TextField
+              required
+              select
+              id="priority-select"
+              label={"Priority"}
+              margin="normal"
+              value={formInput.priority}
+              onChange={(event) => {
+                setFormInput({
+                  ...formInput,
+                  priority: event.target.value,
+                });
+              }}
             >
-              <Button variant="contained" onClick={submitForm}>
-                Submit Request
-              </Button>
-              <Button variant="outlined" onClick={clearForm}>
+              <MenuItem value={"Low"}>Low</MenuItem>
+              <MenuItem value={"Medium"}>Medium</MenuItem>
+              <MenuItem value={"High"}>High</MenuItem>
+              <MenuItem value={"Emergency"}>Emergency</MenuItem>
+            </TextField>
+
+            <LocationSelectFormDropdown
+              value={formInput.location}
+              onChange={(v: string) => {
+                setFormInput({ ...formInput, location: v });
+              }}
+            />
+
+            <Checkbox
+              label={"Type of mess (Choose all that apply):"}
+              onChange={handleTypeInput}
+              groupName={"type"}
+              items={["Solid Waste", "Liquid Spill", "Other"]}
+            />
+
+            <Radio
+              label={"Mess Size"}
+              onChange={updateSizeInput}
+              groupName={"messSize"}
+              items={["Small", "Medium", "Large"]}
+            />
+
+            <TextField
+              required
+              select
+              value={formInput.assignmentStatus}
+              label={"Status"}
+              margin="normal"
+              onChange={(event) => {
+                setFormInput({
+                  ...formInput,
+                  assignmentStatus: event.target.value,
+                });
+              }}
+            >
+              <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
+              <MenuItem value={"Assigned"}>Assigned</MenuItem>
+              <MenuItem value={"In Progress"}>In Progress</MenuItem>
+              <MenuItem value={"Closed"}>Closed</MenuItem>
+            </TextField>
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+              pb={"30px"}
+            >
+              <Button
+                type="button"
+                variant="contained"
+                color="secondary"
+                sx={{
+                  margin: 1,
+                }}
+                onClick={clearForm}
+              >
                 Clear
               </Button>
-            </Grid>
-          </Grid>
+
+              <Button
+                type="button"
+                variant="contained"
+                color="secondary"
+                sx={{
+                  margin: 1,
+                }}
+                disabled={!isComplete()}
+                onClick={submitForm}
+              >
+                Submit
+              </Button>
+            </Box>
+          </FormControl>
         </form>
       </Box>
 
