@@ -42,7 +42,14 @@ function GiftCheckoutPage() {
   }
 
   function handleClear() {
-    navigate("/gift-request");
+    setData({
+        name: "",
+        priority: "",
+        card: "",
+        location: "",
+        shippingType: "",
+        status: "",
+    });
   }
 
   return (
@@ -233,6 +240,7 @@ function GiftCheckoutPage() {
                   variant="outlined"
                   margin="normal"
                   color="primary"
+                  value={data.name}
                   onChange={(e) => {
                     setData({ ...data, name: e.target.value });
                   }}
@@ -244,6 +252,7 @@ function GiftCheckoutPage() {
                   id="priority-select"
                   label={"Priority"}
                   margin="normal"
+                  value={data.priority}
                   onChange={(e) => {
                     setData({ ...data, priority: e.target.value });
                   }}
@@ -262,6 +271,7 @@ function GiftCheckoutPage() {
                   margin="normal"
                   color="primary"
                   fullWidth
+                  value={data.card}
                   onChange={(e) => {
                     setData({ ...data, card: e.target.value });
                   }}
@@ -279,6 +289,7 @@ function GiftCheckoutPage() {
                   id={"shipping-type"}
                   label={"Shipping Type"}
                   margin="normal"
+                  value={data.shippingType}
                   onChange={(e) => {
                     setData({ ...data, shippingType: e.target.value });
                   }}
@@ -293,6 +304,7 @@ function GiftCheckoutPage() {
                   id={"progress-select"}
                   label={"Status"}
                   margin="normal"
+                  value={data.status}
                   onChange={(e) => {
                     setData({ ...data, status: e.target.value });
                   }}
