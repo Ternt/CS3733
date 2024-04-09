@@ -94,9 +94,9 @@ export default function MedicineDeliveryForm() {
           sx={{
             margin: 0,
             display: "flex",
-            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: "column",
           }}
         >
           <Box
@@ -362,14 +362,18 @@ export default function MedicineDeliveryForm() {
                   }}
                 >
                   <TableRow>
-                    <TableCell sx={{ color: "#f6bd38" }}>Name</TableCell>
-                    <TableCell sx={{ color: "#f6bd38" }}>Priority</TableCell>
-                    <TableCell sx={{ color: "#f6bd38" }}>Location</TableCell>
-                    <TableCell sx={{ color: "#f6bd38" }}>Type</TableCell>
-                    <TableCell sx={{ color: "#f6bd38" }}>Size</TableCell>
+                    <TableCell sx={{ color: "#f6bd38" }}>Medicine</TableCell>
+                    <TableCell sx={{ color: "#f6bd38" }}>Dosage</TableCell>
+                    <TableCell sx={{ color: "#f6bd38" }}>Form</TableCell>
                     <TableCell sx={{ color: "#f6bd38" }}>
-                      Assignment Status
+                      Physician Name
                     </TableCell>
+                    <TableCell sx={{ color: "#f6bd38" }}>
+                      Patient Name
+                    </TableCell>
+                    <TableCell sx={{ color: "#f6bd38" }}>Location</TableCell>
+                    <TableCell sx={{ color: "#f6bd38" }}>Priority</TableCell>
+                    <TableCell sx={{ color: "#f6bd38" }}>Status</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -379,10 +383,12 @@ export default function MedicineDeliveryForm() {
                         {request.medicine}
                       </TableCell>
                       <TableCell>{request.dosage}</TableCell>
-                      <TableCell>{request.location}</TableCell>
+                      <TableCell>{request.form}</TableCell>
                       <TableCell>{request.physicianName}</TableCell>
                       <TableCell>{request.patientName}</TableCell>
+                      <TableCell>{request.location}</TableCell>
                       <TableCell>{request.priority}</TableCell>
+                      <TableCell>{request.status}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
