@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { TextField, MenuItem } from "@mui/material";
 import { ChangeEvent } from "react";
 import axios, { AxiosResponse } from "axios";

@@ -43,12 +43,12 @@ function GiftCheckoutPage() {
 
   function handleClear() {
     setData({
-        name: "",
-        priority: "",
-        card: "",
-        location: "",
-        shippingType: "",
-        status: "",
+      name: "",
+      priority: "",
+      card: "",
+      location: "",
+      shippingType: "",
+      status: "",
     });
   }
 
