@@ -26,7 +26,8 @@ function LocationSelectDropdown(props: dropdownProps) {
           <option value="CCONF001L1">Anesthesia Conf Floor L1</option>
           <option value="CCONF003L1">Abrams Conference Room</option>
           <option value="CCONF002L1">
-            Medical Records Conference Room Floor L1
+            {" "}
+            Medical Records Conference Room Floor L1{" "}
           </option>
           <option value="CHALL007L1">Hallway 7 Floor L1</option>
           <option value="CHALL014L1">Hallway 14 Floor L1</option>
@@ -44,7 +45,8 @@ function LocationSelectDropdown(props: dropdownProps) {
           <option value="GELEV00QL1">Elevator Q MapNode 7 Floor L1</option>
           <option value="CSERV001L1">Volunteers Floor L1</option>
           <option value="GEXIT001L1">
-            Fenwood Road Exit MapNode 1 Floor L1
+            {" "}
+            Fenwood Road Exit MapNode 1 Floor L1{" "}
           </option>
           <option value="GHALL002L1">Hallway MapNode 2 Floor L1</option>
           <option value="GHALL003L1">Hallway MapNode 3 Floor L1</option>
@@ -58,15 +60,18 @@ function LocationSelectDropdown(props: dropdownProps) {
           <option value="WELEV00LL1">Elevator L Floor L1</option>
           <option value="WELEV00ML1">Elevator M Floor L1</option>
           <option value="CDEPT002L1">
-            Day Surgery Family Waiting Floor L1
+            {" "}
+            Day Surgery Family Waiting Floor L1{" "}
           </option>
           <option value="CDEPT003L1">
-            Day Surgery Family Waiting Exit Floor L1
+            {" "}
+            Day Surgery Family Waiting Exit Floor L1{" "}
           </option>
           <option value="CHALL002L1">Hallway 2 Floor L1</option>
           <option value="CHALL001L1">Hallway 1 Floor L1</option>
           <option value="CDEPT004L1">
-            Medical Records Film Library Floor L1
+            {" "}
+            Medical Records Film Library Floor L1{" "}
           </option>
           <option value="CHALL005L1">Hallway 5 Floor L1</option>
           <option value="CHALL004L1">Hallway 4 Floor L1</option>

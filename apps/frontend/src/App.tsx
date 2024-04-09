@@ -9,6 +9,11 @@ import ServiceRequests from "./showAllSR.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 //import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
 import NavBar from "./components/navbar/navbar.tsx";
+import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
+import GiftCheckoutPage from "./pages/GiftCheckoutPage/GiftCheckoutPage.tsx";
+import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
+import FlowerCheckoutPage from "./pages/FlowerCheckoutPage/FlowerCheckoutPage.tsx";
+import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 
 function App() {
@@ -23,6 +28,10 @@ function App() {
           element: <ServiceRequest />,
         },
         {
+          path: "/sanitation",
+          element: <SanitationRequestForm />,
+        },
+        {
           path: "",
           element: <MapPage />,
         },
@@ -33,6 +42,22 @@ function App() {
         {
           path: "/service-request-display",
           element: <ServiceRequests />,
+        },
+        {
+          path: "/gift-request",
+          element: <GiftRequestPage />,
+        },
+        {
+          path: "/gift-checkout",
+          element: <GiftCheckoutPage />,
+        },
+        {
+          path: "/flower-request",
+          element: <FlowerRequestPage />,
+        },
+        {
+          path: "/flower-checkout",
+          element: <FlowerCheckoutPage />,
         },
         {
           path: "/tables",
