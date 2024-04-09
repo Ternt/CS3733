@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import {
   graphHelper,
@@ -12,6 +12,8 @@ import L1 from "../assets/BWHospitalMaps/00_thelowerlevel1.png";
 import L2 from "../assets/BWHospitalMaps/01_thefirstfloor.png";
 import L3 from "../assets/BWHospitalMaps/02_thesecondfloor.png";
 import L4 from "../assets/BWHospitalMaps/03_thethirdfloor.png";
+
+import { Box, SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
 
 const MAPS = [L0, L1, L2, L3, L4];
 
@@ -49,28 +51,21 @@ function getPath(
   endCoord: vec2 | null,
   nodes: node[],
   ctx: CanvasRenderingContext2D,
+  selFloor: number,
 ) {
   axios
-    .get(
-      "/api/astar-api?algorithm=bfs&startNode=" +
-        startNode +
-        "&endNode=" +
-        endNode,
-    )
+    .get("/api/astar-api?&startNode=" + startNode + "&endNode=" + endNode)
     .then((res) => {
-      createPath(res.data.path, endCoord, nodes, ctx);
+      createPath(res.data.path, endCoord, nodes, ctx, selFloor);
     });
 }
 
-/**
- * Draw a path between several nodes
- * @param pathNodes Array of node ids in order of connection
- */
 function createPath(
   nodeIDs: string[],
   endCoord: vec2 | null,
   nodes: node[],
   ctx: CanvasRenderingContext2D,
+  selFloor: number,
 ) {
   const pathNodes: node[] = [];
   for (const s of nodeIDs) {
@@ -89,12 +84,12 @@ function createPath(
   const pathLength = pathNodes.length;
   if (endCoord === null) {
     for (let i = 0; i < nodes.length - 1; i++) {
-      drawLine(pathNodes[i].point, pathNodes[i + 1].point, ctx);
+      drawLine(pathNodes[i].point, pathNodes[i + 1].point, ctx, selFloor);
     }
     return;
   }
   for (let i = 0; i < pathLength - 2; i++) {
-    drawLine(pathNodes[i].point, pathNodes[i + 1].point, ctx);
+    drawLine(pathNodes[i].point, pathNodes[i + 1].point, ctx, selFloor);
   }
   if (
     customPathHelper({ path: pathNodes, end: endCoord, nodes: nodes }) !=
@@ -104,10 +99,11 @@ function createPath(
       pathNodes[pathLength - 2].point,
       pathNodes[pathLength - 1].point,
       ctx,
+      selFloor,
     );
-    drawLine(pathNodes[pathLength - 1].point, endCoord, ctx);
+    drawLine(pathNodes[pathLength - 1].point, endCoord, ctx, selFloor);
   } else {
-    drawLine(pathNodes[pathLength - 2].point, endCoord, ctx);
+    drawLine(pathNodes[pathLength - 2].point, endCoord, ctx, selFloor);
   }
 }
 
@@ -118,7 +114,13 @@ function createPath(
  * @param endX X-coordinate of the end point
  * @param endY Y-coordinate of the end point
  */
-function drawLine(a: vec2, b: vec2, ctx: CanvasRenderingContext2D) {
+function drawLine(
+  a: vec2,
+  b: vec2,
+  ctx: CanvasRenderingContext2D,
+  selectedFloor: number,
+) {
+  if (a.z !== selectedFloor || b.z !== selectedFloor) return;
   ctx.moveTo(a.x, a.y);
   ctx.lineTo(b.x, b.y);
   ctx.lineWidth = 5;
@@ -133,6 +135,13 @@ export function MapCanvas(props: mapCanvasProps) {
   const nodesRef = useRef(nodes);
   const edgesRef = useRef(edges);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const [selectedPoint, setSelectedPoint] = useState<vec2>({
+    x: -1,
+    y: -1,
+    z: props.floor,
+  });
+  const [vieweingFloor, setViewingFloor] = useState<number>(props.floor);
 
   function setNodes(nodes: node[]) {
     nodesRef.current = nodes;
@@ -187,9 +196,41 @@ export function MapCanvas(props: mapCanvasProps) {
     }
 
     const image: CanvasImageSource = new Image();
-    image.src = MAPS[props.floor];
+    image.src = MAPS[vieweingFloor];
     const context = canvasElement.getContext("2d");
     if (context === null) return;
+    image.onload = () => {
+      context.drawImage(image, 0, 0, canvasElement.width, canvasElement.height); // Change parameters to zoom in and pan around the image
+
+      // Draw circle
+      context.beginPath();
+      context.lineWidth = 15;
+      context.arc(
+        selectedPoint.x,
+        selectedPoint.y,
+        vieweingFloor === selectedPoint.z ? 8 : 0,
+        0,
+        2 * Math.PI,
+      );
+      context.stroke();
+      const closestNode = pointHelper({
+        pos: selectedPoint,
+        nodes: nodesRef.current!,
+        floor: vieweingFloor,
+      });
+      if (closestNode === null) return;
+
+      console.log(selectedPoint);
+
+      getPath(
+        closestNode,
+        props.startLocation,
+        selectedPoint,
+        nodesRef.current!,
+        context,
+        vieweingFloor,
+      );
+    };
 
     function render(e: MouseEvent) {
       if (canvasElement === null || context === null) {
@@ -207,40 +248,15 @@ export function MapCanvas(props: mapCanvasProps) {
       // Move point to nearest edge
       if (nodesRef.current === null || edgesRef.current === null) return;
       const coords = graphHelper({
-        x,
-        y,
+        pos: { x: x, y: y, z: vieweingFloor },
         nodes: nodesRef.current,
         edges: edgesRef.current,
-        floor: props.floor,
+        floor: vieweingFloor,
       });
       if (coords === null) return;
-
-      // Draw circle
-      context.beginPath();
-      context.lineWidth = 15;
-      context.arc(coords.x, coords.y, 5, 0, 2 * Math.PI);
-      context.stroke();
-
-      const closestNode = pointHelper({
-        x: coords.x,
-        y: coords.y,
-        nodes: nodesRef.current,
-        floor: props.floor,
-      });
-      if (closestNode === null) return;
-
-      getPath(
-        closestNode,
-        props.startLocation,
-        coords,
-        nodesRef.current,
-        context,
-      );
+      setSelectedPoint({ x: coords.x, y: coords.y, z: vieweingFloor });
     }
     canvasElement.addEventListener("click", render);
-    image.onload = () => {
-      context.drawImage(image, 0, 0, canvasElement.width, canvasElement.height); // Change parameters to zoom in and pan around the image
-    };
 
     return () => canvasElement.removeEventListener("click", render);
   });
@@ -253,6 +269,54 @@ export function MapCanvas(props: mapCanvasProps) {
         style={{ width: "100%" }}
         ref={canvasRef}
       />
+      <Box>
+        <SpeedDial
+          ariaLabel="SpeedDial basic example"
+          sx={{ position: "absolute", bottom: 16, right: 16 }}
+          icon={<SpeedDialIcon />}
+        >
+          <SpeedDialAction
+            key={"L2"}
+            icon={"L2"}
+            tooltipTitle={"Lower 2"}
+            onClick={() => {
+              setViewingFloor(0);
+            }}
+          />
+          <SpeedDialAction
+            key={"L1"}
+            icon={"L1"}
+            tooltipTitle={"Lower 1"}
+            onClick={() => {
+              setViewingFloor(1);
+            }}
+          />
+          <SpeedDialAction
+            key={"F1"}
+            icon={"F1"}
+            tooltipTitle={"Floor 1"}
+            onClick={() => {
+              setViewingFloor(2);
+            }}
+          />
+          <SpeedDialAction
+            key={"F2"}
+            icon={"F2"}
+            tooltipTitle={"Floor 2"}
+            onClick={() => {
+              setViewingFloor(3);
+            }}
+          />
+          <SpeedDialAction
+            key={"F3"}
+            icon={"F3"}
+            tooltipTitle={"Floor 3"}
+            onClick={() => {
+              setViewingFloor(4);
+            }}
+          />
+        </SpeedDial>
+      </Box>
     </>
   );
 }
