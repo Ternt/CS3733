@@ -15,6 +15,45 @@ export type Item = {
   description: string;
 };
 
+type ItemCardData = {
+  id: string;
+  imageURL: string;
+  title: string;
+  price: string;
+  description: string;
+};
+
+const items: ItemCardData[] = [
+  {
+    id: "1-tedd",
+    imageURL: "../../src/assets/GiftImages/TeddyBear.jpeg",
+    title: "Teddy Bear",
+    price: "12",
+    description: "",
+  },
+  {
+    id: "2-choc",
+    imageURL: "../../src/assets/GiftImages/Chocolates.webp",
+    title: "Chocolates",
+    price: "15",
+    description: "",
+  },
+  {
+    id: "3-cake",
+    imageURL: "../../src/assets/GiftImages/Cake.webp",
+    title: "Cake",
+    price: "40",
+    description: "",
+  },
+  {
+    id: "4-ps5",
+    imageURL: "../../src/assets/GiftImages/PS5.webp",
+    title: "PS5",
+    price: "600",
+    description: "",
+  },
+];
+
 export const StoreContext = React.createContext(null);
 
 function GiftRequestPage() {
@@ -57,7 +96,7 @@ function GiftRequestPage() {
       >
         <Box>
           <Typography p={3} textAlign={"center"} variant={"h3"}>
-            Order Flowers
+            Buy Gifts
           </Typography>
         </Box>
         <Box
@@ -191,13 +230,13 @@ function GiftRequestPage() {
         }}
       >
         <Grid container>
-          {Array.from(Array(25)).map((_, index) => (
+          {items.map((item) => (
             <ItemCard
-              id={index.toString()}
-              imageURL="../../src/assets/roses.jpg.webp"
-              title={"Roses " + index}
-              price="99"
-              description="this is a description of roses"
+              id={item.id}
+              imageURL={item.imageURL}
+              title={item.title}
+              price={item.price}
+              description={item.description}
               handleAdd={addItem}
             />
           ))}

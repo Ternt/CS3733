@@ -68,7 +68,7 @@ function ItemCard(props: CardProps) {
             </Typography>
 
             <Typography variant="h6" color="text.secondary" textAlign={"right"}>
-              {props.price.toString()}
+              {"$" + props.price.toString()}
             </Typography>
           </Box>
 
