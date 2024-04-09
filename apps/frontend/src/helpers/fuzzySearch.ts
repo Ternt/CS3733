@@ -8,6 +8,7 @@ export function search(
 ): string[] {
   const searcher = new FuzzySearch(haystack, keys, {
     caseSensitive: false,
+    sort: true,
   });
   const result = searcher.search(needle);
   console.log(result);
