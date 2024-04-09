@@ -1,10 +1,8 @@
 import { ChangeEvent, useState } from "react";
 import { SanitationFormFields } from "./sanitationFields.ts";
 import RequestList from "../../helpers/requestList.ts";
-// import Dropdown from "../Form Elements/Dropdown.tsx";
 import Checkbox from "../Form Elements/Checkbox.tsx";
 import Radio from "../Form Elements/Radio.tsx";
-// import "./SanitationRequestForm.scss";
 import sanitationImage from "../../assets/sanitation_background.jpg";
 import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import {
@@ -96,10 +94,8 @@ function SanitationRequestForm() {
         <Box position="relative"
              sx={{
                  backgroundImage: `url(${sanitationImage})`,
-                 backgroundColor: '#5f6f8a',
                  display: 'flex',
                  justifyContent: 'center',
-                 alignItems: 'center',
                  height: '100vh',
                  backgroundSize: 'cover'
              }}
@@ -251,13 +247,6 @@ function SanitationRequestForm() {
                     </Table>
                 </TableContainer>
             </Box>
-
-
-
-
-
-
-
         </Box>
 
 )
