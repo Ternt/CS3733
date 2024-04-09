@@ -3,8 +3,8 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
-//import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-//import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import thelowerlevel1 from "../../assets/BWHospitalMaps/00_thelowerlevel1.png";
@@ -65,7 +65,11 @@ function SwipeableTextMobileStepper() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+      }}
+    >
       <AutoPlaySwipeableViews
         interval={5000}
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
@@ -79,12 +83,13 @@ function SwipeableTextMobileStepper() {
               <Box
                 component="img"
                 sx={{
-                  height: "70vh",
+                  height: "100vh",
                   display: "block",
                   objectFit: "cover",
                   overflow: "hidden",
                   width: "100vw",
                   m: "auto",
+                  filter: "brightness(70%) blur(3px) ",
                 }}
                 src={step.imgPath}
                 alt={step.label}
@@ -93,55 +98,74 @@ function SwipeableTextMobileStepper() {
           </div>
         ))}
       </AutoPlaySwipeableViews>
+
       <MobileStepper
         steps={maxSteps}
-        position="static"
         activeStep={activeStep}
-        nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            sx={{
-              bgcolor: "#012d5a",
-              color: "white",
-              "&:hover": {
-                background: "#33567a",
-              },
-            }}
-          >
-            Next
-            {theme.direction === "rtl" ? (
-              //<KeyboardArrowLeft />
-              <p></p>
-            ) : (
-              //<KeyboardArrowRight />
-              <p></p>
-            )}
-          </Button>
-        }
-        backButton={
-          <Button
-            size="small"
-            onClick={handleBack}
-            sx={{
-              bgcolor: "#012d5a",
-              color: "white",
-              "&:hover": {
-                background: "#33567a",
-              },
-            }}
-          >
-            {theme.direction === "rtl" ? (
-              //<KeyboardArrowRight />
-              <p></p>
-            ) : (
-              //<KeyboardArrowLeft />
-              <p></p>
-            )}
-            Back
-          </Button>
-        }
+        style={{ backgroundColor: "transparent" }}
+        sx={{
+          flexDirection: "Column",
+          paddingBottom: "1rem",
+        }}
+        nextButton={<></>}
+        backButton={<></>}
       />
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          width: "100vw",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          padding: "1rem",
+          opacity: "50%",
+        }}
+      >
+        <Button
+          size="small"
+          onClick={handleBack}
+          sx={{
+            bgcolor: "black",
+            color: "white",
+            height: "100px",
+            minWidth: "0px",
+            width: "30px",
+            "&:hover": {
+              background: "#343434",
+            },
+          }}
+        >
+          {theme.direction === "rtl" ? (
+            <KeyboardArrowRight />
+          ) : (
+            <KeyboardArrowLeft />
+          )}
+        </Button>
+
+        <Button
+          size="small"
+          onClick={handleNext}
+          sx={{
+            bgcolor: "black",
+            color: "white",
+            height: "100px",
+            minWidth: "0px",
+            width: "30px",
+
+            "&:hover": {
+              background: "#343434",
+            },
+          }}
+        >
+          {theme.direction === "rtl" ? (
+            <KeyboardArrowLeft />
+          ) : (
+            <KeyboardArrowRight />
+          )}
+        </Button>
+      </Box>
     </Box>
   );
 }
