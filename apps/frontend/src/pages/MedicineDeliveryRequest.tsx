@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Container,
   Box,
   FormControl,
   MenuItem,
@@ -85,7 +84,7 @@ export default function MedicineDeliveryForm() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Container
+        <Box
           sx={{
             margin: 0,
             display: "flex",
@@ -95,10 +94,6 @@ export default function MedicineDeliveryForm() {
         >
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
               width: "500px",
               height: "100vh",
             }}
@@ -107,8 +102,7 @@ export default function MedicineDeliveryForm() {
               sx={{
                 bgcolor: "primary.main",
                 width: "500px",
-                paddingTop: "20px",
-                paddingBottom: "20px",
+                padding: "20px",
                 textAlign: "center",
               }}
             >
@@ -123,6 +117,7 @@ export default function MedicineDeliveryForm() {
             </Box>
             <Box
               sx={{
+                padding: "20px",
                 width: "500px",
                 bgcolor: "background.default",
               }}
@@ -138,7 +133,7 @@ export default function MedicineDeliveryForm() {
                 <FormControl
                   variant="filled"
                   sx={{
-                    m: 3,
+                    margin: 3,
                     width: 210,
                   }}
                 >
@@ -160,12 +155,12 @@ export default function MedicineDeliveryForm() {
                   label="Dosage"
                   variant="filled"
                   onChange={handleTextChange}
-                  sx={{ m: 3, width: 85 }}
+                  sx={{ margin: 3, width: 85 }}
                 />
               </Box>
               <Box
                 sx={{
-                  px: "80px",
+                  px: "inherit",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
@@ -350,7 +345,7 @@ export default function MedicineDeliveryForm() {
               </Box>
             </Box>
           </Box>
-        </Container>
+        </Box>
       </ThemeProvider>
     </>
   );
