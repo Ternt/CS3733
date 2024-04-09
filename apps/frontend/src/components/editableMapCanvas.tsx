@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios, { AxiosResponse } from "axios";
-import {
-  graphHelper,
-  pointHelper,
-  customPathHelper,
-} from "../helpers/clickCorrectionMath.ts";
+import { graphHelper, pointHelper } from "../helpers/clickCorrectionMath.ts";
 import { vec2, node, edge } from "../helpers/typestuff.ts";
 
 import L0 from "../assets/BWHospitalMaps/00_thelowerlevel2.png";
@@ -40,68 +36,7 @@ type mapCanvasProps = {
   startLocation: string;
 };
 
-function getPath(
-  startNode: string,
-  endNode: string,
-  endCoord: vec2 | null,
-  nodes: node[],
-  ctx: CanvasRenderingContext2D,
-  selFloor: number,
-) {
-  axios
-    .get("/api/astar-api?&startNode=" + startNode + "&endNode=" + endNode)
-    .then((res) => {
-      createPath(res.data.path, endCoord, nodes, ctx, selFloor);
-    });
-}
-
-function createPath(
-  nodeIDs: string[],
-  endCoord: vec2 | null,
-  nodes: node[],
-  ctx: CanvasRenderingContext2D,
-  selFloor: number,
-) {
-  const pathNodes: node[] = [];
-  for (const s of nodeIDs) {
-    const n = nodes.find((no: node) => {
-      return no.nodeID === s;
-    });
-    if (n === undefined) continue;
-    pathNodes.push(n);
-  }
-
-  if (pathNodes === undefined || pathNodes.length === 0) {
-    console.error("no path");
-    return;
-  }
-
-  const pathLength = pathNodes.length;
-  if (endCoord === null) {
-    for (let i = 0; i < nodes.length - 1; i++) {
-      drawLine(pathNodes[i].point, pathNodes[i + 1].point, ctx, selFloor);
-    }
-    return;
-  }
-  for (let i = 0; i < pathLength - 2; i++) {
-    drawLine(pathNodes[i].point, pathNodes[i + 1].point, ctx, selFloor);
-  }
-  if (
-    customPathHelper({ path: pathNodes, end: endCoord, nodes: nodes }) !=
-    pathNodes[pathLength - 2]
-  ) {
-    drawLine(
-      pathNodes[pathLength - 2].point,
-      pathNodes[pathLength - 1].point,
-      ctx,
-      selFloor,
-    );
-    drawLine(pathNodes[pathLength - 1].point, endCoord, ctx, selFloor);
-  } else {
-    drawLine(pathNodes[pathLength - 2].point, endCoord, ctx, selFloor);
-  }
-}
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function drawLine(
   a: vec2,
   b: vec2,
@@ -117,7 +52,7 @@ function drawLine(
   ctx.stroke(); // Draw line
 }
 
-export function MapCanvas(props: mapCanvasProps) {
+function EditableMapCanvas(props: mapCanvasProps) {
   const [nodes, _setNodes] = useState<node[] | null>(null);
   const [edges, _setEdges] = useState<edge[] | null>(null);
   const nodesRef = useRef(nodes);
@@ -209,15 +144,6 @@ export function MapCanvas(props: mapCanvasProps) {
       if (closestNode === null) return;
 
       console.log(selectedPoint);
-
-      getPath(
-        closestNode,
-        props.startLocation,
-        selectedPoint,
-        nodesRef.current!,
-        context,
-        vieweingFloor,
-      );
     };
 
     function render(e: MouseEvent) {
@@ -309,5 +235,5 @@ export function MapCanvas(props: mapCanvasProps) {
   );
 }
 
-export default MapCanvas;
+export default EditableMapCanvas;
 //a

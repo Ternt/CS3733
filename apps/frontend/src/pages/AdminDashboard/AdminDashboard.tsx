@@ -3,7 +3,7 @@ import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
 import MenuIcon from "@mui/icons-material/Menu";
 import MapIcon from "@mui/icons-material/Map";
 import TableViewIcon from "@mui/icons-material/TableView";
-import MapCanvas from "../../components/mapCanvas.tsx";
+import EditableMapCanvas from "../../components/editableMapCanvas.tsx";
 
 export default function AdminDashboard() {
   function handleSelect(i: number) {
@@ -32,7 +32,6 @@ export default function AdminDashboard() {
           <MapIcon />
           <TableViewIcon />
         </SidebarMenu>
-        <MenuIcon />
         <Box
           sx={{
             height: "80vh",
@@ -40,7 +39,7 @@ export default function AdminDashboard() {
             bgcolor: "pink",
           }}
         >
-          <MapCanvas floor={1} startLocation={"CCONF001L1"} />
+          <EditableMapCanvas floor={1} startLocation={"CCONF001L1"} />
         </Box>
       </Box>
     </>
