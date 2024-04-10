@@ -14,6 +14,6 @@ export type edge = {
 };
 
 export type nodesAndEdges = {
-    nodes: node[];
-    edges: edge[];
-}
+  nodes: node[];
+  edges: edge[];
+};
