@@ -7,7 +7,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-
+import Link from "@mui/material/Link";
 import "./navbar.scss";
 import logo from "../../assets/logo_white_big.png";
 import { useNavigate } from "react-router-dom";
@@ -72,12 +72,24 @@ function ResponsiveAppBar() {
             </Menu>
           </Box>
 
-          <img
-            className={"logo"}
-            src={logo}
-            alt={"logo"}
-            onClick={() => handleMenuItemClick("")}
-          />
+          <Link
+            href=""
+            underline="none"
+            sx={{
+              maxWidth: "30%",
+            }}
+          >
+            <Box
+              component="img"
+              className={"logo"}
+              src={logo}
+              alt={"logo"}
+              onClick={() => handleMenuItemClick("")}
+              sx={{
+                width: "350px",
+              }}
+            ></Box>
+          </Link>
 
           <Box
             sx={{
