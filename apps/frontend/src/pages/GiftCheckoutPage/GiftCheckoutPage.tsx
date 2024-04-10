@@ -285,6 +285,15 @@ function GiftCheckoutPage(props: giftCheckoutPageProps) {
                   px: "1rem",
                 }}
               >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography>Made by Alex & Brett</Typography>
+                </Box>
+
                 <TextField
                   label="Name"
                   id="name-input"

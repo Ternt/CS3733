@@ -145,6 +145,15 @@ function MedicineRequestForm(props: medicineRequestFormProps) {
           }}
         >
           <FormControl>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Typography>Made by Thinh & Nick</Typography>
+            </Box>
+
             <TextField
               required
               label="Patient Name"
