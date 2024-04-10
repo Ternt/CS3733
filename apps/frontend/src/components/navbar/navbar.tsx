@@ -2,7 +2,6 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-//import { StyledMenu } from "../StyledMenu.tsx";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
@@ -134,6 +133,9 @@ function ResponsiveAppBar() {
               anchorEl={anchorEl}
               open={open}
               onClose={handleClose}
+              sx={{
+                padding: 0,
+              }}
             >
               {services.map((services) => (
                 <MenuItem
@@ -176,4 +178,3 @@ function ResponsiveAppBar() {
 }
 
 export default ResponsiveAppBar;
-//Husky Test2
