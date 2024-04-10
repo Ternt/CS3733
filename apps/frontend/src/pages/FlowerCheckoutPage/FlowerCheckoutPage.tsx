@@ -103,8 +103,7 @@ function FlowerCheckoutPage() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            bgcolor: "#FFFFFF",
-            width: { xs: "60vw", md: "30vw" },
+            width: { xs: "60vw", md: "60vw" },
             height: "100vh",
             position: "sticky",
             top: 0,
@@ -255,7 +254,7 @@ function FlowerCheckoutPage() {
               }}
             >
               <Box>
-                <Typography p={3} textAlign={"center"} variant={"h3"}>
+                <Typography p={1} textAlign={"center"} variant={"h3"}>
                   Enter Information
                 </Typography>
               </Box>
