@@ -67,6 +67,7 @@ const RAW_RUNTIME_STATE =
           ["@mui/material", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:5.15.14"],\
           ["@types/express", "npm:4.17.21"],\
           ["@types/express-fileupload", "npm:1.5.0"],\
+          ["@types/fuzzy-search", "npm:2.1.5"],\
           ["@types/react", "npm:18.2.48"],\
           ["@types/react-dom", "npm:18.2.18"],\
           ["@types/react-swipeable-views", "npm:0.13.5"],\
@@ -81,6 +82,7 @@ const RAW_RUNTIME_STATE =
           ["express", "npm:4.19.2"],\
           ["express-fileupload", "npm:1.5.0"],\
           ["fs", "npm:0.0.1-security"],\
+          ["fuzzy-search", "npm:3.2.1"],\
           ["happy-dom", "npm:10.11.2"],\
           ["husky", "npm:8.0.3"],\
           ["prettier", "npm:2.8.8"],\
@@ -2369,6 +2371,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@types/fuzzy-search", [\
+      ["npm:2.1.5", {\
+        "packageLocation": "./.yarn/cache/@types-fuzzy-search-npm-2.1.5-e03d2cf2ce-451560afab.zip/node_modules/@types/fuzzy-search/",\
+        "packageDependencies": [\
+          ["@types/fuzzy-search", "npm:2.1.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@types/history", [\
       ["npm:4.7.11", {\
         "packageLocation": "./.yarn/cache/@types-history-npm-4.7.11-fe05d7b2e1-1da529a348.zip/node_modules/@types/history/",\
@@ -3595,6 +3606,7 @@ const RAW_RUNTIME_STATE =
           ["express", "npm:5.0.0-beta.1"],\
           ["express-fileupload", "npm:1.5.0"],\
           ["express-oauth2-jwt-bearer", "npm:1.6.0"],\
+          ["fuzzy-search", "npm:3.2.1"],\
           ["http-errors", "npm:1.6.3"],\
           ["http-terminator", "npm:3.2.0"],\
           ["jose", "npm:4.15.4"],\
@@ -5655,6 +5667,7 @@ const RAW_RUNTIME_STATE =
           ["@popperjs/core", "npm:2.11.8"],\
           ["@tanstack/react-table", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:8.11.6"],\
           ["@types/bootstrap", "npm:5.2.10"],\
+          ["@types/fuzzy-search", "npm:2.1.5"],\
           ["@types/node", "npm:20.11.5"],\
           ["@types/prop-types", "npm:15.7.11"],\
           ["@types/react", "npm:18.2.48"],\
@@ -5674,6 +5687,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-config-custom", "workspace:configs/eslint-config-custom"],\
           ["eslint-plugin-react-hooks", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:4.6.0"],\
           ["eslint-plugin-react-refresh", "virtual:d3996bc66f5a97675d735c6457b44af0f25df32a5e5981f61ff7f22e93004839ccc5d56298eff651f971a908820429de35800a3f2669be95e1c0f6bb82e8a700#npm:0.4.5"],\
+          ["fuzzy-search", "npm:3.2.1"],\
           ["localforage", "npm:1.10.0"],\
           ["match-sorter", "npm:6.3.3"],\
           ["postcss", "npm:8.4.35"],\
@@ -5751,6 +5765,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/function-bind-npm-1.1.2-7a55be9b03-185e20d20f.zip/node_modules/function-bind/",\
         "packageDependencies": [\
           ["function-bind", "npm:1.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["fuzzy-search", [\
+      ["npm:3.2.1", {\
+        "packageLocation": "./.yarn/cache/fuzzy-search-npm-3.2.1-0a6f1e1f54-78ca6740a8.zip/node_modules/fuzzy-search/",\
+        "packageDependencies": [\
+          ["fuzzy-search", "npm:3.2.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -9197,6 +9220,7 @@ const RAW_RUNTIME_STATE =
           ["@mui/material", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:5.15.14"],\
           ["@types/express", "npm:4.17.21"],\
           ["@types/express-fileupload", "npm:1.5.0"],\
+          ["@types/fuzzy-search", "npm:2.1.5"],\
           ["@types/react", "npm:18.2.48"],\
           ["@types/react-dom", "npm:18.2.18"],\
           ["@types/react-swipeable-views", "npm:0.13.5"],\
@@ -9211,6 +9235,7 @@ const RAW_RUNTIME_STATE =
           ["express", "npm:4.19.2"],\
           ["express-fileupload", "npm:1.5.0"],\
           ["fs", "npm:0.0.1-security"],\
+          ["fuzzy-search", "npm:3.2.1"],\
           ["happy-dom", "npm:10.11.2"],\
           ["husky", "npm:8.0.3"],\
           ["prettier", "npm:2.8.8"],\
