@@ -40,6 +40,7 @@ function FLOOR_NAME_TO_INDEX(f: string) {
   console.error("No index for " + f);
   return -1;
 }
+//const FLOORS = ["L2", "L1", "F1", "F2", "F3"];
 
 type mapCanvasProps = {
   defaultFloor: number;
@@ -456,10 +457,14 @@ export function MapCanvas(props: mapCanvasProps) {
             top: "120px",
             left: "120px",
             width: "10vw",
-            bgcolor: "red",
+            bgcolor: "#00000010",
           }}
         >
-          <p>AAA</p>
+          <p>Node: {pathing.nearestNode?.nodeID}</p>
+          <p>{pathing.nearestNode?.longName}</p>
+          <p>X: {pathing.nearestNode?.point.x}</p>
+          <p>Y: {pathing.nearestNode?.point.y}</p>
+          <p>Z: {pathing.nearestNode?.point.z}</p>
         </Box>
       )}
       <Box>
