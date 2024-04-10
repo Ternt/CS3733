@@ -96,8 +96,14 @@ function FlowerRequestPage() {
         }}
       >
         <Box>
-          <Typography p={3} textAlign={"center"} variant={"h3"}>
-            Buy Flowers
+          <Typography
+            p={3}
+            style={{ fontFamily: "Inria Serif" }}
+            variant="h4"
+            component="h1"
+            align="center"
+          >
+            BUY FLOWERS
           </Typography>
         </Box>
         <Box

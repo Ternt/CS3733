@@ -120,8 +120,13 @@ function SanitationRequestForm() {
           p: 2,
         }}
       >
-        <Typography variant="h4" component="h1" align="center">
-          Sanitation Request
+        <Typography
+          style={{ fontFamily: "Inria Serif" }}
+          variant="h4"
+          component="h1"
+          align="center"
+        >
+          SANITATION REQUEST
         </Typography>
       </Box>
 
@@ -141,6 +146,15 @@ function SanitationRequestForm() {
               alignItems: "top",
             }}
           >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Typography>Made by Yuhan & Warwick</Typography>
+            </Box>
+
             <TextField
               required
               label="Employee Name"

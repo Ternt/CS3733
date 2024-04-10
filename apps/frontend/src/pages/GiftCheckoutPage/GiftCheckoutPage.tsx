@@ -112,8 +112,14 @@ function GiftCheckoutPage() {
           }}
         >
           <Box>
-            <Typography p={3} textAlign={"center"} variant={"h3"}>
-              Buy Gifts
+            <Typography
+              p={3}
+              style={{ fontFamily: "Inria Serif" }}
+              variant="h4"
+              component="h1"
+              align="center"
+            >
+              BUY GIFTS
             </Typography>
           </Box>
           <Box
@@ -255,8 +261,14 @@ function GiftCheckoutPage() {
               }}
             >
               <Box>
-                <Typography p={3} textAlign={"center"} variant={"h3"}>
-                  Enter Information
+                <Typography
+                  p={3}
+                  style={{ fontFamily: "Inria Serif" }}
+                  variant="h4"
+                  component="h1"
+                  align="center"
+                >
+                  ENTER INFORMATION
                 </Typography>
               </Box>
 
@@ -266,6 +278,15 @@ function GiftCheckoutPage() {
                   px: "1rem",
                 }}
               >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography>Made by Alex & Brett</Typography>
+                </Box>
+
                 <TextField
                   label="Name"
                   id="name-input"
