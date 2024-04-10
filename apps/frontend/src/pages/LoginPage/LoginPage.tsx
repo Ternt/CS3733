@@ -38,25 +38,22 @@ export default function LoginPage() {
 
   return (
     <>
-      {/*
-          <div className={"login-hero"}>
-              <Card>
-                  <img src={logo} alt="Crap"/>
-                  <h1><strong>Need help finding something?</strong></h1>
-                  <h2><strong>Try this kiosk</strong></h2>
-                  <Button href="/" color={"secondary"} variant="contained" fullWidth>
-                      Go to Map
-                  </Button>
-              </Card>
-          </div>
-          */}
-
-      <img
+      <Box
+        component="img"
         src={background}
-        alt={"login-background"}
-        className={"login-background"}
-      />
-      <Box className={"login-page"}>
+        sx={{
+          objectFit: "cover",
+          overflow: "hidden",
+          height: "72.2vh",
+        }}
+      ></Box>
+
+      <Box
+        className={"login-page"}
+        sx={{
+          height: 0,
+        }}
+      >
         <Card>
           <h1>Login</h1>
           <FormControl fullWidth>
