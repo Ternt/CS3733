@@ -65,6 +65,9 @@ function ResponsiveAppBar() {
               src={logo}
               alt={"logo"}
               onClick={() => handleMenuItemClick("")}
+              sx={{
+                width: "350px",
+              }}
             ></Box>
           </Link>
 
