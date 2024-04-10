@@ -1,5 +1,5 @@
 import LocationSelectDropdown from "../components/locationSelectDropdown.tsx";
-import MapCanvas from "../components/mapCanvas.tsx";
+import MapCanvas2 from "../components/mapCanvas2.tsx";
 import { useState } from "react";
 
 export default function MapPage() {
@@ -11,7 +11,7 @@ export default function MapPage() {
           setStartLocation(v);
         }}
       />
-      <MapCanvas floor={2} startLocation={startLocation} />
+      <MapCanvas2 defaultFloor={2} startLocation={startLocation} />
     </>
   );
 }
