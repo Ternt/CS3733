@@ -1,8 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { SanitationFormFields } from "./sanitationFields.ts";
 import RequestList from "../../helpers/requestList.ts";
-import Checkbox from "../../components/Form Elements/Checkbox.tsx";
-//import Radio from "../../components/Form Elements/Radio.tsx";
 import sanitationImage from "../../assets/sanitation_background.jpg";
 import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import {
@@ -23,6 +21,7 @@ import {
   Radio,
   FormLabel,
 } from "@mui/material";
+import Checkboxes from "../../components/FormElements/Checkboxes.tsx";
 
 const sanitationRequests = new RequestList();
 
@@ -35,7 +34,7 @@ function SanitationRequestForm() {
     name: "",
     priority: "",
     location: "",
-    type: "",
+    type: [],
     size: "",
     assignmentStatus: "",
   });
@@ -44,19 +43,18 @@ function SanitationRequestForm() {
     setFormInput({ ...formInput, name: e.target.value });
   }
 
-  function handleTypeInput(v: string) {
-    console.log(v);
-    // @ts-expect-error Specified type more specifically and typescript doesn't like that
-    const boxes: NodeListOf<HTMLInputElement> =
-      document.getElementsByName("type");
-    let checkedBoxes = "";
-    for (let i = 0; i < boxes.length; i++) {
-      if (boxes[i].checked) {
-        checkedBoxes += boxes[i].value + ", ";
-      }
+  const handleTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log("Changed type");
+    const checkedId = event.target.id;
+    if (event.target.checked) {
+      setFormInput({ ...formInput, type: [...formInput.type, checkedId] });
+    } else {
+      setFormInput({
+        ...formInput,
+        type: formInput.type.filter((id) => id !== checkedId),
+      });
     }
-    setFormInput({ ...formInput, type: checkedBoxes });
-  }
+  };
 
   function updateSizeInput(e: ChangeEvent<HTMLInputElement>) {
     setFormInput({ ...formInput, size: (e.target as HTMLInputElement).value });
@@ -67,7 +65,7 @@ function SanitationRequestForm() {
       formInput.name != "" &&
       formInput.priority != "" &&
       formInput.location != "" &&
-      formInput.type != "" &&
+      formInput.type.length !== 0 &&
       formInput.size != "" &&
       formInput.assignmentStatus != ""
     );
@@ -86,7 +84,7 @@ function SanitationRequestForm() {
       name: "",
       priority: "",
       location: "",
-      type: "",
+      type: [],
       size: "",
       assignmentStatus: "",
     });
@@ -179,11 +177,11 @@ function SanitationRequestForm() {
               }}
             />
 
-            <Checkbox
-              label={"Type of mess (Choose all that apply):"}
-              onChange={handleTypeInput}
-              groupName={"type"}
+            <Checkboxes
+              label={"Mess Type"}
+              onChange={handleTypeChange}
               items={["Solid Waste", "Liquid Spill", "Other"]}
+              checked={formInput.type}
             />
 
             <FormLabel id="mess-size">Mess Size</FormLabel>
@@ -293,7 +291,7 @@ function SanitationRequestForm() {
                   </TableCell>
                   <TableCell>{request.priority}</TableCell>
                   <TableCell>{request.location}</TableCell>
-                  <TableCell>{request.type}</TableCell>
+                  <TableCell>{request.type.join(", ")}</TableCell>
                   <TableCell>{request.size}</TableCell>
                   <TableCell>{request.assignmentStatus}</TableCell>
                 </TableRow>
