@@ -54,7 +54,7 @@ function FlowerCheckoutPage() {
 
   const navigate = useNavigate();
   const handleBack = () => {
-    navigate("/gift-request");
+    navigate("/flower-request", { state: { cart } });
   };
 
   function handleSubmit() {
