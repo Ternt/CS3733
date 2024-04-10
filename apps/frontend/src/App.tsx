@@ -9,6 +9,12 @@ import ServiceRequests from "./showAllSR.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 import NavBar from "./components/navbar/navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
+import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
+import GiftCheckoutPage from "./pages/GiftCheckoutPage/GiftCheckoutPage.tsx";
+import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
+import FlowerCheckoutPage from "./pages/FlowerCheckoutPage/FlowerCheckoutPage.tsx";
+import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
+import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -22,12 +28,20 @@ function App() {
           element: <HeroPage />,
         },
         {
+          path: "/map",
+          element: <MapPage />,
+        },
+        {
           path: "/service-request",
           element: <ServiceRequest />,
         },
         {
-          path: "/map",
-          element: <MapPage />,
+          path: "/medicine-request",
+          element: <MedicineDeliveryForm />,
+        },
+        {
+          path: "/sanitation",
+          element: <SanitationRequestForm />,
         },
         {
           path: "/login",
@@ -36,6 +50,22 @@ function App() {
         {
           path: "/service-request-display",
           element: <ServiceRequests />,
+        },
+        {
+          path: "/gift-request",
+          element: <GiftRequestPage />,
+        },
+        {
+          path: "/gift-checkout",
+          element: <GiftCheckoutPage />,
+        },
+        {
+          path: "/flower-request",
+          element: <FlowerRequestPage />,
+        },
+        {
+          path: "/flower-checkout",
+          element: <FlowerCheckoutPage />,
         },
         {
           path: "/tables",
