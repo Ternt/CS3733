@@ -121,7 +121,12 @@ export function MapCanvas(props: mapCanvasProps) {
       const ss: string = "";
       for (const r of res.data.nodes) {
         const v: vec2 = { x: r.xcoord, y: r.ycoord };
-        const n: node = { nodeID: r.nodeID, point: v };
+        const n: node = {
+          nodeID: r.nodeID,
+          point: v,
+          nodeType: r.nodeType,
+          longName: r.longName,
+        };
         ns.push(n);
       }
       console.log(ss);
