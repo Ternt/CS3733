@@ -9,7 +9,7 @@ import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
 // import Typography from "@mui/material/Typography";
 
-import "./NavBar.scss";
+import "./navbar.scss";
 import logo from "../../assets/logo_white_big.png";
 
 const pages = [
