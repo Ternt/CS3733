@@ -1,5 +1,5 @@
-import {ChangeEvent, useCallback, useEffect, useState} from "react";
-import {node, nodesAndEdges} from "../helpers/typestuff.ts";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { node, nodesAndEdges } from "../helpers/typestuff.ts";
 import axios from "axios";
 
 type dropdownProps = {
@@ -9,40 +9,47 @@ type dropdownProps = {
 let NodeList: node[];
 
 function LocationSelectDropdown(props: dropdownProps) {
-    const [placeholder, setplaceholder] = useState(<></>);
-    const callbacker = useCallback(handleLocationInput, [props]);
+  const [placeholder, setplaceholder] = useState(<></>);
+  const callbacker = useCallback(handleLocationInput, [props]);
 
-    /**
-     * Update the selected location based on the dropdown option
-     * @param e The dropdown element that changed
-     */
-    function handleLocationInput(e: ChangeEvent<HTMLSelectElement>) {
-        props.onChange(e.target.value);
-    }
+  /**
+   * Update the selected location based on the dropdown option
+   * @param e The dropdown element that changed
+   */
+  function handleLocationInput(e: ChangeEvent<HTMLSelectElement>) {
+    props.onChange(e.target.value);
+  }
 
-    useEffect(() => {
-        axios.get<nodesAndEdges>("/api/map").then((response) => {
-            NodeList = response.data.nodes;
-            console.log(NodeList);
+  useEffect(() => {
+    axios.get<nodesAndEdges>("/api/map").then((response) => {
+      NodeList = response.data.nodes;
+      NodeList = NodeList.filter((node) => {
+        return node.nodeType != "HALL";
+      });
+      console.log(NodeList);
 
-            setplaceholder(
-                <select defaultValue="CCNF001L1"
-                        name="locations"
-                        id="locSelect"
-                        onChange={callbacker}>
-                        {NodeList.map((request) => {
-                            //console.log(request);
-                            return (
-                                <option value={request.nodeID} key={request.nodeID}>{request.longName}</option>
-                            );
-                        })}
-                </select>,
+      setplaceholder(
+        <select
+          defaultValue="CCNF001L1"
+          name="locations"
+          id="locSelect"
+          onChange={callbacker}
+        >
+          {NodeList.map((request) => {
+            //console.log(request);
+            return (
+              <option value={request.nodeID} key={request.nodeID}>
+                {request.longName}
+              </option>
             );
-        });
-    }, [callbacker]);
+          })}
+        </select>,
+      );
+    });
+  }, [callbacker]);
 
-    console.log(placeholder);
-    return placeholder;
+  console.log(placeholder);
+  return placeholder;
 }
 
 export default LocationSelectDropdown;
