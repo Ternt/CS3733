@@ -278,6 +278,15 @@ function FlowerCheckoutPage() {
                   px: "1rem",
                 }}
               >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography>Made by Anton & Rayyan</Typography>
+                </Box>
+
                 <TextField
                   label="Name"
                   id="name-input"
