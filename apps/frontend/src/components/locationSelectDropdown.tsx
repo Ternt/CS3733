@@ -23,27 +23,43 @@ function LocationSelectDropdown(props: dropdownProps) {
   useEffect(() => {
     axios.get<nodesAndEdges>("/api/map").then((response) => {
       NodeList = response.data.nodes;
+
+      // Remove all halls from displayed list
       NodeList = NodeList.filter((node) => {
         return node.nodeType != "HALL";
       });
-      console.log(NodeList);
+
+      // Sort alphabetically (Insertion Sort)
+      for (let i = 1; i < NodeList.length; i++) {
+        let j = i;
+        while (j > 0 && NodeList[j].longName < NodeList[j - 1].longName) {
+          const temp = NodeList[j];
+          NodeList[j] = NodeList[j - 1];
+          NodeList[j - 1] = temp;
+          j--;
+        }
+      }
+      // console.log(NodeList);
 
       setplaceholder(
-        <select
-          defaultValue="CCNF001L1"
-          name="locations"
-          id="locSelect"
-          onChange={callbacker}
-        >
-          {NodeList.map((request) => {
-            //console.log(request);
-            return (
-              <option value={request.nodeID} key={request.nodeID}>
-                {request.longName}
-              </option>
-            );
-          })}
-        </select>,
+        <div className="form">
+          <label>Start/Kiosk Location: </label>
+          <select
+            defaultValue="CCNF001L1"
+            name="locations"
+            id="locSelect"
+            onChange={callbacker}
+          >
+            {NodeList.map((request) => {
+              //console.log(request);
+              return (
+                <option value={request.nodeID} key={request.nodeID}>
+                  {request.longName}
+                </option>
+              );
+            })}
+          </select>
+        </div>,
       );
     });
   }, [callbacker]);
