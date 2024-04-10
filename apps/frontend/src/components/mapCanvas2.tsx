@@ -10,6 +10,7 @@ import { Box, SpeedDial, SpeedDialAction } from "@mui/material";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import { edge, node, vec2 } from "../helpers/typestuff.ts";
 import axios, { AxiosResponse } from "axios";
+import { graphHelper, pointHelper } from "../helpers/clickCorrectionMath.ts";
 //import {edge, node} from "../helpers/typestuff.ts";
 
 const MAPS = [L0, L1, L2, L3, L4];
@@ -43,6 +44,7 @@ function FLOOR_NAME_TO_INDEX(f: string) {
 type mapCanvasProps = {
   defaultFloor: number;
   startLocation: string;
+  pathfinding: boolean;
 };
 
 export function MapCanvas(props: mapCanvasProps) {
@@ -59,10 +61,18 @@ export function MapCanvas(props: mapCanvasProps) {
     pan: { x: 0, y: 0 },
     panAnchor: { x: 0, y: 0 },
     zoom: 1,
+    zoomDelta: 0,
   });
   const [renderData, setRenderData] = useState<{ n: node[]; e: edge[] }>({
     n: [],
     e: [],
+  });
+  const [pathing, setPathing] = useState<{
+    seletedPoint: vec2 | null;
+    path: node[];
+  }>({
+    seletedPoint: null,
+    path: [],
   });
 
   // canvas data
@@ -77,15 +87,15 @@ export function MapCanvas(props: mapCanvasProps) {
   function handleSetViewingFloor(i: number) {
     // update the render data
     setRenderData({
-      n: nodes.filter((n: node) => n.point.z === viewingFloor),
-      e: edges.filter((e: edge) => e.startNode.point.z === viewingFloor),
+      n: nodes.filter((n: node) => n.point.z === i),
+      e: edges.filter((e: edge) => e.startNode.point.z === i),
     });
     setViewingFloor(i);
   }
 
   // draw to canvas
   useEffect(() => {
-    function canvasDraw() {
+    async function canvasDraw() {
       const canv = canvasRef.current!;
       const ctx = canv.getContext("2d")!;
       ctx.clearRect(0, 0, canv.width, canv.height);
@@ -107,32 +117,58 @@ export function MapCanvas(props: mapCanvasProps) {
 
       function drawPoint(p: vec2) {
         p = vecToCanvSpace(p);
+        if (p.z !== viewingFloor) return;
         ctx.arc(p.x, p.y, 2, 0, 2 * Math.PI);
       }
 
       function drawLine(a: vec2, b: vec2) {
+        if (a.z !== viewingFloor) return;
         a = vecToCanvSpace(a);
         b = vecToCanvSpace(b);
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
       }
 
-      for (const n of renderData.n) {
+      if (mouseData.down) return;
+
+      // pathdinging here
+      if (props.pathfinding) {
+        if (pathing.seletedPoint === null) return;
         ctx.lineWidth = 15;
         ctx.beginPath();
-        drawPoint(n.point);
+        drawPoint(pathing.seletedPoint);
         ctx.stroke();
-      }
-      for (const e of renderData.e) {
         ctx.lineWidth = 5;
         ctx.strokeStyle = "blue";
         ctx.lineCap = "round";
-        drawLine(e.startNode.point, e.endNode.point);
-        ctx.stroke();
-      }
+        ctx.beginPath();
+        for (let i = 0; i < pathing.path.length - 1; i++) {
+          drawLine(pathing.path[i].point, pathing.path[i + 1].point);
+          //ctx.font = "30px Arial";
+          //ctx.fillText(i+"",vecToCanvSpace(pathing.path[i].point).x,vecToCanvSpace(pathing.path[i].point).y);
+        }
+        drawLine(
+          pathing.path[pathing.path.length - 1].point,
+          pathing.seletedPoint,
+        );
 
-      ctx.fillRect(mouseData.downPos.x, mouseData.downPos.y, 10, 10);
-      console.log("draw");
+        ctx.stroke();
+      } else {
+        console.log(renderData.n, viewingFloor);
+        for (const n of renderData.n) {
+          ctx.lineWidth = 15;
+          ctx.beginPath();
+          drawPoint(n.point);
+          ctx.stroke();
+        }
+        for (const e of renderData.e) {
+          ctx.lineWidth = 5;
+          ctx.strokeStyle = "blue";
+          ctx.lineCap = "round";
+          drawLine(e.startNode.point, e.endNode.point);
+          ctx.stroke();
+        }
+      }
     }
     image.onload = () => {
       canvasDraw();
@@ -142,13 +178,19 @@ export function MapCanvas(props: mapCanvasProps) {
     cameraControl.pan.x,
     cameraControl.pan.y,
     cameraControl.zoom,
+    cameraControl.zoomDelta,
     image,
+    mouseData.down,
     mouseData.downPos.x,
     mouseData.downPos.y,
     mouseData.pos.x,
     mouseData.pos.y,
+    pathing.path,
+    pathing.seletedPoint,
+    props.pathfinding,
     renderData.e,
     renderData.n,
+    viewingFloor,
   ]);
 
   // wheel
@@ -172,6 +214,7 @@ export function MapCanvas(props: mapCanvasProps) {
       setCameraControl({
         ...cameraControl,
         zoom: z,
+        zoomDelta: velocity,
         pan: {
           x: cameraControl.pan.x + dx,
           y: cameraControl.pan.y + dy,
@@ -245,7 +288,88 @@ export function MapCanvas(props: mapCanvasProps) {
     return () => {
       window.removeEventListener("mousedown", handleMouseDown);
     };
-  }, [cameraControl, mouseData]);
+  }, [
+    cameraControl,
+    edges,
+    mouseData,
+    nodes,
+    pathing,
+    props.startLocation,
+    viewingFloor,
+  ]);
+
+  //dblclick
+  useEffect(() => {
+    window.addEventListener("dblclick", handleDblclick);
+    function handleDblclick(e: MouseEvent) {
+      const rect = canvasRef.current!.getBoundingClientRect(); // get element's abs. position
+      const x =
+        ((e.clientX - rect.left) / (rect.right - rect.left)) *
+        canvasRef.current!.width;
+      const y =
+        ((e.clientY - rect.top) / (rect.bottom - rect.top)) *
+        canvasRef.current!.height;
+
+      const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
+      const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
+
+      // Move point to nearest edge
+      if (nodes === null || nodes === null) return;
+      const coords = graphHelper({
+        pos: { x: x2, y: y2, z: viewingFloor },
+        nodes: nodes,
+        edges: edges,
+        floor: viewingFloor,
+      });
+      if (coords === null) return;
+      const closestNode = pointHelper({
+        pos: coords,
+        nodes: nodes,
+        floor: viewingFloor,
+      });
+      if (closestNode === null) return;
+
+      axios
+        .get(
+          "/api/astar-api?&startNode=" +
+            closestNode +
+            "&endNode=" +
+            props.startLocation,
+        )
+        .then((res) => {
+          const pathNodes: node[] = [];
+          for (const s of res.data.path) {
+            const n = nodes.find((no: node) => {
+              return no.nodeID === s;
+            });
+            if (n === undefined) continue;
+            pathNodes.push(n);
+          }
+
+          if (pathNodes === undefined || pathNodes.length === 0) {
+            console.error("no path");
+            return;
+          }
+          setPathing({
+            ...pathing,
+            path: pathNodes,
+            seletedPoint: coords,
+          });
+        });
+    }
+
+    return () => {
+      window.removeEventListener("dblclick", handleDblclick);
+    };
+  }, [
+    cameraControl,
+    edges,
+    mouseData,
+    nodes,
+    pathing,
+    props.startLocation,
+    viewingFloor,
+  ]);
 
   //mouseup
   useEffect(() => {

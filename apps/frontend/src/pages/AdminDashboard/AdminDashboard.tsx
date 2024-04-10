@@ -3,10 +3,30 @@ import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
 import MenuIcon from "@mui/icons-material/Menu";
 import MapIcon from "@mui/icons-material/Map";
 import TableViewIcon from "@mui/icons-material/TableView";
-import EditableMapCanvas from "../../components/editableMapCanvas.tsx";
+import MapCanvas2 from "../../components/mapCanvas2.tsx";
+import { useState } from "react";
+import DisplayCSV from "../TableDisplayPage/displayCSV.tsx";
 
 export default function AdminDashboard() {
+  const [selectedTab, setSelectedTab] = useState(0);
+  let tabInject = <></>;
+
+  if (selectedTab === 0) {
+    console.log("a");
+  } else if (selectedTab === 1) {
+    tabInject = (
+      <MapCanvas2
+        defaultFloor={1}
+        pathfinding={false}
+        startLocation={"CCONF001L1"}
+      />
+    );
+  } else if (selectedTab === 2) {
+    tabInject = <DisplayCSV />;
+  }
+
   function handleSelect(i: number) {
+    setSelectedTab(i);
     console.log(i);
   }
 
@@ -38,7 +58,7 @@ export default function AdminDashboard() {
             width: "100%",
           }}
         >
-          <EditableMapCanvas floor={1} startLocation={"CCONF001L1"} />
+          {tabInject}
         </Box>
       </Box>
     </>

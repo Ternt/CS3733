@@ -11,7 +11,11 @@ export default function MapPage() {
           setStartLocation(v);
         }}
       />
-      <MapCanvas2 defaultFloor={2} startLocation={startLocation} />
+      <MapCanvas2
+        defaultFloor={2}
+        pathfinding={true}
+        startLocation={startLocation}
+      />
     </>
   );
 }
