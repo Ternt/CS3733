@@ -5,7 +5,7 @@ import { Item } from "../GiftRequestPage/GiftRequestPage.tsx";
 import { FormControl, TextField, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -25,7 +25,14 @@ type Form = {
   itemIDs: string[];
 };
 
-function FlowerCheckoutPage() {
+type flowerCheckoutPageProps = {
+  title: string;
+};
+
+function FlowerCheckoutPage(props: flowerCheckoutPageProps) {
+  useEffect(() => {
+    document.title = props.title;
+  });
   const location = useLocation();
   const { cart } = location.state;
 

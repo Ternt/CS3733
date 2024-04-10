@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import ItemCard from "../../components/Card/ItemCard.tsx";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -54,9 +54,16 @@ const items: ItemCardData[] = [
   },
 ];
 
+type giftRequestPageProps = {
+  title: string;
+};
+
 export const StoreContext = React.createContext(null);
 
-function GiftRequestPage() {
+function GiftRequestPage(props: giftRequestPageProps) {
+  useEffect(() => {
+    document.title = props.title;
+  });
   const initialCart: Item[] = [];
 
   const [cart, setCart] = useState(initialCart);
