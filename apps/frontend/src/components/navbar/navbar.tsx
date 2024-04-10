@@ -1,19 +1,19 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-//import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+//import { StyledMenu } from "../StyledMenu.tsx";
+import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import { Menu, MenuItem } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
 import Link from "@mui/material/Link";
-import { useNavigate } from "react-router-dom";
-// import Typography from "@mui/material/Typography";
-
 import "./navbar.scss";
 import logo from "../../assets/logo_white_big.png";
+import { useNavigate } from "react-router-dom";
+import { Menu } from "@mui/material";
 
 const pages = [
-  { label: "Map", path: "/" },
+  { label: "Map", path: "/map" },
   { label: "Service List", path: "/service-request-display" },
   { label: "Node and Edge Tables", path: "/tables" },
 ];
@@ -29,17 +29,16 @@ function ResponsiveAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
-
   const handleMenuItemClick = (path: string) => {
     navigate(path);
   };
 
-  const handleOnClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleOnClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handleClickMenuItemList = (path: string) => {
@@ -55,10 +54,15 @@ function ResponsiveAppBar() {
         bgcolor: "#012d5a",
       }}
     >
-      <Box>
-        <Toolbar>
-          {/* Logo */}
-          <Link href="" underline="none" sx={{ maxWidth: "30%" }}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Link
+            href=""
+            underline="none"
+            sx={{
+              maxWidth: "30%",
+            }}
+          >
             <Box
               component="img"
               className={"logo"}
@@ -71,7 +75,6 @@ function ResponsiveAppBar() {
             ></Box>
           </Link>
 
-          {/* Menu Buttons */}
           <Box
             sx={{
               flexGrow: 1,
@@ -142,6 +145,7 @@ function ResponsiveAppBar() {
                 </MenuItem>
               ))}
             </Menu>
+
             <Button
               key={"login"}
               onClick={() => handleMenuItemClick("/login")}
@@ -166,9 +170,10 @@ function ResponsiveAppBar() {
             </Button>
           </Box>
         </Toolbar>
-      </Box>
+      </Container>
     </AppBar>
   );
 }
 
 export default ResponsiveAppBar;
+//Husky Test2

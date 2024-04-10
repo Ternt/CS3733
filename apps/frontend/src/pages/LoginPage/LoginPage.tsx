@@ -1,20 +1,12 @@
-import { useEffect, useState } from "react";
+import "./LoginPage.scss";
+import Card from "../../components/Card/Card.tsx";
+import { useState } from "react";
 import { LoginCredentials } from "../../common/LoginCredentials.ts";
 import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Button,
-  Card,
-  FormControl,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, FormControl, TextField } from "@mui/material";
 import background from "./login-page-background.png";
 
 export default function LoginPage() {
-  useEffect(() => {
-    document.title = "B+W Login";
-  });
   const [credential, setCredential] = useState<LoginCredentials>({
     username: "",
     password: "",
@@ -46,34 +38,24 @@ export default function LoginPage() {
 
   return (
     <>
-      <img
+      <Box
+        component="img"
         src={background}
-        alt={"login-background"}
-        style={{
-          width: "100vw",
-          height: "50vh",
+        sx={{
           objectFit: "cover",
+          overflow: "hidden",
+          height: "72.2vh",
         }}
-      />
-      <Box>
-        <Card
-          sx={{
-            width: "20vw",
-            position: "absolute",
-            left: "50%",
-            top: "60%",
-            transform: "translate(-50%,-50%)",
-            boxShadow: 5,
-            px: 5,
-            pt: 5,
-            pb: 10,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "flex-start",
-          }}
-        >
-          <Typography variant={"h5"}>Login</Typography>
+      ></Box>
+
+      <Box
+        className={"login-page"}
+        sx={{
+          height: 0,
+        }}
+      >
+        <Card>
+          <h1>Login</h1>
           <FormControl fullWidth>
             <TextField
               id="input-with-sx"
@@ -97,12 +79,7 @@ export default function LoginPage() {
             >
               Login
             </Button>
-            <Typography
-              variant={"subtitle2"}
-              sx={{ color: "red", textAlign: "center" }}
-            >
-              {error}
-            </Typography>
+            <p className={"error-message"}>{error}</p>
           </FormControl>
         </Card>
       </Box>

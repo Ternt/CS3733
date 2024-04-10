@@ -64,7 +64,6 @@ function GiftRequestPage() {
   const location = useLocation();
   const initialCart: Item[] = location.state?.cart || [];
 
-
   const [cart, setCart] = useState(initialCart);
 
   function addItem(item: Item) {
