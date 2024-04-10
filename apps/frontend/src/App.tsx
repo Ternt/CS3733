@@ -25,7 +25,7 @@ function App() {
       children: [
         {
           path: "",
-          element: <MapPage />,
+          element: <MapPage title="Map" />,
         },
         {
           path: "/service-request",
@@ -33,15 +33,11 @@ function App() {
         },
         {
           path: "/medicine-request",
-          element: <MedicineDeliveryForm />,
+          element: <MedicineDeliveryForm title="Medicine Request" />,
         },
         {
           path: "/sanitation",
           element: <SanitationRequestForm title="Sanitation Request" />,
-        },
-        {
-          path: "",
-          element: <MapPage title="Map" />,
         },
         {
           path: "/login",
