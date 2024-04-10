@@ -12,6 +12,9 @@ import {
 
 function ServiceRequest() {
   // Initialize state variables for service and details with useState hook
+  useEffect(() => {
+    document.title = "Service Request";
+  });
 
   let requestID = 1;
   const [service, setService] = useState("");

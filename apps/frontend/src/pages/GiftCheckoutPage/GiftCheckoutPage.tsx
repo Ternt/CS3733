@@ -5,7 +5,7 @@ import { Item } from "../GiftRequestPage/GiftRequestPage.tsx";
 import { FormControl, TextField, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,6 +14,7 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import React from "react";
 
 type Form = {
   name: string;
@@ -26,6 +27,9 @@ type Form = {
 };
 
 function GiftCheckoutPage() {
+  useEffect(() => {
+    document.title = "Gift Checkout";
+  });
   const location = useLocation();
   const { cart } = location.state;
 
@@ -54,7 +58,7 @@ function GiftCheckoutPage() {
 
   const navigate = useNavigate();
   const handleBack = () => {
-    navigate("/gift-request");
+    navigate("/gift-request", { state: { cart } });
   };
 
   function handleSubmit() {
@@ -103,8 +107,7 @@ function GiftCheckoutPage() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            bgcolor: "#FFFFFF",
-            width: { xs: "60vw", md: "30vw" },
+            width: { xs: "60vw", md: "60vw" },
             height: "100vh",
             position: "sticky",
             top: 0,
@@ -112,8 +115,14 @@ function GiftCheckoutPage() {
           }}
         >
           <Box>
-            <Typography p={3} textAlign={"center"} variant={"h3"}>
-              Buy Gifts
+            <Typography
+              p={3}
+              style={{ fontFamily: "Inria Serif" }}
+              variant="h4"
+              component="h1"
+              align="center"
+            >
+              BUY GIFTS
             </Typography>
           </Box>
           <Box
@@ -255,8 +264,14 @@ function GiftCheckoutPage() {
               }}
             >
               <Box>
-                <Typography p={3} textAlign={"center"} variant={"h3"}>
-                  Enter Information
+                <Typography
+                  p={3}
+                  style={{ fontFamily: "Inria Serif" }}
+                  variant="h4"
+                  component="h1"
+                  align="center"
+                >
+                  ENTER INFORMATION
                 </Typography>
               </Box>
 
@@ -266,6 +281,15 @@ function GiftCheckoutPage() {
                   px: "1rem",
                 }}
               >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography>Made by Alex & Brett</Typography>
+                </Box>
+
                 <TextField
                   label="Name"
                   id="name-input"

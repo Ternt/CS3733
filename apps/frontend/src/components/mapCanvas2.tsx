@@ -409,7 +409,12 @@ export function MapCanvas(props: mapCanvasProps) {
           y: r.ycoord,
           z: FLOOR_NAME_TO_INDEX(r.floor),
         };
-        const n: node = { nodeID: r.nodeID, point: v };
+        const n: node = {
+          nodeID: r.nodeID,
+          point: v,
+          nodeType: r.nodeType,
+          longName: r.longName,
+        };
         ns.push(n);
       }
 

@@ -24,6 +24,9 @@ type Location = {
 let RequestList: ServiceRequest[];
 
 const ServiceRequests: React.FC = () => {
+  useEffect(() => {
+    document.title = "Display Service Requests";
+  });
   const [placeholder, setplaceholder] = useState(<></>);
   useEffect(() => {
     axios.get<ServiceRequest[]>("/api/service-requests").then((response) => {

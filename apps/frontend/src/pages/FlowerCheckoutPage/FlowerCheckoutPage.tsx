@@ -5,7 +5,7 @@ import { Item } from "../GiftRequestPage/GiftRequestPage.tsx";
 import { FormControl, TextField, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -26,6 +26,9 @@ type Form = {
 };
 
 function FlowerCheckoutPage() {
+  useEffect(() => {
+    document.title = "Flower Checkout";
+  });
   const location = useLocation();
   const { cart } = location.state;
 
@@ -54,7 +57,7 @@ function FlowerCheckoutPage() {
 
   const navigate = useNavigate();
   const handleBack = () => {
-    navigate("/gift-request");
+    navigate("/flower-request", { state: { cart } });
   };
 
   function handleSubmit() {
@@ -103,8 +106,7 @@ function FlowerCheckoutPage() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            bgcolor: "#FFFFFF",
-            width: { xs: "60vw", md: "30vw" },
+            width: { xs: "60vw", md: "60vw" },
             height: "100vh",
             position: "sticky",
             top: 0,
@@ -255,7 +257,7 @@ function FlowerCheckoutPage() {
               }}
             >
               <Box>
-                <Typography p={3} textAlign={"center"} variant={"h3"}>
+                <Typography p={1} textAlign={"center"} variant={"h3"}>
                   Enter Information
                 </Typography>
               </Box>

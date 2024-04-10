@@ -1,8 +1,11 @@
 import LocationSelectDropdown from "../components/locationSelectDropdown.tsx";
+import { useEffect, useState } from "react";
 import MapCanvas2 from "../components/mapCanvas2.tsx";
-import { useState } from "react";
 
 export default function MapPage() {
+  useEffect(() => {
+    document.title = "Map";
+  });
   const [startLocation, setStartLocation] = useState("CCONF001L1");
   return (
     <>
