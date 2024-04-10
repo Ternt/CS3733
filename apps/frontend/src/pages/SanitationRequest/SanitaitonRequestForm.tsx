@@ -120,7 +120,12 @@ function SanitationRequestForm() {
           p: 2,
         }}
       >
-        <Typography  style={{ fontFamily: "Inria Serif"}} variant="h4" component="h1" align="center">
+        <Typography
+          style={{ fontFamily: "Inria Serif" }}
+          variant="h4"
+          component="h1"
+          align="center"
+        >
           SANITATION REQUEST
         </Typography>
       </Box>

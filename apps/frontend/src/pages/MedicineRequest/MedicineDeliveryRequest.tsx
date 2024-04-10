@@ -45,18 +45,18 @@ function MedicineRequestForm() {
     status: "",
   });
 
-    function isComplete(): boolean {
-        return (
-            formInput.medicine != "" &&
-            formInput.dosage != "" &&
-            formInput.form != "" &&
-            formInput.patientName != "" &&
-            formInput.physicianName != "" &&
-            formInput.location != "" &&
-            formInput.priority != "" &&
-            formInput.status != ""
-        );
-    }
+  function isComplete(): boolean {
+    return (
+      formInput.medicine != "" &&
+      formInput.dosage != "" &&
+      formInput.form != "" &&
+      formInput.patientName != "" &&
+      formInput.physicianName != "" &&
+      formInput.location != "" &&
+      formInput.priority != "" &&
+      formInput.status != ""
+    );
+  }
 
   function handlePhysicianNameInput(e: ChangeEvent<HTMLInputElement>) {
     setFormInput({ ...formInput, physicianName: e.target.value });
@@ -66,25 +66,26 @@ function MedicineRequestForm() {
     setFormInput({ ...formInput, patientName: e.target.value });
   }
 
-    function submitForm() {
-        setFormData((prevRequests) => [...prevRequests, formInput]);
-        // sanitationRequests.addRequestToList(formInput);
-        clearForm();
-        console.log(formData); // Print the array of requests to the console
-    }
+  function submitForm() {
+    setFormData((prevRequests) => [...prevRequests, formInput]);
+    // sanitationRequests.addRequestToList(formInput);
+    clearForm();
+    console.log(formData); // Print the array of requests to the console
+  }
 
-    function clearForm() {
-        setFormInput({
-            ...formInput,
-            medicine: "",
-            dosage: "",
-            form: "",
-            patientName: "",
-            physicianName: "",
-            location: "",
-            priority: "",
-            status: "",
-        });}
+  function clearForm() {
+    setFormInput({
+      ...formInput,
+      medicine: "",
+      dosage: "",
+      form: "",
+      patientName: "",
+      physicianName: "",
+      location: "",
+      priority: "",
+      status: "",
+    });
+  }
 
   return (
     <Box
@@ -109,8 +110,12 @@ function MedicineRequestForm() {
           p: 2,
         }}
       >
-        <Typography style={{ fontFamily: "Inria Serif"}}
-            variant="h4" component="h1" align="center">
+        <Typography
+          style={{ fontFamily: "Inria Serif" }}
+          variant="h4"
+          component="h1"
+          align="center"
+        >
           MEDICINE REQUEST
         </Typography>
       </Box>
@@ -120,10 +125,9 @@ function MedicineRequestForm() {
         top={150}
         sx={{
           width: "500px",
-            backgroundColor: "whitesmoke"
+          backgroundColor: "whitesmoke",
         }}
         px={10}
-
       >
         <form
           id="sanitationForm"
@@ -326,41 +330,42 @@ function MedicineRequestForm() {
 
       <Box position="absolute" top={1000} sx={{ width: "80%" }}>
         <TableContainer>
-            <Table>
-                <TableHead
-                    sx={{
-                        backgroundColor: "#012d5a",
-                    }}
-                >
-
-                    <TableRow>
-                        <TableCell sx={{color: "#f6bd38"}}>patientName</TableCell>
-                        <TableCell sx={{color: "#f6bd38"}}>physicianName</TableCell>
-                        <TableCell sx={{color: "#f6bd38"}}>priority</TableCell>
-                        <TableCell sx={{color: "#f6bd38"}}>location</TableCell>
-                        <TableCell sx={{color: "#f6bd38"}}>medicine</TableCell>
-                        <TableCell sx={{color: "#f6bd38"}}>dosage</TableCell>
-                        <TableCell sx={{color: "#f6bd38"}}>form</TableCell>
-                        <TableCell sx={{color: "#f6bd38"}}>Assignment Status</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {formData.map((request, index) => (
-                        <TableRow key={index}>
-                            <TableCell component="th" scope="row">
-                                {request.patientName}
-                            </TableCell>
-                            <TableCell>{request.physicianName}</TableCell>
-                            <TableCell>{request.priority}</TableCell>
-                            <TableCell>{request.location}</TableCell>
-                            <TableCell>{request.medicine}</TableCell>
-                            <TableCell>{request.dosage}</TableCell>
-                            <TableCell>{request.form}</TableCell>
-                            <TableCell>{request.status}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+          <Table>
+            <TableHead
+              sx={{
+                backgroundColor: "#012d5a",
+              }}
+            >
+              <TableRow>
+                <TableCell sx={{ color: "#f6bd38" }}>patientName</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>physicianName</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>priority</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>location</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>medicine</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>dosage</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>form</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>
+                  Assignment Status
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {formData.map((request, index) => (
+                <TableRow key={index}>
+                  <TableCell component="th" scope="row">
+                    {request.patientName}
+                  </TableCell>
+                  <TableCell>{request.physicianName}</TableCell>
+                  <TableCell>{request.priority}</TableCell>
+                  <TableCell>{request.location}</TableCell>
+                  <TableCell>{request.medicine}</TableCell>
+                  <TableCell>{request.dosage}</TableCell>
+                  <TableCell>{request.form}</TableCell>
+                  <TableCell>{request.status}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </TableContainer>
       </Box>
     </Box>
