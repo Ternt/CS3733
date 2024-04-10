@@ -5,7 +5,7 @@ import { Item } from "../GiftRequestPage/GiftRequestPage.tsx";
 import { FormControl, TextField, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -27,6 +27,9 @@ type Form = {
 };
 
 function GiftCheckoutPage() {
+  useEffect(() => {
+    document.title = "Gift Checkout";
+  });
   const location = useLocation();
   const { cart } = location.state;
 

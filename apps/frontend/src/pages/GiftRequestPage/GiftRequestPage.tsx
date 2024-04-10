@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import ItemCard from "../../components/Card/ItemCard.tsx";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -57,8 +57,13 @@ const items: ItemCardData[] = [
 export const StoreContext = React.createContext(null);
 
 function GiftRequestPage() {
+  useEffect(() => {
+    document.title = "Gift Request";
+  });
+
   const location = useLocation();
   const initialCart: Item[] = location.state?.cart || [];
+
 
   const [cart, setCart] = useState(initialCart);
 
