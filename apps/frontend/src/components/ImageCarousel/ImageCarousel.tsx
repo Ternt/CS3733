@@ -83,13 +83,13 @@ function SwipeableTextMobileStepper() {
               <Box
                 component="img"
                 sx={{
-                  height: "100vh",
+                  height: "86.65vh",
                   display: "block",
                   objectFit: "cover",
                   overflow: "hidden",
                   width: "100vw",
                   m: "auto",
-                  filter: "brightness(70%) blur(3px) ",
+                  filter: "brightness(80%) blur(3px) ",
                 }}
                 src={step.imgPath}
                 alt={step.label}
@@ -104,8 +104,11 @@ function SwipeableTextMobileStepper() {
         activeStep={activeStep}
         style={{ backgroundColor: "transparent" }}
         sx={{
-          flexDirection: "Column",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           paddingBottom: "1rem",
+          alignContent: "center",
         }}
         nextButton={<></>}
         backButton={<></>}
@@ -120,7 +123,7 @@ function SwipeableTextMobileStepper() {
           flexDirection: "row",
           justifyContent: "space-between",
           padding: "1rem",
-          opacity: "50%",
+          opacity: "30%",
         }}
       >
         <Button

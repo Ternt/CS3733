@@ -26,7 +26,6 @@ function ResponsiveAppBar() {
 
   const navigate = useNavigate();
   const handleMenuItemClick = (path: string) => {
-    console.log("this ran");
     navigate(path);
   };
 
