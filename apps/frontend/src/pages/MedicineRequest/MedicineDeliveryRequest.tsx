@@ -33,7 +33,7 @@ type form = {
 };
 
 function MedicineRequestForm() {
-  //const [formData, setFormData] = useState<form[]>([]);
+  const [formData, setFormData] = useState<form[]>([]);
   const [formInput, setFormInput] = useState<form>({
     medicine: "",
     dosage: "",
@@ -45,6 +45,19 @@ function MedicineRequestForm() {
     status: "",
   });
 
+    function isComplete(): boolean {
+        return (
+            formInput.medicine != "" &&
+            formInput.dosage != "" &&
+            formInput.form != "" &&
+            formInput.patientName != "" &&
+            formInput.physicianName != "" &&
+            formInput.location != "" &&
+            formInput.priority != "" &&
+            formInput.status != ""
+        );
+    };
+
   function handlePhysicianNameInput(e: ChangeEvent<HTMLInputElement>) {
     setFormInput({ ...formInput, physicianName: e.target.value });
   }
@@ -52,6 +65,26 @@ function MedicineRequestForm() {
   function handlePatientNameInput(e: ChangeEvent<HTMLInputElement>) {
     setFormInput({ ...formInput, patientName: e.target.value });
   }
+
+    function submitForm() {
+        setFormData((prevRequests) => [...prevRequests, formInput]);
+        // sanitationRequests.addRequestToList(formInput);
+        clearForm();
+        console.log(formData); // Print the array of requests to the console
+    }
+
+    function clearForm() {
+        setFormInput({
+            ...formInput,
+            medicine: "",
+            dosage: "",
+            form: "",
+            patientName: "",
+            physicianName: "",
+            location: "",
+            priority: "",
+            status: "",
+        });}
 
   return (
     <Box
@@ -86,7 +119,10 @@ function MedicineRequestForm() {
         top={150}
         sx={{
           width: "500px",
+            backgroundColor: "#ffffff"
         }}
+        px={10}
+
       >
         <form
           id="sanitationForm"
@@ -184,7 +220,7 @@ function MedicineRequestForm() {
                   });
                 }}
                 margin="normal"
-                value={formInput.medicine}
+                value={formInput.dosage}
                 fullWidth
               />
             </Box>
@@ -265,7 +301,7 @@ function MedicineRequestForm() {
                 sx={{
                   margin: 1,
                 }}
-                //onClick={clearForm}
+                onClick={clearForm}
               >
                 Clear
               </Button>
@@ -277,8 +313,8 @@ function MedicineRequestForm() {
                 sx={{
                   margin: 1,
                 }}
-                //disabled={!isComplete()}
-                //nClick={submitForm}
+                disabled={!isComplete()}
+                onClick={submitForm}
               >
                 Submit
               </Button>
