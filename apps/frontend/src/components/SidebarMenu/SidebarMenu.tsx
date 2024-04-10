@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
 type SidebarMenuProps = {
@@ -18,20 +18,16 @@ export default function SidebarMenu(props: SidebarMenuProps) {
         sx={{
           width: "fit-content",
           height: "fill-available",
-          bgcolor: "black",
         }}
       >
         <Box>
           {props.tabs.map((t, i) => {
             return (
-              <Box
+              <Button
                 key={i}
                 sx={{
                   width: "100%",
-                  bgcolor: i === selectedTab ? "orange" : "blue",
-                  "&:hover": {
-                    bgcolor: "red",
-                  },
+                  bgcolor: i === selectedTab ? "#00000010" : "transparent",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
@@ -54,7 +50,7 @@ export default function SidebarMenu(props: SidebarMenuProps) {
                 >
                   {t}
                 </Typography>
-              </Box>
+              </Button>
             );
           })}
         </Box>

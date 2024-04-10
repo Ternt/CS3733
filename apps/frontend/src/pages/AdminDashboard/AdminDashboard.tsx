@@ -36,7 +36,6 @@ export default function AdminDashboard() {
           sx={{
             height: "80vh",
             width: "100%",
-            bgcolor: "pink",
           }}
         >
           <EditableMapCanvas floor={1} startLocation={"CCONF001L1"} />
