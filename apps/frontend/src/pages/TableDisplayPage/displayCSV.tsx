@@ -6,6 +6,9 @@ let NodeList: [];
 let EdgeList: [];
 
 const MapDataDisplay: React.FC = () => {
+  useEffect(() => {
+    document.title = "Map Nodes/Edges List";
+  });
   const [nodeTable, setNodeTable] = useState(<></>);
   const [edgeTable, setEdgeTable] = useState(<></>);
   useEffect(() => {

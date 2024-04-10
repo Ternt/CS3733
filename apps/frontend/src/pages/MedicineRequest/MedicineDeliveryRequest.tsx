@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import medicin_delivery from "../../assets/medicin_delivery.png";
 import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import {
@@ -33,6 +33,9 @@ type form = {
 };
 
 function MedicineRequestForm() {
+  useEffect(() => {
+    document.title = "Medicine Request";
+  });
   const [formData, setFormData] = useState<form[]>([]);
   const [formInput, setFormInput] = useState<form>({
     medicine: "",
