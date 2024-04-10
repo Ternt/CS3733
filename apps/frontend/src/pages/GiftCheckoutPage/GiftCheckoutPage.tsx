@@ -14,6 +14,7 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import React from "react";
 
 type Form = {
   name: string;
@@ -54,7 +55,7 @@ function GiftCheckoutPage() {
 
   const navigate = useNavigate();
   const handleBack = () => {
-    navigate("/gift-request");
+    navigate("/gift-request", { state: { cart } });
   };
 
   function handleSubmit() {
@@ -103,8 +104,7 @@ function GiftCheckoutPage() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            bgcolor: "#FFFFFF",
-            width: { xs: "60vw", md: "30vw" },
+            width: { xs: "60vw", md: "60vw" },
             height: "100vh",
             position: "sticky",
             top: 0,

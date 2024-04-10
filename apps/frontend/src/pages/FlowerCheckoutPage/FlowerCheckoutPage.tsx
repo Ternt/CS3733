@@ -54,7 +54,7 @@ function FlowerCheckoutPage() {
 
   const navigate = useNavigate();
   const handleBack = () => {
-    navigate("/gift-request");
+    navigate("/flower-request", { state: { cart } });
   };
 
   function handleSubmit() {
@@ -103,8 +103,7 @@ function FlowerCheckoutPage() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            bgcolor: "#FFFFFF",
-            width: { xs: "60vw", md: "30vw" },
+            width: { xs: "60vw", md: "60vw" },
             height: "100vh",
             position: "sticky",
             top: 0,
@@ -112,14 +111,8 @@ function FlowerCheckoutPage() {
           }}
         >
           <Box>
-            <Typography
-              p={3}
-              style={{ fontFamily: "Inria Serif" }}
-              variant="h4"
-              component="h1"
-              align="center"
-            >
-              BUY FLOWERS
+            <Typography p={3} textAlign={"center"} variant={"h3"}>
+              Buy Flowers
             </Typography>
           </Box>
           <Box
@@ -261,14 +254,8 @@ function FlowerCheckoutPage() {
               }}
             >
               <Box>
-                <Typography
-                  p={3}
-                  style={{ fontFamily: "Inria Serif" }}
-                  variant="h4"
-                  component="h1"
-                  align="center"
-                >
-                  ENTER INFORMATION
+                <Typography p={1} textAlign={"center"} variant={"h3"}>
+                  Enter Information
                 </Typography>
               </Box>
 
@@ -278,15 +265,6 @@ function FlowerCheckoutPage() {
                   px: "1rem",
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography>Made by Anton & Rayyan</Typography>
-                </Box>
-
                 <TextField
                   label="Name"
                   id="name-input"
