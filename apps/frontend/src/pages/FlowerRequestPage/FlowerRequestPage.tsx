@@ -3,9 +3,9 @@ import { Typography } from "@mui/material";
 import ItemCard from "../../components/Card/ItemCard.tsx";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export type Item = {
   id: string;
@@ -57,7 +57,12 @@ const items: ItemCardData[] = [
 export const StoreContext = React.createContext(null);
 
 function FlowerRequestPage() {
-  const initialCart: Item[] = [];
+  useEffect(() => {
+    document.title = "Flower Request";
+  });
+
+  const location = useLocation();
+  const initialCart: Item[] = location.state?.cart || [];
 
   const [cart, setCart] = useState(initialCart);
 
