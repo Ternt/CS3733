@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import sanitationImage from "../../assets/sanitation_background.jpg";
+import medicin_delivery from "../../assets/medicin_delivery.png";
 import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import {
   TextField,
@@ -90,7 +90,7 @@ function MedicineRequestForm() {
     <Box
       position="relative"
       sx={{
-        backgroundImage: `url(${sanitationImage})`,
+        backgroundImage: `url(${medicin_delivery})`,
         display: "flex",
         justifyContent: "center",
         height: "100vh",
