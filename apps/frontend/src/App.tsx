@@ -14,7 +14,7 @@ import GiftCheckoutPage from "./pages/GiftCheckoutPage/GiftCheckoutPage.tsx";
 import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
 import FlowerCheckoutPage from "./pages/FlowerCheckoutPage/FlowerCheckoutPage.tsx";
 import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
-import MedicineDeliveryForm from "./pages/MedicineDeliveryRequest.tsx";
+import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 
 function App() {
   const router = createBrowserRouter([
