@@ -89,7 +89,7 @@ export function graphHelper(props: findClosestPointOnGraphProps) {
  * @param props Set of coordinates for the input and an array of nodes to check
  */
 export function pointHelper(props: findClosestNodeOnGraphProps) {
-  let closestNode: string | null = null;
+  let closestNode: node | null = null;
   let closestDist: number = Infinity;
 
   for (let i = 0; i < props.nodes.length; i++) {
@@ -110,7 +110,7 @@ export function pointHelper(props: findClosestNodeOnGraphProps) {
     const dist: number = distance(pn, mousePos);
     if (dist < closestDist) {
       closestDist = dist;
-      closestNode = node.nodeID;
+      closestNode = node;
     }
   }
 

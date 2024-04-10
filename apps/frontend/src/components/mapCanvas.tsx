@@ -284,7 +284,7 @@ export function MapCanvas(props: mapCanvasProps) {
     if (closestNode === null) return;
 
     getPath(
-      closestNode,
+      closestNode.nodeID,
       props.startLocation,
       selectedPoint,
       nodesRef.current!,

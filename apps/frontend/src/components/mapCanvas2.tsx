@@ -70,9 +70,11 @@ export function MapCanvas(props: mapCanvasProps) {
   const [pathing, setPathing] = useState<{
     seletedPoint: vec2 | null;
     path: node[];
+    nearestNode: node | null;
   }>({
     seletedPoint: null,
     path: [],
+    nearestNode: null,
   });
 
   // canvas data
@@ -157,6 +159,8 @@ export function MapCanvas(props: mapCanvasProps) {
         console.log(renderData.n, viewingFloor);
         for (const n of renderData.n) {
           ctx.lineWidth = 15;
+          ctx.strokeStyle = "blue";
+          if (n.nodeID === pathing.nearestNode?.nodeID) ctx.strokeStyle = "red";
           ctx.beginPath();
           drawPoint(n.point);
           ctx.stroke();
@@ -185,6 +189,7 @@ export function MapCanvas(props: mapCanvasProps) {
     mouseData.downPos.y,
     mouseData.pos.x,
     mouseData.pos.y,
+    pathing.nearestNode?.nodeID,
     pathing.path,
     pathing.seletedPoint,
     props.pathfinding,
@@ -314,7 +319,7 @@ export function MapCanvas(props: mapCanvasProps) {
       const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
 
       // Move point to nearest edge
-      if (nodes === null || nodes === null) return;
+      if (nodes === null) return;
       const coords = graphHelper({
         pos: { x: x2, y: y2, z: viewingFloor },
         nodes: nodes,
@@ -329,33 +334,41 @@ export function MapCanvas(props: mapCanvasProps) {
       });
       if (closestNode === null) return;
 
-      axios
-        .get(
-          "/api/astar-api?&startNode=" +
-            closestNode +
-            "&endNode=" +
-            props.startLocation,
-        )
-        .then((res) => {
-          const pathNodes: node[] = [];
-          for (const s of res.data.path) {
-            const n = nodes.find((no: node) => {
-              return no.nodeID === s;
-            });
-            if (n === undefined) continue;
-            pathNodes.push(n);
-          }
+      if (props.pathfinding) {
+        axios
+          .get(
+            "/api/astar-api?&startNode=" +
+              closestNode.nodeID +
+              "&endNode=" +
+              props.startLocation,
+          )
+          .then((res) => {
+            const pathNodes: node[] = [];
+            for (const s of res.data.path) {
+              const n = nodes.find((no: node) => {
+                return no.nodeID === s;
+              });
+              if (n === undefined) continue;
+              pathNodes.push(n);
+            }
 
-          if (pathNodes === undefined || pathNodes.length === 0) {
-            console.error("no path");
-            return;
-          }
-          setPathing({
-            ...pathing,
-            path: pathNodes,
-            seletedPoint: coords,
+            if (pathNodes === undefined || pathNodes.length === 0) {
+              console.error("no path");
+              return;
+            }
+            setPathing({
+              ...pathing,
+              path: pathNodes,
+              seletedPoint: coords,
+            });
           });
+      } else {
+        setPathing({
+          ...pathing,
+          seletedPoint: coords,
+          nearestNode: closestNode,
         });
+      }
     }
 
     return () => {
@@ -367,6 +380,7 @@ export function MapCanvas(props: mapCanvasProps) {
     mouseData,
     nodes,
     pathing,
+    props.pathfinding,
     props.startLocation,
     viewingFloor,
   ]);
@@ -430,6 +444,19 @@ export function MapCanvas(props: mapCanvasProps) {
         style={{ width: "100%" }}
         ref={canvasRef}
       />
+      {!props.pathfinding && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: "120px",
+            left: "120px",
+            width: "10vw",
+            bgcolor: "red",
+          }}
+        >
+          <p>AAA</p>
+        </Box>
+      )}
       <Box>
         <SpeedDial
           ariaLabel="Map controls"
