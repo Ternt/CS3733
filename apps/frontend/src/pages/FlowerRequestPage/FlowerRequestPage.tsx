@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export type Item = {
   id: string;
@@ -60,7 +60,9 @@ function FlowerRequestPage() {
   useEffect(() => {
     document.title = "Flower Request";
   });
-  const initialCart: Item[] = [];
+
+  const location = useLocation();
+  const initialCart: Item[] = location.state?.cart || [];
 
   const [cart, setCart] = useState(initialCart);
 
