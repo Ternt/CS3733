@@ -6,23 +6,12 @@ import PrismaClient from "../bin/database-connection.ts";
 import { aStarSearch } from "./a-star-search.ts";
 
 export enum Floor {
-  L2 = "L2",
-  L1 = "L1",
-  F1 = "1",
-  F2 = "2",
-  F3 = "3",
+  L2 = -1,
+  L1 = 0,
+  F1 = 1,
+  F2 = 2,
+  F3 = 3,
 }
-
-const floorNameArray = ["L2", "L1", "1", "2", "3"];
-const floorArray = [Floor.L2, Floor.L1, Floor.F1, Floor.F2, Floor.F3];
-
-const floorValueDict = {
-  [Floor.L2]: 1,
-  [Floor.L1]: 2,
-  [Floor.F1]: 3,
-  [Floor.F2]: 4,
-  [Floor.F3]: 5,
-};
 
 export enum NodeType {
   CONF = "CONF",
@@ -86,8 +75,8 @@ export class Edge {
     const x2 = this.end.xCoord;
     const y1 = this.start.yCoord;
     const y2 = this.end.yCoord;
-    const z1 = floorValueDict[this.start.floor];
-    const z2 = floorValueDict[this.end.floor];
+    const z1 = this.start.floor;
+    const z2 = this.end.floor;
 
     return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z2) ** 2);
   }
@@ -140,7 +129,7 @@ export class Graph {
         record.nodeID,
         record.xcoord,
         record.ycoord,
-        floorArray[floorNameArray.indexOf(record.floor)],
+        Floor[record.floor as keyof typeof Floor],
         record.building,
         NodeType[record.nodeType as keyof typeof NodeType],
         record.longName,
@@ -292,7 +281,7 @@ export class Graph {
         node.id,
         node.xCoord.toString(),
         node.yCoord.toString(),
-        node.floor,
+        Floor[node.floor],
         node.building,
         NodeType[node.type],
         node.longName,
@@ -436,13 +425,14 @@ export class Graph {
   cost(StartNodeID: string, EndNodeID: string): number {
     const startNode = this.nodes.get(StartNodeID)!;
     const endNode = this.nodes.get(EndNodeID)!;
-    const startZ = floorValueDict[startNode.floor];
-    const endZ = floorValueDict[endNode.floor];
+    const startZ = startNode.floor.valueOf() + 1;
+    const endZ = endNode.floor.valueOf() + 1;
     const cost =
       ((startNode.xCoord - endNode.xCoord) ** 2 +
         (startNode.yCoord - endNode.yCoord) ** 2) **
         (1 / 2) +
       Math.abs(startZ - endZ) * 50;
+
     return cost;
   }
 

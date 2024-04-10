@@ -53,8 +53,10 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@material-ui/core": "^4.12.4",
     "@mui/material": "^5.15.14",
     "@types/fuzzy-search": "^2.1.5",
+    "@types/react-swipeable-views": "^0.13.5",
     "@yarnpkg/pnpify": "^4.0.0-rc.45",
     "csv-parse": "^5.5.5",
     "csv-parser": "^3.0.0",

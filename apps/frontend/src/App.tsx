@@ -7,8 +7,8 @@ import MapPage from "./routes/mapPage.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import ServiceRequests from "./showAllSR.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
-import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
 import NavBar from "./components/navbar/navbar.tsx";
+import HeroPage from "./pages/HeroPage/HeroPage.tsx";
 import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
 import GiftCheckoutPage from "./pages/GiftCheckoutPage/GiftCheckoutPage.tsx";
 import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
@@ -25,6 +25,10 @@ function App() {
       children: [
         {
           path: "",
+          element: <HeroPage />,
+        },
+        {
+          path: "/map",
           element: <MapPage />,
         },
         {
@@ -82,7 +86,6 @@ function App() {
   function Root() {
     return (
       <>
-        <TouchToStart />
         <div className="w-full flex flex-col">
           <NavBar />
           <Outlet />
