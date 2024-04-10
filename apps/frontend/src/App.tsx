@@ -1,6 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-//import ServiceRequest from "./serviceRequest.tsx";
+import ServiceRequest from "./serviceRequest.tsx";
 import { ThemeProvider } from "@mui/material/styles"; // Import ThemeProvider
 import CustomTheme from "./components/CustomTheme.tsx"; // Import your custom theme
 import MapPage from "./routes/mapPage.tsx";
@@ -9,7 +9,12 @@ import ServiceRequests from "./showAllSR.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
 import NavBar from "./components/navbar/navbar.tsx";
-import MedicineDeliveryForm from "./pages/MedicineDeliveryRequest.tsx";
+import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
+import GiftCheckoutPage from "./pages/GiftCheckoutPage/GiftCheckoutPage.tsx";
+import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
+import FlowerCheckoutPage from "./pages/FlowerCheckoutPage/FlowerCheckoutPage.tsx";
+import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -19,7 +24,11 @@ function App() {
       children: [
         {
           path: "/service-request",
-          element: <MedicineDeliveryForm />,
+          element: <ServiceRequest />,
+        },
+        {
+          path: "/sanitation",
+          element: <SanitationRequestForm />,
         },
         {
           path: "",
@@ -32,6 +41,22 @@ function App() {
         {
           path: "/service-request-display",
           element: <ServiceRequests />,
+        },
+        {
+          path: "/gift-request",
+          element: <GiftRequestPage />,
+        },
+        {
+          path: "/gift-checkout",
+          element: <GiftCheckoutPage />,
+        },
+        {
+          path: "/flower-request",
+          element: <FlowerRequestPage />,
+        },
+        {
+          path: "/flower-checkout",
+          element: <FlowerCheckoutPage />,
         },
         {
           path: "/tables",
@@ -53,7 +78,7 @@ function App() {
     return (
       <>
         <TouchToStart />
-        <div className="w-full flex flex-col gap-5">
+        <div className="w-full flex flex-col">
           <NavBar />
           <Outlet />
         </div>
