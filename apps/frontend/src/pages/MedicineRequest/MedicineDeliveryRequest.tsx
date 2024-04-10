@@ -32,13 +32,9 @@ type form = {
   status: string;
 };
 
-type medicineRequestFormProps = {
-  title: string;
-};
-
-function MedicineRequestForm(props: medicineRequestFormProps) {
+function MedicineRequestForm() {
   useEffect(() => {
-    document.title = props.title;
+    document.title = "Medicine Request";
   });
   const [formData, setFormData] = useState<form[]>([]);
   const [formInput, setFormInput] = useState<form>({

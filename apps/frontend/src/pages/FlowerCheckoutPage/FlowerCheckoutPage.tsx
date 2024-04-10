@@ -25,13 +25,9 @@ type Form = {
   itemIDs: string[];
 };
 
-type flowerCheckoutPageProps = {
-  title: string;
-};
-
-function FlowerCheckoutPage(props: flowerCheckoutPageProps) {
+function FlowerCheckoutPage() {
   useEffect(() => {
-    document.title = props.title;
+    document.title = "Flower Checkout";
   });
   const location = useLocation();
   const { cart } = location.state;

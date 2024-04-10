@@ -25,23 +25,23 @@ function App() {
       children: [
         {
           path: "",
-          element: <MapPage title="Map" />,
+          element: <MapPage />,
         },
         {
           path: "/service-request",
-          element: <ServiceRequest title="Service Request" />,
+          element: <ServiceRequest />,
         },
         {
           path: "/medicine-request",
-          element: <MedicineDeliveryForm title="Medicine Request" />,
+          element: <MedicineDeliveryForm />,
         },
         {
           path: "/sanitation",
-          element: <SanitationRequestForm title="Sanitation Request" />,
+          element: <SanitationRequestForm />,
         },
         {
           path: "/login",
-          element: <LoginPage title="Login" />,
+          element: <LoginPage />,
         },
         {
           path: "/service-request-display",
@@ -49,19 +49,19 @@ function App() {
         },
         {
           path: "/gift-request",
-          element: <GiftRequestPage title="Gift Request" />,
+          element: <GiftRequestPage />,
         },
         {
           path: "/gift-checkout",
-          element: <GiftCheckoutPage title="Gift Checkout" />,
+          element: <GiftCheckoutPage />,
         },
         {
           path: "/flower-request",
-          element: <FlowerRequestPage title="Flower Request" />,
+          element: <FlowerRequestPage />,
         },
         {
           path: "/flower-checkout",
-          element: <FlowerCheckoutPage title="Flower Checkout" />,
+          element: <FlowerCheckoutPage />,
         },
         {
           path: "/tables",

@@ -11,13 +11,9 @@ import {
 } from "@mui/material";
 import background from "./login-page-background.png";
 
-type loginPageProps = {
-  title: string;
-};
-
-export default function LoginPage(props: loginPageProps) {
+export default function LoginPage() {
   useEffect(() => {
-    document.title = props.title;
+    document.title = "B+W Login";
   });
   const [credential, setCredential] = useState<LoginCredentials>({
     username: "",

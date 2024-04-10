@@ -24,13 +24,10 @@ import {
 import Checkboxes from "../../components/FormElements/Checkboxes.tsx";
 
 const sanitationRequests = new RequestList();
-type santitationRequestFormProps = {
-  title: string;
-};
 
-function SanitationRequestForm(props: santitationRequestFormProps) {
+function SanitationRequestForm() {
   useEffect(() => {
-    document.title = props.title;
+    document.title = "Sanitation Request";
   });
   const [submittedRequests, setSubmittedRequests] = useState<
     SanitationFormFields[]

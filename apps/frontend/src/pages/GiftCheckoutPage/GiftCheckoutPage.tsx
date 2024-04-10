@@ -25,13 +25,9 @@ type Form = {
   itemIDs: string[];
 };
 
-type giftCheckoutPageProps = {
-  title: string;
-};
-
-function GiftCheckoutPage(props: giftCheckoutPageProps) {
+function GiftCheckoutPage() {
   useEffect(() => {
-    document.title = props.title;
+    document.title = "Gift Checkout";
   });
   const location = useLocation();
   const { cart } = location.state;

@@ -54,15 +54,11 @@ const items: ItemCardData[] = [
   },
 ];
 
-type giftRequestPageProps = {
-  title: string;
-};
-
 export const StoreContext = React.createContext(null);
 
-function GiftRequestPage(props: giftRequestPageProps) {
+function GiftRequestPage() {
   useEffect(() => {
-    document.title = props.title;
+    document.title = "Gift Request";
   });
   const initialCart: Item[] = [];
 

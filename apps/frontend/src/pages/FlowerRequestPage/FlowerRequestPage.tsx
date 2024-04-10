@@ -54,15 +54,11 @@ const items: ItemCardData[] = [
   },
 ];
 
-type flowerRequestPageProps = {
-  title: string;
-};
-
 export const StoreContext = React.createContext(null);
 
-function FlowerRequestPage(props: flowerRequestPageProps) {
+function FlowerRequestPage() {
   useEffect(() => {
-    document.title = props.title;
+    document.title = "Flower Request";
   });
   const initialCart: Item[] = [];
 
