@@ -6,7 +6,13 @@ import L2 from "../assets/BWHospitalMaps/01_thefirstfloor.png";
 import L3 from "../assets/BWHospitalMaps/02_thesecondfloor.png";
 import L4 from "../assets/BWHospitalMaps/03_thethirdfloor.png";
 
-import { Box, SpeedDial, SpeedDialAction } from "@mui/material";
+import {
+  Box,
+  Button,
+  SpeedDial,
+  SpeedDialAction,
+  Typography,
+} from "@mui/material";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import { edge, node, vec2 } from "../helpers/typestuff.ts";
 import axios, { AxiosResponse } from "axios";
@@ -364,11 +370,19 @@ export function MapCanvas(props: mapCanvasProps) {
             });
           });
       } else {
-        setPathing({
-          ...pathing,
-          seletedPoint: coords,
-          nearestNode: closestNode,
-        });
+        if (pathing.nearestNode?.nodeID === closestNode.nodeID) {
+          setPathing({
+            ...pathing,
+            seletedPoint: coords,
+            nearestNode: null,
+          });
+        } else {
+          setPathing({
+            ...pathing,
+            seletedPoint: coords,
+            nearestNode: closestNode,
+          });
+        }
       }
     }
 
@@ -450,21 +464,38 @@ export function MapCanvas(props: mapCanvasProps) {
         style={{ width: "100%" }}
         ref={canvasRef}
       />
-      {!props.pathfinding && (
+      {!props.pathfinding && pathing.nearestNode !== null && (
         <Box
           sx={{
             position: "absolute",
             top: "120px",
             left: "120px",
-            width: "10vw",
             bgcolor: "#00000010",
           }}
         >
-          <p>Node: {pathing.nearestNode?.nodeID}</p>
-          <p>{pathing.nearestNode?.longName}</p>
-          <p>X: {pathing.nearestNode?.point.x}</p>
-          <p>Y: {pathing.nearestNode?.point.y}</p>
-          <p>Z: {pathing.nearestNode?.point.z}</p>
+          <Typography variant={"subtitle1"}>
+            {pathing.nearestNode?.nodeID}
+          </Typography>
+          <Typography variant={"h5"}>
+            {pathing.nearestNode?.longName}
+          </Typography>
+          <Typography variant={"subtitle2"}>
+            X: {pathing.nearestNode?.point.x}
+          </Typography>
+          <Typography variant={"subtitle2"}>
+            Y: {pathing.nearestNode?.point.y}
+          </Typography>
+          <Typography variant={"subtitle2"}>
+            Z: {pathing.nearestNode?.point.z}
+          </Typography>
+          <Button
+            onClick={() => {
+              pathing.nearestNode = null;
+            }}
+            variant={"contained"}
+          >
+            X
+          </Button>
         </Box>
       )}
       <Box>
