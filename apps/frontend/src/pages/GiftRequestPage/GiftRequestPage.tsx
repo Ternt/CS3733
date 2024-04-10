@@ -102,8 +102,14 @@ function GiftRequestPage(props: giftRequestPageProps) {
         }}
       >
         <Box>
-          <Typography p={3} textAlign={"center"} variant={"h3"}>
-            Buy Gifts
+          <Typography
+            p={3}
+            style={{ fontFamily: "Inria Serif" }}
+            variant="h4"
+            component="h1"
+            align="center"
+          >
+            BUY GIFTS
           </Typography>
         </Box>
         <Box

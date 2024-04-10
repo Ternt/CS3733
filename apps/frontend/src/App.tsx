@@ -14,6 +14,7 @@ import GiftCheckoutPage from "./pages/GiftCheckoutPage/GiftCheckoutPage.tsx";
 import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
 import FlowerCheckoutPage from "./pages/FlowerCheckoutPage/FlowerCheckoutPage.tsx";
 import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
+import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -23,8 +24,16 @@ function App() {
       element: <Root />,
       children: [
         {
+          path: "",
+          element: <MapPage />,
+        },
+        {
           path: "/service-request",
           element: <ServiceRequest title="Service Request" />,
+        },
+        {
+          path: "/medicine-request",
+          element: <MedicineDeliveryForm />,
         },
         {
           path: "/sanitation",

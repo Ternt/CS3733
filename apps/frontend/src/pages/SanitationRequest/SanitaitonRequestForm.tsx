@@ -126,8 +126,13 @@ function SanitationRequestForm(props: santitationRequestFormProps) {
           p: 2,
         }}
       >
-        <Typography variant="h4" component="h1" align="center">
-          Sanitation Request
+        <Typography
+          style={{ fontFamily: "Inria Serif" }}
+          variant="h4"
+          component="h1"
+          align="center"
+        >
+          SANITATION REQUEST
         </Typography>
       </Box>
 
