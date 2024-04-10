@@ -470,7 +470,8 @@ export function MapCanvas(props: mapCanvasProps) {
             position: "absolute",
             top: "120px",
             left: "120px",
-            bgcolor: "#00000010",
+            bgcolor: "#fff",
+            boxShadow: 5,
           }}
         >
           <Typography variant={"subtitle1"}>
