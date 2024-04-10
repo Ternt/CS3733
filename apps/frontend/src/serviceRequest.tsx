@@ -11,8 +11,15 @@ import {
 } from "@mui/material";
 import "./serviceRequest.scss";
 
-function ServiceRequest() {
+type serviceRequestProps = {
+  title: string;
+};
+
+function ServiceRequest(props: serviceRequestProps) {
   // Initialize state variables for service and details with useState hook
+  useEffect(() => {
+    document.title = props.title;
+  });
 
   let requestID = 1;
   const [service, setService] = useState("");
@@ -65,11 +72,12 @@ function ServiceRequest() {
     }
   };
   useEffect(() => {
+    document.title = props.title;
     document.body.style.backgroundColor = "#e4e4e4";
     return () => {
       document.body.style.backgroundColor = "";
     };
-  }, []);
+  }, [props.title]);
   // Return the JSX to render
   return (
     <Grid

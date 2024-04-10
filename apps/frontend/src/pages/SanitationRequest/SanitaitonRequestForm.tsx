@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { SanitationFormFields } from "./sanitationFields.ts";
 import RequestList from "../../helpers/requestList.ts";
 import sanitationImage from "../../assets/sanitation_background.jpg";
@@ -24,8 +24,14 @@ import {
 import Checkboxes from "../../components/FormElements/Checkboxes.tsx";
 
 const sanitationRequests = new RequestList();
+type santitationRequestFormProps = {
+  title: string;
+};
 
-function SanitationRequestForm() {
+function SanitationRequestForm(props: santitationRequestFormProps) {
+  useEffect(() => {
+    document.title = props.title;
+  });
   const [submittedRequests, setSubmittedRequests] = useState<
     SanitationFormFields[]
   >([]);

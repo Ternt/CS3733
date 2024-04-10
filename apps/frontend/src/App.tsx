@@ -24,19 +24,19 @@ function App() {
       children: [
         {
           path: "/service-request",
-          element: <ServiceRequest />,
+          element: <ServiceRequest title="Service Request" />,
         },
         {
           path: "/sanitation",
-          element: <SanitationRequestForm />,
+          element: <SanitationRequestForm title="Sanitation Request" />,
         },
         {
           path: "",
-          element: <MapPage />,
+          element: <MapPage title="Map" />,
         },
         {
           path: "/login",
-          element: <LoginPage />,
+          element: <LoginPage title="Login" />,
         },
         {
           path: "/service-request-display",
@@ -44,19 +44,19 @@ function App() {
         },
         {
           path: "/gift-request",
-          element: <GiftRequestPage />,
+          element: <GiftRequestPage title="Gift Request" />,
         },
         {
           path: "/gift-checkout",
-          element: <GiftCheckoutPage />,
+          element: <GiftCheckoutPage title="Gift Checkout" />,
         },
         {
           path: "/flower-request",
-          element: <FlowerRequestPage />,
+          element: <FlowerRequestPage title="Flower Request" />,
         },
         {
           path: "/flower-checkout",
-          element: <FlowerCheckoutPage />,
+          element: <FlowerCheckoutPage title="Flower Checkout" />,
         },
         {
           path: "/tables",

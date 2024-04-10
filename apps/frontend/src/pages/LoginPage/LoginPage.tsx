@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoginCredentials } from "../../common/LoginCredentials.ts";
 import { useNavigate } from "react-router-dom";
 import {
@@ -11,7 +11,14 @@ import {
 } from "@mui/material";
 import background from "./login-page-background.png";
 
-export default function LoginPage() {
+type loginPageProps = {
+  title: string;
+};
+
+export default function LoginPage(props: loginPageProps) {
+  useEffect(() => {
+    document.title = props.title;
+  });
   const [credential, setCredential] = useState<LoginCredentials>({
     username: "",
     password: "",
