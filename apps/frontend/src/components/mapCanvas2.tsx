@@ -57,6 +57,7 @@ export function MapCanvas(props: mapCanvasProps) {
   const [edges, setEdges] = useState<edge[]>([]);
   const [cameraControl, setCameraControl] = useState({
     pan: { x: 0, y: 0 },
+    panAnchor: { x: 0, y: 0 },
     zoom: 1,
   });
   const [renderData, setRenderData] = useState<{ n: node[]; e: edge[] }>({
@@ -90,16 +91,16 @@ export function MapCanvas(props: mapCanvasProps) {
       ctx.clearRect(0, 0, canv.width, canv.height);
       ctx.drawImage(
         image,
-        0,
-        0,
+        cameraControl.pan.x,
+        cameraControl.pan.y,
         canv.width / cameraControl.zoom,
         canv.height / cameraControl.zoom,
       );
 
       function vecToCanvSpace(a: vec2) {
         return {
-          x: (a.x / cameraControl.zoom) * X_MULT,
-          y: (a.y / cameraControl.zoom) * Y_MULT,
+          x: (a.x / cameraControl.zoom) * X_MULT + cameraControl.pan.x,
+          y: (a.y / cameraControl.zoom) * Y_MULT + cameraControl.pan.y,
           z: a.z,
         };
       }
@@ -129,15 +130,28 @@ export function MapCanvas(props: mapCanvasProps) {
         drawLine(e.startNode.point, e.endNode.point);
         ctx.stroke();
       }
+
+      ctx.fillRect(mouseData.downPos.x, mouseData.downPos.y, 10, 10);
       console.log("draw");
     }
     image.onload = () => {
       canvasDraw();
     };
     canvasDraw();
-  }, [cameraControl.zoom, image, renderData.e, renderData.n]);
+  }, [
+    cameraControl.pan.x,
+    cameraControl.pan.y,
+    cameraControl.zoom,
+    image,
+    mouseData.downPos.x,
+    mouseData.downPos.y,
+    mouseData.pos.x,
+    mouseData.pos.y,
+    renderData.e,
+    renderData.n,
+  ]);
 
-  // input handling
+  // wheel
   useEffect(() => {
     window.addEventListener("wheel", handleZoom);
     function handleZoom(e: WheelEvent) {
@@ -145,13 +159,31 @@ export function MapCanvas(props: mapCanvasProps) {
       let z = cameraControl.zoom + ZOOM_SPEED * velocity; // TODO maybe make addToZOmm of whateve an outside funct so no deps
       if (z >= ZOOM_MAX) z = ZOOM_MAX;
       else if (z <= ZOOM_MIN) z = ZOOM_MIN;
-      setCameraControl({ ...cameraControl, zoom: z });
+
+      const canv = canvasRef.current!;
+
+      // get the center of the screen
+      const cx = canv.width / cameraControl.zoom / 2 + cameraControl.pan.x;
+      const cy = canv.height / cameraControl.zoom / 2 + cameraControl.pan.y;
+      // find the delta from center to mouse
+      const dx = (cx - mouseData.pos.x) * 0.01;
+      const dy = (cy - mouseData.pos.y) * 0.01;
+
+      setCameraControl({
+        ...cameraControl,
+        zoom: z,
+        pan: {
+          x: cameraControl.pan.x + dx,
+          y: cameraControl.pan.y + dy,
+        },
+      });
     }
     return () => {
       window.removeEventListener("wheel", handleZoom);
     };
-  }, [cameraControl]);
+  }, [cameraControl, mouseData.pos.x, mouseData.pos.y]);
 
+  //mousemove
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
     function handleMouseMove(e: MouseEvent) {
@@ -164,27 +196,58 @@ export function MapCanvas(props: mapCanvasProps) {
         canvasRef.current!.height;
       setMouseData({
         ...mouseData,
-        pos: { x: x, y: y },
-        downPos: mouseData.down ? { x: x, y: y } : mouseData.downPos,
+        pos: {
+          x: x,
+          y: y,
+        },
       });
+      if (mouseData.down) {
+        const dx = x - mouseData.downPos.x;
+        const dy = y - mouseData.downPos.y;
+        setCameraControl({
+          ...cameraControl,
+          pan: {
+            x: cameraControl.panAnchor.x + dx,
+            y: cameraControl.panAnchor.y + dy,
+          },
+        });
+      }
     }
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [mouseData]);
+  }, [cameraControl, mouseData]);
 
+  //mousedown
   useEffect(() => {
     window.addEventListener("mousedown", handleMouseDown);
-    function handleMouseDown() {
-      setMouseData({ ...mouseData, down: true });
+    function handleMouseDown(e: MouseEvent) {
+      const rect = canvasRef.current!.getBoundingClientRect(); // get element's abs. position
+      const x =
+        ((e.clientX - rect.left) / (rect.right - rect.left)) *
+        canvasRef.current!.width;
+      const y =
+        ((e.clientY - rect.top) / (rect.bottom - rect.top)) *
+        canvasRef.current!.height;
+      setMouseData({
+        ...mouseData,
+        pos: { x: x, y: y },
+        down: true,
+        downPos: { x: x, y: y },
+      });
+      setCameraControl({
+        ...cameraControl,
+        panAnchor: cameraControl.pan,
+      });
     }
 
     return () => {
       window.removeEventListener("mousedown", handleMouseDown);
     };
-  }, [mouseData]);
+  }, [cameraControl, mouseData]);
 
+  //mouseup
   useEffect(() => {
     window.addEventListener("mouseup", handleMouseUp);
     function handleMouseUp() {
