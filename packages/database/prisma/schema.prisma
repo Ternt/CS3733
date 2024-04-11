@@ -29,13 +29,18 @@ model NodeDB {
   shortName String
   nodeType  String
 
-  requests ServiceRequest[]
+  startEdges EdgeDB[]         @relation(name: "start")
+  endEdges   EdgeDB[]         @relation(name: "end")
+  requests   ServiceRequest[]
 }
 
 model EdgeDB {
   startNodeID String
   endNodeID   String
   blocked     Boolean
+
+  startNode NodeDB @relation(name: "start", fields: [startNodeID], references: [nodeID])
+  endNode   NodeDB @relation(name: "end", fields: [endNodeID], references: [nodeID])
 
   @@unique([startNodeID, endNodeID])
 }
