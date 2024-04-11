@@ -50,7 +50,7 @@ router.post("/upload", async function (req: Request, res: Response) {
       header = false;
     } else {
       console.log("header must be 'true' or 'false'");
-      res.status(200);
+      res.status(406);
       return;
     }
   }
