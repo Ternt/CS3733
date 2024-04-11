@@ -162,10 +162,10 @@ enum ShippingType {
 }
 
 model CartItemsInGiftRequests {
-  giftRequest   GiftRequest @relation(fields: [giftRequestID], references: [requestID])
+  giftRequest   GiftRequest @relation(fields: [giftRequestID], references: [requestID], onDelete: Cascade)
   giftRequestID Int
 
-  cartItem   CartItem @relation(fields: [cartItemID], references: [id])
+  cartItem   CartItem @relation(fields: [cartItemID], references: [id], onDelete: Cascade)
   cartItemID Int
 
   @@id([giftRequestID, cartItemID])

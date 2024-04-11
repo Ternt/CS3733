@@ -10,8 +10,22 @@ import nodesRouter from "./routes/nodes.ts";
 import edgesRouter from "./routes/edges.ts";
 import cartItemRouter from "./routes/cart-items.ts";
 import fileUpload from "express-fileupload";
+import * as fs from "fs";
+import path from "path";
+import { createDatabase } from "./helper/exportToDB.ts";
 
 const app: Express = express(); // Setup the backend
+
+(async () => {
+  // this will remove all service requests from the DB
+  const nodePath = path.join(__dirname, "../map/allNodes.csv");
+  const edgePath = path.join(__dirname, "../map/allEdges.csv");
+
+  const node_str = fs.readFileSync(nodePath, "utf8");
+  const edge_str = fs.readFileSync(edgePath, "utf8");
+
+  createDatabase(true, node_str, edge_str);
+})();
 
 //const fileUpload = require("express-fileupload");
 app.use(fileUpload());

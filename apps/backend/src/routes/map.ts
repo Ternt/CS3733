@@ -3,8 +3,9 @@
 
 import express, { Router, Request, Response } from "express";
 import { PrismaClient } from "database";
+import { createDatabase } from "../helper/exportToDB.ts";
 
-function splitLines(t: string): string[] {
+export function splitLines(t: string): string[] {
   return t.split(/\r\n|\r|\n/);
 }
 
@@ -55,58 +56,8 @@ router.post("/upload", async function (req: Request, res: Response) {
     }
   }
 
-  const prisma = new PrismaClient();
-
   try {
-    // parse node csv
-    const nodeLines = splitLines(node_str).filter((line) => /\S/.test(line));
-    if (header) {
-      nodeLines.shift();
-    }
-    const nodeRows = nodeLines.map((line) => line.split(","));
-
-    const nodeData = Array.from(
-      nodeRows.map((row) => ({
-        nodeID: row[0],
-        xcoord: parseInt(row[1]),
-        ycoord: parseInt(row[2]),
-        floor: row[3],
-        building: row[4],
-        nodeType: row[5],
-        longName: row[6],
-        shortName: row[7],
-      })),
-    );
-
-    // parse edges csv
-    const edgeLines = splitLines(edge_str).filter((line) => /\S/.test(line));
-    if (header) {
-      edgeLines.shift();
-    }
-    const edgeRows = edgeLines.map((line) => line.split(","));
-
-    const edgeData = Array.from(
-      edgeRows.map((row) => ({
-        startNodeID: row[0],
-        endNodeID: row[1],
-        blocked: false,
-      })),
-    );
-
-    const insertNodeQueries: PrismaPromise<R>[] = nodeData.map((row) => {
-      return prisma.nodeDB.create({ data: row });
-    });
-
-    const insertEdgeQueries: PrismaPromise<R>[] = edgeData.map((row) => {
-      return prisma.edgeDB.create({ data: row });
-    });
-
-    await prisma.$transaction([
-      prisma.$executeRaw`DELETE FROM "EdgeDB";`,
-      prisma.$executeRaw`DELETE FROM "NodeDB";`,
-      ...insertNodeQueries,
-      ...insertEdgeQueries,
-    ]);
+    createDatabase(header, node_str, edge_str);
   } catch (error) {
     console.log("node file upload failed");
     console.log(error.message);
