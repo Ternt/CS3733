@@ -1,10 +1,10 @@
 nodeID,xcoord,ycoord,floor,building,longName,shortName,nodeType
-CCONF002L1,2665,1043,L1,45 Francis,Medical Records Conference Room Floor L1,Conf C002L1,CONF
 CCONF001L1,2255,849,L1,45 Francis,Anesthesia Conf Floor L1,Conf C001L1,CONF
-CCONF003L1,2445,1245,L1,45 Francis,Abrams Conference Room,Conf C003L1,CONF
-CDEPT002L1,1980,844,L1,Tower,Day Surgery Family Waiting Floor L1,Department C002L1,DEPT
-CHALL007L1,2130,1045,L1,Tower,Hallway 7 Floor L1,Hallway C007L1,HALL
+CCONF002L1,2665,1043,L1,45 Francis,Medical Records Conference Room Floor L1,Conf C002L1,CONF
+CDEPT003L1,1845,844,L1,Tower,Day Surgery Family Waiting Exit Floor L1,Department C003L1,DEPT
+CDEPT004L1,2310,1043,L1,45 Francis,Medical Records Film Library Floor L1,Department C004L1,DEPT
 CHALL006L1,2130,1284,L1,Tower,Hallway 6 Floor L1,Hallway C006L1,HALL
+CHALL007L1,2130,1045,L1,Tower,Hallway 7 Floor L1,Hallway C007L1,HALL
 CHALL008L1,2215,1045,L1,45 Francis,Hallway 8 Floor L1,Hallway C008L1,HALL
 CHALL009L1,2220,904,L1,45 Francis,Hallway 9 Floor L1,Hallway C009L1,HALL
 CHALL010L1,2265,904,L1,45 Francis,Hallway 10 Floor L1,Hallway C010L1,HALL
@@ -24,7 +24,6 @@ CREST003L1,2300,879,L1,45 Francis,Restroom K Elevator Floor L1,Restroom C003L1,R
 CREST004L1,2770,1160,L1,45 Francis,Restroom H Elevator Floor L1,Restroom C004L1,REST
 CRETL001L1,2185,904,L1,45 Francis,Vending Machine 1 L1,Retail C001L1,RETL
 CSERV001L1,2490,1043,L1,45 Francis,Volunteers Floor L1,Service C001L1,SERV
-CSERV001L2,2015,1280,L2,45 Francis,Interpreter Services Floor L2,Service C001L2,SERV
 GELEV00QL1,1637,2116,L1,Shapiro,Elevator Q MapNode 7 Floor L1,Elevator Q L1,ELEV
 GEXIT001L1,1702,2260,L1,Shapiro,Fenwood Road Exit MapNode 1 Floor L1,Fenwood Road EntranceExit L1,EXIT
 GHALL002L1,1702,2167,L1,Shapiro,Hallway MapNode 2 Floor L1,Hall,HALL
@@ -38,10 +37,10 @@ WELEV00JL1,2360,799,L1,45 Francis,Elevator J Floor L1,Elevator JL1,ELEV
 WELEV00KL1,2220,974,L1,45 Francis,Elevator K Floor L1,Elevator KL1,ELEV
 WELEV00LL1,1785,924,L1,Tower,Elevator L Floor L1,Elevator LL1,ELEV
 WELEV00ML1,1820,1284,L1,Tower,Elevator M Floor L1,Elevator ML1,ELEV
-CDEPT003L1,1845,844,L1,Tower,Day Surgery Family Waiting Exit Floor L1,Department C003L1,DEPT
-CHALL003L1,2445,1284,L1,45 Francis,Hallway 3 Floor L1,Hallway C003L1,HALL
-CDEPT004L1,2310,1043,L1,45 Francis,Medical Records Film Library Floor L1,Department C004L1,DEPT
-CHALL001L1,1732,924,L1,Tower,Hallway 1 Floor L1,Hallway C001L1,HALL
 CHALL002L1,2445,1043,L1,45 Francis,Hallway 2 Floor L1,Hallway C002L1,HALL
-CHALL005L1,1750,1284,L1,Tower,Hallway 5 Floor L1,Hallway C005L1,HALL
+CCONF003L1,2445,1245,L1,45 Francis,Abrams Conference Room,Conf C003L1,CONF
+CHALL001L1,1732,924,L1,Tower,Hallway 1 Floor L1,Hallway C001L1,HALL
+CDEPT002L1,1980,844,L1,Tower,Day Surgery Family Waiting Floor L1,Department C002L1,DEPT
 CHALL004L1,2770,1070,L1,45 Francis,Hallway 4 Floor L1,Hallway C004L1,HALL
+CHALL003L1,2445,1284,L1,45 Francis,Hallway 3 Floor L1,Hallway C003L1,HALL
+CHALL005L1,1750,1284,L1,Tower,Hallway 5 Floor L1,Hallway C005L1,HALL

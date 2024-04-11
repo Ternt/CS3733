@@ -9,7 +9,6 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import "./serviceRequest.scss";
 
 function ServiceRequest() {
   // Initialize state variables for service and details with useState hook

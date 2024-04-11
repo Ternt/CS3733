@@ -124,7 +124,7 @@ function SanitationRequestForm() {
         }}
       >
         <Typography
-          style={{ fontFamily: "Inria Serif" }}
+          style={{ fontFamily: "Open Sans" }}
           variant="h4"
           component="h1"
           align="center"
