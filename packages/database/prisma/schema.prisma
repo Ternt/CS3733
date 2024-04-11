@@ -79,11 +79,13 @@ model ServiceRequest {
 enum MessType {
   SOLID_WASTE
   LIQUID_SPILL
+  OTHER
 }
 
 enum MessSize {
   SMALL
   MEDIUM
+  LARGE
 }
 
 model SanitationRequest {
