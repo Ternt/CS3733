@@ -5,23 +5,44 @@ import PrismaClient from "../bin/database-connection.ts";
 const router: Router = express.Router();
 
 router.post("/", async function (req: Request, res: Response) {
-  const serviceRequest: Prisma.ServiceRequestCreateInput = req.body;
+  const body = req.body;
+
+  // delete all detail parameters
+  // (Not meant be used from API)
+  delete body.sanitationDetail;
+  delete body.medicineDetail;
 
   // check for data corresponding to each service request type
-  switch (serviceRequest.type) {
+  switch (body.type) {
     case "SANITATION":
-      if (serviceRequest.sanitationDetail === undefined) {
-        res.sendStatus(400);
-        return;
-      }
+      body.sanitationDetail = {
+        create: {
+          messType: body.messType,
+          messSize: body.messSize,
+        },
+      };
+      delete body.messType;
+      delete body.messSize;
       break;
     case "MEDICINE":
-      if (serviceRequest.medicineDetail === undefined) {
-        res.sendStatus(400);
-        return;
-      }
+      body.medicineDetail = {
+        create: {
+          patientName: body.patientName,
+          primaryPhysicianName: body.primaryPhysicianName,
+          medicine: body.medicine,
+          dosage: body.dosage,
+          form: body.form,
+        },
+      };
+      delete body.patientName;
+      delete body.primaryPhysicianName;
+      delete body.medicine;
+      delete body.dosage;
+      delete body.form;
       break;
   }
+
+  const serviceRequest: Prisma.ServiceRequestCreateInput = req.body;
 
   try {
     // Attempt to create in the database
@@ -30,9 +51,7 @@ router.post("/", async function (req: Request, res: Response) {
     res.sendStatus(200);
   } catch (error) {
     // Log any failures
-    console.error(
-      `Unable to save service request attempt ${serviceRequest}: ${error}`,
-    );
+    console.error(`Unable to save service request attempt ${body}: ${error}`);
     res.sendStatus(400); // Send error
     return; // Don't try to send duplicate statuses
   }
