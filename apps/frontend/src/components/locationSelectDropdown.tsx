@@ -1,71 +1,103 @@
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { node, nodesAndEdges } from "../helpers/typestuff.ts";
-import axios from "axios";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import axios, { AxiosResponse } from "axios";
+import { MenuItem, TextField } from "@mui/material";
+
+enum SortType {
+  ASCENDING,
+  DECENDING,
+}
 
 type dropdownProps = {
   onChange: (value: string) => void;
   label: string;
+  value: string;
+  filterTypes?: string[] | string;
+  sort?: SortType;
 };
 
-let NodeList: node[];
-
+type selectNode = {
+  nodeID: string;
+  longName: string;
+  nodeType: string;
+};
 function LocationSelectDropdown(props: dropdownProps) {
-  const [placeholder, setplaceholder] = useState(<></>);
-  const callbacker = useCallback(handleLocationInput, [props]);
   /**
    * Update the selected location based on the dropdown option
    * @param e The dropdown element that changed
    */
-  function handleLocationInput(e: ChangeEvent<HTMLSelectElement>) {
+  function handleLocationInput(
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) {
     props.onChange(e.target.value);
   }
 
-  useEffect(() => {
-    axios.get<nodesAndEdges>("/api/map").then((response) => {
-      NodeList = response.data.nodes;
+  const [nodes, _setNodes] = useState<selectNode[] | null>(null);
+  const nodesRef = useRef(nodes);
 
-      // Remove all halls from displayed list
-      NodeList = NodeList.filter((node) => {
-        return node.nodeType != "HALL";
-      });
+  function getNodes(): selectNode[] {
+    if (nodes !== null) {
+      return nodes!;
+    } else {
+      return [];
+    }
+  }
+
+  function setNodes(nodes: selectNode[]) {
+    nodesRef.current = nodes;
+    _setNodes(nodes);
+  }
+
+  useEffect(() => {
+    axios.get("/api/map").then((res: AxiosResponse) => {
+      let ns: selectNode[] = [];
+      for (const r of res.data.nodes) {
+        const n: selectNode = {
+          nodeID: r.nodeID,
+          longName: r.longName,
+          nodeType: r.nodeType,
+        };
+        ns.push(n);
+      }
+      if (typeof props.filterTypes === "string") {
+        ns = ns.filter((n) => n.nodeType !== props.filterTypes);
+      } else if (typeof props.filterTypes === "object") {
+        for (const f of props.filterTypes) {
+          ns = ns.filter((n) => n.nodeType !== f);
+        }
+      }
 
       // Sort alphabetically (Insertion Sort)
-      for (let i = 1; i < NodeList.length; i++) {
+      for (let i = 1; i < ns.length; i++) {
         let j = i;
-        while (j > 0 && NodeList[j].longName < NodeList[j - 1].longName) {
-          const temp = NodeList[j];
-          NodeList[j] = NodeList[j - 1];
-          NodeList[j - 1] = temp;
+        while (j > 0 && ns[j].longName < ns[j - 1].longName) {
+          const temp = ns[j];
+          ns[j] = ns[j - 1];
+          ns[j - 1] = temp;
           j--;
         }
       }
-      // console.log(NodeList);
 
-      setplaceholder(
-        <div className="form">
-          <label>{props.label}</label>
-          <select
-            defaultValue="CCNF001L1"
-            name="locations"
-            id="locSelect"
-            onChange={callbacker}
-          >
-            {NodeList.map((request) => {
-              //console.log(request);
-              return (
-                <option value={request.nodeID} key={request.nodeID}>
-                  {request.longName}
-                </option>
-              );
-            })}
-          </select>
-        </div>,
-      );
+      setNodes(ns);
     });
-  }, [callbacker, props.label]);
+  }, [props.filterTypes]);
 
-  console.log(placeholder);
-  return placeholder;
+  return (
+    <TextField
+      required
+      select
+      id="location"
+      label={"Location"}
+      margin="normal"
+      onChange={handleLocationInput}
+      value={props.value}
+    >
+      {getNodes().map((node) => (
+        <MenuItem value={node.nodeID} key={node.nodeID}>
+          {node.longName}
+        </MenuItem>
+      ))}
+    </TextField>
+  );
 }
 
 export default LocationSelectDropdown;

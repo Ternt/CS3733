@@ -15,18 +15,23 @@ export default function MapPage() {
           setStartLocation(v);
         }}
         label={"Start "}
+        value={startLocation}
+        filterTypes={["HALL"]}
       />
       <LocationSelectDropdown
         onChange={(v: string) => {
           setEndLocation(v);
         }}
         label={"End "}
+        value={endLocation}
+        filterTypes={["HALL"]}
       />
       <MapCanvas2
         defaultFloor={2}
         pathfinding={true}
         startLocation={startLocation}
         endLocation={endLocation}
+        onDeselectEndLocation={() => setEndLocation("")}
       />
     </>
   );

@@ -21,8 +21,8 @@ import { graphHelper, pointHelper } from "../helpers/clickCorrectionMath.ts";
 
 const MAPS = [L0, L1, L2, L3, L4];
 const ZOOM_SPEED = 0.05;
-const ZOOM_MAX = 1;
-const ZOOM_MIN = 0.5;
+const ZOOM_MAX = 2;
+const ZOOM_MIN = 0.25;
 const BASE_MAP_WIDTH = 5000;
 const BASE_MAP_HEIGHT = 3400;
 const MAP_WIDTH = 1920;
@@ -53,6 +53,7 @@ type mapCanvasProps = {
   startLocation: string;
   pathfinding: boolean;
   endLocation: string;
+  onDeselectEndLocation?: () => void;
 };
 
 export function MapCanvas(props: mapCanvasProps) {
@@ -103,6 +104,10 @@ export function MapCanvas(props: mapCanvasProps) {
     setViewingFloor(i);
   }
 
+  //function clamp(value: number, min:number, max:number){
+  //  return Math.min(max, Math.max(min, value));
+  //}
+
   // draw to canvas
   useEffect(() => {
     async function canvasDraw() {
@@ -138,22 +143,6 @@ export function MapCanvas(props: mapCanvasProps) {
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
       }
-
-      function canvToVecSpace(a: vec2, zoom: number) {
-        return {
-          x: ((a.x - cameraControl.pan.x) / X_MULT) * zoom,
-          y: ((a.y - cameraControl.pan.y) / Y_MULT) * zoom,
-          z: a.z,
-        };
-      }
-      ctx.lineWidth = 15;
-      ctx.beginPath();
-      const vvv = canvToVecSpace(
-        { x: mouseData.pos.x, y: mouseData.pos.y, z: viewingFloor },
-        cameraControl.zoom,
-      );
-      drawPoint(vvv);
-      ctx.stroke();
 
       if (mouseData.down) return;
 
@@ -393,6 +382,7 @@ export function MapCanvas(props: mapCanvasProps) {
               path: pathNodes,
               selectedPoint: coords,
             });
+            if (props.onDeselectEndLocation) props.onDeselectEndLocation();
           });
       } else {
         if (pathing.nearestNode?.nodeID === closestNode.nodeID) {
@@ -420,6 +410,7 @@ export function MapCanvas(props: mapCanvasProps) {
     mouseData,
     nodes,
     pathing,
+    props,
     props.pathfinding,
     props.startLocation,
     viewingFloor,
@@ -508,6 +499,7 @@ export function MapCanvas(props: mapCanvasProps) {
           setPathing({
             ...pathing,
             path: pathNodes,
+            selectedPoint: null,
           });
         });
     }
@@ -517,13 +509,16 @@ export function MapCanvas(props: mapCanvasProps) {
     <Box
       sx={{
         overflow: "hidden",
-        height: "80vh",
+        height: "90vh",
       }}
     >
       <canvas
         width={MAP_WIDTH}
         height={MAP_HEIGHT}
-        style={{ width: "100%" }}
+        style={{
+          height: "100%",
+          aspectRatio: BASE_MAP_WIDTH + "/" + BASE_MAP_HEIGHT,
+        }}
         ref={canvasRef}
       />
       {!props.pathfinding && pathing.nearestNode !== null && (
