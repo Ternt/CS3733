@@ -1,49 +1,101 @@
-import { useState, useEffect } from "react";
-import { MenuItem, FormControl, InputLabel, Select } from "@mui/material";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import axios, { AxiosResponse } from "axios";
-import { node } from "../helpers/typestuff.ts";
+import { MenuItem, TextField } from "@mui/material";
 
-type LocationDropdownProps = {
+enum SortType {
+  ASCENDING,
+  DECENDING,
+}
+
+type dropdownProps = {
   onChange: (value: string) => void;
   label: string;
+  value: string;
+  filterTypes?: string[] | string;
+  sort?: SortType;
 };
 
-function LocationDropdown(props: LocationDropdownProps) {
-  const [nodes, setNodes] = useState<node[]>([]);
+type selectNode = {
+  nodeID: string;
+  longName: string;
+  nodeType: string;
+};
+export default function LocationDropdown(props: dropdownProps) {
+  /**
+   * Update the selected location based on the dropdown option
+   * @param e The dropdown element that changed
+   */
+  function handleLocationInput(
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) {
+    props.onChange(e.target.value);
+  }
+
+  const [nodes, _setNodes] = useState<selectNode[] | null>(null);
+  const nodesRef = useRef(nodes);
+
+  function getNodes(): selectNode[] {
+    if (nodes !== null) {
+      return nodes!;
+    } else {
+      return [];
+    }
+  }
+
+  function setNodes(nodes: selectNode[]) {
+    nodesRef.current = nodes;
+    _setNodes(nodes);
+  }
 
   useEffect(() => {
-    axios.get("/api/map").then((response: AxiosResponse) => {
-      const nodeList: node[] = response.data.nodes;
-      nodeList.filter((n) => n.nodeType != "HALL");
+    axios.get("/api/map").then((res: AxiosResponse) => {
+      let ns: selectNode[] = [];
+      for (const r of res.data.nodes) {
+        const n: selectNode = {
+          nodeID: r.nodeID,
+          longName: r.longName,
+          nodeType: r.nodeType,
+        };
+        ns.push(n);
+      }
+      if (typeof props.filterTypes === "string") {
+        ns = ns.filter((n) => n.nodeType !== props.filterTypes);
+      } else if (typeof props.filterTypes === "object") {
+        for (const f of props.filterTypes) {
+          ns = ns.filter((n) => n.nodeType !== f);
+        }
+      }
 
-      for (let i = 1; i < nodeList.length; i++) {
+      // Sort alphabetically (Insertion Sort)
+      for (let i = 1; i < ns.length; i++) {
         let j = i;
-        while (j > 0 && nodeList[j].longName < nodeList[j - 1].longName) {
-          const temp = nodeList[j];
-          nodeList[j] = nodeList[j - 1];
-          nodeList[j - 1] = temp;
+        while (j > 0 && ns[j].longName < ns[j - 1].longName) {
+          const temp = ns[j];
+          ns[j] = ns[j - 1];
+          ns[j - 1] = temp;
           j--;
         }
       }
 
-      setNodes(nodeList);
+      setNodes(ns);
     });
-  }, []);
+  }, [props.filterTypes]);
 
   return (
-    <FormControl fullWidth>
-      <InputLabel>{props.label}</InputLabel>
-      <Select
-        label={props.label}
-        onChange={(e) => props.onChange(e.target.value as string)}
-      >
-        {nodes.map((node) => (
-          <MenuItem key={node.nodeID} value={node.nodeID}>
-            {node.longName}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <TextField
+      required
+      select
+      id="location"
+      label={"Location"}
+      margin="normal"
+      onChange={handleLocationInput}
+      value={props.value}
+    >
+      {getNodes().map((node) => (
+        <MenuItem value={node.nodeID} key={node.nodeID}>
+          {node.longName}
+        </MenuItem>
+      ))}
+    </TextField>
   );
 }
-export default LocationDropdown;

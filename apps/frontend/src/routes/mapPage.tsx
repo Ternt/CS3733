@@ -35,6 +35,7 @@ export default function MapPage() {
             onChange={(v: string) => {
               setStartLocation(v);
             }}
+            value={startLocation}
             label={"Start "}
           />
         </Box>
@@ -45,6 +46,7 @@ export default function MapPage() {
             onChange={(v: string) => {
               setEndLocation(v);
             }}
+            value={endLocation}
             label={"End "}
           />
         </Box>
