@@ -10,8 +10,8 @@ const router: Router = express.Router();
 
 router.get("/download/", async function (req: Request, res: Response) {
   const prisma = new PrismaClient();
-  await exportEdgeDBToCSV(prisma, "../../map/edges.csv");
-  res.download(path.join(__dirname, "../../map/edges.csv"));
+  await exportEdgeDBToCSV(prisma, "../../map/nodesDownload.csv");
+  res.download(path.join(__dirname, "../../map/edgesDownload.csv"));
 });
 
 export default router;
