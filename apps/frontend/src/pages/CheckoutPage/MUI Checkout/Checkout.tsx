@@ -10,6 +10,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
@@ -50,6 +51,11 @@ export default function Checkout() {
   const defaultTheme = createTheme({ palette: { mode } });
   const [activeStep, setActiveStep] = React.useState(0);
 
+  const navigate = useNavigate();
+  const click = (path: string) => {
+    navigate(path);
+  };
+
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -89,8 +95,8 @@ export default function Checkout() {
             <Button
               startIcon={<ArrowBackRoundedIcon />}
               component="a"
-              href="/material-ui/getting-started/templates/landing-page/"
-              sx={{ ml: "-8px" }}
+              onClick={() => click("/")}
+              sx={{ ml: "-4vw" }}
             >
               Continue Shopping
             </Button>

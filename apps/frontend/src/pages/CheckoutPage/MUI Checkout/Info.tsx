@@ -68,9 +68,10 @@ export default function Info() {
                   component="img"
                   sx={{
                     height: "8vh",
+                    width: "4vw",
                     borderRadius: "13px",
                     boxShadow: 3,
-                    marginLeft: "7%",
+                    marginLeft: "25%",
                   }}
                   image={item.imageURL}
                 />

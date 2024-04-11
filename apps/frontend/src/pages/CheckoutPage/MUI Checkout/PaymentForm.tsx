@@ -2,19 +2,13 @@ import * as React from "react";
 
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
-import CardContent from "@mui/material/CardContent";
 import Checkbox from "@mui/material/Checkbox";
-import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import RadioGroup from "@mui/material/RadioGroup";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
 import SimCardRoundedIcon from "@mui/icons-material/SimCardRounded";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
@@ -27,16 +21,10 @@ const FormGrid = styled("div")(() => ({
 }));
 
 export default function PaymentForm() {
-  const [paymentType, setPaymentType] = React.useState("creditCard");
+  const [paymentType] = React.useState("creditCard");
   const [cardNumber, setCardNumber] = React.useState("");
   const [cvv, setCvv] = React.useState("");
   const [expirationDate, setExpirationDate] = React.useState("");
-
-  const handlePaymentTypeChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setPaymentType(event.target.value);
-  };
 
   const handleCardNumberChange = (event: { target: { value: string } }) => {
     const value = event.target.value.replace(/\D/g, "");
@@ -63,61 +51,6 @@ export default function PaymentForm() {
 
   return (
     <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap>
-      <FormControl component="fieldset" fullWidth>
-        <RadioGroup
-          aria-label="Payment options"
-          name="paymentType"
-          value={paymentType}
-          onChange={handlePaymentTypeChange}
-          sx={{
-            flexDirection: { sm: "column", md: "row" },
-            gap: 2,
-          }}
-        >
-          <Card
-            raised={paymentType === "creditCard"}
-            sx={{
-              maxWidth: { sm: "100%", md: "50%" },
-              flexGrow: 1,
-              outline: "1px solid",
-              outlineColor:
-                paymentType === "creditCard" ? "primary.main" : "divider",
-              backgroundColor:
-                paymentType === "creditCard" ? "background.default" : "",
-            }}
-          >
-            <CardActionArea onClick={() => setPaymentType("creditCard")}>
-              <CardContent
-                sx={{ display: "flex", alignItems: "center", gap: 1 }}
-              >
-                <CreditCardRoundedIcon color="primary" fontSize="small" />
-                <Typography fontWeight="medium">Card</Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          <Card
-            raised={paymentType === "bankTransfer"}
-            sx={{
-              maxWidth: { sm: "100%", md: "50%" },
-              flexGrow: 1,
-              outline: "1px solid",
-              outlineColor:
-                paymentType === "bankTransfer" ? "primary.main" : "divider",
-              backgroundColor:
-                paymentType === "bankTransfer" ? "background.default" : "",
-            }}
-          >
-            <CardActionArea onClick={() => setPaymentType("bankTransfer")}>
-              <CardContent
-                sx={{ display: "flex", alignItems: "center", gap: 1 }}
-              >
-                <AccountBalanceRoundedIcon color="primary" fontSize="small" />
-                <Typography fontWeight="medium">Bank account</Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </RadioGroup>
-      </FormControl>
       {paymentType === "creditCard" && (
         <Box
           sx={{
@@ -216,7 +149,7 @@ export default function PaymentForm() {
           </Box>
           <FormControlLabel
             control={<Checkbox name="saveCard" />}
-            label="Remember credit card details for next time"
+            label="Remember this Card"
           />
         </Box>
       )}
