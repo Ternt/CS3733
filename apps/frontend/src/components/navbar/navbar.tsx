@@ -7,12 +7,13 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Link from "@mui/material/Link";
 import "./navbar.scss";
-import logo from "../../assets/logo_white_big.png";
+import logo from "../../assets/Brigham_and_Womens_Hospital_Logo_White.png";
 import { useNavigate } from "react-router-dom";
-import { Menu } from "@mui/material";
+import { Menu, Typography } from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import SearchBar from "../SearchBar/searchBar.tsx";
 
-const pages = [
-  { label: "Map", path: "/map" },
+const admin = [
   { label: "Service List", path: "/service-request-display" },
   { label: "Node and Edge Tables", path: "/tables" },
 ];
@@ -25,32 +26,57 @@ const services = [
 ];
 
 function ResponsiveAppBar() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [anchorElAdmin, setAnchorElAdmin] = React.useState<null | HTMLElement>(
+    null,
+  );
+  const openAdmin = Boolean(anchorElAdmin);
+
+  const handleCloseAdmin = () => {
+    setAnchorElAdmin(null);
+  };
+
+  const [anchorElRequests, setAnchorElRequests] =
+    React.useState<null | HTMLElement>(null);
+  const openRequests = Boolean(anchorElRequests);
+
   const navigate = useNavigate();
   const handleMenuItemClick = (path: string) => {
     navigate(path);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleCloseRequests = () => {
+    setAnchorElRequests(null);
   };
 
-  const handleOnClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleOnClickRequests = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElRequests(event.currentTarget);
   };
 
-  const handleClickMenuItemList = (path: string) => {
+  const handleClickMenuItemListRequests = (path: string) => {
     console.log(path);
     navigate(path);
-    setAnchorEl(null);
+    setAnchorElRequests(null);
+  };
+
+  const handleOnClickAdmin = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElAdmin(event.currentTarget);
+  };
+
+  const handleClickMenuItemListAdmin = (path: string) => {
+    console.log(path);
+    navigate(path);
+    setAnchorElAdmin(null);
   };
 
   return (
     <AppBar
       position="static"
       sx={{
-        bgcolor: "#012d5a",
+        display: "flex",
+        justifyContent: "center",
+        backgroundColor: "#012d5a",
+        maxHeight: "10vh",
+        boxShadow: "none",
       }}
     >
       <Container maxWidth="xl">
@@ -69,7 +95,8 @@ function ResponsiveAppBar() {
               alt={"logo"}
               onClick={() => handleMenuItemClick("")}
               sx={{
-                width: "350px",
+                width: "1.6vw",
+                marginRight: "2vw",
               }}
             ></Box>
           </Link>
@@ -77,62 +104,152 @@ function ResponsiveAppBar() {
           <Box
             sx={{
               flexGrow: 1,
-              display: { xs: "none", md: "flex", justifyContent: "flex-end" },
+              display: { xs: "none", md: "flex", justifyContent: "flex-start" },
             }}
           >
-            {pages.map((page) => (
-              <Button
-                key={page.label}
-                onClick={() => handleMenuItemClick(page.path)}
-                sx={{
-                  my: 3,
-                  mr: 3,
-                  height: 45,
-                  color: "white",
-                  display: "block",
-                  fontSize: 15,
-                  transition: "all 0.2s ease-in-out",
-                  "&:hover": {
-                    transform: "translateY(-5px)",
-                    background: "#012d5a",
-                  },
-                }}
-              >
-                {page.label}
-              </Button>
-            ))}
-
             <Button
-              key={"Request Services"}
-              id="demo-customized-button"
-              aria-controls={open ? "demo-customized-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              onClick={handleOnClick}
+              key={"home"}
+              onClick={() => handleMenuItemClick("/")}
               sx={{
-                my: 3,
-                mr: 3,
+                my: "5vh",
+                mr: "1vw",
                 height: 45,
                 color: "white",
                 display: "block",
                 fontSize: 15,
                 transition: "all 0.2s ease-in-out",
                 "&:hover": {
-                  transform: "translateY(-5px)",
+                  textDecoration: "underline",
                   background: "#012d5a",
                 },
               }}
             >
-              {"Request Services"}
+              <Typography
+                sx={{
+                  fontSize: "2.3vh",
+                }}
+              >
+                Home
+              </Typography>
+            </Button>
+
+            <Button
+              key={"map"}
+              onClick={() => handleMenuItemClick("/map")}
+              sx={{
+                my: "5vh",
+                mr: "1vw",
+                height: 45,
+                color: "white",
+                display: "block",
+                fontSize: 15,
+                transition: "all 0.2s ease-in-out",
+                "&:hover": {
+                  textDecoration: "underline",
+                  background: "#012d5a",
+                },
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: "2.3vh",
+                }}
+              >
+                Map
+              </Typography>
+            </Button>
+
+            <Button
+              key={"Admin"}
+              id="demo-customized-button"
+              aria-controls={openAdmin ? "demo-customized-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={openAdmin ? "true" : undefined}
+              onClick={handleOnClickAdmin}
+              sx={{
+                my: "5vh",
+                mr: "1vw",
+                height: 45,
+                color: "white",
+                display: "block",
+                fontSize: 15,
+                transition: "all 0.2s ease-in-out",
+                "&:hover": {
+                  textDecoration: "underline",
+                  background: "#012d5a",
+                },
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: "2.3vh",
+                }}
+              >
+                Admin
+                <ArrowDropDownIcon />
+              </Typography>
             </Button>
             <Menu
               id="demo-customized-menu"
               MenuListProps={{
                 "aria-labelledby": "demo-customized-button",
               }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
+              anchorEl={anchorElAdmin}
+              open={openAdmin}
+              onClose={handleCloseAdmin}
+              sx={{
+                padding: 0,
+              }}
+            >
+              {admin.map((page) => (
+                <MenuItem
+                  key={page.label}
+                  onClick={() => handleClickMenuItemListAdmin(page.path)}
+                  disableRipple
+                >
+                  {page.label}
+                </MenuItem>
+              ))}
+            </Menu>
+
+            <Button
+              key={"Request Services"}
+              id="demo-customized-button"
+              aria-controls={openRequests ? "demo-customized-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={openRequests ? "true" : undefined}
+              onClick={handleOnClickRequests}
+              sx={{
+                my: "5vh",
+                mr: "1vw",
+                height: 45,
+                color: "white",
+                display: "block",
+                fontSize: 15,
+                transition: "all 0.2s ease-in-out",
+                "&:hover": {
+                  textDecoration: "underline",
+                  background: "#012d5a",
+                },
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: "2.3vh",
+                }}
+              >
+                Service Requests
+                <ArrowDropDownIcon />
+              </Typography>
+            </Button>
+            <Menu
+              id="demo-customized-menu"
+              MenuListProps={{
+                "aria-labelledby": "demo-customized-button",
+              }}
+              anchorEl={anchorElRequests}
+              open={openRequests}
+              onClose={handleCloseRequests}
               sx={{
                 padding: 0,
               }}
@@ -140,37 +257,37 @@ function ResponsiveAppBar() {
               {services.map((services) => (
                 <MenuItem
                   key={services.label}
-                  onClick={() => handleClickMenuItemList(services.path)}
+                  onClick={() => handleClickMenuItemListRequests(services.path)}
                   disableRipple
                 >
                   {services.label}
                 </MenuItem>
               ))}
             </Menu>
-
-            <Button
-              key={"login"}
-              onClick={() => handleMenuItemClick("/login")}
-              sx={{
-                my: 3,
-                height: 45,
-                paddingX: 5,
-                color: "black",
-                transition: "all 0.2s ease-in-out",
-                fontSize: 15,
-                display: "block",
-                background: "#f6bd38",
-
-                "&:hover": {
-                  transform: "translateY(-5px)",
-                  background: "#f6bd38",
-                  color: "black",
-                },
-              }}
-            >
-              {"login"}
-            </Button>
           </Box>
+          <SearchBar />
+          <Button
+            key={"login"}
+            onClick={() => handleMenuItemClick("/login")}
+            sx={{
+              my: "5vh",
+              height: "6vh",
+              paddingX: "2vw",
+              color: "black",
+              transition: "all 0.2s ease-in-out",
+              fontSize: 15,
+              display: "block",
+              background: "#f6bd38",
+
+              "&:hover": {
+                textDecoration: "underline",
+                background: "#f6bd38",
+                color: "black",
+              },
+            }}
+          >
+            {"login"}
+          </Button>
         </Toolbar>
       </Container>
     </AppBar>
