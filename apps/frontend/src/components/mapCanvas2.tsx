@@ -46,6 +46,7 @@ function FLOOR_NAME_TO_INDEX(f: string) {
   console.error("No index for " + f);
   return -1;
 }
+
 //const FLOORS = ["L2", "L1", "F1", "F2", "F3"];
 
 type mapCanvasProps = {
@@ -188,6 +189,7 @@ export function MapCanvas(props: mapCanvasProps) {
         }
       }
     }
+
     image.onload = () => {
       canvasDraw();
     };
@@ -216,6 +218,7 @@ export function MapCanvas(props: mapCanvasProps) {
   // wheel
   useEffect(() => {
     window.addEventListener("wheel", handleZoom);
+
     function handleZoom(e: WheelEvent) {
       const velocity = Math.sign(e.deltaY);
       let z = cameraControl.zoom + ZOOM_SPEED * velocity; // TODO maybe make addToZOmm of whateve an outside funct so no deps
@@ -241,6 +244,7 @@ export function MapCanvas(props: mapCanvasProps) {
         },
       });
     }
+
     return () => {
       window.removeEventListener("wheel", handleZoom);
     };
@@ -249,6 +253,7 @@ export function MapCanvas(props: mapCanvasProps) {
   //mousemove
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
+
     function handleMouseMove(e: MouseEvent) {
       const rect = canvasRef.current!.getBoundingClientRect(); // get element's abs. position
       const x =
@@ -285,6 +290,7 @@ export function MapCanvas(props: mapCanvasProps) {
   //mousedown
   useEffect(() => {
     window.addEventListener("mousedown", handleMouseDown);
+
     function handleMouseDown(e: MouseEvent) {
       const rect = canvasRef.current!.getBoundingClientRect(); // get element's abs. position
       const x =
@@ -321,6 +327,7 @@ export function MapCanvas(props: mapCanvasProps) {
   //dblclick
   useEffect(() => {
     window.addEventListener("dblclick", handleDblclick);
+
     function handleDblclick(e: MouseEvent) {
       const rect = canvasRef.current!.getBoundingClientRect(); // get element's abs. position
       const x =
@@ -411,6 +418,7 @@ export function MapCanvas(props: mapCanvasProps) {
   //mouseup
   useEffect(() => {
     window.addEventListener("mouseup", handleMouseUp);
+
     function handleMouseUp() {
       setMouseData({ ...mouseData, down: false });
     }
@@ -500,13 +508,16 @@ export function MapCanvas(props: mapCanvasProps) {
     <Box
       sx={{
         overflow: "hidden",
-        height: "80vh",
+        height: "90vh",
       }}
     >
       <canvas
         width={MAP_WIDTH}
         height={MAP_HEIGHT}
-        style={{ width: "100%" }}
+        style={{
+          height: "100%",
+          aspectRatio: BASE_MAP_WIDTH + "/" + BASE_MAP_HEIGHT,
+        }}
         ref={canvasRef}
       />
       {!props.pathfinding && pathing.nearestNode !== null && (
@@ -544,7 +555,7 @@ export function MapCanvas(props: mapCanvasProps) {
           </Button>
         </Box>
       )}
-      <Box>
+      <Box sx={{ border: "1px dashed grey" }}>
         <SpeedDial
           ariaLabel="Map controls"
           sx={{ position: "fixed", bottom: 16, right: 16 }}
