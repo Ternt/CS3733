@@ -57,11 +57,14 @@ model CartItem {
   name        String
   description String
   price       Decimal      @db.Decimal(10, 2)
+
+  giftRequests CartItemsInGiftRequests[]
 }
 
 enum ServiceRequestType {
   MAINTENANCE
   FLOWERS
+  GIFT
   SANITATION
   MEDICINE
 }
@@ -91,8 +94,21 @@ model ServiceRequest {
 
   sanitationDetail  SanitationRequest?
   medicineDetail    MedicineRequest?
+  giftDetail        GiftRequest?
   maintenanceDetail MaintenanceRequest?
   flowerDetail      FlowerRequest?
+}
+
+enum MaintenanceType {
+  PLUMBING
+  ELEVATOR
+}
+
+model MaintenanceRequest {
+  request         ServiceRequest  @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
+  requestID       Int             @unique
+  maintenanceType MaintenanceType
+  workersNeeded   Int
 }
 
 enum MessType {
@@ -140,18 +156,31 @@ model MedicineRequest {
   form                 MedicineForm
 }
 
-model MaintenanceRequest {
-  request         ServiceRequest  @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
-  requestID       Int             @unique
-  maintenanceType MaintenanceType
-  workersNeeded   Int
+enum ShippingType {
+  EXPRESS
+  STANDARD
 }
 
-model FlowerRequest {
-  request       ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
-  requestID     Int            @unique
-  flowerType    FlowerType
-  numberFlowers Int
+model CartItemsInGiftRequests {
+  giftRequest   GiftRequest @relation(fields: [giftRequestID], references: [requestID])
+  giftRequestID Int
+
+  cartItem   CartItem @relation(fields: [cartItemID], references: [id])
+  cartItemID Int
+
+  @@id([giftRequestID, cartItemID])
+}
+
+model GiftRequest {
+  request   ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
+  requestID Int            @unique
+
+  senderName    String
+  recipientName String
+  cardNumber    Int
+  shippingType  ShippingType
+
+  items CartItemsInGiftRequests[]
 }
 
 enum FlowerType {
@@ -159,7 +188,9 @@ enum FlowerType {
   DANDELION
 }
 
-enum MaintenanceType {
-  PLUMBING
-  ELEVATOR
+model FlowerRequest {
+  request       ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
+  requestID     Int            @unique
+  flowerType    FlowerType
+  numberFlowers Int
 }
