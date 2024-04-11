@@ -7,6 +7,13 @@ const router: Router = express.Router();
 router.post("/", async function (req: Request, res: Response) {
   const body = req.body;
 
+  // do not let id be manually specified
+  if (body.id !== undefined) {
+    console.error("Not allowed to specify request id. It is auto generated");
+    res.sendStatus(400);
+    return;
+  }
+
   // delete all detail parameters
   // (Not meant be used from API)
   delete body.sanitationDetail;
@@ -65,6 +72,8 @@ router.get("/", async function (req: Request, res: Response) {
       notes: true,
       location: true,
 
+      sanitationDetail: true,
+      medicineDetail: true,
       maintenanceDetail: true,
       flowerDetail: true,
     },

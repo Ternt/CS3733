@@ -45,6 +45,20 @@ model EdgeDB {
   @@unique([startNodeID, endNodeID])
 }
 
+enum CartItemType {
+  FLOWER
+  GIFT
+}
+
+model CartItem {
+  id          Int          @id @default(autoincrement())
+  type        CartItemType
+  imageURL    String
+  name        String
+  description String
+  price       Decimal      @db.Decimal(10, 2)
+}
+
 enum ServiceRequestType {
   MAINTENANCE
   FLOWERS
