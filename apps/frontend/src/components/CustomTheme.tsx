@@ -55,10 +55,11 @@ const theme = createTheme({
         root: {
           // Styles applied to the root element of the outlined input.
           "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "white", // Changes the border color on hover.
+            borderColor: "#f6bd38", // Changes the border color on hover.
+            borderWidth: "2px",
           },
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "primary.main", // Changes the border color when the input is focused.
+            borderColor: "#f6bd38", // Changes the border color when the input is focused.
             borderWidth: "1px", // Sets the border width when focused.
           },
         },
