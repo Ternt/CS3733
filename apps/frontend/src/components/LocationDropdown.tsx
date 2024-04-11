@@ -83,6 +83,7 @@ export default function LocationDropdown(props: dropdownProps) {
 
   return (
     <TextField
+      fullWidth
       required
       select
       id="location"

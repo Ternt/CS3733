@@ -564,7 +564,7 @@ export function MapCanvas(props: mapCanvasProps) {
           </Button>
         </Box>
       )}
-      <Box sx={{ border: "1px dashed grey" }}>
+      <Box>
         <SpeedDial
           ariaLabel="Map controls"
           sx={{ position: "fixed", bottom: 16, right: 16 }}

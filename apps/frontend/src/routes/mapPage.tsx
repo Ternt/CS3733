@@ -15,7 +15,6 @@ export default function MapPage() {
       direction="row"
       justifyContent="stretch"
       alignItems="stretch"
-      sx={{ border: "1px dashed grey" }}
     >
       <Grid
         item
@@ -24,13 +23,20 @@ export default function MapPage() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          border: "1px dashed grey",
         }}
       >
-        <Typography sx={{ p: 2 }}>Navigate</Typography>
+        <Typography
+          fontFamily={"open-sans"}
+          variant={"h3"}
+          sx={{
+            p: 2,
+          }}
+        >
+          Navigate
+        </Typography>
 
         {/* start location dropdown menu */}
-        <Box sx={{ p: 2, width: "100%", border: "1px dashed grey" }}>
+        <Box sx={{ p: 2, width: "100%" }}>
           <LocationDropdown
             onChange={(v: string) => {
               setStartLocation(v);
@@ -41,7 +47,7 @@ export default function MapPage() {
         </Box>
 
         {/* end location dropdown menu */}
-        <Box sx={{ p: 2, width: "100%", border: "1px dashed grey" }}>
+        <Box sx={{ p: 2, width: "100%" }}>
           <LocationDropdown
             onChange={(v: string) => {
               setEndLocation(v);
@@ -51,12 +57,10 @@ export default function MapPage() {
           />
         </Box>
 
-        <Typography sx={{ border: "1px dashed grey" }}>
-          *reserved space for other features*
-        </Typography>
+        <Typography>*reserved space for other features*</Typography>
       </Grid>
 
-      <Grid item xs={9} sx={{ border: "1px dashed grey" }}>
+      <Grid item xs={9}>
         <MapCanvas2
           defaultFloor={2}
           pathfinding={true}
