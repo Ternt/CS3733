@@ -40,15 +40,81 @@ model EdgeDB {
   @@unique([startNodeID, endNodeID])
 }
 
+enum ServiceRequestType {
+  MAINTENANCE
+  FLOWERS
+}
+
+enum ServiceRequestPriority {
+  LOW
+  MEDIUM
+  HIGH
+  EMERGENCY
+}
+
+enum ServiceRequestStatus {
+  UNASSIGNED
+  ASSIGNED
+  IN_PROGRESS
+  CLOSED
+}
+
 model ServiceRequest {
-  requestID  Int                @id @default(autoincrement())
+  requestID  Int                    @id @default(autoincrement())
   type       ServiceRequestType
   notes      String
-  location   NodeDB             @relation(fields: [locationID], references: [nodeID])
+  location   NodeDB                 @relation(fields: [locationID], references: [nodeID])
   locationID String
+  priority   ServiceRequestPriority
+  status     ServiceRequestStatus
 
+  sanitationDetail  SanitationRequest?
+  medicineDetail    MedicineRequest?
   maintenanceDetail MaintenanceRequest?
   flowerDetail      FlowerRequest?
+}
+
+enum MessType {
+  SOLID_WASTE
+  LIQUID_SPILL
+}
+
+enum MessSize {
+  SMALL
+  MEDIUM
+}
+
+model SanitationRequest {
+  request   ServiceRequest @relation(fields: [requestID], references: [requestID])
+  requestID Int            @unique
+
+  messType MessType
+  messSize MessSize
+}
+
+enum Medicine {
+  PAIN_KILLERS
+  TYLENOL
+  PARACETAMOL
+}
+
+enum MedicineForm {
+  POWDER
+  TAB_OR_CAP
+  CHEWABLE
+  LIQUID
+  INHALER
+}
+
+model MedicineRequest {
+  request   ServiceRequest @relation(fields: [requestID], references: [requestID])
+  requestID Int            @unique
+
+  patientName          String
+  primaryPhysicianName String
+  medicine             Medicine
+  dosage               Int
+  form                 MedicineForm
 }
 
 model MaintenanceRequest {
@@ -63,11 +129,6 @@ model FlowerRequest {
   requestID     Int            @unique
   flowerType    FlowerType
   numberFlowers Int
-}
-
-enum ServiceRequestType {
-  MAINTENANCE
-  FLOWERS
 }
 
 enum FlowerType {
