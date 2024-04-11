@@ -2,6 +2,7 @@ import express, { Router, Request, Response } from "express";
 import { Prisma, ServiceRequestType } from "database";
 import PrismaClient from "../bin/database-connection.ts";
 
+//import CartItemsInGiftRequestsCreateNestedManyWithoutGiftRequestInput = Prisma.CartItemsInGiftRequestsCreateNestedManyWithoutGiftRequestInput;
 const router: Router = express.Router();
 
 router.post("/", async function (req: Request, res: Response) {
@@ -51,11 +52,7 @@ router.post("/", async function (req: Request, res: Response) {
     case "GIFT":
       // const items = body.items.map((itemID) => {
       //   return {
-      //     data: {
-      //       create: {
-      //         cartItemID: itemID,
-      //       },
-      //     },
+      //     cartItemID: itemID,
       //   };
       // });
 
@@ -67,9 +64,14 @@ router.post("/", async function (req: Request, res: Response) {
           shippingType: body.shippingType,
 
           items: {
-            create: {
-              cartItemID: 1,
-            },
+            create: [
+              {
+                cartItemID: 1,
+              },
+              {
+                cartItemID: 2,
+              },
+            ],
           },
         },
       };
