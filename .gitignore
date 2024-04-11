@@ -43,7 +43,3 @@ out
 *.css.map
 *.css
 !index.css
-
-# temp donwload files
-**/nodesDownload.csv
-**/edgesDownload.csv
