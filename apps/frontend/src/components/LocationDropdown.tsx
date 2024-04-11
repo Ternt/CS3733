@@ -20,7 +20,7 @@ type selectNode = {
   longName: string;
   nodeType: string;
 };
-function LocationSelectDropdown(props: dropdownProps) {
+export default function LocationDropdown(props: dropdownProps) {
   /**
    * Update the selected location based on the dropdown option
    * @param e The dropdown element that changed
@@ -83,6 +83,7 @@ function LocationSelectDropdown(props: dropdownProps) {
 
   return (
     <TextField
+      fullWidth
       required
       select
       id="location"
@@ -99,5 +100,3 @@ function LocationSelectDropdown(props: dropdownProps) {
     </TextField>
   );
 }
-
-export default LocationSelectDropdown;

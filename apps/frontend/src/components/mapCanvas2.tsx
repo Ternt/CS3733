@@ -6,7 +6,13 @@ import L2 from "../assets/BWHospitalMaps/01_thefirstfloor.png";
 import L3 from "../assets/BWHospitalMaps/02_thesecondfloor.png";
 import L4 from "../assets/BWHospitalMaps/03_thethirdfloor.png";
 
-import { Box, SpeedDial, SpeedDialAction } from "@mui/material";
+import {
+  Box,
+  Button,
+  SpeedDial,
+  SpeedDialAction,
+  Typography,
+} from "@mui/material";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import { edge, node, vec2 } from "../helpers/typestuff.ts";
 import axios, { AxiosResponse } from "axios";
@@ -15,8 +21,8 @@ import { graphHelper, pointHelper } from "../helpers/clickCorrectionMath.ts";
 
 const MAPS = [L0, L1, L2, L3, L4];
 const ZOOM_SPEED = 0.05;
-const ZOOM_MAX = 1;
-const ZOOM_MIN = 0.5;
+const ZOOM_MAX = 2;
+const ZOOM_MIN = 0.25;
 const BASE_MAP_WIDTH = 5000;
 const BASE_MAP_HEIGHT = 3400;
 const MAP_WIDTH = 1920;
@@ -40,12 +46,15 @@ function FLOOR_NAME_TO_INDEX(f: string) {
   console.error("No index for " + f);
   return -1;
 }
+
 //const FLOORS = ["L2", "L1", "F1", "F2", "F3"];
 
 type mapCanvasProps = {
   defaultFloor: number;
   startLocation: string;
   pathfinding: boolean;
+  endLocation: string;
+  onDeselectEndLocation?: () => void;
 };
 
 export function MapCanvas(props: mapCanvasProps) {
@@ -69,11 +78,11 @@ export function MapCanvas(props: mapCanvasProps) {
     e: [],
   });
   const [pathing, setPathing] = useState<{
-    seletedPoint: vec2 | null;
+    selectedPoint: vec2 | null;
     path: node[];
     nearestNode: node | null;
   }>({
-    seletedPoint: null,
+    selectedPoint: null,
     path: [],
     nearestNode: null,
   });
@@ -95,6 +104,10 @@ export function MapCanvas(props: mapCanvasProps) {
     });
     setViewingFloor(i);
   }
+
+  //function clamp(value: number, min:number, max:number){
+  //  return Math.min(max, Math.max(min, value));
+  //}
 
   // draw to canvas
   useEffect(() => {
@@ -136,10 +149,14 @@ export function MapCanvas(props: mapCanvasProps) {
 
       // pathdinging here
       if (props.pathfinding) {
-        if (pathing.seletedPoint === null) return;
+        if (
+          pathing.selectedPoint === null &&
+          (props.endLocation === undefined || props.endLocation === "")
+        )
+          return;
         ctx.lineWidth = 15;
         ctx.beginPath();
-        drawPoint(pathing.seletedPoint);
+        if (pathing.selectedPoint !== null) drawPoint(pathing.selectedPoint);
         ctx.stroke();
         ctx.lineWidth = 5;
         ctx.strokeStyle = "blue";
@@ -150,14 +167,13 @@ export function MapCanvas(props: mapCanvasProps) {
           //ctx.font = "30px Arial";
           //ctx.fillText(i+"",vecToCanvSpace(pathing.path[i].point).x,vecToCanvSpace(pathing.path[i].point).y);
         }
-        drawLine(
-          pathing.path[pathing.path.length - 1].point,
-          pathing.seletedPoint,
-        );
-
+        if (pathing.selectedPoint !== null)
+          drawLine(
+            pathing.path[pathing.path.length - 1].point,
+            pathing.selectedPoint,
+          );
         ctx.stroke();
       } else {
-        console.log(renderData.n, viewingFloor);
         for (const n of renderData.n) {
           ctx.lineWidth = 15;
           ctx.strokeStyle = "blue";
@@ -175,6 +191,7 @@ export function MapCanvas(props: mapCanvasProps) {
         }
       }
     }
+
     image.onload = () => {
       canvasDraw();
     };
@@ -192,41 +209,48 @@ export function MapCanvas(props: mapCanvasProps) {
     mouseData.pos.y,
     pathing.nearestNode?.nodeID,
     pathing.path,
-    pathing.seletedPoint,
+    pathing.selectedPoint,
     props.pathfinding,
     renderData.e,
     renderData.n,
     viewingFloor,
+    props.endLocation,
   ]);
 
   // wheel
   useEffect(() => {
     window.addEventListener("wheel", handleZoom);
+
     function handleZoom(e: WheelEvent) {
       const velocity = Math.sign(e.deltaY);
       let z = cameraControl.zoom + ZOOM_SPEED * velocity; // TODO maybe make addToZOmm of whateve an outside funct so no deps
       if (z >= ZOOM_MAX) z = ZOOM_MAX;
       else if (z <= ZOOM_MIN) z = ZOOM_MIN;
 
-      const canv = canvasRef.current!;
+      // New pan = mousePos - ( (mousePos - pan) / (canvasSize / zoom1) * (canvasSize / zoom2)
 
-      // get the center of the screen
-      const cx = canv.width / cameraControl.zoom / 2 + cameraControl.pan.x;
-      const cy = canv.height / cameraControl.zoom / 2 + cameraControl.pan.y;
-      // find the delta from center to mouse
-      const dx = (cx - mouseData.pos.x) * 0.01;
-      const dy = (cy - mouseData.pos.y) * 0.01;
+      const Qx =
+        mouseData.pos.x -
+        ((mouseData.pos.x - cameraControl.pan.x) /
+          (canvasRef.current!.width / cameraControl.zoom)) *
+          (canvasRef.current!.width / z);
+      const Qy =
+        mouseData.pos.y -
+        ((mouseData.pos.y - cameraControl.pan.y) /
+          (canvasRef.current!.height / cameraControl.zoom)) *
+          (canvasRef.current!.height / z);
 
       setCameraControl({
         ...cameraControl,
         zoom: z,
         zoomDelta: velocity,
         pan: {
-          x: cameraControl.pan.x + dx,
-          y: cameraControl.pan.y + dy,
+          x: Qx,
+          y: Qy,
         },
       });
     }
+
     return () => {
       window.removeEventListener("wheel", handleZoom);
     };
@@ -235,6 +259,7 @@ export function MapCanvas(props: mapCanvasProps) {
   //mousemove
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
+
     function handleMouseMove(e: MouseEvent) {
       const rect = canvasRef.current!.getBoundingClientRect(); // get element's abs. position
       const x =
@@ -271,6 +296,7 @@ export function MapCanvas(props: mapCanvasProps) {
   //mousedown
   useEffect(() => {
     window.addEventListener("mousedown", handleMouseDown);
+
     function handleMouseDown(e: MouseEvent) {
       const rect = canvasRef.current!.getBoundingClientRect(); // get element's abs. position
       const x =
@@ -307,6 +333,7 @@ export function MapCanvas(props: mapCanvasProps) {
   //dblclick
   useEffect(() => {
     window.addEventListener("dblclick", handleDblclick);
+
     function handleDblclick(e: MouseEvent) {
       const rect = canvasRef.current!.getBoundingClientRect(); // get element's abs. position
       const x =
@@ -360,15 +387,24 @@ export function MapCanvas(props: mapCanvasProps) {
             setPathing({
               ...pathing,
               path: pathNodes,
-              seletedPoint: coords,
+              selectedPoint: coords,
             });
+            if (props.onDeselectEndLocation) props.onDeselectEndLocation();
           });
       } else {
-        setPathing({
-          ...pathing,
-          seletedPoint: coords,
-          nearestNode: closestNode,
-        });
+        if (pathing.nearestNode?.nodeID === closestNode.nodeID) {
+          setPathing({
+            ...pathing,
+            selectedPoint: coords,
+            nearestNode: null,
+          });
+        } else {
+          setPathing({
+            ...pathing,
+            selectedPoint: coords,
+            nearestNode: closestNode,
+          });
+        }
       }
     }
 
@@ -381,6 +417,7 @@ export function MapCanvas(props: mapCanvasProps) {
     mouseData,
     nodes,
     pathing,
+    props,
     props.pathfinding,
     props.startLocation,
     viewingFloor,
@@ -389,6 +426,7 @@ export function MapCanvas(props: mapCanvasProps) {
   //mouseup
   useEffect(() => {
     window.addEventListener("mouseup", handleMouseUp);
+
     function handleMouseUp() {
       setMouseData({ ...mouseData, down: false });
     }
@@ -437,34 +475,100 @@ export function MapCanvas(props: mapCanvasProps) {
     });
   }, []);
 
+  useEffect(() => {
+    if (props.endLocation !== "" && props.endLocation !== undefined) {
+      if (
+        pathing.path.length > 0 &&
+        pathing.path[0].nodeID === props.startLocation &&
+        pathing.path[pathing.path.length - 1].nodeID === props.endLocation
+      )
+        return;
+      axios
+        .get(
+          "/api/astar-api?&startNode=" +
+            props.endLocation +
+            "&endNode=" +
+            props.startLocation,
+        )
+        .then((res) => {
+          const pathNodes: node[] = [];
+          for (const s of res.data.path) {
+            const n = nodes.find((no: node) => {
+              return no.nodeID === s;
+            });
+            if (n === undefined) continue;
+            pathNodes.push(n);
+          }
+
+          if (pathNodes === undefined || pathNodes.length === 0) {
+            console.error("no path");
+            return;
+          }
+          setPathing({
+            ...pathing,
+            path: pathNodes,
+            selectedPoint: null,
+          });
+        });
+    }
+  }, [pathing, nodes, props.endLocation, props.startLocation]);
+
   return (
     <Box
       sx={{
         overflow: "hidden",
-        height: "80vh",
+        height: "90vh",
       }}
     >
-      <canvas
-        width={MAP_WIDTH}
-        height={MAP_HEIGHT}
-        style={{ width: "100%" }}
-        ref={canvasRef}
-      />
-      {!props.pathfinding && (
+      <Box
+        sx={{
+          height: "100%",
+          width: "100%",
+          overflow: "hidden",
+        }}
+      >
+        <canvas
+          width={MAP_WIDTH}
+          height={MAP_HEIGHT}
+          style={{
+            aspectRatio: BASE_MAP_WIDTH + "/" + BASE_MAP_HEIGHT,
+          }}
+          ref={canvasRef}
+        />
+      </Box>
+      {!props.pathfinding && pathing.nearestNode !== null && (
         <Box
           sx={{
             position: "absolute",
             top: "120px",
             left: "120px",
-            width: "10vw",
-            bgcolor: "#00000010",
+            bgcolor: "#fff",
+            boxShadow: 5,
           }}
         >
-          <p>Node: {pathing.nearestNode?.nodeID}</p>
-          <p>{pathing.nearestNode?.longName}</p>
-          <p>X: {pathing.nearestNode?.point.x}</p>
-          <p>Y: {pathing.nearestNode?.point.y}</p>
-          <p>Z: {pathing.nearestNode?.point.z}</p>
+          <Typography variant={"subtitle1"}>
+            {pathing.nearestNode?.nodeID}
+          </Typography>
+          <Typography variant={"h5"}>
+            {pathing.nearestNode?.longName}
+          </Typography>
+          <Typography variant={"subtitle2"}>
+            X: {pathing.nearestNode?.point.x}
+          </Typography>
+          <Typography variant={"subtitle2"}>
+            Y: {pathing.nearestNode?.point.y}
+          </Typography>
+          <Typography variant={"subtitle2"}>
+            Z: {pathing.nearestNode?.point.z}
+          </Typography>
+          <Button
+            onClick={() => {
+              pathing.nearestNode = null;
+            }}
+            variant={"contained"}
+          >
+            X
+          </Button>
         </Box>
       )}
       <Box>
@@ -520,3 +624,4 @@ export function MapCanvas(props: mapCanvasProps) {
 }
 
 export default MapCanvas;
+//A
