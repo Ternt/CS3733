@@ -52,6 +52,7 @@ type mapCanvasProps = {
   defaultFloor: number;
   startLocation: string;
   pathfinding: boolean;
+  endLocation: string;
 };
 
 export function MapCanvas(props: mapCanvasProps) {
@@ -142,24 +143,30 @@ export function MapCanvas(props: mapCanvasProps) {
 
       // pathdinging here
       if (props.pathfinding) {
-        if (pathing.seletedPoint === null) return;
+        if (
+          pathing.seletedPoint === null &&
+          (props.endLocation === undefined || props.endLocation === "")
+        )
+          return;
         ctx.lineWidth = 15;
         ctx.beginPath();
-        drawPoint(pathing.seletedPoint);
+        if (pathing.seletedPoint !== null) drawPoint(pathing.seletedPoint);
         ctx.stroke();
         ctx.lineWidth = 5;
         ctx.strokeStyle = "blue";
         ctx.lineCap = "round";
         ctx.beginPath();
+        console.log("Path", pathing.path);
         for (let i = 0; i < pathing.path.length - 1; i++) {
           drawLine(pathing.path[i].point, pathing.path[i + 1].point);
           //ctx.font = "30px Arial";
           //ctx.fillText(i+"",vecToCanvSpace(pathing.path[i].point).x,vecToCanvSpace(pathing.path[i].point).y);
         }
-        drawLine(
-          pathing.path[pathing.path.length - 1].point,
-          pathing.seletedPoint,
-        );
+        if (pathing.seletedPoint !== null)
+          drawLine(
+            pathing.path[pathing.path.length - 1].point,
+            pathing.seletedPoint,
+          );
 
         ctx.stroke();
       } else {
@@ -203,6 +210,7 @@ export function MapCanvas(props: mapCanvasProps) {
     renderData.e,
     renderData.n,
     viewingFloor,
+    props.endLocation,
   ]);
 
   // wheel
@@ -451,6 +459,43 @@ export function MapCanvas(props: mapCanvasProps) {
     });
   }, []);
 
+  useEffect(() => {
+    if (props.endLocation !== "" && props.endLocation !== undefined) {
+      if (
+        pathing.path.length > 0 &&
+        pathing.path[0].nodeID === props.startLocation &&
+        pathing.path[pathing.path.length - 1].nodeID === props.endLocation
+      )
+        return;
+      axios
+        .get(
+          "/api/astar-api?&startNode=" +
+            props.endLocation +
+            "&endNode=" +
+            props.startLocation,
+        )
+        .then((res) => {
+          const pathNodes: node[] = [];
+          for (const s of res.data.path) {
+            const n = nodes.find((no: node) => {
+              return no.nodeID === s;
+            });
+            if (n === undefined) continue;
+            pathNodes.push(n);
+          }
+
+          if (pathNodes === undefined || pathNodes.length === 0) {
+            console.error("no path");
+            return;
+          }
+          setPathing({
+            ...pathing,
+            path: pathNodes,
+          });
+        });
+    }
+  }, [pathing, nodes, props.endLocation, props.startLocation]);
+
   return (
     <Box
       sx={{
@@ -552,3 +597,4 @@ export function MapCanvas(props: mapCanvasProps) {
 }
 
 export default MapCanvas;
+//A

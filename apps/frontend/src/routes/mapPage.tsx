@@ -7,17 +7,26 @@ export default function MapPage() {
     document.title = "Map";
   });
   const [startLocation, setStartLocation] = useState("CCONF001L1");
+  const [endLocation, setEndLocation] = useState("CCONF001L1");
   return (
     <>
       <LocationSelectDropdown
         onChange={(v: string) => {
           setStartLocation(v);
         }}
+        label={"Start "}
+      />
+      <LocationSelectDropdown
+        onChange={(v: string) => {
+          setEndLocation(v);
+        }}
+        label={"End "}
       />
       <MapCanvas2
         defaultFloor={2}
         pathfinding={true}
         startLocation={startLocation}
+        endLocation={endLocation}
       />
     </>
   );

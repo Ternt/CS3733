@@ -4,6 +4,7 @@ import axios from "axios";
 
 type dropdownProps = {
   onChange: (value: string) => void;
+  label: string;
 };
 
 let NodeList: node[];
@@ -42,7 +43,7 @@ function LocationSelectDropdown(props: dropdownProps) {
 
       setplaceholder(
         <div className="form">
-          <label>Start/Kiosk Location: </label>
+          <label>{props.label}</label>
           <select
             defaultValue="CCNF001L1"
             name="locations"
@@ -61,7 +62,7 @@ function LocationSelectDropdown(props: dropdownProps) {
         </div>,
       );
     });
-  }, [callbacker]);
+  }, [callbacker, props.label]);
 
   console.log(placeholder);
   return placeholder;

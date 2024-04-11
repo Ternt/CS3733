@@ -19,6 +19,7 @@ export default function AdminDashboard() {
         defaultFloor={1}
         pathfinding={false}
         startLocation={"CCONF001L1"}
+        endLocation={""}
       />
     );
   } else if (selectedTab === 2) {
