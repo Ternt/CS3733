@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import logo from "../../assets/baby.jpg";
 import { useNavigate } from "react-router-dom";
@@ -7,22 +7,16 @@ import OurServices from "./OurServices.tsx";
 
 export default function HeroPage() {
   const navigate = useNavigate();
-  const heroPage2Ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (heroPage2Ref.current) {
-      heroPage2Ref.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [heroPage2Ref]);
-
-  const handleMenuItemClick = (path: string) => {
-    navigate(path);
-  };
+  const heroPage2Ref = useRef<HTMLDivElement | null>(null);
 
   const handleLearnMoreClick = () => {
     if (heroPage2Ref.current) {
       heroPage2Ref.current.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  const handleMenuItemClick = (path: string) => {
+    navigate(path);
   };
 
   return (
