@@ -18,6 +18,7 @@ router.post("/", async function (req: Request, res: Response) {
   // (Not meant be used from API)
   delete body.sanitationDetail;
   delete body.medicineDetail;
+  delete body.giftDetail;
 
   // check for data corresponding to each service request type
   switch (body.type) {
@@ -46,6 +47,37 @@ router.post("/", async function (req: Request, res: Response) {
       delete body.medicine;
       delete body.dosage;
       delete body.form;
+      break;
+    case "GIFT":
+      // const items = body.items.map((itemID) => {
+      //   return {
+      //     data: {
+      //       create: {
+      //         cartItemID: itemID,
+      //       },
+      //     },
+      //   };
+      // });
+
+      body.giftDetail = {
+        create: {
+          senderName: body.senderName,
+          recipientName: body.recipientName,
+          cardNumber: body.cardNumber,
+          shippingType: body.shippingType,
+
+          items: {
+            create: {
+              cartItemID: 1,
+            },
+          },
+        },
+      };
+      delete body.senderName;
+      delete body.recipientName;
+      delete body.cardNumber;
+      delete body.shippingType;
+      delete body.items;
       break;
   }
 
