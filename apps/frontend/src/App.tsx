@@ -1,8 +1,8 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import ServiceRequest from "./serviceRequest.tsx";
-import { ThemeProvider } from "@mui/material/styles"; // Import ThemeProvider
-import CustomTheme from "./components/CustomTheme.tsx"; // Import your custom theme
+import { ThemeProvider } from "@mui/material/styles";
+import CustomTheme from "./components/CustomTheme.tsx";
 import MapPage from "./routes/mapPage.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import ServiceRequests from "./showAllSR.tsx";
@@ -86,10 +86,12 @@ function App() {
   function Root() {
     return (
       <>
-        <div className="w-full flex flex-col">
-          <NavBar />
-          <Outlet />
-        </div>
+        <ThemeProvider theme={CustomTheme}>
+          <div className="w-full flex flex-col">
+            <NavBar />
+            <Outlet />
+          </div>
+        </ThemeProvider>
       </>
     );
   }
