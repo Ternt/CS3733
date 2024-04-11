@@ -114,7 +114,7 @@ function MedicineRequestForm() {
         }}
       >
         <Typography
-          style={{ fontFamily: "Inria Serif" }}
+          style={{ fontFamily: "Open Sans" }}
           variant="h4"
           component="h1"
           align="center"
@@ -349,13 +349,13 @@ function MedicineRequestForm() {
               }}
             >
               <TableRow>
-                <TableCell sx={{ color: "#f6bd38" }}>patientName</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>physicianName</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>priority</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>location</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>medicine</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>dosage</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>form</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>Patient Name</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>Physician Name</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>Priority</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>Location</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>Medicine</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>Dosage</TableCell>
+                <TableCell sx={{ color: "#f6bd38" }}>Form</TableCell>
                 <TableCell sx={{ color: "#f6bd38" }}>
                   Assignment Status
                 </TableCell>
