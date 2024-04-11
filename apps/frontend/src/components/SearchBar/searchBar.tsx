@@ -57,6 +57,9 @@ function SearchBar() {
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
+        sx={{
+          height: "6vh",
+        }}
       />
     </Search>
   );
