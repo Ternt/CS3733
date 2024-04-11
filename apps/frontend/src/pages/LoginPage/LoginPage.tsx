@@ -27,7 +27,7 @@ export default function LoginPage() {
 
   function handleSubmit() {
     if (credential.username === "admin" && credential.password === "admin") {
-      navigate("/");
+      navigate("/admin");
     } else {
       setError("Incorrect Username or Password"); // TODO make this response come from an API call
       handleUsernameInput("");

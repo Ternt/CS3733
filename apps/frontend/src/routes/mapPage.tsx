@@ -1,7 +1,6 @@
-import ll1 from "../assets/BWHospitalMaps/00_thelowerlevel1.png";
 import LocationSelectDropdown from "../components/locationSelectDropdown.tsx";
-import MapCanvas from "../components/mapCanvas.tsx";
 import { useEffect, useState } from "react";
+import MapCanvas2 from "../components/mapCanvas2.tsx";
 
 export default function MapPage() {
   useEffect(() => {
@@ -15,7 +14,11 @@ export default function MapPage() {
           setStartLocation(v);
         }}
       />
-      <MapCanvas image={ll1} startLocation={startLocation} />
+      <MapCanvas2
+        defaultFloor={2}
+        pathfinding={true}
+        startLocation={startLocation}
+      />
     </>
   );
 }

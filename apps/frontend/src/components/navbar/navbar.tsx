@@ -50,7 +50,11 @@ function ResponsiveAppBar() {
     <AppBar
       position="static"
       sx={{
-        bgcolor: "#012d5a",
+        display: "flex",
+        justifyContent: "center",
+        backgroundColor: "#012d5a",
+        maxHeight: "10vh",
+        boxShadow: "none",
       }}
     >
       <Container maxWidth="xl">
@@ -69,7 +73,7 @@ function ResponsiveAppBar() {
               alt={"logo"}
               onClick={() => handleMenuItemClick("")}
               sx={{
-                width: "350px",
+                width: "250px",
               }}
             ></Box>
           </Link>
@@ -85,7 +89,7 @@ function ResponsiveAppBar() {
                 key={page.label}
                 onClick={() => handleMenuItemClick(page.path)}
                 sx={{
-                  my: 3,
+                  my: "5vh",
                   mr: 3,
                   height: 45,
                   color: "white",
@@ -110,7 +114,7 @@ function ResponsiveAppBar() {
               aria-expanded={open ? "true" : undefined}
               onClick={handleOnClick}
               sx={{
-                my: 3,
+                my: "5vh",
                 mr: 3,
                 height: 45,
                 color: "white",
@@ -152,9 +156,9 @@ function ResponsiveAppBar() {
               key={"login"}
               onClick={() => handleMenuItemClick("/login")}
               sx={{
-                my: 3,
-                height: 45,
-                paddingX: 5,
+                my: "5vh",
+                height: "6vh",
+                paddingX: "2vw",
                 color: "black",
                 transition: "all 0.2s ease-in-out",
                 fontSize: 15,

@@ -7,6 +7,7 @@ import MapPage from "./routes/mapPage.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import ServiceRequests from "./showAllSR.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
+//import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
 import NavBar from "./components/navbar/navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
 import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
@@ -14,6 +15,7 @@ import GiftCheckoutPage from "./pages/GiftCheckoutPage/GiftCheckoutPage.tsx";
 import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
 import FlowerCheckoutPage from "./pages/FlowerCheckoutPage/FlowerCheckoutPage.tsx";
 import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 
 function App() {
@@ -70,6 +72,10 @@ function App() {
         {
           path: "/tables",
           element: <MapDataDisplay />,
+        },
+        {
+          path: "/admin",
+          element: <AdminDashboard />,
         },
       ],
     },
