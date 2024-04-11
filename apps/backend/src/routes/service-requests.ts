@@ -7,6 +7,22 @@ const router: Router = express.Router();
 router.post("/", async function (req: Request, res: Response) {
   const serviceRequest: Prisma.ServiceRequestCreateInput = req.body;
 
+  // check for data corresponding to each service request type
+  switch (serviceRequest.type) {
+    case "SANITATION":
+      if (serviceRequest.sanitationDetail === undefined) {
+        res.sendStatus(400);
+        return;
+      }
+      break;
+    case "MEDICINE":
+      if (serviceRequest.medicineDetail === undefined) {
+        res.sendStatus(400);
+        return;
+      }
+      break;
+  }
+
   try {
     // Attempt to create in the database
     await PrismaClient.serviceRequest.create({ data: serviceRequest });

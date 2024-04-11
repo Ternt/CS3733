@@ -43,6 +43,8 @@ model EdgeDB {
 enum ServiceRequestType {
   MAINTENANCE
   FLOWERS
+  SANITATION
+  MEDICINE
 }
 
 enum ServiceRequestPriority {
