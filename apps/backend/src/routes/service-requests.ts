@@ -1,5 +1,5 @@
 import express, { Router, Request, Response } from "express";
-import { Prisma } from "database";
+import { Prisma, ServiceRequestType } from "database";
 import PrismaClient from "../bin/database-connection.ts";
 
 const router: Router = express.Router();
@@ -65,26 +65,41 @@ router.post("/", async function (req: Request, res: Response) {
 });
 
 router.get("/", async function (req: Request, res: Response) {
-  const serviceRequests = await PrismaClient.serviceRequest.findMany({
-    select: {
-      requestID: true,
-      type: true,
-      notes: true,
-      location: true,
+  try {
+    const serviceRequests = await PrismaClient.serviceRequest.findMany({
+      select: {
+        requestID: true,
+        type: true,
+        notes: true,
+        location: true,
 
-      sanitationDetail: true,
-      medicineDetail: true,
-      maintenanceDetail: true,
-      flowerDetail: true,
-    },
-  });
+        sanitationDetail: true,
+        medicineDetail: true,
+        maintenanceDetail: true,
+        flowerDetail: true,
+      },
+      where: {
+        ...(req.query.type !== undefined
+          ? { type: req.query.type as ServiceRequestType }
+          : {}),
+      },
+    });
 
-  if (serviceRequests == null) {
-    // if no service request data is in the db
-    console.error("No service requests have been submitted.");
-    res.sendStatus(204);
-  } else {
-    res.json(serviceRequests);
+    if (serviceRequests == null) {
+      // if no service request data is in the db
+      console.error("No service requests have been submitted.");
+      res.sendStatus(204);
+    } else {
+      res.json(serviceRequests);
+    }
+  } catch (error) {
+    let errorMessage = "Failed to do something exceptional";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    console.log(errorMessage);
+    res.sendStatus(400);
+    return;
   }
 });
 
