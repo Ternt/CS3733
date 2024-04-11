@@ -76,11 +76,11 @@ export function MapCanvas(props: mapCanvasProps) {
     e: [],
   });
   const [pathing, setPathing] = useState<{
-    seletedPoint: vec2 | null;
+    selectedPoint: vec2 | null;
     path: node[];
     nearestNode: node | null;
   }>({
-    seletedPoint: null,
+    selectedPoint: null,
     path: [],
     nearestNode: null,
   });
@@ -139,38 +139,51 @@ export function MapCanvas(props: mapCanvasProps) {
         ctx.lineTo(b.x, b.y);
       }
 
+      function canvToVecSpace(a: vec2, zoom: number) {
+        return {
+          x: ((a.x - cameraControl.pan.x) / X_MULT) * zoom,
+          y: ((a.y - cameraControl.pan.y) / Y_MULT) * zoom,
+          z: a.z,
+        };
+      }
+      ctx.lineWidth = 15;
+      ctx.beginPath();
+      const vvv = canvToVecSpace(
+        { x: mouseData.pos.x, y: mouseData.pos.y, z: viewingFloor },
+        cameraControl.zoom,
+      );
+      drawPoint(vvv);
+      ctx.stroke();
+
       if (mouseData.down) return;
 
       // pathdinging here
       if (props.pathfinding) {
         if (
-          pathing.seletedPoint === null &&
+          pathing.selectedPoint === null &&
           (props.endLocation === undefined || props.endLocation === "")
         )
           return;
         ctx.lineWidth = 15;
         ctx.beginPath();
-        if (pathing.seletedPoint !== null) drawPoint(pathing.seletedPoint);
+        if (pathing.selectedPoint !== null) drawPoint(pathing.selectedPoint);
         ctx.stroke();
         ctx.lineWidth = 5;
         ctx.strokeStyle = "blue";
         ctx.lineCap = "round";
         ctx.beginPath();
-        console.log("Path", pathing.path);
         for (let i = 0; i < pathing.path.length - 1; i++) {
           drawLine(pathing.path[i].point, pathing.path[i + 1].point);
           //ctx.font = "30px Arial";
           //ctx.fillText(i+"",vecToCanvSpace(pathing.path[i].point).x,vecToCanvSpace(pathing.path[i].point).y);
         }
-        if (pathing.seletedPoint !== null)
+        if (pathing.selectedPoint !== null)
           drawLine(
             pathing.path[pathing.path.length - 1].point,
-            pathing.seletedPoint,
+            pathing.selectedPoint,
           );
-
         ctx.stroke();
       } else {
-        console.log(renderData.n, viewingFloor);
         for (const n of renderData.n) {
           ctx.lineWidth = 15;
           ctx.strokeStyle = "blue";
@@ -205,7 +218,7 @@ export function MapCanvas(props: mapCanvasProps) {
     mouseData.pos.y,
     pathing.nearestNode?.nodeID,
     pathing.path,
-    pathing.seletedPoint,
+    pathing.selectedPoint,
     props.pathfinding,
     renderData.e,
     renderData.n,
@@ -222,22 +235,26 @@ export function MapCanvas(props: mapCanvasProps) {
       if (z >= ZOOM_MAX) z = ZOOM_MAX;
       else if (z <= ZOOM_MIN) z = ZOOM_MIN;
 
-      const canv = canvasRef.current!;
+      // New pan = mousePos - ( (mousePos - pan) / (canvasSize / zoom1) * (canvasSize / zoom2)
 
-      // get the center of the screen
-      const cx = canv.width / cameraControl.zoom / 2 + cameraControl.pan.x;
-      const cy = canv.height / cameraControl.zoom / 2 + cameraControl.pan.y;
-      // find the delta from center to mouse
-      const dx = (cx - mouseData.pos.x) * 0.01;
-      const dy = (cy - mouseData.pos.y) * 0.01;
+      const Qx =
+        mouseData.pos.x -
+        ((mouseData.pos.x - cameraControl.pan.x) /
+          (canvasRef.current!.width / cameraControl.zoom)) *
+          (canvasRef.current!.width / z);
+      const Qy =
+        mouseData.pos.y -
+        ((mouseData.pos.y - cameraControl.pan.y) /
+          (canvasRef.current!.height / cameraControl.zoom)) *
+          (canvasRef.current!.height / z);
 
       setCameraControl({
         ...cameraControl,
         zoom: z,
         zoomDelta: velocity,
         pan: {
-          x: cameraControl.pan.x + dx,
-          y: cameraControl.pan.y + dy,
+          x: Qx,
+          y: Qy,
         },
       });
     }
@@ -374,20 +391,20 @@ export function MapCanvas(props: mapCanvasProps) {
             setPathing({
               ...pathing,
               path: pathNodes,
-              seletedPoint: coords,
+              selectedPoint: coords,
             });
           });
       } else {
         if (pathing.nearestNode?.nodeID === closestNode.nodeID) {
           setPathing({
             ...pathing,
-            seletedPoint: coords,
+            selectedPoint: coords,
             nearestNode: null,
           });
         } else {
           setPathing({
             ...pathing,
-            seletedPoint: coords,
+            selectedPoint: coords,
             nearestNode: closestNode,
           });
         }
