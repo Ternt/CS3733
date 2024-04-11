@@ -520,15 +520,22 @@ export function MapCanvas(props: mapCanvasProps) {
         height: "90vh",
       }}
     >
-      <canvas
-        width={MAP_WIDTH}
-        height={MAP_HEIGHT}
-        style={{
+      <Box
+        sx={{
           height: "100%",
-          aspectRatio: BASE_MAP_WIDTH + "/" + BASE_MAP_HEIGHT,
+          width: "100%",
+          overflow: "hidden",
         }}
-        ref={canvasRef}
-      />
+      >
+        <canvas
+          width={MAP_WIDTH}
+          height={MAP_HEIGHT}
+          style={{
+            aspectRatio: BASE_MAP_WIDTH + "/" + BASE_MAP_HEIGHT,
+          }}
+          ref={canvasRef}
+        />
+      </Box>
       {!props.pathfinding && pathing.nearestNode !== null && (
         <Box
           sx={{
