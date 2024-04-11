@@ -53,14 +53,31 @@ export default function OurServices() {
                 border: "2px solid #ccc",
                 borderRadius: "8px",
                 transition: "all 0.2s ease-in-out",
+
                 "&:hover": {
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                   border: "1px solid #999",
+                  "& > .btmstripe": {
+                    backgroundColor: "#f6bd38",
+                  },
                 },
                 cursor: "pointer",
                 height: "30vh",
+                position: "relative",
               }}
             >
+              <Box
+                className={"btmstripe"}
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "10%",
+                  backgroundColor: "#012d5a",
+                  transition: "background-color 0.2s ease-in-out",
+                }}
+              />
               <CardContent>
                 <HomeRepairServiceIcon style={{ fontSize: "40px" }} />
                 <Typography variant="h5" component="h2">
@@ -84,14 +101,31 @@ export default function OurServices() {
                 border: "2px solid #ccc",
                 borderRadius: "8px",
                 transition: "all 0.2s ease-in-out",
+
                 "&:hover": {
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                   border: "1px solid #999",
+                  "& > .btmstripe": {
+                    backgroundColor: "#f6bd38",
+                  },
                 },
                 cursor: "pointer",
                 height: "30vh",
+                position: "relative",
               }}
             >
+              <Box
+                className={"btmstripe"}
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "10%",
+                  backgroundColor: "#012d5a",
+                  transition: "background-color 0.2s ease-in-out",
+                }}
+              />
               <CardContent>
                 <VaccinesIcon style={{ fontSize: "40px" }} />
                 <Typography variant="h5" component="h2">
@@ -115,14 +149,31 @@ export default function OurServices() {
                 border: "2px solid #ccc",
                 borderRadius: "8px",
                 transition: "all 0.2s ease-in-out",
+
                 "&:hover": {
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                   border: "1px solid #999",
+                  "& > .btmstripe": {
+                    backgroundColor: "#f6bd38",
+                  },
                 },
                 cursor: "pointer",
                 height: "30vh",
+                position: "relative",
               }}
             >
+              <Box
+                className={"btmstripe"}
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "10%",
+                  backgroundColor: "#012d5a",
+                  transition: "background-color 0.2s ease-in-out",
+                }}
+              />
               <CardContent>
                 <CardGiftcardIcon style={{ fontSize: "40px" }} />
                 <Typography variant="h5" component="h2">
@@ -146,14 +197,31 @@ export default function OurServices() {
                 border: "2px solid #ccc",
                 borderRadius: "8px",
                 transition: "all 0.2s ease-in-out",
+
                 "&:hover": {
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                   border: "1px solid #999",
+                  "& > .btmstripe": {
+                    backgroundColor: "#f6bd38",
+                  },
                 },
                 cursor: "pointer",
                 height: "30vh",
+                position: "relative",
               }}
             >
+              <Box
+                className={"btmstripe"}
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "10%",
+                  backgroundColor: "#012d5a",
+                  transition: "background-color 0.2s ease-in-out",
+                }}
+              />
               <CardContent>
                 <LocalFloristIcon style={{ fontSize: "40px" }} />
                 <Typography variant="h5" component="h2">
@@ -177,14 +245,31 @@ export default function OurServices() {
                 border: "2px solid #ccc",
                 borderRadius: "8px",
                 transition: "all 0.2s ease-in-out",
+
                 "&:hover": {
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                   border: "1px solid #999",
+                  "& > .btmstripe": {
+                    backgroundColor: "#f6bd38",
+                  },
                 },
                 cursor: "pointer",
                 height: "30vh",
+                position: "relative",
               }}
             >
+              <Box
+                className={"btmstripe"}
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "10%",
+                  backgroundColor: "#012d5a",
+                  transition: "background-color 0.2s ease-in-out",
+                }}
+              />
               <CardContent>
                 <BedIcon style={{ fontSize: "40px" }} />
                 <Typography variant="h5" component="h2">
@@ -208,14 +293,32 @@ export default function OurServices() {
                 border: "2px solid #ccc",
                 borderRadius: "8px",
                 transition: "all 0.2s ease-in-out",
+
                 "&:hover": {
                   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                   border: "1px solid #999",
+                  "& > .btmstripe": {
+                    backgroundColor: "#f6bd38",
+                  },
                 },
                 cursor: "pointer",
                 height: "30vh",
+                position: "relative",
               }}
             >
+              <Box
+                className={"btmstripe"}
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "10%",
+                  backgroundColor: "#012d5a",
+                  transition: "background-color 0.2s ease-in-out",
+                }}
+              />
+
               <CardContent>
                 <BedIcon style={{ fontSize: "40px" }} />
                 <Typography variant="h5" component="h2">
