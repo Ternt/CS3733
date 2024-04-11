@@ -39,8 +39,8 @@ model EdgeDB {
   endNodeID   String
   blocked     Boolean
 
-  startNode NodeDB @relation(name: "start", fields: [startNodeID], references: [nodeID])
-  endNode   NodeDB @relation(name: "end", fields: [endNodeID], references: [nodeID])
+  startNode NodeDB @relation(name: "start", fields: [startNodeID], references: [nodeID], onDelete: Cascade)
+  endNode   NodeDB @relation(name: "end", fields: [endNodeID], references: [nodeID], onDelete: Cascade)
 
   @@unique([startNodeID, endNodeID])
 }
@@ -70,7 +70,7 @@ model ServiceRequest {
   requestID  Int                    @id @default(autoincrement())
   type       ServiceRequestType
   notes      String
-  location   NodeDB                 @relation(fields: [locationID], references: [nodeID])
+  location   NodeDB                 @relation(fields: [locationID], references: [nodeID], onDelete: Cascade)
   locationID String
   priority   ServiceRequestPriority
   status     ServiceRequestStatus
@@ -94,7 +94,7 @@ enum MessSize {
 }
 
 model SanitationRequest {
-  request   ServiceRequest @relation(fields: [requestID], references: [requestID])
+  request   ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
   requestID Int            @unique
 
   messType MessType
@@ -116,7 +116,7 @@ enum MedicineForm {
 }
 
 model MedicineRequest {
-  request   ServiceRequest @relation(fields: [requestID], references: [requestID])
+  request   ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
   requestID Int            @unique
 
   patientName          String
@@ -127,14 +127,14 @@ model MedicineRequest {
 }
 
 model MaintenanceRequest {
-  request         ServiceRequest  @relation(fields: [requestID], references: [requestID])
+  request         ServiceRequest  @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
   requestID       Int             @unique
   maintenanceType MaintenanceType
   workersNeeded   Int
 }
 
 model FlowerRequest {
-  request       ServiceRequest @relation(fields: [requestID], references: [requestID])
+  request       ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
   requestID     Int            @unique
   flowerType    FlowerType
   numberFlowers Int
