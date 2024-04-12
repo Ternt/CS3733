@@ -133,6 +133,15 @@ function SanitationRequestForm() {
             boxShadow: 3,
         }}
       >
+          {/*<Box*/}
+          {/*    sx={{*/}
+          {/*        display: "flex",*/}
+          {/*        justifyContent: "center",*/}
+          {/*    }}*/}
+          {/*>*/}
+          {/*    <Typography>Made by Yuhan & Warwick</Typography>*/}
+          {/*</Box>*/}
+
         <form
           id="sanitationForm"
           style={{
@@ -210,6 +219,7 @@ function SanitationRequestForm() {
                 value="small"
                 control={<Radio />}
                 label="Small"
+
               />
               <FormControlLabel
                 value="medium"
@@ -236,7 +246,7 @@ function SanitationRequestForm() {
                   assignmentStatus: event.target.value,
                 });
               }}
-              sx={{margin: 1}}
+              sx={{marginY: 1}}
             >
               <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"Assigned"}>Assigned</MenuItem>
