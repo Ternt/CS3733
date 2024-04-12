@@ -1,5 +1,4 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import medicin_delivery from "../../assets/medicin_delivery.png";
 import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import {
   TextField,
@@ -94,10 +93,9 @@ function MedicineRequestForm() {
     <Box
       position="relative"
       sx={{
-        backgroundImage: `url(${medicin_delivery})`,
         display: "flex",
         justifyContent: "center",
-        height: "100vh",
+        height: "150vh",
         backgroundSize: "cover",
       }}
     >
@@ -111,10 +109,11 @@ function MedicineRequestForm() {
           backgroundColor: "#012d5a",
           color: "#f6bd38",
           p: 2,
+          borderRadius: "23px 23px 0 0",
         }}
       >
         <Typography
-          style={{ fontFamily: "Open Sans" }}
+          style={{ fontFamily: "Open Sans", fontWeight: 600 }}
           variant="h4"
           component="h1"
           align="center"
@@ -129,18 +128,25 @@ function MedicineRequestForm() {
         sx={{
           width: "500px",
           backgroundColor: "whitesmoke",
+          borderRadius: "0 0 23px 23px",
         }}
-        px={10}
       >
         <form
-          id="sanitationForm"
+          id="medicineForm"
           style={{
             backgroundColor: "whitesmoke",
             display: "flex",
             justifyContent: "center",
+            borderRadius: "0 0 23px 23px",
           }}
         >
-          <FormControl>
+          <FormControl
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "top",
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
@@ -161,11 +167,10 @@ function MedicineRequestForm() {
 
             <TextField
               required
-              label="Name of Primary Physician"
+              label={"Name of Primary Physician"}
               onChange={handlePhysicianNameInput}
               margin="normal"
               value={formInput.physicianName}
-              fullWidth
             />
 
             <TextField
@@ -238,52 +243,78 @@ function MedicineRequestForm() {
                 }}
                 margin="normal"
                 value={formInput.dosage}
-                fullWidth
               />
             </Box>
 
-            <FormLabel id="mess-size">Form</FormLabel>
-            <RadioGroup
-              row
-              name="mess-size"
-              aria-labelledby="mess-size"
-              value={formInput.form}
-              onChange={(event) => {
-                setFormInput({
-                  ...formInput,
-                  form: event.target.value,
-                });
-              }}
-              sx={{
-                width: "80%",
-              }}
-            >
-              <FormControlLabel
-                value="Powder"
-                control={<Radio />}
-                label="Powder"
-              />
-              <FormControlLabel
-                value="Tab or Cap"
-                control={<Radio />}
-                label="Tab or Cap"
-              />
-              <FormControlLabel
-                value="Chewable"
-                control={<Radio />}
-                label="Chewable"
-              />
-              <FormControlLabel
-                value="Liquid"
-                control={<Radio />}
-                label="Liquid"
-              />
-              <FormControlLabel
-                value="Inhaler"
-                control={<Radio />}
-                label="Inhaler"
-              />
-            </RadioGroup>
+            <Box>
+              <FormLabel id="mess-size">Form</FormLabel>
+              <RadioGroup
+                name="medicine-form"
+                aria-labelledby="medicine-form"
+                value={formInput.form}
+                onChange={(event) => {
+                  setFormInput({
+                    ...formInput,
+                    form: event.target.value,
+                  });
+                }}
+                sx={{
+                  width: "80%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <FormControlLabel
+                    value="Powder"
+                    control={<Radio />}
+                    label="Powder"
+                  />
+                  <FormControlLabel
+                    value="Tab or Cap"
+                    control={<Radio />}
+                    label="Tab/Cap"
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <FormControlLabel
+                    value="Chewable"
+                    control={<Radio />}
+                    label="Chewable"
+                  />
+                  <FormControlLabel
+                    value="Liquid"
+                    control={<Radio />}
+                    label="Liquid"
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <FormControlLabel
+                    value="Inhaler"
+                    control={<Radio />}
+                    label="Inhaler"
+                  />
+                </Box>
+              </RadioGroup>
+            </Box>
 
             <TextField
               required
@@ -340,7 +371,7 @@ function MedicineRequestForm() {
         </form>
       </Box>
 
-      <Box position="absolute" top={1000} sx={{ width: "80%" }}>
+      <Box sx={{ position: "absolute", width: "80%", top: "127vh" }}>
         <TableContainer>
           <Table>
             <TableHead
