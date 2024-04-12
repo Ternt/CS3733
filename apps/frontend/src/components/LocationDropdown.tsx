@@ -81,12 +81,18 @@ export default function LocationDropdown(props: dropdownProps) {
       disablePortal
       fullWidth
       id="location"
-      inputProps={{ MenuProps: { disableScrollLock: true } }}
-      value={props.value}
-      options={getNodes()
-        .map((n) => n.longName)
-        .filter((n) => !n.includes("Hall"))}
+      value={getNodes().find((node) => node.nodeID === props.value) || null}
+      options={getNodes()}
+      getOptionLabel={(option) => option.longName}
+      filterOptions={(options) =>
+        options.filter((option) => !option.longName.includes("Hall"))
+      }
       renderInput={(params) => <TextField {...params} label={props.label} />}
+      onChange={(e, newValue) => {
+        if (newValue && typeof newValue === "object") {
+          props.onChange(newValue.nodeID);
+        }
+      }}
     />
   );
 }
