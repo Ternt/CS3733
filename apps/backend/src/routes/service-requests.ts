@@ -50,12 +50,6 @@ router.post("/", async function (req: Request, res: Response) {
       delete body.form;
       break;
     case "GIFT":
-      // const items = body.items.map((itemID) => {
-      //   return {
-      //     cartItemID: itemID,
-      //   };
-      // });
-
       body.giftDetail = {
         create: {
           senderName: body.senderName,
@@ -64,14 +58,11 @@ router.post("/", async function (req: Request, res: Response) {
           shippingType: body.shippingType,
 
           items: {
-            create: [
-              {
-                cartItemID: 1,
-              },
-              {
-                cartItemID: 2,
-              },
-            ],
+            create: body.items.map((itemID: number) => {
+              return {
+                cartItemID: itemID,
+              };
+            }),
           },
         },
       };
