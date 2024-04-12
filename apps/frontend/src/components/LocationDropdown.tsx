@@ -81,6 +81,7 @@ export default function LocationDropdown(props: dropdownProps) {
       disablePortal
       fullWidth
       id="location"
+      inputProps={{ MenuProps: { disableScrollLock: true } }}
       value={props.value}
       options={getNodes()
         .map((n) => n.longName)
