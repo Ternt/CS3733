@@ -12,6 +12,9 @@ import {
   Radio,
   FormLabel,
 } from "@mui/material";
+import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 type form = {
   medicine: string;
@@ -200,6 +203,11 @@ function MedicineRequestForm() {
                           label={"Location"}
                       /></Box>
 
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={['DatePicker']}>
+                              <DatePicker label="Basic date picker" />
+                          </DemoContainer>
+                      </LocalizationProvider>
 
                       <Box
                           sx={{
