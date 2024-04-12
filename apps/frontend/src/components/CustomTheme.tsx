@@ -79,7 +79,7 @@ const theme = createTheme({
         },
         icon: {
           // Styles applied to the select dropdown icon.
-          color: "#0044ff", // Changes the dropdown icon color.
+          color: "#f6bd38", // Changes the dropdown icon color.
         },
       },
     },
@@ -97,7 +97,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           // Base styles for the checkbox
-          color: "#0044ff", // Default color for the checkbox, using secondary color
+          color: "#6b6d6f", // Default color for the checkbox, using secondary color
         },
         colorPrimary: {
           "&.Mui-checked": {
