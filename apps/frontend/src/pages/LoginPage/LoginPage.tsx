@@ -1,10 +1,13 @@
-import "./LoginPage.scss";
-import Card from "../../components/Card/Card.tsx";
 import { useEffect, useState } from "react";
-import { LoginCredentials } from "../../common/LoginCredentials.ts";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, FormControl, TextField } from "@mui/material";
 import background from "./login-page-background.png";
+import Card from "@mui/material/Card";
+
+type LoginCredentials = {
+  username:string;
+  password:string;
+};
 
 export default function LoginPage() {
   useEffect(() => {

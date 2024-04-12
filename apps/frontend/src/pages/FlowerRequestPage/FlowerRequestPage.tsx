@@ -7,54 +7,53 @@ import {useNavigate, useLocation} from "react-router-dom";
 import Info from '../CheckoutPage/MUI Checkout/Info.tsx';
 
 export type Item = {
-    id: string;
-    imageURL: string;
-    name: string;
-    price: number;
-    description: string;
+  id: string;
+  imageURL: string;
+  name: string;
+  price: number;
+  description: string;
 };
 
 type ItemCardData = {
-    id: string;
-    imageURL: string;
-    title: string;
-    price: string;
-    description: string;
+  id: string;
+  imageURL: string;
+  title: string;
+  price: string;
+  description: string;
 };
 
 const items: ItemCardData[] = [
-    {
-        id: "1-rose",
-        imageURL: "../../src/assets/FlowerImages/roses.jpg.webp",
-        title: "Rose",
-        price: "20",
-        description: "",
-    },
-    {
-        id: "2-dais",
-        imageURL: "../../src/assets/FlowerImages/daisy.jpeg",
-        title: "Daisy",
-        price: "30",
-        description: "",
-    },
-    {
-        id: "3-tuli",
-        imageURL: "../../src/assets/FlowerImages/tulip.jpg",
-        title: "Tulip",
-        price: "35",
-        description: "",
-    },
-    {
-        id: "4-forg",
-        imageURL: "../../src/assets/FlowerImages/forget-me-not.jpg",
-        title: "Forget-Me-Not",
-        price: "12",
-        description: "",
-    },
+  {
+    id: "1-rose",
+    imageURL: "https://cdn.nodenium.com/37eed916-975b-4788-a5a4-b8ff64490f04",
+    title: "Rose",
+    price: "20",
+    description: "",
+  },
+  {
+    id: "2-dais",
+    imageURL: "https://cdn.nodenium.com/d5074553-86a1-4351-93a0-f720b503dada",
+    title: "Daisy",
+    price: "30",
+    description: "",
+  },
+  {
+    id: "3-tuli",
+    imageURL: "https://cdn.nodenium.com/38afd65e-4f26-46c8-b853-66cf863b975d",
+    title: "Tilp",
+    price: "35",
+    description: "",
+  },
+  {
+    id: "4-forg",
+    imageURL: "https://cdn.nodenium.com/a7aa8e0a-c057-46ee-b99b-212908aebe73",
+    title: "Forget-Me-Not",
+    price: "12",
+    description: "",
+  },
 ];
 
 export const StoreContext = React.createContext(null);
-
 
 function FlowerRequestPage() {
     useEffect(() => {

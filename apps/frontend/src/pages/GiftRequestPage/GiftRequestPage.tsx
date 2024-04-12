@@ -25,28 +25,28 @@ type ItemCardData = {
 const items: ItemCardData[] = [
   {
     id: "1-tedd",
-    imageURL: "../../src/assets/GiftImages/TeddyBear.jpeg",
+    imageURL: "https://cdn.nodenium.com/3d10056f-1f66-4071-b9bc-2eab34dc5bf1",
     title: "Teddy Bear",
     price: "12",
     description: "A cute Teddy Bear",
   },
   {
     id: "2-choc",
-    imageURL: "../../src/assets/GiftImages/Chocolates.webp",
+    imageURL: "https://cdn.nodenium.com/e03b0f04-9153-4c5b-8370-8da3be2a2760",
     title: "Chocolates",
     price: "15",
     description: "Taste good",
   },
   {
     id: "3-cake",
-    imageURL: "../../src/assets/GiftImages/Cake.webp",
+    imageURL: "https://cdn.nodenium.com/32c982b8-4c41-4e5a-be07-8079d6f9c319",
     title: "Cake",
     price: "40",
     description: "chocolate cake",
   },
   {
     id: "4-ps5",
-    imageURL: "../../src/assets/GiftImages/PS5.webp",
+    imageURL: "https://cdn.nodenium.com/4372f71b-2caf-440e-b238-c2085499f95b",
     title: "PS5",
     price: "600",
     description: "ps5",

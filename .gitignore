@@ -44,7 +44,5 @@ out
 *.css
 !index.css
 
-# temperary download files
-**/nodesDownload.csv
-**/edgesDownload.csv
-
+# temporary download files
+/apps/backend/map/temp/

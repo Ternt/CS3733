@@ -19,25 +19,6 @@ const FormGrid = styled("div")(() => ({
 }));
 
 export default function PaymentForm( {cardInfo, updateCardInfo}) {
-  // const [paymentType] = React.useState("creditCard");
-  // const [cvv, setCvv] = React.useState("");
-  // const [expirationDate, setExpirationDate] = React.useState("");
-  //
-  //
-  // const handleCvvChange = (event: { target: { value: string } }) => {
-  //   const value = event.target.value.replace(/\D/g, "");
-  //   if (value.length <= 3) {
-  //     setCvv(value);
-  //   }
-  // };
-  //
-  // const handleExpirationDateChange = (event: { target: { value: string } }) => {
-  //   const value = event.target.value.replace(/\D/g, "");
-  //   const formattedValue = value.replace(/(\d{2})(?=\d{2})/, "$1/");
-  //   if (value.length <= 4) {
-  //     setExpirationDate(formattedValue);
-  //   }
-  // };
 
   return (
     <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap>

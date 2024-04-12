@@ -360,13 +360,7 @@ export async function exportNodeDBToCSV(
 
     const filePath = path.join(__dirname, filename);
 
-    fs.writeFile(filePath, csvContent, "utf8", (err) => {
-      if (err) {
-        console.error("An error occurred:", err);
-        return;
-      }
-      console.log(`CSV file successfully exported to ${filePath}`);
-    });
+    writeToFile(filePath, csvContent);
   } catch (error) {
     console.error("Error exporting to CSV: ", error);
   }
@@ -393,16 +387,23 @@ export async function exportEdgeDBToCSV(
       .join("\n");
     csvContent += rows;
 
-    const filePath = path.join(__dirname, filename);
+    const filePath: path = path.join(__dirname, filename);
 
-    fs.writeFile(filePath, csvContent, "utf8", (err) => {
-      if (err) {
-        console.error("An error occurred:", err);
-        return;
-      }
-      console.log(`CSV file successfully exported to ${filePath}`);
-    });
+    writeToFile(filePath, csvContent);
   } catch (error) {
     console.error("Error exporting to CSV: ", error);
   }
+}
+
+function writeToFile(filePath: path, content: string) {
+    if (!fs.existsSync(filePath)) {
+        fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    }
+    fs.writeFileSync(filePath, content, "utf8", (err) => {
+        if (err) {
+            console.error("An error occurred:", err);
+            return;
+        }
+        console.log(`CSV file successfully exported to ${filePath}`);
+    });
 }

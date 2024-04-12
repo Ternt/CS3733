@@ -281,7 +281,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                                 <TempPurchaseForm data={formData} data2={cardData}/>
                             </Stack>
                         ) : (
-                            <React.Fragment>
+                            <>
                                 {getStepContent(activeStep)}
                                 <Box
                                     sx={{
@@ -334,7 +334,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                                         {activeStep === steps.length - 1 ? "Place order" : "Next"}
                                     </Button>
                                 </Box>
-                            </React.Fragment>
+                            </>
                         )}
                     </Box>
                 </Grid>
