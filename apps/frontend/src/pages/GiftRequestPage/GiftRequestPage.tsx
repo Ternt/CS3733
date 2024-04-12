@@ -208,7 +208,7 @@ function GiftRequestPage() {
           <Button
             type="button"
             variant="contained"
-            color="secondary"
+            color="primary"
             style={{
               minWidth: "10vw",
             }}

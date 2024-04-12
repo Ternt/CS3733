@@ -1,8 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { SanitationFormFields } from "./sanitationFields.ts";
 import RequestList from "../../helpers/requestList.ts";
-import sanitationImage from "../../assets/sanitation_background.jpg";
-import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import {
   TextField,
   FormControl,
@@ -21,7 +19,9 @@ import {
   Radio,
   FormLabel,
 } from "@mui/material";
+
 import Checkboxes from "../../components/FormElements/Checkboxes.tsx";
+import LocationDropdown from "../../components/LocationDropdown.tsx";
 
 const sanitationRequests = new RequestList();
 
@@ -104,10 +104,9 @@ function SanitationRequestForm() {
     <Box
       position="relative"
       sx={{
-        backgroundImage: `url(${sanitationImage})`,
         display: "flex",
         justifyContent: "center",
-        height: "100vh",
+        height: "150vh",
         backgroundSize: "cover",
       }}
     >
@@ -121,10 +120,11 @@ function SanitationRequestForm() {
           backgroundColor: "#012d5a",
           color: "#f6bd38",
           p: 2,
+          borderRadius: "23px 23px 0 0",
         }}
       >
         <Typography
-          style={{ fontFamily: "Open Sans" }}
+          style={{ fontFamily: "Open Sans", fontWeight: 600 }}
           variant="h4"
           component="h1"
           align="center"
@@ -133,13 +133,22 @@ function SanitationRequestForm() {
         </Typography>
       </Box>
 
-      <Box position="absolute" top={150} sx={{ width: "500px" }}>
+      <Box
+        position="absolute"
+        top={150}
+        sx={{
+          width: "500px",
+          backgroundColor: "whitesmoke",
+          borderRadius: "0 0 23px 23px ",
+        }}
+      >
         <form
           id="sanitationForm"
           style={{
             backgroundColor: "whitesmoke",
             display: "flex",
             justifyContent: "center",
+            borderRadius: "0 0 23px 23px ",
           }}
         >
           <FormControl
@@ -173,6 +182,7 @@ function SanitationRequestForm() {
               id="priority-select"
               label={"Priority"}
               margin="normal"
+              inputProps={{ MenuProps: { disableScrollLock: true } }}
               value={formInput.priority}
               onChange={(event) => {
                 setFormInput({
@@ -187,11 +197,13 @@ function SanitationRequestForm() {
               <MenuItem value={"Emergency"}>Emergency</MenuItem>
             </TextField>
 
-            <LocationSelectFormDropdown
-              value={formInput.location}
+            <LocationDropdown
               onChange={(v: string) => {
                 setFormInput({ ...formInput, location: v });
               }}
+              value={formInput.location}
+              filterTypes={["HALL"]}
+              label={"Location"}
             />
 
             <Checkboxes
@@ -232,6 +244,7 @@ function SanitationRequestForm() {
               value={formInput.assignmentStatus}
               label={"Status"}
               margin="normal"
+              inputProps={{ MenuProps: { disableScrollLock: true } }}
               onChange={(event) => {
                 setFormInput({
                   ...formInput,
@@ -281,7 +294,7 @@ function SanitationRequestForm() {
         </form>
       </Box>
 
-      <Box position="absolute" top={1000} sx={{ width: "80%" }}>
+      <Box sx={{ position: "absolute", width: "80%", top: "120vh" }}>
         <TableContainer>
           <Table>
             <TableHead

@@ -3,7 +3,7 @@ import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
 import MenuIcon from "@mui/icons-material/Menu";
 import MapIcon from "@mui/icons-material/Map";
 import TableViewIcon from "@mui/icons-material/TableView";
-import MapCanvas2 from "../../components/mapCanvas2.tsx";
+import MapCanvas from "../../components/MapCanvas.tsx";
 import { useState } from "react";
 import DisplayCSV from "../TableDisplayPage/displayCSV.tsx";
 
@@ -15,10 +15,11 @@ export default function AdminDashboard() {
     console.log("a");
   } else if (selectedTab === 1) {
     tabInject = (
-      <MapCanvas2
+      <MapCanvas
         defaultFloor={1}
         pathfinding={false}
         startLocation={"CCONF001L1"}
+        endLocation={""}
       />
     );
   } else if (selectedTab === 2) {
