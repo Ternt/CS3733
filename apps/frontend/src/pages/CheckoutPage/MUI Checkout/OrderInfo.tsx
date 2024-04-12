@@ -10,9 +10,24 @@ const FormGrid = styled(Grid)(() => ({
     flexDirection: "column",
 }));
 
+type OrderInfoProps = {
+  orderDetails:{
+    name: string;
+    priority: string;
+    location: string;
+    shippingType: string;
+    status: string;
+  },
+  onUpdateFormInfo: (formData:{
+    name: string;
+    priority: string;
+    location: string;
+    shippingType: string;
+    status: string;
+  })=>void;
+}
 
-
-export default function OrderInfo({ formInfo, updateFormInfo }) {
+export default function OrderInfo(props: OrderInfoProps) {
     return (
         <Grid container spacing={3}>
             <FormGrid item xs={12}>
@@ -29,9 +44,9 @@ export default function OrderInfo({ formInfo, updateFormInfo }) {
                         backgroundColor: "white",
                         borderRadius: "5px",
                     }}
-                    value={formInfo.name}
+                    value={props.orderDetails.name}
                     onChange={(e) => {
-                        updateFormInfo({...formInfo, name: e.target.value});
+                        props.onUpdateFormInfo({...props.orderDetails, name: e.target.value});
                     }}
                 />
             </FormGrid>
@@ -50,9 +65,9 @@ export default function OrderInfo({ formInfo, updateFormInfo }) {
                     select
                     id="priority-select"
                     margin="normal"
-                    value={formInfo.priority}
+                    value={props.orderDetails.priority}
                     onChange={(e) => {
-                        updateFormInfo({...formInfo, priority: e.target.value});
+                      props.onUpdateFormInfo({...props.orderDetails, priority: e.target.value});
                     }}
                 >
                     <MenuItem value={"low"}>Low</MenuItem>
@@ -69,9 +84,9 @@ export default function OrderInfo({ formInfo, updateFormInfo }) {
                 <LocationDropdown
                     label={""}
                     onChange={(v: string) => {
-                        updateFormInfo({...formInfo, location: v});
+                      props.onUpdateFormInfo({...props.orderDetails, location: v});
                     }}
-                    value={formInfo.location}
+                    value={props.orderDetails.location}
                 />
             </FormGrid>
 
@@ -88,9 +103,9 @@ export default function OrderInfo({ formInfo, updateFormInfo }) {
                     select
                     id={"shipping-type"}
                     margin="normal"
-                    value={formInfo.shippingType}
+                    value={props.orderDetails.shippingType}
                     onChange={(e) => {
-                        updateFormInfo({...formInfo, shippingType: e.target.value});
+                      props.onUpdateFormInfo({...props.orderDetails, shippingType: e.target.value});
                     }}
                 >
                     <MenuItem value={"Standard"}>Standard</MenuItem>
@@ -112,9 +127,9 @@ export default function OrderInfo({ formInfo, updateFormInfo }) {
                     select
                     id={"progress-select"}
                     margin="normal"
-                    value={formInfo.status}
+                    value={props.orderDetails.status}
                     onChange={(e) => {
-                        updateFormInfo({...formInfo, status: e.target.value});
+                      props.onUpdateFormInfo({...props.orderDetails, status: e.target.value});
                     }}
                 >
                     <MenuItem value={"Unassigned"}>Unassigned</MenuItem>

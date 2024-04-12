@@ -6,7 +6,24 @@ import TableCell, {tableCellClasses} from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-export default function TempPurchaseForm({data, data2}) {
+
+type TempPurchaseFormProps = {
+  orderDetails:{
+    name: string;
+    priority: string;
+    location: string;
+    shippingType: string;
+    status: string;
+  },
+  cardDetails:{
+    cardHolderName: string;
+    cardNumber: string;
+    cvv: string;
+    expirationDate: string;
+  },
+}
+
+export default function TempPurchaseForm(props:TempPurchaseFormProps) {
     return (
         <>
             <TableContainer component={Paper}>
@@ -33,15 +50,15 @@ export default function TempPurchaseForm({data, data2}) {
                     </TableHead>
                     <TableBody>
                             <TableRow>
-                                <TableCell align="left">{data.name}</TableCell>
-                                <TableCell align="left">{data.priority}</TableCell>
-                                <TableCell align="left">{data.location}</TableCell>
-                                <TableCell align="left">{data.shippingType}</TableCell>
-                                <TableCell align="left">{data.status}</TableCell>
-                                <TableCell align="left">{data2.cardHolderName}</TableCell>
-                                <TableCell align="left">{data2.cvv}</TableCell>
-                                <TableCell align="left">{data2.cardNumber}</TableCell>
-                                <TableCell align="left">{data2.expirationDate}</TableCell>
+                                <TableCell align="left">{props.orderDetails.name}</TableCell>
+                                <TableCell align="left">{props.orderDetails.priority}</TableCell>
+                                <TableCell align="left">{props.orderDetails.location}</TableCell>
+                                <TableCell align="left">{props.orderDetails.shippingType}</TableCell>
+                                <TableCell align="left">{props.orderDetails.status}</TableCell>
+                                <TableCell align="left">{props.cardDetails.cardHolderName}</TableCell>
+                                <TableCell align="left">{props.cardDetails.cvv}</TableCell>
+                                <TableCell align="left">{props.cardDetails.cardNumber}</TableCell>
+                                <TableCell align="left">{props.cardDetails.expirationDate}</TableCell>
                             </TableRow>
                     </TableBody>
                 </Table>
