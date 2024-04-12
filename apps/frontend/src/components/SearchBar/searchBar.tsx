@@ -7,9 +7,6 @@ const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: "100%",
@@ -27,6 +24,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  color: "#012d5a",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -49,6 +47,7 @@ function SearchBar() {
       sx={{
         height: "6vh",
         color: "white",
+        bgcolor: "white",
       }}
     >
       <SearchIconWrapper>
