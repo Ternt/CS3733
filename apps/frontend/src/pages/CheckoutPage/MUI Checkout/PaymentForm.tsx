@@ -18,7 +18,22 @@ const FormGrid = styled("div")(() => ({
   flexDirection: "column",
 }));
 
-export default function PaymentForm( {cardInfo, updateCardInfo}) {
+type PaymentFormProps = {
+  cardDetails:{
+    cardHolderName: string;
+    cardNumber: string;
+    cvv: string;
+    expirationDate: string;
+  },
+  onUpdateCardDetails: (  cardDetails:{
+    cardHolderName: string;
+    cardNumber: string;
+    cvv: string;
+    expirationDate: string;
+  })=>void;
+}
+
+export default function PaymentForm(props:PaymentFormProps) {
 
   return (
     <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap>
@@ -71,9 +86,9 @@ export default function PaymentForm( {cardInfo, updateCardInfo}) {
                   id="card-number"
                   placeholder="0000 0000 0000 0000"
                   required
-                  value={cardInfo.cardNumber}
+                  value={props.cardDetails.cardNumber}
                   onChange={(e) => {
-                      updateCardInfo({...cardInfo, cardNumber: e.target.value});
+                      props.onUpdateCardDetails({...props.cardDetails, cardNumber: e.target.value});
                   }}
                 />
               </FormGrid>
@@ -85,9 +100,9 @@ export default function PaymentForm( {cardInfo, updateCardInfo}) {
                   id="cvv"
                   placeholder="123"
                   required
-                  value={cardInfo.cvv}
+                  value={props.cardDetails.cvv}
                   onChange={(e) => {
-                      updateCardInfo({...cardInfo, cvv: e.target.value});
+                      props.onUpdateCardDetails({...props.cardDetails, cvv: e.target.value});
                   }}
                 />
               </FormGrid>
@@ -100,9 +115,9 @@ export default function PaymentForm( {cardInfo, updateCardInfo}) {
                 <OutlinedInput
                   id="card-name"
                   placeholder="First Last"
-                  value={cardInfo.cardHolderName}
+                  value={props.cardDetails.cardHolderName}
                   onChange={(e) => {
-                      updateCardInfo({...cardInfo, cardHolderName: e.target.value});
+                      props.onUpdateCardDetails({...props.cardDetails, cardHolderName: e.target.value});
                   }}
                   required
                 />
@@ -115,9 +130,9 @@ export default function PaymentForm( {cardInfo, updateCardInfo}) {
                   id="card-expiration"
                   placeholder="MM/YY"
                   required
-                  value={cardInfo.expirationDate}
+                  value={props.cardDetails.expirationDate}
                   onChange={(e) => {
-                      updateCardInfo({...cardInfo, expirationDate: e.target.value});
+                      props.onUpdateCardDetails({...props.cardDetails, expirationDate: e.target.value});
                   }}
                 />
               </FormGrid>

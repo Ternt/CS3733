@@ -151,7 +151,7 @@ function FlowerRequestPage() {
                   p: 1.2,
                 }}
               >
-                {item.price}
+                ${item.price}
               </Typography>
             </Box>
           ))}
@@ -188,7 +188,7 @@ function FlowerRequestPage() {
               p: 1.2,
             }}
           >
-            {cart
+            ${cart
               .map((item) => item.price)
               .reduce(
                 (accumulator, currentValue) => accumulator + currentValue,
