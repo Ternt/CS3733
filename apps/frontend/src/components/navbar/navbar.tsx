@@ -194,6 +194,7 @@ function ResponsiveAppBar() {
               MenuListProps={{
                 "aria-labelledby": "demo-customized-button",
               }}
+              disableScrollLock={true}
               anchorEl={anchorElAdmin}
               open={openAdmin}
               onClose={handleCloseAdmin}
@@ -247,6 +248,7 @@ function ResponsiveAppBar() {
               MenuListProps={{
                 "aria-labelledby": "demo-customized-button",
               }}
+              disableScrollLock={true}
               anchorEl={anchorElRequests}
               open={openRequests}
               onClose={handleCloseRequests}

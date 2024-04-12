@@ -89,6 +89,7 @@ export default function LocationDropdown(props: dropdownProps) {
       id="location"
       label={"Location"}
       margin="normal"
+      inputProps={{ MenuProps: { disableScrollLock: true } }}
       onChange={handleLocationInput}
       value={props.value}
     >

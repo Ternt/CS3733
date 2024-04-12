@@ -308,6 +308,7 @@ function CheckoutPage({ checkoutType, returnPath }: CheckoutProps) {
                   id="priority-select"
                   label={"Priority"}
                   margin="normal"
+                  inputProps={{ MenuProps: { disableScrollLock: true } }}
                   value={data.priority}
                   onChange={(e) => {
                     setData({ ...data, priority: e.target.value });
@@ -347,6 +348,7 @@ function CheckoutPage({ checkoutType, returnPath }: CheckoutProps) {
                   id={"shipping-type"}
                   label={"Shipping Type"}
                   margin="normal"
+                  inputProps={{ MenuProps: { disableScrollLock: true } }}
                   value={data.shippingType}
                   onChange={(e) => {
                     setData({ ...data, shippingType: e.target.value });
@@ -362,6 +364,7 @@ function CheckoutPage({ checkoutType, returnPath }: CheckoutProps) {
                   id={"progress-select"}
                   label={"Status"}
                   margin="normal"
+                  inputProps={{ MenuProps: { disableScrollLock: true } }}
                   value={data.status}
                   onChange={(e) => {
                     setData({ ...data, status: e.target.value });
