@@ -111,6 +111,7 @@ function SanitationRequestForm() {
           backgroundColor: "#012d5a",
           color: "#f6bd38",
           p: 2,
+          borderRadius: "23px 23px 0 0",
         }}
       >
         <Typography variant="h4" component="h1" align="center">
@@ -125,6 +126,7 @@ function SanitationRequestForm() {
             backgroundColor: "whitesmoke",
             display: "flex",
             justifyContent: "center",
+            borderRadius: "0 0 23px 23px ",
           }}
         >
           <Grid container spacing={2} p={10} pt={2}>

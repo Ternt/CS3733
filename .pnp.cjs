@@ -61,6 +61,7 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
+          ["@auth0/auth0-spa-js", "npm:2.1.3"],\
           ["@emotion/react", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:11.11.4"],\
           ["@emotion/styled", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:11.11.5"],\
           ["@mui/material", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:5.15.14"],\
@@ -3337,7 +3338,7 @@ const RAW_RUNTIME_STATE =
           ["fuzzy-search", "npm:3.2.1"],\
           ["http-errors", "npm:1.6.3"],\
           ["http-terminator", "npm:3.2.0"],\
-          ["jose", "npm:4.15.4"],\
+          ["jose", "npm:5.2.4"],\
           ["morgan", "npm:1.9.1"],\
           ["nodemon", "npm:3.0.3"],\
           ["pg", "virtual:9a28949798a912c67218bf8cea1001b3cae21be82aaad0589210650a91ed87ad2b921ce3379d36f5723672b5e5a668da59a3e262568425b08570aa654e7b0112#npm:8.11.3"],\
@@ -6149,6 +6150,13 @@ const RAW_RUNTIME_STATE =
           ["jose", "npm:4.15.4"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:5.2.4", {\
+        "packageLocation": "./.yarn/cache/jose-npm-5.2.4-e36f68377d-0b09df51d7.zip/node_modules/jose/",\
+        "packageDependencies": [\
+          ["jose", "npm:5.2.4"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["js-tokens", [\
@@ -8679,6 +8687,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["softeng-starter-code", "workspace:."],\
+          ["@auth0/auth0-spa-js", "npm:2.1.3"],\
           ["@emotion/react", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:11.11.4"],\
           ["@emotion/styled", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:11.11.5"],\
           ["@mui/material", "virtual:f7b030241781449f9f163484f540f772ec3707fc5214186cd12bce9e472ad0dbf6db26b799fb1d7d9f7a9e4faeedac41da01e533ee775acb5c8a31c546a0661d#npm:5.15.14"],\

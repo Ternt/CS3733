@@ -10,8 +10,27 @@ import {
   Typography,
 } from "@mui/material";
 import background from "./login-page-background.png";
+import { useAuth0 } from "@auth0/auth0-react";
+import User from "../../../../../packages/common/src/User.tsx";
 
 export default function LoginPage() {
+  const { loginWithRedirect, logout } = useAuth0();
+
+  loginWithRedirect({
+    appState: {
+      returnTo: location.pathname,
+    },
+  });
+  //how to get user info
+  //const {user} = useAuth0();
+  logout({
+    logoutParams: {
+      returnTo: window.location.origin,
+    },
+  });
+
+  const { isAuthenticated, isLoading, user } = useAuth0();
+
   const [credential, setCredential] = useState<LoginCredentials>({
     username: "",
     password: "",

@@ -16,6 +16,7 @@ import pathfindingRouter from "./routes/pathfind.ts";
 import nodesRouter from "./routes/nodes.ts";
 import edgesRouter from "./routes/edges.ts";
 import fileUpload from "express-fileupload";
+import { auth } from "express-oauth2-jwt-bearer";
 
 const prisma = new PrismaClient();
 const graph = new Graph();
@@ -56,6 +57,19 @@ app.use("/edges", edgesRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
+
+//if not in test mode, enable auth0
+if (!process.env["VITEST"]) {
+  //JWT checker to make sure routes have authorization
+  //enforce on all endpoints :)
+  app.use(
+    auth({
+      audience: "/api",
+      issuerBaseURL: "dev-0kmc0cto8b1g261n.us.auth0.com",
+      tokenSigningAlg: "RS256",
+    }),
+  );
+}
 
 /**
  * Catch all 404 errors, and forward them to the error handler
