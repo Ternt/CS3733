@@ -52,6 +52,10 @@ export default function Info({ cart, handleDeleteItem }) {
                                 boxShadow: 3,
                                 width: "29vw",
                                 height: "12vh",
+                                transition: 'transform 0.2s ease-in-out',
+                                '&:hover': {
+                                    transform: 'translateY(-3px)',
+                                },
                             }}
                         >
                             <Box
