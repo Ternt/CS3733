@@ -1,20 +1,23 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Item } from "../GiftRequestPage/GiftRequestPage.tsx";
-import { FormControl, TextField, MenuItem } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
-import { useEffect, useState } from "react";
-import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableHead from "@mui/material/TableHead";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import LocationDropdown from "../../components/LocationDropdown.tsx";
+import {
+  Paper,
+  FormControl,
+  TextField,
+  MenuItem,
+  Box,
+  Typography,
+  Button,
+  TableBody,
+  TableHead,
+  Table,
+  TableRow,
+  TableContainer,
+  TableCell,
+  tableCellClasses,
+} from "@mui/material";
 
 type CheckoutProps = {
   checkoutType: "flower" | "gift"; //define if checkout is for flowers or gift
@@ -330,11 +333,12 @@ function CheckoutPage({ checkoutType, returnPath }: CheckoutProps) {
                   }}
                 />
 
-                <LocationSelectFormDropdown
+                <LocationDropdown
                   onChange={(v: string) => {
                     setData({ ...data, location: v });
                   }}
                   value={data.location}
+                  label={"Location"}
                 />
 
                 <TextField

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MapCanvas2 from "../components/mapCanvas2.tsx";
+import MapCanvas from "../components/MapCanvas.tsx";
 import { Grid, Box, Typography } from "@mui/material";
 import LocationDropdown from "../components/LocationDropdown.tsx";
 
@@ -61,7 +61,7 @@ export default function MapPage() {
       </Grid>
 
       <Grid item xs={9}>
-        <MapCanvas2
+        <MapCanvas
           defaultFloor={2}
           pathfinding={true}
           startLocation={startLocation}

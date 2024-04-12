@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import medicin_delivery from "../../assets/medicin_delivery.png";
-import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
+import LocationDropdown from "../../components/LocationDropdown.tsx";
 import {
   TextField,
   FormControl,
@@ -19,7 +19,6 @@ import {
   Radio,
   FormLabel,
 } from "@mui/material";
-//import Checkboxes from "../../components/FormElements/Checkboxes.tsx";
 
 type form = {
   medicine: string;
@@ -188,11 +187,12 @@ function MedicineRequestForm() {
               <MenuItem value={"Emergency"}>Emergency</MenuItem>
             </TextField>
 
-            <LocationSelectFormDropdown
-              value={formInput.location}
+            <LocationDropdown
               onChange={(v: string) => {
                 setFormInput({ ...formInput, location: v });
               }}
+              value={formInput.location}
+              label={"Location"}
             />
 
             <Box
