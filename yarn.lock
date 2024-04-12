@@ -2777,7 +2777,6 @@ __metadata:
     "@types/supertest": "npm:^2.0.12"
     common: "workspace:*"
     cookie-parser: "npm:~1.4.4"
-    csv-parse: "npm:^5.5.5"
     csv-parser: "npm:^3.0.0"
     database: "workspace:*"
     eslint: "npm:latest"
@@ -3527,6 +3526,7 @@ __metadata:
   resolution: "database@workspace:packages/database"
   dependencies:
     "@prisma/client": "npm:4.15.0"
+    dotenv-cli: "npm:^7.4.1"
     eslint: "npm:latest"
     eslint-config-custom: "workspace:*"
     prettier: "npm:latest"
@@ -3751,6 +3751,20 @@ __metadata:
   bin:
     dotenv: cli.js
   checksum: 521e2c61cc862c71102f09bb03d88c1cd355fc240ded0e6ec6bed3f687f5d529c1bf72fe2e38fa5a7b2b47b1ea4540b835004316035c88413fbd67ec45cdb796
+  languageName: node
+  linkType: hard
+
+"dotenv-cli@npm:^7.4.1":
+  version: 7.4.1
+  resolution: "dotenv-cli@npm:7.4.1"
+  dependencies:
+    cross-spawn: "npm:^7.0.3"
+    dotenv: "npm:^16.3.0"
+    dotenv-expand: "npm:^10.0.0"
+    minimist: "npm:^1.2.6"
+  bin:
+    dotenv: cli.js
+  checksum: 213ed2a446db0aed329fb8792107dd3bacab409eb4904137f57f6e428e0de7abfce2e1cbf34b311ce8b36090931a316e943cf193975a2eb8e855ad7db3df8cf5
   languageName: node
   linkType: hard
 

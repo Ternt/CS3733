@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { parse } from "csv-parse/sync";
+// import { parse } from "csv-parse/sync";
 //import { Prisma } from "database";
 import PrismaClient from "../bin/database-connection.ts";
 import { aStarSearch } from "./a-star-search.ts";
@@ -180,81 +180,81 @@ export class Graph {
       this.edges.get(edge.end.id)?.push(edge);
     }
   }
-  loadNodesFromCSV(pathString: string) {
-    const csvFilePath = path.resolve(__dirname, pathString);
-    const headers = [
-      "nodeID",
-      "xcoord",
-      "ycoord",
-      "floor",
-      "building",
-      "nodeType",
-      "longName",
-      "shortName",
-    ];
-    const fileContent = fs.readFileSync(csvFilePath, { encoding: "utf-8" });
+  // loadNodesFromCSV(pathString: string) {
+  //   const csvFilePath = path.resolve(__dirname, pathString);
+  //   const headers = [
+  //     "nodeID",
+  //     "xcoord",
+  //     "ycoord",
+  //     "floor",
+  //     "building",
+  //     "nodeType",
+  //     "longName",
+  //     "shortName",
+  //   ];
+  //   const fileContent = fs.readFileSync(csvFilePath, { encoding: "utf-8" });
+  //
+  //   const result = parse(fileContent, {
+  //     delimiter: ",",
+  //     columns: headers,
+  //     from_line: 2,
+  //   });
+  //
+  //   for (const data of result) {
+  //     const node = new GraphNode(
+  //       data["nodeID"],
+  //       parseInt(data["xcoord"]),
+  //       parseInt(data["ycoord"]),
+  //       Floor[data["floor"] as keyof typeof Floor],
+  //       data["building"],
+  //       NodeType[data["nodeType"] as keyof typeof NodeType],
+  //       data["longName"],
+  //       data["shortName"],
+  //     );
+  //
+  //     // add node and empty edge array
+  //     this.nodes.set(node.id, node);
+  //     this.edges.set(node.id, []);
+  //   }
+  // }
 
-    const result = parse(fileContent, {
-      delimiter: ",",
-      columns: headers,
-      from_line: 2,
-    });
-
-    for (const data of result) {
-      const node = new GraphNode(
-        data["nodeID"],
-        parseInt(data["xcoord"]),
-        parseInt(data["ycoord"]),
-        Floor[data["floor"] as keyof typeof Floor],
-        data["building"],
-        NodeType[data["nodeType"] as keyof typeof NodeType],
-        data["longName"],
-        data["shortName"],
-      );
-
-      // add node and empty edge array
-      this.nodes.set(node.id, node);
-      this.edges.set(node.id, []);
-    }
-  }
-
-  public loadEdgesFromCSV(pathString: string) {
-    const csvFilePath = path.resolve(__dirname, pathString);
-    const headers = ["startNodeID", "endNodeID"];
-    const fileContent = fs.readFileSync(csvFilePath, { encoding: "utf-8" });
-
-    const result = parse(fileContent, {
-      delimiter: ",",
-      columns: headers,
-      from_line: 2,
-    });
-
-    for (const data of result) {
-      const edge = new Edge(
-        this.nodes.get(data["startNodeID"])!,
-        this.nodes.get(data["endNodeID"])!,
-      );
-
-      // check if edge is valid
-      if (edge.start === undefined || edge.end === undefined) {
-        console.error(
-          "reading edge",
-          "(",
-          data["startNodeID"],
-          "->",
-          data["endNodeID"],
-          ")",
-          pathString,
-          "failed",
-        );
-        continue;
-      }
-
-      // add bidirectional edges
-      this.edges.get(edge.start.id)?.push(edge);
-      this.edges.get(edge.end.id)?.push(edge);
-    }
-  }
+  // public loadEdgesFromCSV(pathString: string) {
+  //   const csvFilePath = path.resolve(__dirname, pathString);
+  //   const headers = ["startNodeID", "endNodeID"];
+  //   const fileContent = fs.readFileSync(csvFilePath, { encoding: "utf-8" });
+  //
+  //   const result = parse(fileContent, {
+  //     delimiter: ",",
+  //     columns: headers,
+  //     from_line: 2,
+  //   });
+  //
+  //   for (const data of result) {
+  //     const edge = new Edge(
+  //       this.nodes.get(data["startNodeID"])!,
+  //       this.nodes.get(data["endNodeID"])!,
+  //     );
+  //
+  //     // check if edge is valid
+  //     if (edge.start === undefined || edge.end === undefined) {
+  //       console.error(
+  //         "reading edge",
+  //         "(",
+  //         data["startNodeID"],
+  //         "->",
+  //         data["endNodeID"],
+  //         ")",
+  //         pathString,
+  //         "failed",
+  //       );
+  //       continue;
+  //     }
+  //
+  //     // add bidirectional edges
+  //     this.edges.get(edge.start.id)?.push(edge);
+  //     this.edges.get(edge.end.id)?.push(edge);
+  //   }
+  // }
 
   public saveGraph() {
     const nodeData = this.saveNodes();
