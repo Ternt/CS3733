@@ -200,7 +200,7 @@ function SanitationRequestForm() {
                   label={"Location"}
               /></Box>
 
-            <Box sx={{marginY: 2}}><Checkboxes
+            <Box sx={{marginY: 1}}><Checkboxes
               label={"Mess Type"}
               onChange={handleTypeChange}
               items={["Solid Waste", "Liquid Spill", "Other"]}
