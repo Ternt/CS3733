@@ -27,7 +27,7 @@ function Checkboxes(props: checkboxProps) {
               onChange={(e) => {
                 props.onChange(e);
               }}
-              sx={{paddingLeft: 0, paddingRight: "0.3rem", paddingY: "0.2rem"}}
+              sx={{paddingLeft: 0, paddingRight: 1, paddingY: 1}}
             />
           }
           label={item}
