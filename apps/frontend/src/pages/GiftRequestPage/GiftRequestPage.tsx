@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import ItemCard from "../../components/Card/ItemCard.tsx";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -205,20 +204,20 @@ function GiftRequestPage() {
             mt: "auto",
           }}
         >
-          <Button
-            type="button"
-            variant="contained"
-            color="primary"
-            style={{
-              minWidth: "10vw",
-            }}
-            sx={{
-              margin: 1,
-            }}
-            onClick={() => setCart([])}
-          >
-            Clear
-          </Button>
+            <Button
+                type="button"
+                variant="contained"
+                color="secondary"
+                style={{
+                    minWidth: "10vw",
+                }}
+                sx={{
+                    margin: 1,
+                }}
+                onClick={() => setCart([])}
+            >
+                Clear
+            </Button>
           <Button
             variant="contained"
             color="secondary"
@@ -234,25 +233,39 @@ function GiftRequestPage() {
           </Button>
         </Box>
       </Box>
-      <Box
-        sx={{
-          width: { xs: "100vw", md: "70vw" },
-          bgcolor: "#F1F1F1",
-        }}
-      >
-        <Grid container>
-          {items.map((item) => (
-            <ItemCard
-              id={item.id}
-              imageURL={item.imageURL}
-              title={item.title}
-              price={item.price}
-              description={item.description}
-              handleAdd={addItem}
-            />
-          ))}
-        </Grid>
-      </Box>
+        <Box
+            sx={{
+                width: { xs: "100vw", md: "70vw" },
+                backgroundColor: "#F1F1F1",
+            }}
+        >
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    m: '3vh',
+                    justifyContent: 'justify-start',
+                    gap: '3vh',
+                    '& > *': {
+                        '&:hover': {
+                            transform: 'translateY(-8px)',
+                        },
+                    },
+                }}
+            >
+                {items.map((item) => (
+                    <ItemCard
+                        key={item.id}
+                        id={item.id}
+                        imageURL={item.imageURL}
+                        title={item.title}
+                        price={item.price}
+                        description={item.description}
+                        handleAdd={addItem}
+                    />
+                ))}
+            </Box>
+        </Box>
     </Box>
   );
 }
