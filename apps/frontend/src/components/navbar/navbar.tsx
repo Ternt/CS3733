@@ -53,6 +53,8 @@ function ResponsiveAppBar() {
         backgroundColor: "#012d5a",
         maxHeight: "10vh",
         boxShadow: "none",
+          position: 'fixed',
+          zIndex: 3,
       }}
     >
       <Container maxWidth="xl">

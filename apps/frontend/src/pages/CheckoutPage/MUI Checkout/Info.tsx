@@ -13,7 +13,7 @@ export default function Info({ cart, handleDeleteItem }) {
             <Typography sx={{
                 fontSize: "5vh",
                 marginLeft: "-3.5vw",
-                marginTop: "10vh",
+                marginTop: '3vh',
                 marginBottom: "3%",
             }}>
                 Cart
@@ -24,7 +24,7 @@ export default function Info({ cart, handleDeleteItem }) {
                 sx={{
                     display: "flex",
                     flexDirection: "column",
-                    height: "95vh",
+                    height: "50vh",
                     position: "sticky",
                     overflowY: 'scroll',
                     width: '25vw',

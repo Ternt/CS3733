@@ -9,7 +9,6 @@ import NavBar from "./components/navbar/navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
 import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
 import Checkout from "./pages/CheckoutPage/MUI Checkout/Checkout.tsx";
-import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
 import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
@@ -48,7 +47,7 @@ function App() {
         },
         {
           path: "/flower-request",
-          element: <FlowerRequestPage />,
+          element: <GiftRequestPage />,
         },
         {
           path: "/gift-checkout",

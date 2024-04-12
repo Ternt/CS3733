@@ -51,6 +51,34 @@ const items: ItemCardData[] = [
         price: "600",
         description: "ps5",
     },
+    {
+        id: "1-rose",
+        imageURL: "https://cdn.nodenium.com/37eed916-975b-4788-a5a4-b8ff64490f04",
+        title: "Rose",
+        price: "20",
+        description: "Rose",
+    },
+    {
+        id: "2-dais",
+        imageURL: "https://cdn.nodenium.com/d5074553-86a1-4351-93a0-f720b503dada",
+        title: "Daisy",
+        price: "30",
+        description: "Daisy",
+    },
+    {
+        id: "3-tuli",
+        imageURL: "https://cdn.nodenium.com/38afd65e-4f26-46c8-b853-66cf863b975d",
+        title: "Tulip",
+        price: "35",
+        description: "Tulip",
+    },
+    {
+        id: "4-forg",
+        imageURL: "https://cdn.nodenium.com/a7aa8e0a-c057-46ee-b99b-212908aebe73",
+        title: "Forget-Me-Not",
+        price: "12",
+        description: "Flower",
+    },
 ];
 
 export const StoreContext = React.createContext(null);
@@ -81,6 +109,7 @@ function GiftRequestPage() {
                 display: "flex",
                 justifyContent: "flex-start",
                 flexDirection: "row",
+                marginTop: '10vh'
             }}
         >
             <Box
@@ -105,7 +134,8 @@ function GiftRequestPage() {
                         alignItems: "flex-start",
                         p: '3vh',
                         maxWidth: '30vw',
-                        marginTop: '-8vh'
+                        marginTop: '80vh',
+                        position: 'fixed',
                     }}>
                     <Box sx={{
                         marginLeft: '20%'
@@ -151,6 +181,7 @@ function GiftRequestPage() {
                     sx={{
                         display: 'flex',
                         flexWrap: 'wrap',
+                        width: '80%',
                         m: '3vh',
                         justifyContent: 'justify-start',
                         gap: '3vh',
