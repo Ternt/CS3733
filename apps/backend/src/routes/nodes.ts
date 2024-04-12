@@ -30,6 +30,7 @@ router.put("/update/", async function (req: Request, res: Response) {
     catch (error) {
         console.error(error.message);
         res.sendStatus(400);
+        return;
     }
 
     res.sendStatus(200);
@@ -40,6 +41,7 @@ router.delete("/delete/", async function (req: Request, res: Response) {
     if (req.query.nodeID === undefined) {
         console.error("nodeID to delete must be specified");
         res.sendStatus(400);
+        return;
     }
 
     try {
@@ -52,6 +54,7 @@ router.delete("/delete/", async function (req: Request, res: Response) {
     catch (error) {
         console.error(error.message);
         res.sendStatus(400);
+        return;
     }
 
     res.sendStatus(200);
