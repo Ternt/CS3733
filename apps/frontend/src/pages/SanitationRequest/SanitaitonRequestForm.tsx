@@ -157,6 +157,7 @@ function SanitationRequestForm() {
               flexDirection: "column",
               alignItems: "top",
                 padding: 2,
+                gap: 1,
             }}
           >
             <TextField
@@ -166,7 +167,7 @@ function SanitationRequestForm() {
               margin="normal"
               value={formInput.name}
               fullWidth
-              sx={{marginY: 1}}
+              sx={{marginY: 0}}
             />
 
             <TextField
@@ -183,7 +184,7 @@ function SanitationRequestForm() {
                   priority: event.target.value,
                 });
               }}
-              sx={{marginY: 1}}
+              sx={{marginY: 0}}
             >
               <MenuItem value={"Low"}>Low</MenuItem>
               <MenuItem value={"Medium"}>Medium</MenuItem>
@@ -191,7 +192,7 @@ function SanitationRequestForm() {
               <MenuItem value={"Emergency"}>Emergency</MenuItem>
             </TextField>
 
-              <Box sx={{marginY: 1}}><LocationDropdown
+              <Box sx={{marginY: 0}}><LocationDropdown
                   onChange={(v: string) => {
                       setFormInput({ ...formInput, location: v });
                   }}
@@ -200,14 +201,14 @@ function SanitationRequestForm() {
                   label={"Location"}
               /></Box>
 
-            <Box sx={{marginY: 1}}><Checkboxes
+            <Box sx={{marginY: 0}}><Checkboxes
               label={"Mess Type"}
               onChange={handleTypeChange}
               items={["Solid Waste", "Liquid Spill", "Other"]}
               checked={formInput.type}
             /></Box>
 
-            <Box sx={{marginY: 1}}><FormLabel id="mess-size">Mess Size</FormLabel>
+            <Box sx={{marginY: 0}}><FormLabel id="mess-size">Mess Size</FormLabel>
             <RadioGroup
               row
               name="mess-size"
@@ -246,7 +247,7 @@ function SanitationRequestForm() {
                   assignmentStatus: event.target.value,
                 });
               }}
-              sx={{marginY: 1}}
+              sx={{marginY: 0}}
             >
               <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"Assigned"}>Assigned</MenuItem>
@@ -258,7 +259,7 @@ function SanitationRequestForm() {
                   sx={{
                       display: "flex",
                       justifyContent: "space-between",
-                      marginY: 1,
+                      marginY: 0,
                   }}
               >
                   <Button

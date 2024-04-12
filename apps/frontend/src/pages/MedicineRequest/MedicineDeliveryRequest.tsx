@@ -12,9 +12,9 @@ import {
   Radio,
   FormLabel,
 } from "@mui/material";
-import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
-import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+// import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
+// import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+// import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 type form = {
   medicine: string;
@@ -141,7 +141,8 @@ function MedicineRequestForm() {
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "top",
-                          padding: 2
+                          padding: 2,
+                          gap: 1,
                       }}
                   >
                       {/*<Box*/}
@@ -160,7 +161,7 @@ function MedicineRequestForm() {
                           margin="normal"
                           value={formInput.patientName}
                           fullWidth
-                          sx={{marginY: 1}}
+                          sx={{marginY: 0}}
                       />
 
                       <TextField
@@ -169,7 +170,7 @@ function MedicineRequestForm() {
                           onChange={handlePhysicianNameInput}
                           margin="normal"
                           value={formInput.physicianName}
-                          sx={{marginY: 1}}
+                          sx={{marginY: 0}}
                       />
 
                       <TextField
@@ -186,7 +187,7 @@ function MedicineRequestForm() {
                                   priority: event.target.value,
                               });
                           }}
-                          sx={{marginY: 1}}
+                          sx={{marginY: 0}}
                       >
                           <MenuItem value={"Low"}>Low</MenuItem>
                           <MenuItem value={"Medium"}>Medium</MenuItem>
@@ -194,7 +195,7 @@ function MedicineRequestForm() {
                           <MenuItem value={"Emergency"}>Emergency</MenuItem>
                       </TextField>
 
-                      <Box sx={{marginY: 1}}><LocationDropdown
+                      <Box sx={{marginY: 0}}><LocationDropdown
                           onChange={(v: string) => {
                               setFormInput({ ...formInput, location: v });
                           }}
@@ -203,17 +204,17 @@ function MedicineRequestForm() {
                           label={"Location"}
                       /></Box>
 
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DemoContainer components={['DatePicker']}>
-                              <DatePicker label="Basic date picker" />
-                          </DemoContainer>
-                      </LocalizationProvider>
+                      {/*<LocalizationProvider dateAdapter={AdapterDayjs}>*/}
+                      {/*    <DemoContainer components={['DatePicker']}>*/}
+                      {/*        <DatePicker label="Basic date picker" />*/}
+                      {/*    </DemoContainer>*/}
+                      {/*</LocalizationProvider>*/}
 
                       <Box
                           sx={{
                               display: "flex",
                               justifyContent: "space-between",
-                              marginY: 1,
+                              marginY: 0,
                           }}
                       >
                           <TextField
@@ -250,7 +251,7 @@ function MedicineRequestForm() {
                           />
                       </Box>
 
-                      <Box sx={{ marginY: 1 }}>
+                      <Box sx={{ marginY: 0 }}>
                           <FormLabel id="medicine-form">Form</FormLabel>
                           <RadioGroup
                               name="medicine-form"
@@ -315,7 +316,7 @@ function MedicineRequestForm() {
                                   status: event.target.value,
                               });
                           }}
-                          sx={{marginY: 1}}
+                          sx={{marginY: 0}}
                       >
                           <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
                           <MenuItem value={"Assigned"}>Assigned</MenuItem>
@@ -327,7 +328,7 @@ function MedicineRequestForm() {
                           sx={{
                               display: "flex",
                               justifyContent: "space-between",
-                              marginY: 1,
+                              marginY: 0,
                           }}
                       >
                           <Button
