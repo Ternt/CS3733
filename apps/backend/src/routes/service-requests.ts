@@ -2,7 +2,6 @@ import express, { Router, Request, Response } from "express";
 import { Prisma, ServiceRequestType } from "database";
 import PrismaClient from "../bin/database-connection.ts";
 
-//import CartItemsInGiftRequestsCreateNestedManyWithoutGiftRequestInput = Prisma.CartItemsInGiftRequestsCreateNestedManyWithoutGiftRequestInput;
 const router: Router = express.Router();
 
 router.post("/", async function (req: Request, res: Response) {
@@ -100,6 +99,11 @@ router.get("/", async function (req: Request, res: Response) {
 
         sanitationDetail: true,
         medicineDetail: true,
+        giftDetail: {
+          include: {
+            items: true,
+          },
+        },
         maintenanceDetail: true,
         flowerDetail: true,
       },
