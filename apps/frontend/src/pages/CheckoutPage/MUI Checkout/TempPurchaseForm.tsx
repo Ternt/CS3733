@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 export default function TempPurchaseForm({data, data2}) {
     return (
-        <React.Fragment>
+        <>
             <TableContainer component={Paper}>
                 <Table
                     sx={{
@@ -46,6 +46,6 @@ export default function TempPurchaseForm({data, data2}) {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </React.Fragment>
+        </>
     );
 }

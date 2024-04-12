@@ -14,11 +14,6 @@ type findClosestNodeOnGraphProps = {
   nodes: node[];
   distance?: number;
 };
-type findEdgeboundPathProps = {
-  end: vec2;
-  path: node[];
-  nodes: node[];
-};
 
 function dot(ax: number, ay: number, bx: number, by: number): number {
   return ax * bx + ay * by;
@@ -117,30 +112,4 @@ export function pointHelper(props: findClosestNodeOnGraphProps) {
   }
 
   return closestNode;
-}
-
-export function customPathHelper(props: findEdgeboundPathProps) {
-  // Check distances of last two nodes
-  const secondToLastIndex = props.path.length - 2;
-  const secondToLastNode = props.path[secondToLastIndex];
-  const lastIndex = props.path.length - 1;
-  const lastNode = props.path[lastIndex];
-  const pn2TL: vec2 = secondToLastNode.point;
-  const pnL: vec2 = lastNode.point;
-
-  // TODO adjust for screen scaling of the image
-  // let x1 = startNode.x * zoomScale + offset.x;
-  // let y1 = startNode.y * zoomScale + offset.y;
-  // let x2 = endNode.x * zoomScale + offset.x;
-  // let y2 = endNode.y * zoomScale + offset.y;
-
-  const dist2TLToL: number = distance(pn2TL, pnL);
-  const dist2TLToP: number = distance(pn2TL, props.end);
-
-  if (dist2TLToL < dist2TLToP) {
-    // Selected point is past the last pathfinding node
-    return lastNode;
-  } else {
-    return secondToLastNode;
-  }
 }

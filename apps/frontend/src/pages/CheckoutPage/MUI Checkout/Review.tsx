@@ -12,18 +12,6 @@ export default function Review({data, data2, cart}) {
     return (
         <Stack spacing={2}>
             <List disablePadding>
-                {/*<ListItem sx={{py: 1, px: 0}}>*/}
-                {/*    <ListItemText primary="Products"/>*/}
-                {/*    <Typography variant="body2">*/}
-                {/*        $ {cart*/}
-                {/*        .map((item: Item) => item.price)*/}
-                {/*        .reduce(*/}
-                {/*            (accumulator: number, currentValue: number) =>*/}
-                {/*                accumulator + currentValue,*/}
-                {/*            0,*/}
-                {/*        )}*/}
-                {/*    </Typography>*/}
-                {/*</ListItem>*/}
                 <ListItem sx={{py: 1, px: 0}}>
                     <ListItemText primary="Total"  secondary="Plus taxes"/>
                     <Typography variant="subtitle1" sx={{fontWeight: 700}}>

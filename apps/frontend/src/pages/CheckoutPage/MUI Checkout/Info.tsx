@@ -9,7 +9,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 export default function Info({ cart, handleDeleteItem }) {
     return (
-        <React.Fragment>
+        <>
             <Typography
                 sx={{
                     fontSize: "5vh",
@@ -164,6 +164,6 @@ export default function Info({ cart, handleDeleteItem }) {
                     ))}
                 </Box>
             </Box>
-        </React.Fragment>
+        </>
     );
 }
