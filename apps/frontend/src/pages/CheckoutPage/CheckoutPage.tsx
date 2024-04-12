@@ -338,6 +338,7 @@ function CheckoutPage({ checkoutType, returnPath }: CheckoutProps) {
                     setData({ ...data, location: v });
                   }}
                   value={data.location}
+                  filterTypes={["HALL"]}
                   label={"Location"}
                 />
 
