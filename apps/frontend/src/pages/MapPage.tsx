@@ -42,6 +42,7 @@ export default function MapPage() {
               setStartLocation(v);
             }}
             value={startLocation}
+            filterTypes={["HALL"]}
             label={"Start "}
           />
         </Box>
@@ -53,6 +54,7 @@ export default function MapPage() {
               setEndLocation(v);
             }}
             value={endLocation}
+            filterTypes={["HALL"]}
             label={"End "}
           />
         </Box>
