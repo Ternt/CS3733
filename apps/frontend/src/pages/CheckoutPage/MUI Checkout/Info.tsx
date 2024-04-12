@@ -54,7 +54,7 @@ export default function Info({ cart, handleDeleteItem }) {
                                 height: "12vh",
                                 transition: 'transform 0.2s ease-in-out',
                                 '&:hover': {
-                                    transform: 'translateY(-3px)',
+                                    backgroundColor: '#e4e4e4',
                                 },
                             }}
                         >
@@ -137,9 +137,18 @@ export default function Info({ cart, handleDeleteItem }) {
                                     </Typography>
                                 </Box>
 
-                                <Box>
+                                <Box sx={{
+                                    cursor: 'pointer',
+
+                                }}>
                                     <HighlightOffIcon
-                                        sx={{color: "indianred"}}
+                                        sx={{
+                                            color: "indianred",
+                                            transition: "all 0.3s ease-in-out",
+                                            '&:hover': {
+                                                transform: "scale(1.2)"
+                                            },
+                                        }}
                                         onClick={() => handleDeleteItem(index)}>
                                     </HighlightOffIcon>
                                 </Box>
