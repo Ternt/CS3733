@@ -1,4 +1,3 @@
-import "./LoginPage.scss";
 import { useEffect, useState } from "react";
 import { LoginCredentials } from "../../common/LoginCredentials.ts";
 import { useNavigate } from "react-router-dom";
