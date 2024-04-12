@@ -6,17 +6,11 @@ import L2 from "../assets/BWHospitalMaps/01_thefirstfloor.png";
 import L3 from "../assets/BWHospitalMaps/02_thesecondfloor.png";
 import L4 from "../assets/BWHospitalMaps/03_thethirdfloor.png";
 
-import {
-  Box,
-  Button,
-  SpeedDial,
-  SpeedDialAction,
-  Typography,
-} from "@mui/material";
-import PinDropIcon from "@mui/icons-material/PinDrop";
+import { Box, Button, Typography } from "@mui/material";
 import { edge, node, vec2 } from "../helpers/typestuff.ts";
 import axios, { AxiosResponse } from "axios";
 import { graphHelper, pointHelper } from "../helpers/clickCorrectionMath.ts";
+import MapControls from "./MapControls.tsx";
 //import {edge, node} from "../helpers/typestuff.ts";
 
 const MAPS = [L0, L1, L2, L3, L4];
@@ -47,8 +41,6 @@ function FLOOR_NAME_TO_INDEX(f: string) {
   return -1;
 }
 
-//const FLOORS = ["L2", "L1", "F1", "F2", "F3"];
-
 type mapCanvasProps = {
   defaultFloor: number;
   startLocation: string;
@@ -57,7 +49,11 @@ type mapCanvasProps = {
   onDeselectEndLocation?: () => void;
 };
 
-export function MapCanvas(props: mapCanvasProps) {
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+export default function MapCanvas(props: mapCanvasProps) {
   // map data
   const [mouseData, setMouseData] = useState({
     pos: { x: 0, y: 0 },
@@ -223,11 +219,11 @@ export function MapCanvas(props: mapCanvasProps) {
 
     function handleZoom(e: WheelEvent) {
       const velocity = Math.sign(e.deltaY);
-      let z = cameraControl.zoom + ZOOM_SPEED * velocity; // TODO maybe make addToZOmm of whateve an outside funct so no deps
-      if (z >= ZOOM_MAX) z = ZOOM_MAX;
-      else if (z <= ZOOM_MIN) z = ZOOM_MIN;
-
-      // New pan = mousePos - ( (mousePos - pan) / (canvasSize / zoom1) * (canvasSize / zoom2)
+      const z = clamp(
+        cameraControl.zoom + ZOOM_SPEED * velocity,
+        ZOOM_MIN,
+        ZOOM_MAX,
+      );
 
       const Qx =
         mouseData.pos.x -
@@ -571,57 +567,30 @@ export function MapCanvas(props: mapCanvasProps) {
           </Button>
         </Box>
       )}
-      <Box>
-        <SpeedDial
-          ariaLabel="Map controls"
-          sx={{ position: "fixed", bottom: 16, right: 16 }}
-          icon={<PinDropIcon />}
-        >
-          <SpeedDialAction
-            key={"L2"}
-            icon={"L2"}
-            tooltipTitle={"Lower 2"}
-            onClick={() => {
-              handleSetViewingFloor(0);
-            }}
-          />
-          <SpeedDialAction
-            key={"L1"}
-            icon={"L1"}
-            tooltipTitle={"Lower 1"}
-            onClick={() => {
-              handleSetViewingFloor(1);
-            }}
-          />
-          <SpeedDialAction
-            key={"F1"}
-            icon={"F1"}
-            tooltipTitle={"Floor 1"}
-            onClick={() => {
-              handleSetViewingFloor(2);
-            }}
-          />
-          <SpeedDialAction
-            key={"F2"}
-            icon={"F2"}
-            tooltipTitle={"Floor 2"}
-            onClick={() => {
-              handleSetViewingFloor(3);
-            }}
-          />
-          <SpeedDialAction
-            key={"F3"}
-            icon={"F3"}
-            tooltipTitle={"Floor 3"}
-            onClick={() => {
-              handleSetViewingFloor(4);
-            }}
-          />
-        </SpeedDial>
-      </Box>
+      <MapControls
+        floor={viewingFloor}
+        zoom={cameraControl.zoom}
+        zoomSpeed={ZOOM_SPEED * 10}
+        onSetFloorIndex={(floorIndex: number) => {
+          handleSetViewingFloor(floorIndex);
+        }}
+        onSetZoom={(zoom: number) => {
+          setCameraControl({
+            ...cameraControl,
+            zoom: clamp(zoom, ZOOM_MIN, ZOOM_MAX),
+          });
+        }}
+        onResetMap={() => {
+          setCameraControl({
+            ...cameraControl,
+            zoom: 1,
+            pan: {
+              x: 0,
+              y: 0,
+            },
+          });
+        }}
+      />
     </Box>
   );
 }
-
-export default MapCanvas;
-//A
