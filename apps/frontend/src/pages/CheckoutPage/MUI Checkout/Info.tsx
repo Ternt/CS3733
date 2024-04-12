@@ -10,15 +10,12 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 export default function Info({ cart, handleDeleteItem }) {
     return (
         <>
-            <Typography
-                sx={{
-                    fontSize: "5vh",
-                    marginLeft: "-3.5vw",
-                    marginTop: "-2vh",
-                    marginBottom: "0vw",
-                    left: "0vw",
-                }}
-            >
+            <Typography sx={{
+                fontSize: "5vh",
+                marginLeft: "-3.5vw",
+                marginTop: "10vh",
+                marginBottom: "3%",
+            }}>
                 Cart
                 <ShoppingCartIcon/>
             </Typography>
@@ -27,8 +24,11 @@ export default function Info({ cart, handleDeleteItem }) {
                 sx={{
                     display: "flex",
                     flexDirection: "column",
-                    height: "100vh",
+                    height: "95vh",
                     position: "sticky",
+                    overflowY: 'scroll',
+                    width: '25vw',
+                    marginLeft: "-3.5vw",
                 }}
             >
                 <Box
@@ -38,7 +38,7 @@ export default function Info({ cart, handleDeleteItem }) {
                         justifyContent: "justify-start",
                         alignItems: "top",
                         position: "absolute",
-                        left: "-4vw",
+                        mt: '1vh',
                     }}
                 >
                     {cart.map((item: Item, index: number) => (
@@ -50,7 +50,7 @@ export default function Info({ cart, handleDeleteItem }) {
                                 flexDirection: "row",
                                 m: 1,
                                 boxShadow: 3,
-                                width: "29vw",
+                                width: "100%",
                                 height: "12vh",
                                 transition: 'transform 0.2s ease-in-out',
                                 '&:hover': {
@@ -159,24 +159,33 @@ export default function Info({ cart, handleDeleteItem }) {
                                     top: "105%",
                                 }}
                             >
-                                <Typography variant="subtitle2" color="text.secondary">
-                                    Total
-                                </Typography>
-                                <Typography variant="h4" gutterBottom>
-                                    $
-                                    {cart
-                                        .map((item: Item) => item.price)
-                                        .reduce(
-                                            (accumulator: number, currentValue: number) =>
-                                                accumulator + currentValue,
-                                            0,
-                                        )}
-                                </Typography>
+
                             </Box>
+
+
                         </Card>
                     ))}
                 </Box>
+
             </Box>
+            <Typography variant="subtitle2" color="text.secondary" sx={{
+                ml: '-3.5vw',
+                mt: '5%',
+            }}>
+                Total
+            </Typography>
+            <Typography variant="h4" gutterBottom sx={{
+                ml: '-3.5vw',
+            }}>
+                $
+                {cart
+                    .map((item: Item) => item.price)
+                    .reduce(
+                        (accumulator: number, currentValue: number) =>
+                            accumulator + currentValue,
+                        0,
+                    )}
+            </Typography>
         </>
     );
 }

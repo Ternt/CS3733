@@ -40,7 +40,7 @@ const items: ItemCardData[] = [
   {
     id: "3-tuli",
     imageURL: "https://cdn.nodenium.com/38afd65e-4f26-46c8-b853-66cf863b975d",
-    title: "Tilp",
+    title: "Tulip",
     price: "35",
     description: "",
   },
@@ -90,7 +90,7 @@ function FlowerRequestPage() {
                     justifyContent: "space-evenly",
                     height: "fit-content",
                     bgcolor: "#FFFFFF",
-                    width: '40vw',
+                    width: '30vw',
                     position: "relative",
                     top: 0,
                     left: 0,
@@ -98,34 +98,6 @@ function FlowerRequestPage() {
                     overflowY: "scroll",
                 }}
             >
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "space-around",
-                        m: '3vh',
-                        marginLeft: '0vw'
-                    }}
-                >
-                    <Button
-                        type="button"
-                        variant="contained"
-                        color="secondary"
-                        style={{minWidth: "10vw"}}
-                        sx={{margin: 1}}
-                        onClick={() => setCart([])}
-                    >
-                        Clear
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleSubmit}
-                        style={{minWidth: "10vw"}}
-                        sx={{margin: 1}}
-                    >
-                        Submit
-                    </Button>
-                </Box>
                 <Box
                     sx={{
                         display: "flex",
@@ -139,6 +111,33 @@ function FlowerRequestPage() {
                         marginLeft: '20%'
                     }}>
                         <Info cart={cart} handleDeleteItem={""}/>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                ml: '-20%'
+
+                            }}
+                        >
+                            <Button
+                                type="button"
+                                variant="contained"
+                                color="secondary"
+                                style={{minWidth: "10vw"}}
+                                sx={{margin: 1}}
+                                onClick={() => setCart([])}
+                            >
+                                Clear
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleSubmit}
+                                style={{minWidth: "10vw"}}
+                                sx={{margin: 1}}
+                            >
+                                Submit
+                            </Button>
+                        </Box>
                     </Box>
                 </Box>
             </Box>
@@ -173,8 +172,11 @@ function FlowerRequestPage() {
                             handleAdd={addItem}
                         />
                     ))}
+
                 </Box>
+
             </Box>
+
         </Box>
     );
 }
