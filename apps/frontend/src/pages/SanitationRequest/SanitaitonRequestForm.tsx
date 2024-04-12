@@ -3,14 +3,14 @@ import { SanitationFormFields } from "./sanitationFields.ts";
 import RequestList from "../../helpers/requestList.ts";
 import {
   TextField,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
   FormControl,
   MenuItem,
   Button,
   Box,
   Typography,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   FormLabel,
 } from "@mui/material";
 
