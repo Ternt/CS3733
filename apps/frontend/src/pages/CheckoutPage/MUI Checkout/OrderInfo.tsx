@@ -68,10 +68,10 @@ export default function OrderInfo({ formInfo, updateFormInfo }) {
                 </FormLabel>
                 <LocationDropdown
                     label={""}
-                    value={formInfo.location}
                     onChange={(v: string) => {
                         updateFormInfo({...formInfo, location: v});
                     }}
+                    value={formInfo.location}
                 />
             </FormGrid>
 
