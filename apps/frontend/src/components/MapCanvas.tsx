@@ -23,6 +23,7 @@ const MAP_WIDTH = 1920;
 const MAP_HEIGHT = (BASE_MAP_HEIGHT / BASE_MAP_WIDTH) * MAP_WIDTH;
 const X_MULT = MAP_WIDTH / BASE_MAP_WIDTH;
 const Y_MULT = MAP_HEIGHT / BASE_MAP_HEIGHT;
+const NODE_SIZE = 3;
 
 function FLOOR_NAME_TO_INDEX(f: string) {
   switch (f) {
@@ -82,6 +83,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     path: [],
     nearestNode: null,
   });
+  const [draggingNode, setDraggingNode] = useState<node | null>(null);
 
   // canvas data
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -92,6 +94,14 @@ export default function MapCanvas(props: mapCanvasProps) {
     return image;
   }, [viewingFloor]);
 
+  useEffect(() => {
+    setRenderData({
+      n: nodes.filter((n: node) => n.point.z === props.defaultFloor),
+      e: edges.filter((e: edge) => e.startNode.point.z === props.defaultFloor),
+    });
+    setViewingFloor(props.defaultFloor);
+  }, [edges, nodes, props.defaultFloor]);
+
   function handleSetViewingFloor(i: number) {
     // update the render data
     setRenderData({
@@ -101,13 +111,9 @@ export default function MapCanvas(props: mapCanvasProps) {
     setViewingFloor(i);
   }
 
-  //function clamp(value: number, min:number, max:number){
-  //  return Math.min(max, Math.max(min, value));
-  //}
-
   // draw to canvas
   useEffect(() => {
-    async function canvasDraw() {
+    function canvasDraw() {
       const canv = canvasRef.current!;
       const ctx = canv.getContext("2d")!;
       ctx.clearRect(0, 0, canv.width, canv.height);
@@ -130,7 +136,7 @@ export default function MapCanvas(props: mapCanvasProps) {
       function drawPoint(p: vec2) {
         p = vecToCanvSpace(p);
         if (p.z !== viewingFloor) return;
-        ctx.arc(p.x, p.y, 2, 0, 2 * Math.PI);
+        ctx.arc(p.x, p.y, NODE_SIZE, 0, 2 * Math.PI);
       }
 
       function drawLine(a: vec2, b: vec2) {
@@ -141,9 +147,9 @@ export default function MapCanvas(props: mapCanvasProps) {
         ctx.lineTo(b.x, b.y);
       }
 
-      if (mouseData.down) return;
+      if (mouseData.down && draggingNode === null) return;
 
-      // pathdinging here
+      // pathfinding here
       if (props.pathfinding) {
         if (
           pathing.selectedPoint === null &&
@@ -211,6 +217,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     renderData.n,
     viewingFloor,
     props.endLocation,
+    draggingNode,
   ]);
 
   // wheel
@@ -272,22 +279,29 @@ export default function MapCanvas(props: mapCanvasProps) {
         },
       });
       if (mouseData.down) {
-        const dx = x - mouseData.downPos.x;
-        const dy = y - mouseData.downPos.y;
-        setCameraControl({
-          ...cameraControl,
-          pan: {
-            x: cameraControl.panAnchor.x + dx,
-            y: cameraControl.panAnchor.y + dy,
-          },
-        });
+        const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
+        const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
+
+        if (draggingNode === null) {
+          const dx = x - mouseData.downPos.x;
+          const dy = y - mouseData.downPos.y;
+          setCameraControl({
+            ...cameraControl,
+            pan: {
+              x: cameraControl.panAnchor.x + dx,
+              y: cameraControl.panAnchor.y + dy,
+            },
+          });
+        } else {
+          draggingNode.point = { x: x2, y: y2, z: draggingNode.point.z };
+        }
       }
     }
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [cameraControl, mouseData]);
+  }, [cameraControl, draggingNode, mouseData]);
 
   //mousedown
   useEffect(() => {
@@ -311,6 +325,21 @@ export default function MapCanvas(props: mapCanvasProps) {
         ...cameraControl,
         panAnchor: cameraControl.pan,
       });
+
+      if (!props.pathfinding) {
+        const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
+        const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
+
+        // Move point to nearest edge
+        if (nodes === null) return;
+        const closestNode = pointHelper({
+          pos: { x: x2, y: y2, z: viewingFloor },
+          nodes: nodes,
+          floor: viewingFloor,
+          distance: NODE_SIZE / cameraControl.zoom,
+        });
+        setDraggingNode(closestNode);
+      }
     }
 
     return () => {
@@ -322,6 +351,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     mouseData,
     nodes,
     pathing,
+    props.pathfinding,
     props.startLocation,
     viewingFloor,
   ]);
@@ -385,7 +415,8 @@ export default function MapCanvas(props: mapCanvasProps) {
               path: pathNodes,
               selectedPoint: coords,
             });
-            if (props.onDeselectEndLocation) props.onDeselectEndLocation();
+            if (props.onDeselectEndLocation !== undefined)
+              props.onDeselectEndLocation();
           });
       } else {
         if (pathing.nearestNode?.nodeID === closestNode.nodeID) {
@@ -425,6 +456,8 @@ export default function MapCanvas(props: mapCanvasProps) {
 
     function handleMouseUp() {
       setMouseData({ ...mouseData, down: false });
+      setDraggingNode(null);
+      setDraggingNode(null);
     }
 
     return () => {
