@@ -223,7 +223,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         cameraControl.zoom + ZOOM_SPEED * velocity,
         ZOOM_MIN,
         ZOOM_MAX,
-      ); // TODO maybe make addToZOmm of whateve an outside funct so no deps
+      );
 
       const Qx =
         mouseData.pos.x -
