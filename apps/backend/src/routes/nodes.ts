@@ -35,4 +35,26 @@ router.put("/update/", async function (req: Request, res: Response) {
     res.sendStatus(200);
 });
 
+router.delete("/delete/", async function (req: Request, res: Response) {
+    const prisma = new PrismaClient();
+    if (req.query.nodeID === undefined) {
+        console.error("nodeID to delete must be specified");
+        res.sendStatus(400);
+    }
+
+    try {
+        await prisma.nodeDB.delete({
+            where: {
+                nodeID: req.query.nodeID,
+            }
+        })
+    }
+    catch (error) {
+        console.error(error.message);
+        res.sendStatus(400);
+    }
+
+    res.sendStatus(200);
+});
+
 export default router;
