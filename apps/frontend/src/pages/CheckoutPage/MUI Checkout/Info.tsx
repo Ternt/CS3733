@@ -7,7 +7,12 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import {Item} from "../../GiftRequestPage/GiftRequestPage.tsx";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-export default function Info({ cart, handleDeleteItem }) {
+type InfoProps = {
+  cart:Item[];
+  onDeleteItem:(index:number)=>void;
+}
+
+export default function Info(props:InfoProps) {
     return (
         <>
             <Typography
@@ -41,7 +46,7 @@ export default function Info({ cart, handleDeleteItem }) {
                         left: "-4vw",
                     }}
                 >
-                    {cart.map((item: Item, index: number) => (
+                    {props.cart.map((item: Item, index: number) => (
                         <Card
                             key={index}
                             sx={{
@@ -136,7 +141,7 @@ export default function Info({ cart, handleDeleteItem }) {
                                 <Box>
                                     <HighlightOffIcon
                                         sx={{color: "indianred"}}
-                                        onClick={() => handleDeleteItem(index)}>
+                                        onClick={() => props.onDeleteItem(index)}>
                                     </HighlightOffIcon>
                                 </Box>
                             </Box>
@@ -151,7 +156,7 @@ export default function Info({ cart, handleDeleteItem }) {
                                 </Typography>
                                 <Typography variant="h4" gutterBottom>
                                     $
-                                    {cart
+                                    {props.cart
                                         .map((item: Item) => item.price)
                                         .reduce(
                                             (accumulator: number, currentValue: number) =>

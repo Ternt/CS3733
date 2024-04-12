@@ -24,6 +24,7 @@ import Info from "./Info.tsx";
 import PaymentForm from "./PaymentForm.tsx";
 import Review from "./Review.tsx";
 import {useEffect, useState} from "react";
+import {Item} from "../../GiftRequestPage/GiftRequestPage.tsx";
 
 const steps = ["Order Information", "Payment details", "Review your order"];
 
@@ -38,7 +39,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
 
     const location = useLocation();
     const initialCart = location.state?.cart || [];
-    const [cart, setCart] = useState(initialCart);  // Manage cart here
+    const [cart, setCart] = useState<Item[]>(initialCart);  // Manage cart here
 
     const handleDeleteItem = (indexToRemove: number) => {
         const newCart = cart.filter((item, index) => index !== indexToRemove);
@@ -52,10 +53,9 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
             "Checkout - " + (checkoutType === "gift" ? "Gifts" : "Flowers");
     }, [checkoutType]);
 
-    const [formData, setFormData] = useState({
+    const [orderData, setOrderData] = useState({
         name: "",
         priority: "",
-        card: "",
         location: "",
         shippingType: "",
         status: "",
@@ -70,30 +70,33 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
     });
 
 
-    const updateFormData = (newData) => {
-        setFormData(newData);
-    };
-
-    const updateCardData = (newData) => {
-        setCardData(newData);
-    };
 
     const getStepContent = (step: number) => {
         switch (step) {
             case 0:
-                return <OrderInfo formInfo={formData} updateFormInfo={updateFormData}/>;
+                return <OrderInfo orderDetails={orderData}  onUpdateFormInfo={setOrderData}/>;
             case 1:
-                return <PaymentForm cardInfo={cardData} updateCardInfo={updateCardData}/>;
+                return <PaymentForm cardDetails={cardData} onUpdateCardDetails={setCardData}/>;
             case 2:
-                return <Review data={formData} data2={cardData} cart={cart}/>;
+                return <Review
+                  orderDetails={orderData}
+                  cardDetails={cardData}
+                  orderTotal={(cart
+                    .map((item: Item) => item.price)
+                    .reduce(
+                      (accumulator: number, currentValue: number) =>
+                        accumulator + currentValue,
+                      0,
+                    )*1.0625).toFixed(2)}
+                />;
             default:
                 throw new Error("Unknown step");
         }
     };
 
-    const [mode] = React.useState<PaletteMode>("light");
+    const [mode] = useState<PaletteMode>("light");
     const defaultTheme = createTheme({palette: {mode}});
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = useState(0);
 
     const handleReturnShopping = () => {
         navigate(returnPath, {state: {cart}});
@@ -110,11 +113,11 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
     const isComplete = (currStep: number): boolean => {
         if (currStep === 0) {
             return (
-                formData.name != "" &&
-                formData.priority != "" &&
-                formData.location != "" &&
-                formData.shippingType != "" &&
-                formData.status != ""
+                orderData.name != "" &&
+                orderData.priority != "" &&
+                orderData.location != "" &&
+                orderData.shippingType != "" &&
+                orderData.status != ""
             );
         } else if (currStep === 1) {
             return (cardData.cardHolderName != "" &&
@@ -173,7 +176,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                             maxWidth: 500,
                         }}
                     >
-                        <Info cart={cart} handleDeleteItem={handleDeleteItem}/>
+                        <Info cart={cart} onDeleteItem={handleDeleteItem}/>
                     </Box>
                 </Grid>
                 <Grid
@@ -278,7 +281,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                         </Stepper>
                         {activeStep === steps.length ? (
                             <Stack spacing={2} useFlexGap>
-                                <TempPurchaseForm data={formData} data2={cardData}/>
+                                <TempPurchaseForm orderDetails={orderData} cardDetails={cardData}/>
                             </Stack>
                         ) : (
                             <>
