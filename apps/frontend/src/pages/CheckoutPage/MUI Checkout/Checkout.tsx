@@ -23,8 +23,9 @@ import AddressForm from "./AddressForm.tsx";
 import Info from "./Info.tsx";
 import PaymentForm from "./PaymentForm.tsx";
 import Review from "./Review.tsx";
+import {useState} from "react";
 
-const steps = ["Shipping address", "Payment details", "Review your order"];
+const steps = ["Order Information", "Payment details", "Review your order"];
 
 const logoStyle = {
   width: "140px",
@@ -33,20 +34,36 @@ const logoStyle = {
   marginRight: "-8px",
 };
 
-function getStepContent(step: number) {
-  switch (step) {
-    case 0:
-      return <AddressForm />;
-    case 1:
-      return <PaymentForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error("Unknown step");
-  }
-}
 
 export default function Checkout() {
+
+    const [formData, setFormData] = useState({
+        name: "",
+        priority: "",
+        card: "",
+        location: "",
+        shippingType: "",
+        status: "",
+    });
+
+
+    const updateFormData = (newData) => {
+        setFormData(newData);
+    };
+
+    const getStepContent = (step: number) => {
+        switch (step) {
+            case 0:
+                return <AddressForm data={formData} updateData={updateFormData} />;
+            case 1:
+                return <PaymentForm />;
+            case 2:
+                return <Review  data={formData} />;
+            default:
+                throw new Error("Unknown step");
+        }
+    };
+
   const [mode] = React.useState<PaletteMode>("light");
   const defaultTheme = createTheme({ palette: { mode } });
   const [activeStep, setActiveStep] = React.useState(0);

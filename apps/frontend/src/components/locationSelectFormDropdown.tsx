@@ -67,7 +67,6 @@ function LocationSelectFormDropdown(props: dropdownProps) {
             required
             select
             id="location"
-            label={"Location"}
             margin="normal"
             onChange={handleLocationInput}
             value={props.value}

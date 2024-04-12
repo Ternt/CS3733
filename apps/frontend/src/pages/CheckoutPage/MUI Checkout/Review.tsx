@@ -8,7 +8,6 @@ import ListItemText from "@mui/material/ListItemText";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-const addresses = ["1 MUI Drive", "Reactville", "Anytown", "99999", "USA"];
 const payments = [
   { name: "Card type:", detail: "Visa" },
   { name: "Card holder:", detail: "Mr. John Smith" },
@@ -16,7 +15,7 @@ const payments = [
   { name: "Expiry date:", detail: "04/2024" },
 ];
 
-export default function Review() {
+export default function Review( {data}) {
   return (
     <Stack spacing={2}>
       <List disablePadding>
@@ -42,15 +41,30 @@ export default function Review() {
         spacing={2}
         sx={{ my: 2 }}
       >
+
+
         <div>
           <Typography variant="subtitle2" gutterBottom>
-            Shipment details
+            Order details
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
+          <Typography gutterBottom>Employee Name: {data.name}</Typography>
           <Typography color="text.secondary" gutterBottom>
-            {addresses.join(", ")}
+            Priority: {data.priority}
           </Typography>
+            <Typography color="text.secondary" gutterBottom>
+                Location: {data.location}
+            </Typography>
+            <Typography color="text.secondary" gutterBottom>
+                Shipping Type: {data.shippingType}
+            </Typography>
+            <Typography color="text.secondary" gutterBottom>
+                Status: {data.status}
+            </Typography>
         </div>
+
+
+
+
         <div>
           <Typography variant="subtitle2" gutterBottom>
             Payment details
