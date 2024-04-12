@@ -12,6 +12,7 @@ type findClosestNodeOnGraphProps = {
   pos: vec2;
   floor: number;
   nodes: node[];
+  distance?: number;
 };
 type findEdgeboundPathProps = {
   end: vec2;
@@ -109,12 +110,12 @@ export function pointHelper(props: findClosestNodeOnGraphProps) {
     const mousePos: vec2 = props.pos;
     const dist: number = distance(pn, mousePos);
     if (dist < closestDist) {
+      if (props.distance !== undefined && dist > props.distance) continue;
       closestDist = dist;
       closestNode = node;
     }
   }
 
-  //console.log(closestNode);
   return closestNode;
 }
 

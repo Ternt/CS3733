@@ -66,6 +66,9 @@ export default function MapPage() {
           pathfinding={true}
           startLocation={startLocation}
           endLocation={endLocation}
+          onDeselectEndLocation={() => {
+            setEndLocation("");
+          }}
         />
       </Grid>
     </Grid>
