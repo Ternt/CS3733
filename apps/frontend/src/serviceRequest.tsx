@@ -109,6 +109,7 @@ function ServiceRequest() {
             id="service-select"
             label="Service"
             value={service}
+            inputProps={{ MenuProps: { disableScrollLock: true } }}
             onChange={(e) => setService(e.target.value)}
             fullWidth
           >
@@ -149,6 +150,7 @@ function ServiceRequest() {
             labelId="location-label"
             id="serviceLocation"
             label="Location"
+            inputProps={{ MenuProps: { disableScrollLock: true } }}
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             fullWidth
