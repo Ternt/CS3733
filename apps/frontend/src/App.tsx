@@ -3,7 +3,6 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import ServiceRequest from "./serviceRequest.tsx";
 import { ThemeProvider } from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
-import MapPage from "./routes/mapPage.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import ServiceRequests from "./showAllSR.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
@@ -16,6 +15,7 @@ import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
 import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
+import MapPage from "./pages/MapPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
