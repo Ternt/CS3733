@@ -3,7 +3,7 @@ import FormLabel from "@mui/material/FormLabel";
 import Grid from "@mui/material/Grid";
 import {styled} from "@mui/system";
 import {MenuItem, TextField} from "@mui/material";
-import LocationSelectFormDropdown from "../../../components/LocationDropdown.tsx";
+import LocationDropdown from "../../../components/LocationDropdown.tsx";
 
 const FormGrid = styled(Grid)(() => ({
     display: "flex",
@@ -66,11 +66,12 @@ export default function OrderInfo({ formInfo, updateFormInfo }) {
                 <FormLabel htmlFor="last-name" required>
                     Location
                 </FormLabel>
-                <LocationSelectFormDropdown
+                <LocationDropdown
+                    label={""}
+                    value={formInfo.location}
                     onChange={(v: string) => {
                         updateFormInfo({...formInfo, location: v});
                     }}
-                    value={formInfo.location}
                 />
             </FormGrid>
 
