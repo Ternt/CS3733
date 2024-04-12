@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { SanitationFormFields } from "./sanitationFields.ts";
 import RequestList from "../../helpers/requestList.ts";
-import LocationSelectFormDropdown from "../../components/locationSelectFormDropdown.tsx";
 import {
   TextField,
   FormControl,
