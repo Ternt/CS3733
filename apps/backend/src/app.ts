@@ -3,30 +3,29 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import exampleRouter from "./routes/example.ts";
-import { PrismaClient } from "database";
-import {
-  // populateDatabase,
-  exportNodeDBToCSV,
-  exportEdgeDBToCSV,
-} from "./helper/manageDatabases";
-import { Graph } from "./graph/graph.ts";
 import serviceRequestRouter from "./routes/service-requests.ts";
 import mapRouter from "./routes/map.ts";
 import pathfindingRouter from "./routes/pathfind.ts";
 import nodesRouter from "./routes/nodes.ts";
 import edgesRouter from "./routes/edges.ts";
+import cartItemRouter from "./routes/cart-items.ts";
 import fileUpload from "express-fileupload";
-
-const prisma = new PrismaClient();
-const graph = new Graph();
-(async () => {
-  await graph.loadNodesFromDB();
-  await graph.loadEdgesFromDB();
-  await exportNodeDBToCSV(prisma, "../../map/nodes.csv");
-  await exportEdgeDBToCSV(prisma, "../../map/edges.csv");
-})();
+import * as fs from "fs";
+import path from "path";
+import { createDatabase } from "./helper/exportToDB.ts";
 
 const app: Express = express(); // Setup the backend
+
+(async () => {
+  // this will remove all service requests from the DB
+  const nodePath = path.join(__dirname, "../map/allNodes.csv");
+  const edgePath = path.join(__dirname, "../map/allEdges.csv");
+
+  const node_str = fs.readFileSync(nodePath, "utf8");
+  const edge_str = fs.readFileSync(edgePath, "utf8");
+
+  createDatabase(true, node_str, edge_str);
+})();
 
 //const fileUpload = require("express-fileupload");
 app.use(fileUpload());
@@ -51,8 +50,9 @@ app.use("/api/service-requests", serviceRequestRouter);
 app.use("/api/map", mapRouter);
 app.use("/api/astar-api", pathfindingRouter);
 app.use("/api/pathfind", pathfindingRouter);
-app.use("/nodes", nodesRouter);
-app.use("/edges", edgesRouter);
+app.use("/api/nodes", nodesRouter);
+app.use("/api/edges", edgesRouter);
+app.use("/api/cart-items", cartItemRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });

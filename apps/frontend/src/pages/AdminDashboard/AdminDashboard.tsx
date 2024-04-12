@@ -3,9 +3,9 @@ import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
 import MenuIcon from "@mui/icons-material/Menu";
 import MapIcon from "@mui/icons-material/Map";
 import TableViewIcon from "@mui/icons-material/TableView";
+import MapCanvas from "../../components/MapCanvas.tsx";
 import { useState } from "react";
 import DisplayCSV from "../TableDisplayPage/displayCSV.tsx";
-import MapCanvas from "../../components/MapCanvas.tsx";
 
 export default function AdminDashboard() {
   const [selectedTab, setSelectedTab] = useState(0);
