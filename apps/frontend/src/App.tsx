@@ -10,7 +10,7 @@ import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 import NavBar from "./components/navbar/navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
 import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
-import CheckoutPage from "./pages/CheckoutPage/CheckoutPage.tsx";
+import Checkout from "./pages/CheckoutPage/MUI Checkout/Checkout.tsx";
 import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
 import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
@@ -63,13 +63,13 @@ function App() {
         {
           path: "/gift-checkout",
           element: (
-            <CheckoutPage checkoutType="gift" returnPath="/gift-request" />
+            <Checkout checkoutType="gift" returnPath="/gift-request" />
           ),
         },
         {
           path: "/flower-checkout",
           element: (
-            <CheckoutPage checkoutType="flower" returnPath="/flower-request" />
+            <Checkout checkoutType="flower" returnPath="/flower-request" />
           ),
         },
         {

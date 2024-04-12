@@ -7,8 +7,8 @@ export default function MapPage() {
   useEffect(() => {
     document.title = "Map";
   });
-  const [startLocation, setStartLocation] = useState("CCONF001L1");
-  const [endLocation, setEndLocation] = useState("CCONF001L1");
+  const [startLocation, setStartLocation] = useState("Abrams Conference Room");
+  const [endLocation, setEndLocation] = useState("Abrams Conference Room");
   return (
     <Grid
       container

@@ -8,6 +8,9 @@ export type node = {
   nodeID: string;
   nodeType: string;
   longName: string;
+  building?: string;
+  shortName?: string;
+  floor?: string;
 };
 export type edge = {
   startNode: node;

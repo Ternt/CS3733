@@ -29,28 +29,28 @@ const items: ItemCardData[] = [
     imageURL: "../../src/assets/GiftImages/TeddyBear.jpeg",
     title: "Teddy Bear",
     price: "12",
-    description: "",
+    description: "A cute Teddy Bear",
   },
   {
     id: "2-choc",
     imageURL: "../../src/assets/GiftImages/Chocolates.webp",
     title: "Chocolates",
     price: "15",
-    description: "",
+    description: "Taste good",
   },
   {
     id: "3-cake",
     imageURL: "../../src/assets/GiftImages/Cake.webp",
     title: "Cake",
     price: "40",
-    description: "",
+    description: "chocolate cake",
   },
   {
     id: "4-ps5",
     imageURL: "../../src/assets/GiftImages/PS5.webp",
     title: "PS5",
     price: "600",
-    description: "",
+    description: "ps5",
   },
 ];
 
