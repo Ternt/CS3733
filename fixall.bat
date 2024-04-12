@@ -1,8 +1,19 @@
-echo "fixing"
-yarn install
+@echo off
+echo fixing main
+start yarn install
+timeout 3 > NUL
+
+echo fixing front
 cd .\apps\frontend\
-yarn install
+start yarn install
+timeout 3 > NUL
+
+echo fixing back
 cd ../..
 cd .\apps\backend\
+start yarn install
+timeout 3 > NUL
+
+echo fixing all
 cd ../..
-yarn fix
+start yarn fix

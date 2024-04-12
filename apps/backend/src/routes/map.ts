@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import express, { Router, Request, Response } from "express";
 import { PrismaClient } from "database";
 import { createDatabase } from "../helper/exportToDB.ts";
@@ -13,8 +10,9 @@ const router: Router = express.Router();
 
 //Return all map edges and nodes
 router.get("/", async function (req: Request, res: Response) {
-  const nodes = await PrismaClient.nodeDB.findMany({});
-  const edges = await PrismaClient.edgeDB.findMany({});
+  const prisma = new PrismaClient();
+  const nodes = await prisma.nodeDB.findMany({});
+  const edges = await prisma.edgeDB.findMany({});
 
   if (nodes == null) {
     console.log("Node Retrieval Failed");
@@ -38,7 +36,15 @@ router.post("/upload", async function (req: Request, res: Response) {
 
   // Get file data
   const files = req.files;
+  if (!("data" in files.nodes)) {
+    res.sendStatus(509);
+    return;
+  }
   const node_str: string = files.nodes.data.toString();
+  if (!("data" in files.edges)) {
+    res.sendStatus(509);
+    return;
+  }
   const edge_str: string = files.edges.data.toString();
   // ^ eslint does not like these lines
 
@@ -60,7 +66,6 @@ router.post("/upload", async function (req: Request, res: Response) {
     createDatabase(header, node_str, edge_str);
   } catch (error) {
     console.log("node file upload failed");
-    console.log(error.message);
     res.sendStatus(406);
     return;
   }
