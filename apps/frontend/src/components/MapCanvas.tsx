@@ -6,12 +6,12 @@ import L2 from "../assets/BWHospitalMaps/01_thefirstfloor.png";
 import L3 from "../assets/BWHospitalMaps/02_thesecondfloor.png";
 import L4 from "../assets/BWHospitalMaps/03_thethirdfloor.png";
 
-import { Box, Button, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { edge, node, vec2 } from "../helpers/typestuff.ts";
 import axios, { AxiosResponse } from "axios";
 import { graphHelper, pointHelper } from "../helpers/clickCorrectionMath.ts";
 import MapControls from "./MapControls.tsx";
-//import {edge, node} from "../helpers/typestuff.ts";
+import InformationMenu from "./InformationMenu.tsx";
 
 const MAPS = [L0, L1, L2, L3, L4];
 const ZOOM_SPEED = 0.05;
@@ -482,6 +482,9 @@ export default function MapCanvas(props: mapCanvasProps) {
           point: v,
           nodeType: r.nodeType,
           longName: r.longName,
+          building: r.building,
+          shortName: r.shortName,
+          floor: r.floor,
         };
         ns.push(n);
       }
@@ -565,40 +568,20 @@ export default function MapCanvas(props: mapCanvasProps) {
           ref={canvasRef}
         />
       </Box>
+
       {!props.pathfinding && pathing.nearestNode !== null && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: "120px",
-            left: "120px",
-            bgcolor: "#fff",
-            boxShadow: 5,
+        <InformationMenu
+          nodeData={pathing.nearestNode}
+          onClose={() => {
+            setPathing({ ...pathing, nearestNode: null });
           }}
-        >
-          <Typography variant={"subtitle1"}>
-            {pathing.nearestNode?.nodeID}
-          </Typography>
-          <Typography variant={"h5"}>
-            {pathing.nearestNode?.longName}
-          </Typography>
-          <Typography variant={"subtitle2"}>
-            X: {pathing.nearestNode?.point.x}
-          </Typography>
-          <Typography variant={"subtitle2"}>
-            Y: {pathing.nearestNode?.point.y}
-          </Typography>
-          <Typography variant={"subtitle2"}>
-            Z: {pathing.nearestNode?.point.z}
-          </Typography>
-          <Button
-            onClick={() => {
-              pathing.nearestNode = null;
-            }}
-            variant={"contained"}
-          >
-            X
-          </Button>
-        </Box>
+          onChangeNode={(node) => {
+            setPathing({
+              ...pathing,
+              nearestNode: node,
+            });
+          }}
+        />
       )}
       <MapControls
         floor={viewingFloor}
