@@ -2,7 +2,6 @@ import createError, { HttpError } from "http-errors";
 import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import exampleRouter from "./routes/example.ts";
 import serviceRequestRouter from "./routes/service-requests.ts";
 import mapRouter from "./routes/map.ts";
 import pathfindingRouter from "./routes/pathfind.ts";
@@ -45,7 +44,6 @@ app.use(cookieParser()); // Cookie parser
 
 // Setup routers. ALL ROUTERS MUST use /api as a start point, or they
 // won't be reached by the default proxy and prod setup
-app.use("/api/high-score", exampleRouter);
 app.use("/api/service-requests", serviceRequestRouter);
 app.use("/api/map", mapRouter);
 app.use("/api/astar-api", pathfindingRouter);
