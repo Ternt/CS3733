@@ -5,7 +5,7 @@ import CustomTheme from "./components/CustomTheme.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 //import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
-import NavBar from "./components/navbar/navbar.tsx";
+import NavBar from "./components/Navbar/Navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
 import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
 import Checkout from "./pages/CheckoutPage/MUI Checkout/Checkout.tsx";
