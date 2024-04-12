@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import ItemCard from "../../components/Card/ItemCard.tsx";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -41,7 +40,7 @@ const items: ItemCardData[] = [
   {
     id: "3-tuli",
     imageURL: "../../src/assets/FlowerImages/tulip.jpg",
-    title: "Tilp",
+    title: "Tulip",
     price: "35",
     description: "",
   },
@@ -102,7 +101,7 @@ function FlowerRequestPage() {
         <Box>
           <Typography
             p={3}
-            style={{ fontFamily: "Inria Serif" }}
+            style={{ fontFamily: "Open Sans", fontWeight: 500 }}
             variant="h4"
             component="h1"
             align="center"
@@ -237,21 +236,35 @@ function FlowerRequestPage() {
       <Box
         sx={{
           width: { xs: "100vw", md: "70vw" },
-          bgcolor: "#F1F1F1",
+          backgroundColor: "#F1F1F1",
         }}
       >
-        <Grid container>
-          {items.map((item) => (
-            <ItemCard
-              id={item.id}
-              imageURL={item.imageURL}
-              title={item.title}
-              price={item.price}
-              description={item.description}
-              handleAdd={addItem}
-            />
-          ))}
-        </Grid>
+          <Box
+              sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  m: '3vh',
+                  justifyContent: 'justify-start',
+                  gap: '3vh',
+                  '& > *': {
+                      '&:hover': {
+                          transform: 'translateY(-8px)',
+                      },
+                  },
+              }}
+          >
+              {items.map((item) => (
+                  <ItemCard
+                      key={item.id}
+                      id={item.id}
+                      imageURL={item.imageURL}
+                      title={item.title}
+                      price={item.price}
+                      description={item.description}
+                      handleAdd={addItem}
+                  />
+              ))}
+          </Box>
       </Box>
     </Box>
   );

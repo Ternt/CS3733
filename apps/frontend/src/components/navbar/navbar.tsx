@@ -188,7 +188,9 @@ function ResponsiveAppBar() {
                 }}
               >
                 Service Requests
-                <ArrowDropDownIcon />
+                <ArrowDropDownIcon sx={{
+                    height: '1rem'
+                }}/>
               </Typography>
             </Button>
             <Menu

@@ -7,7 +7,7 @@ const theme = createTheme({
       main: "#f6bd38", // Main primary color used by default for components.
     },
     secondary: {
-      main: "#0044ff", // Main secondary color used by default for components.
+      main: "#012d5a", // Main secondary color used by default for components.
     },
     error: {
       main: "#cc0000", // Main error color used for error messages
@@ -36,14 +36,14 @@ const theme = createTheme({
           // Applies to buttons with "contained" variant and "secondary" color.
           props: { variant: "contained", color: "secondary" },
           style: {
-            backgroundColor: "#0044ff", // Background color for secondary contained buttons.
+            backgroundColor: "#012d5a", // Background color for secondary contained buttons.
             color: "#FFFFFF", // Text color for secondary contained buttons.
 
             // Styles for hovering over secondary contained buttons.
             "&:hover": {
               outline: "3px solid #0033cc", // Adds an outline on hover.
               backgroundColor: "#FFFFFF", // Changes background color on hover.
-              color: "#0033cc", // Changes text color on hover.
+              color: "#012d5a", // Changes text color on hover.
             },
           },
         },
@@ -106,7 +106,7 @@ const theme = createTheme({
         },
         colorSecondary: {
           "&.Mui-checked": {
-            color: "#0044ff", // Secondary color when checkbox is checked
+            color: "#012d5a", // Secondary color when checkbox is checked
           },
         },
       },

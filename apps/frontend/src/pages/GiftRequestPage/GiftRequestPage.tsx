@@ -102,7 +102,7 @@ function GiftRequestPage() {
         <Box>
           <Typography
             p={3}
-            style={{ fontFamily: "Inria Serif" }}
+            style={{ fontFamily: "Open Sans", fontWeight: 500 }}
             variant="h4"
             component="h1"
             align="center"
