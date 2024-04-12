@@ -198,6 +198,7 @@ function MedicineRequestForm() {
                 setFormInput({ ...formInput, location: v });
               }}
               value={formInput.location}
+              filterTypes={["HALL"]}
               label={"Location"}
             />
 

@@ -1,6 +1,6 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios, { AxiosResponse } from "axios";
-import { MenuItem, TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 
 enum SortType {
   ASCENDING,
@@ -25,11 +25,6 @@ export default function LocationDropdown(props: dropdownProps) {
    * Update the selected location based on the dropdown option
    * @param e The dropdown element that changed
    */
-  function handleLocationInput(
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) {
-    props.onChange(e.target.value);
-  }
 
   const [nodes, _setNodes] = useState<selectNode[] | null>(null);
   const nodesRef = useRef(nodes);
@@ -82,22 +77,16 @@ export default function LocationDropdown(props: dropdownProps) {
   }, [props.filterTypes]);
 
   return (
-    <TextField
+    <Autocomplete
+      disablePortal
       fullWidth
-      required
-      select
       id="location"
-      label={"Location"}
-      margin="normal"
       inputProps={{ MenuProps: { disableScrollLock: true } }}
-      onChange={handleLocationInput}
       value={props.value}
-    >
-      {getNodes().map((node) => (
-        <MenuItem value={node.nodeID} key={node.nodeID}>
-          {node.longName}
-        </MenuItem>
-      ))}
-    </TextField>
+      options={getNodes()
+        .map((n) => n.longName)
+        .filter((n) => !n.includes("Hall"))}
+      renderInput={(params) => <TextField {...params} label={props.label} />}
+    />
   );
 }

@@ -7,8 +7,8 @@ export default function MapPage() {
   useEffect(() => {
     document.title = "Map";
   });
-  const [startLocation, setStartLocation] = useState("CCONF001L1");
-  const [endLocation, setEndLocation] = useState("CCONF001L1");
+  const [startLocation, setStartLocation] = useState("Abrams Conference Room");
+  const [endLocation, setEndLocation] = useState("Abrams Conference Room");
   return (
     <Grid
       container
@@ -42,6 +42,7 @@ export default function MapPage() {
               setStartLocation(v);
             }}
             value={startLocation}
+            filterTypes={["HALL"]}
             label={"Start "}
           />
         </Box>
@@ -53,6 +54,7 @@ export default function MapPage() {
               setEndLocation(v);
             }}
             value={endLocation}
+            filterTypes={["HALL"]}
             label={"End "}
           />
         </Box>
@@ -66,6 +68,9 @@ export default function MapPage() {
           pathfinding={true}
           startLocation={startLocation}
           endLocation={endLocation}
+          onDeselectEndLocation={() => {
+            setEndLocation("");
+          }}
         />
       </Grid>
     </Grid>
