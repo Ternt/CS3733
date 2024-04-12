@@ -84,15 +84,13 @@ function FlowerRequestPage() {
         flexDirection: "row",
       }}
     >
-
-
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-evenly",
           height: "fit-content",
-          backgroundColor: "#000000",
+          bgcolor: "#FFFFFF",
           width: { xs: "60vw", md: "30vw" },
           position: "relative",
           top: 0,
@@ -236,9 +234,6 @@ function FlowerRequestPage() {
           </Button>
         </Box>
       </Box>
-
-
-
       <Box
         sx={{
           width: { xs: "100vw", md: "70vw" },

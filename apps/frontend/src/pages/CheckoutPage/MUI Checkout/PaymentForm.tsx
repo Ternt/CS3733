@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -11,7 +10,6 @@ import Typography from "@mui/material/Typography";
 
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
 import SimCardRoundedIcon from "@mui/icons-material/SimCardRounded";
-import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 
 import { styled } from "@mui/system";
 
@@ -20,38 +18,29 @@ const FormGrid = styled("div")(() => ({
   flexDirection: "column",
 }));
 
-export default function PaymentForm() {
-  const [paymentType] = React.useState("creditCard");
-  const [cardNumber, setCardNumber] = React.useState("");
-  const [cvv, setCvv] = React.useState("");
-  const [expirationDate, setExpirationDate] = React.useState("");
-
-  const handleCardNumberChange = (event: { target: { value: string } }) => {
-    const value = event.target.value.replace(/\D/g, "");
-    const formattedValue = value.replace(/(\d{4})(?=\d)/g, "$1 ");
-    if (value.length <= 16) {
-      setCardNumber(formattedValue);
-    }
-  };
-
-  const handleCvvChange = (event: { target: { value: string } }) => {
-    const value = event.target.value.replace(/\D/g, "");
-    if (value.length <= 3) {
-      setCvv(value);
-    }
-  };
-
-  const handleExpirationDateChange = (event: { target: { value: string } }) => {
-    const value = event.target.value.replace(/\D/g, "");
-    const formattedValue = value.replace(/(\d{2})(?=\d{2})/, "$1/");
-    if (value.length <= 4) {
-      setExpirationDate(formattedValue);
-    }
-  };
+export default function PaymentForm( {cardInfo, updateCardInfo}) {
+  // const [paymentType] = React.useState("creditCard");
+  // const [cvv, setCvv] = React.useState("");
+  // const [expirationDate, setExpirationDate] = React.useState("");
+  //
+  //
+  // const handleCvvChange = (event: { target: { value: string } }) => {
+  //   const value = event.target.value.replace(/\D/g, "");
+  //   if (value.length <= 3) {
+  //     setCvv(value);
+  //   }
+  // };
+  //
+  // const handleExpirationDateChange = (event: { target: { value: string } }) => {
+  //   const value = event.target.value.replace(/\D/g, "");
+  //   const formattedValue = value.replace(/(\d{2})(?=\d{2})/, "$1/");
+  //   if (value.length <= 4) {
+  //     setExpirationDate(formattedValue);
+  //   }
+  // };
 
   return (
     <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap>
-      {paymentType === "creditCard" && (
         <Box
           sx={{
             display: "flex",
@@ -99,11 +88,12 @@ export default function PaymentForm() {
                 </FormLabel>
                 <OutlinedInput
                   id="card-number"
-                  autoComplete="card-number"
                   placeholder="0000 0000 0000 0000"
                   required
-                  value={cardNumber}
-                  onChange={handleCardNumberChange}
+                  value={cardInfo.cardNumber}
+                  onChange={(e) => {
+                      updateCardInfo({...cardInfo, cardNumber: e.target.value});
+                  }}
                 />
               </FormGrid>
               <FormGrid sx={{ maxWidth: "20%" }}>
@@ -112,11 +102,12 @@ export default function PaymentForm() {
                 </FormLabel>
                 <OutlinedInput
                   id="cvv"
-                  autoComplete="CVV"
                   placeholder="123"
                   required
-                  value={cvv}
-                  onChange={handleCvvChange}
+                  value={cardInfo.cvv}
+                  onChange={(e) => {
+                      updateCardInfo({...cardInfo, cvv: e.target.value});
+                  }}
                 />
               </FormGrid>
             </Box>
@@ -127,8 +118,11 @@ export default function PaymentForm() {
                 </FormLabel>
                 <OutlinedInput
                   id="card-name"
-                  autoComplete="card-name"
-                  placeholder="John Smith"
+                  placeholder="First Last"
+                  value={cardInfo.cardHolderName}
+                  onChange={(e) => {
+                      updateCardInfo({...cardInfo, cardHolderName: e.target.value});
+                  }}
                   required
                 />
               </FormGrid>
@@ -138,11 +132,12 @@ export default function PaymentForm() {
                 </FormLabel>
                 <OutlinedInput
                   id="card-expiration"
-                  autoComplete="card-expiration"
                   placeholder="MM/YY"
                   required
-                  value={expirationDate}
-                  onChange={handleExpirationDateChange}
+                  value={cardInfo.expirationDate}
+                  onChange={(e) => {
+                      updateCardInfo({...cardInfo, expirationDate: e.target.value});
+                  }}
                 />
               </FormGrid>
             </Box>
@@ -152,50 +147,6 @@ export default function PaymentForm() {
             label="Remember this Card"
           />
         </Box>
-      )}
-      {paymentType === "bankTransfer" && (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-          }}
-        >
-          <Alert severity="warning" icon={<WarningRoundedIcon />}>
-            Your order will be processed once we receive the funds.
-          </Alert>
-          <Typography variant="subtitle1" fontWeight="medium">
-            Bank account
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Please transfer the payment to the bank account details shown below.
-          </Typography>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Typography variant="body1" color="text.secondary">
-              Bank:
-            </Typography>
-            <Typography variant="body1" fontWeight="medium">
-              Mastercredit
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Typography variant="body1" color="text.secondary">
-              Account number:
-            </Typography>
-            <Typography variant="body1" fontWeight="medium">
-              123456789
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Typography variant="body1" color="text.secondary">
-              Routing number:
-            </Typography>
-            <Typography variant="body1" fontWeight="medium">
-              987654321
-            </Typography>
-          </Box>
-        </Box>
-      )}
     </Stack>
   );
 }

@@ -12,7 +12,7 @@ const FormGrid = styled(Grid)(() => ({
 
 
 
-export default function AddressForm({ data, updateData }) {
+export default function OrderInfo({ formInfo, updateFormInfo }) {
     return (
         <Grid container spacing={3}>
             <FormGrid item xs={12}>
@@ -29,9 +29,9 @@ export default function AddressForm({ data, updateData }) {
                         backgroundColor: "white",
                         borderRadius: "5px",
                     }}
-                    value={data.name}
+                    value={formInfo.name}
                     onChange={(e) => {
-                        updateData({...data, name: e.target.value});
+                        updateFormInfo({...formInfo, name: e.target.value});
                     }}
                 />
             </FormGrid>
@@ -50,9 +50,9 @@ export default function AddressForm({ data, updateData }) {
                     select
                     id="priority-select"
                     margin="normal"
-                    value={data.priority}
+                    value={formInfo.priority}
                     onChange={(e) => {
-                        updateData({...data, priority: e.target.value});
+                        updateFormInfo({...formInfo, priority: e.target.value});
                     }}
                 >
                     <MenuItem value={"low"}>Low</MenuItem>
@@ -68,9 +68,9 @@ export default function AddressForm({ data, updateData }) {
                 </FormLabel>
                 <LocationSelectFormDropdown
                     onChange={(v: string) => {
-                        updateData({...data, location: v});
+                        updateFormInfo({...formInfo, location: v});
                     }}
-                    value={data.location}
+                    value={formInfo.location}
                 />
             </FormGrid>
 
@@ -87,9 +87,9 @@ export default function AddressForm({ data, updateData }) {
                     select
                     id={"shipping-type"}
                     margin="normal"
-                    value={data.shippingType}
+                    value={formInfo.shippingType}
                     onChange={(e) => {
-                        updateData({...data, shippingType: e.target.value});
+                        updateFormInfo({...formInfo, shippingType: e.target.value});
                     }}
                 >
                     <MenuItem value={"Standard"}>Standard</MenuItem>
@@ -111,9 +111,9 @@ export default function AddressForm({ data, updateData }) {
                     select
                     id={"progress-select"}
                     margin="normal"
-                    value={data.status}
+                    value={formInfo.status}
                     onChange={(e) => {
-                        updateData({...data, status: e.target.value});
+                        updateFormInfo({...formInfo, status: e.target.value});
                     }}
                 >
                     <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
