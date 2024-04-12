@@ -181,6 +181,7 @@ function SanitationRequestForm() {
               id="priority-select"
               label={"Priority"}
               margin="normal"
+              inputProps={{ MenuProps: { disableScrollLock: true } }}
               value={formInput.priority}
               onChange={(event) => {
                 setFormInput({
@@ -240,6 +241,7 @@ function SanitationRequestForm() {
               value={formInput.assignmentStatus}
               label={"Status"}
               margin="normal"
+              inputProps={{ MenuProps: { disableScrollLock: true } }}
               onChange={(event) => {
                 setFormInput({
                   ...formInput,

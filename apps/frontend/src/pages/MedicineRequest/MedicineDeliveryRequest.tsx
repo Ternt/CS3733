@@ -179,6 +179,7 @@ function MedicineRequestForm() {
               id="priority-select"
               label={"Priority"}
               margin="normal"
+              inputProps={{ MenuProps: { disableScrollLock: true } }}
               value={formInput.priority}
               onChange={(event) => {
                 setFormInput({
@@ -212,6 +213,7 @@ function MedicineRequestForm() {
                 id="medicine-select"
                 label={"Medicine"}
                 margin="normal"
+                inputProps={{ MenuProps: { disableScrollLock: true } }}
                 sx={{
                   width: "60%",
                   pr: "5%",
@@ -322,6 +324,7 @@ function MedicineRequestForm() {
               value={formInput.status}
               label={"Status"}
               margin="normal"
+              inputProps={{ MenuProps: { disableScrollLock: true } }}
               onChange={(event) => {
                 setFormInput({
                   ...formInput,
