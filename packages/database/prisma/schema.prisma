@@ -12,15 +12,30 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
+enum NodeType {
+  CONF
+  DEPT
+  HALL
+  LABS
+  REST
+  SERV
+  ELEV
+  EXIT
+  STAI
+  RETL
+  INFO
+  BATH
+}
+
 model NodeDB {
-  nodeID    String @unique
+  nodeID    String   @unique
   xcoord    Int
   ycoord    Int
   floor     String
   building  String
   longName  String
   shortName String
-  nodeType  String
+  nodeType  NodeType
 
   startEdges EdgeDB[]         @relation(name: "start")
   endEdges   EdgeDB[]         @relation(name: "end")
