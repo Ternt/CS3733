@@ -12,13 +12,6 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
-// example table used in the express router example
-model HighScore {
-  id    Int      @id @default(autoincrement())
-  time  DateTime
-  score Int
-}
-
 model NodeDB {
   nodeID    String @unique
   xcoord    Int
@@ -86,7 +79,7 @@ enum ServiceRequestStatus {
 model ServiceRequest {
   requestID  Int                    @id @default(autoincrement())
   type       ServiceRequestType
-  notes      String
+  notes      String?
   location   NodeDB                 @relation(fields: [locationID], references: [nodeID], onDelete: Cascade)
   locationID String
   priority   ServiceRequestPriority
@@ -96,7 +89,6 @@ model ServiceRequest {
   medicineDetail    MedicineRequest?
   giftDetail        GiftRequest?
   maintenanceDetail MaintenanceRequest?
-  flowerDetail      FlowerRequest?
 }
 
 enum MaintenanceType {
@@ -177,20 +169,12 @@ model GiftRequest {
 
   senderName    String
   recipientName String
-  cardNumber    Int
   shippingType  ShippingType
 
+  cardNumber         Int
+  cardCVV            Int
+  cardHolderName     String
+  cardExpirationDate String
+
   items CartItemsInGiftRequests[]
-}
-
-enum FlowerType {
-  ROSE
-  DANDELION
-}
-
-model FlowerRequest {
-  request       ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
-  requestID     Int            @unique
-  flowerType    FlowerType
-  numberFlowers Int
 }
