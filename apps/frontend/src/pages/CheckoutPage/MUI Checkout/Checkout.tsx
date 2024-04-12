@@ -10,7 +10,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { PaletteMode } from "@mui/material";
@@ -23,7 +23,7 @@ import AddressForm from "./AddressForm.tsx";
 import Info from "./Info.tsx";
 import PaymentForm from "./PaymentForm.tsx";
 import Review from "./Review.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const steps = ["Order Information", "Payment details", "Review your order"];
 
@@ -34,8 +34,22 @@ const logoStyle = {
   marginRight: "-8px",
 };
 
+type CheckoutProps = {
+    checkoutType: "flower" | "gift"; //define if checkout is for flowers or gift
+    returnPath: string;
+};
 
-export default function Checkout() {
+
+export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
+
+    const navigate = useNavigate();
+    // const location = useLocation();
+    // const {cart} = location.state || {cart: []};
+
+    useEffect(() => {
+        document.title =
+            "Checkout - " + (checkoutType === "gift" ? "Gifts" : "Flowers");
+    }, [checkoutType]);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -68,9 +82,8 @@ export default function Checkout() {
   const defaultTheme = createTheme({ palette: { mode } });
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const navigate = useNavigate();
-  const click = (path: string) => {
-    navigate(path);
+  const click = () => {
+    navigate(returnPath);
   };
 
   const handleNext = () => {
@@ -112,7 +125,7 @@ export default function Checkout() {
             <Button
               startIcon={<ArrowBackRoundedIcon />}
               component="a"
-              onClick={() => click("/")}
+              onClick={() => click()}
               sx={{ ml: "-4vw" }}
             >
               Continue Shopping
@@ -127,7 +140,7 @@ export default function Checkout() {
               maxWidth: 500,
             }}
           >
-            <Info />
+            <Info/>
           </Box>
         </Grid>
         <Grid
