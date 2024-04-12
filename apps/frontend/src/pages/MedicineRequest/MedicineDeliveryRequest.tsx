@@ -214,10 +214,6 @@ function MedicineRequestForm() {
                               id="medicine-select"
                               label={"Medicine"}
                               inputProps={{ MenuProps: { disableScrollLock: true } }}
-                              sx={{
-                                  width: "60%",
-                                  pr: "5%",
-                              }}
                               value={formInput.medicine}
                               onChange={(event) => {
                                   setFormInput({
@@ -225,6 +221,7 @@ function MedicineRequestForm() {
                                       medicine: event.target.value,
                                   });
                               }}
+                              sx={{ width: "60%", pr: "5%" }}
                           >
                               <MenuItem value={"PainKillers"}>PainKillers</MenuItem>
                               <MenuItem value={"Tylenol"}>Tylenol</MenuItem>
@@ -233,9 +230,7 @@ function MedicineRequestForm() {
 
                           <TextField
                               required
-                              sx={{
-                                  width: "35%",
-                              }}
+                              sx={{ width: "35%" }}
                               label="Dosage"
                               onChange={(event) => {
                                   setFormInput({
@@ -247,7 +242,7 @@ function MedicineRequestForm() {
                           />
                       </Box>
 
-                      <Box sx={{marginY: 1}}>
+                      <Box sx={{ marginY: 1 }}>
                           <FormLabel id="medicine-form">Form</FormLabel>
                           <RadioGroup
                               name="medicine-form"
@@ -260,54 +255,36 @@ function MedicineRequestForm() {
                                   });
                               }}
                               sx={{
-                                  width: "80%",
+                                  width: "100%",
                                   display: "flex",
                                   justifyContent: "center",
                               }}
                           >
-                              <Box
-                                  sx={{
-                                      display: "flex",
-                                      flexDirection: "row",
-                                      justifyContent: "space-between",
-                                  }}
-                              >
-                                  <FormControlLabel
+                              <Box sx={{display: "flex"}}>
+                                  <Box sx={{width: "10rem"}}><FormControlLabel
                                       value="Powder"
                                       control={<Radio />}
                                       label="Powder"
-                                  />
-                                  <FormControlLabel
+                                  /></Box>
+                                  <Box><FormControlLabel
                                       value="Tab or Cap"
                                       control={<Radio />}
                                       label="Tab/Cap"
-                                  />
+                                  /></Box>
                               </Box>
-                              <Box
-                                  sx={{
-                                      display: "flex",
-                                      flexDirection: "row",
-                                      justifyContent: "space-between",
-                                  }}
-                              >
-                                  <FormControlLabel
+                              <Box sx={{display: "flex"}}>
+                                  <Box sx={{width: "10rem"}}><FormControlLabel
                                       value="Chewable"
                                       control={<Radio />}
                                       label="Chewable"
-                                  />
-                                  <FormControlLabel
+                                  /></Box>
+                                  <Box><FormControlLabel
                                       value="Liquid"
                                       control={<Radio />}
                                       label="Liquid"
-                                  />
+                                  /></Box>
                               </Box>
-                              <Box
-                                  sx={{
-                                      display: "flex",
-                                      flexDirection: "row",
-                                      justifyContent: "space-between",
-                                  }}
-                              >
+                              <Box sx={{display: "flex"}}>
                                   <FormControlLabel
                                       value="Inhaler"
                                       control={<Radio />}
@@ -349,9 +326,7 @@ function MedicineRequestForm() {
                               type="button"
                               variant="contained"
                               color="secondary"
-                              sx={{
-                                  margin: 1,
-                              }}
+                              sx={{ margin: 1 }}
                               onClick={clearForm}
                           >
                               Clear
@@ -361,9 +336,7 @@ function MedicineRequestForm() {
                               type="button"
                               variant="contained"
                               color="secondary"
-                              sx={{
-                                  margin: 1,
-                              }}
+                              sx={{ margin: 1 }}
                               disabled={!isComplete()}
                               onClick={submitForm}
                           >
