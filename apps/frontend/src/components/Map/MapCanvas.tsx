@@ -1,17 +1,17 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-import L0 from "../assets/BWHospitalMaps/00_thelowerlevel2.png";
-import L1 from "../assets/BWHospitalMaps/00_thelowerlevel1.png";
-import L2 from "../assets/BWHospitalMaps/01_thefirstfloor.png";
-import L3 from "../assets/BWHospitalMaps/02_thesecondfloor.png";
-import L4 from "../assets/BWHospitalMaps/03_thethirdfloor.png";
+import L0 from "../../assets/BWHospitalMaps/00_thelowerlevel2.png";
+import L1 from "../../assets/BWHospitalMaps/00_thelowerlevel1.png";
+import L2 from "../../assets/BWHospitalMaps/01_thefirstfloor.png";
+import L3 from "../../assets/BWHospitalMaps/02_thesecondfloor.png";
+import L4 from "../../assets/BWHospitalMaps/03_thethirdfloor.png";
 
 import { Box } from "@mui/material";
-import { edge, node, vec2 } from "../helpers/typestuff.ts";
+import { edge, node, vec2 } from "../../helpers/typestuff.ts";
 import axios, { AxiosResponse } from "axios";
-import { graphHelper, pointHelper } from "../helpers/clickCorrectionMath.ts";
+import { graphHelper, pointHelper } from "../../helpers/clickCorrectionMath.ts";
 import MapControls from "./MapControls.tsx";
-import InformationMenu from "./InformationMenu.tsx";
+import InformationMenu from "../InformationMenu.tsx";
 
 const MAPS = [L0, L1, L2, L3, L4];
 const ZOOM_SPEED = 0.05;

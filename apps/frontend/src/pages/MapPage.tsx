@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MapCanvas from "../components/MapCanvas.tsx";
+import MapCanvas from "../components/Map/MapCanvas.tsx";
 import { Grid, Box, Typography } from "@mui/material";
 import LocationDropdown from "../components/LocationDropdown.tsx";
 
