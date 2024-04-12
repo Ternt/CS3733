@@ -20,7 +20,9 @@ import {
   Radio,
   FormLabel,
 } from "@mui/material";
+
 import Checkboxes from "../../components/FormElements/Checkboxes.tsx";
+import LocationDropdown from "../../components/LocationDropdown.tsx";
 
 const sanitationRequests = new RequestList();
 
@@ -196,11 +198,12 @@ function SanitationRequestForm() {
               <MenuItem value={"Emergency"}>Emergency</MenuItem>
             </TextField>
 
-            <LocationSelectFormDropdown
-              value={formInput.location}
+            <LocationDropdown
               onChange={(v: string) => {
                 setFormInput({ ...formInput, location: v });
               }}
+              value={formInput.location}
+              label={"Location"}
             />
 
             <Checkboxes

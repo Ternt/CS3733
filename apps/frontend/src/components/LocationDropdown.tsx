@@ -1,22 +1,26 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
-import { TextField, MenuItem } from "@mui/material";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import axios, { AxiosResponse } from "axios";
-import { useEffect, useRef, useState } from "react";
+import { MenuItem, TextField } from "@mui/material";
+
+enum SortType {
+  ASCENDING,
+  DECENDING,
+}
 
 type dropdownProps = {
   onChange: (value: string) => void;
+  label: string;
   value: string;
+  filterTypes?: string[] | string;
+  sort?: SortType;
 };
 
 type selectNode = {
   nodeID: string;
-  name: string;
+  longName: string;
+  nodeType: string;
 };
-
-function LocationSelectFormDropdown(props: dropdownProps) {
+export default function LocationDropdown(props: dropdownProps) {
   /**
    * Update the selected location based on the dropdown option
    * @param e The dropdown element that changed
@@ -45,21 +49,41 @@ function LocationSelectFormDropdown(props: dropdownProps) {
 
   useEffect(() => {
     axios.get("/api/map").then((res: AxiosResponse) => {
-      const ns: selectNode[] = [];
-
-      for (const r of res.data.nodes.filter(
-        (node) => node.nodeType !== "HALL",
-      )) {
-        const n: selectNode = { nodeID: r.nodeID, name: r.longName };
+      let ns: selectNode[] = [];
+      for (const r of res.data.nodes) {
+        const n: selectNode = {
+          nodeID: r.nodeID,
+          longName: r.longName,
+          nodeType: r.nodeType,
+        };
         ns.push(n);
+      }
+      if (typeof props.filterTypes === "string") {
+        ns = ns.filter((n) => n.nodeType !== props.filterTypes);
+      } else if (typeof props.filterTypes === "object") {
+        for (const f of props.filterTypes) {
+          ns = ns.filter((n) => n.nodeType !== f);
+        }
+      }
+
+      // Sort alphabetically (Insertion Sort)
+      for (let i = 1; i < ns.length; i++) {
+        let j = i;
+        while (j > 0 && ns[j].longName < ns[j - 1].longName) {
+          const temp = ns[j];
+          ns[j] = ns[j - 1];
+          ns[j - 1] = temp;
+          j--;
+        }
       }
 
       setNodes(ns);
     });
-  }, []);
+  }, [props.filterTypes]);
 
   return (
     <TextField
+      fullWidth
       required
       select
       id="location"
@@ -70,11 +94,9 @@ function LocationSelectFormDropdown(props: dropdownProps) {
     >
       {getNodes().map((node) => (
         <MenuItem value={node.nodeID} key={node.nodeID}>
-          {node.name}
+          {node.longName}
         </MenuItem>
       ))}
     </TextField>
   );
 }
-
-export default LocationSelectFormDropdown;

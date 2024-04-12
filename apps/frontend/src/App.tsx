@@ -1,9 +1,8 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import ServiceRequest from "./serviceRequest.tsx";
-import { ThemeProvider } from "@mui/material/styles"; // Import ThemeProvider
-import CustomTheme from "./components/CustomTheme.tsx"; // Import your custom theme
-import MapPage from "./routes/mapPage.tsx";
+import { ThemeProvider } from "@mui/material/styles";
+import CustomTheme from "./components/CustomTheme.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import ServiceRequests from "./showAllSR.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
@@ -16,6 +15,7 @@ import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
 import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
+import MapPage from "./pages/MapPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -95,10 +95,12 @@ function App() {
   function Root() {
     return (
       <>
-        <div className="w-full flex flex-col">
-          <NavBar />
-          <Outlet />
-        </div>
+        <ThemeProvider theme={CustomTheme}>
+          <div className="w-full flex flex-col">
+            <NavBar />
+            <Outlet />
+          </div>
+        </ThemeProvider>
       </>
     );
   }
