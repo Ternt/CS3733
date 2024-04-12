@@ -13,11 +13,6 @@ import { Menu, Typography } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import SearchBar from "../SearchBar/searchBar.tsx";
 
-const admin = [
-  { label: "Service List", path: "/service-request-display" },
-  { label: "Node and Edge Tables", path: "/tables" },
-];
-
 const services = [
   { label: "Sanitation", path: "/sanitation" },
   { label: "Medicine Delivery", path: "/medicine-request" },
@@ -26,15 +21,6 @@ const services = [
 ];
 
 function ResponsiveAppBar() {
-  const [anchorElAdmin, setAnchorElAdmin] = React.useState<null | HTMLElement>(
-    null,
-  );
-  const openAdmin = Boolean(anchorElAdmin);
-
-  const handleCloseAdmin = () => {
-    setAnchorElAdmin(null);
-  };
-
   const [anchorElRequests, setAnchorElRequests] =
     React.useState<null | HTMLElement>(null);
   const openRequests = Boolean(anchorElRequests);
@@ -56,16 +42,6 @@ function ResponsiveAppBar() {
     console.log(path);
     navigate(path);
     setAnchorElRequests(null);
-  };
-
-  const handleOnClickAdmin = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElAdmin(event.currentTarget);
-  };
-
-  const handleClickMenuItemListAdmin = (path: string) => {
-    console.log(path);
-    navigate(path);
-    setAnchorElAdmin(null);
   };
 
   return (
@@ -160,12 +136,8 @@ function ResponsiveAppBar() {
             </Button>
 
             <Button
-              key={"Admin"}
-              id="demo-customized-button"
-              aria-controls={openAdmin ? "demo-customized-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={openAdmin ? "true" : undefined}
-              onClick={handleOnClickAdmin}
+              key={"admin"}
+              onClick={() => handleMenuItemClick("/admin")}
               sx={{
                 my: "5vh",
                 mr: "1vw",
@@ -186,31 +158,8 @@ function ResponsiveAppBar() {
                 }}
               >
                 Admin
-                <ArrowDropDownIcon />
               </Typography>
             </Button>
-            <Menu
-              id="demo-customized-menu"
-              MenuListProps={{
-                "aria-labelledby": "demo-customized-button",
-              }}
-              anchorEl={anchorElAdmin}
-              open={openAdmin}
-              onClose={handleCloseAdmin}
-              sx={{
-                padding: 0,
-              }}
-            >
-              {admin.map((page) => (
-                <MenuItem
-                  key={page.label}
-                  onClick={() => handleClickMenuItemListAdmin(page.path)}
-                  disableRipple
-                >
-                  {page.label}
-                </MenuItem>
-              ))}
-            </Menu>
 
             <Button
               key={"Request Services"}
