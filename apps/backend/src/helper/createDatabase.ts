@@ -1,5 +1,5 @@
 import {splitLines} from "../routes/map.ts";
-import {Prisma, PrismaClient} from "database";
+import {PrismaClient} from "database";
 import {cartItems} from "./cartItems.ts";
 
 export async function createDatabase(
