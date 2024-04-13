@@ -7,7 +7,7 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import {Item} from "../../GiftRequestPage/GiftRequestPage.tsx";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-export default function Info({ cart, handleDeleteItem }) {
+export default function Info({ cart, onDeleteItem }) {
     return (
         <>
             <Typography sx={{
@@ -149,7 +149,7 @@ export default function Info({ cart, handleDeleteItem }) {
                                                 transform: "scale(1.2)"
                                             },
                                         }}
-                                        onClick={() => handleDeleteItem(index)}>
+                                        onClick={() => onDeleteItem(index)}>
                                     </HighlightOffIcon>
                                 </Box>
                             </Box>
