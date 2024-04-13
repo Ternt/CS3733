@@ -20,11 +20,17 @@ export default function createServiceRequestBody(body): any | undefined {
         case "SANITATION":
             body.sanitationDetail = {
                 create: {
-                    messType: body.messType,
+                    messTypes: {
+                        create: body.messTypes.map((messType: string) => {
+                            return {
+                                messType: messType,
+                            };
+                        }),
+                    },
                     messSize: body.messSize,
                 },
             };
-            delete body.messType;
+            delete body.messTypes;
             delete body.messSize;
             break;
         case "MEDICINE":
