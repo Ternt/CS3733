@@ -1,11 +1,11 @@
 import React from "react";
-import { Box, Typography} from "@mui/material";
+import { Box, Typography, Grid} from "@mui/material";
 // import { useNavigate } from "react-router-dom";
-// //import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-// import VaccinesIcon from "@mui/icons-material/Vaccines";
-// import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
-// import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
-// import BedIcon from "@mui/icons-material/Bed";
+import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
+import VaccinesIcon from "@mui/icons-material/Vaccines";
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
+import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
+import BedIcon from "@mui/icons-material/Bed";
 import ServiceBox from '../../components/HeroPage/ServiceBox.tsx';
 
 export default function OurServices() {
@@ -34,26 +34,40 @@ export default function OurServices() {
         >
           Our Services
         </Typography>
-
-        <ServiceBox gridPath={"/service-request"}
-                    header={"Maintenance"}
-                    descriptiveText={"Request Maintenance"}/>
-         {/* <ServiceBox gridPath={"medicine-request"}*/}
-         {/*             header={"Medicine"}*/}
-         {/*             descriptiveText={"Order Medicine for a Patient"} />*/}
-         {/* <ServiceBox gridPath={"/gift-request"}*/}
-         {/*             header={"Gift Request"}*/}
-         {/*             descriptiveText={"Send a Gift to a Loved One"}/>*/}
-         {/* <ServiceBox gridPath={"/flower-request"}*/}
-         {/*             header={"Flowers"}*/}
-         {/*             descriptiveText={"Send Flowers to a Loved One"}/>*/}
-         {/*<ServiceBox gridPath={"/flower-request"}*/}
-         {/*            header={"PLACEHOLDER"}*/}
-         {/*            descriptiveText={"PLACEHOLDER"}/>*/}
-         {/* <ServiceBox gridPath={"/flower-request"}*/}
-         {/*             header={"PLACEHOLDER"}*/}
-         {/*             descriptiveText={"PLACEHOLDER"}/>*/}
-
+          <Grid
+              container
+              spacing={2}
+              sx={{
+                  padding: "5vh",
+                  position: "absolute",
+                  top: "115vh",
+              }}
+          >
+              <ServiceBox path={"/service-request"}
+                          icon={<HomeRepairServiceIcon/>}
+                          header={"Maintenance"}
+                          descriptiveText={"Request Maintenance"}/>
+              <ServiceBox path={"medicine-request"}
+                          icon={<VaccinesIcon/>}
+                          header={"Medicine"}
+                          descriptiveText={"Order Medicine for a Patient"} />
+              <ServiceBox path={"/gift-request"}
+                          icon={<CardGiftcardIcon/>}
+                          header={"Gift Request"}
+                          descriptiveText={"Send a Gift to a Loved One"}/>
+              <ServiceBox path={"/flower-request"}
+                          icon={<LocalFloristIcon/>}
+                          header={"Flowers"}
+                          descriptiveText={"Send Flowers to a Loved One"}/>
+             <ServiceBox path={"/flower-request"}
+                         icon={<BedIcon/>}
+                         header={"PLACEHOLDER"}
+                         descriptiveText={"PLACEHOLDER"}/>
+              <ServiceBox path={"/flower-request"}
+                          icon={<BedIcon/>}
+                          header={"PLACEHOLDER"}
+                          descriptiveText={"PLACEHOLDER"}/>
+          </Grid>
       </Box>
     </>
   );

@@ -1,11 +1,13 @@
 import {Box, Card, CardContent, Grid, Typography} from "@mui/material";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
+// import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import { useNavigate } from "react-router-dom";
+import React from 'react';
 
 type ServiceBoxProps = {
-    gridPath: string,
+    path: string,
     header: string,
     descriptiveText: string,
+    icon: React.ReactNode,
     };
 
 function ServiceBox(props: ServiceBoxProps) {
@@ -18,21 +20,13 @@ function ServiceBox(props: ServiceBoxProps) {
 
     return (
         <>
-        <Grid
-            container
-            spacing={2}
-            sx={{
-                padding: "5vh",
-                position: "absolute",
-                top: "115vh",
-            }}
-        >
+
             <Grid
                 item
                 xs={12}
                 sm={6}
                 md={4}
-                onClick={() => handleMenuItemClick(props.gridPath)}
+                onClick={() => handleMenuItemClick(props.path)}
             >
                 <Card
                     sx={{
@@ -65,17 +59,17 @@ function ServiceBox(props: ServiceBoxProps) {
                         }}
                     />
                     <CardContent>
-                        <HomeRepairServiceIcon style={{ fontSize: "40px" }} />
+                        {props.icon}
+                        {/*<HomeRepairServiceIcon style={{ fontSize: "40px" }} />*/}
                         <Typography variant="h5" component="h2">
-                            Maintenance
+                            {props.header}
                         </Typography>
                         <Typography variant="body1" color="textSecondary">
-                            Request Maintenance
+                            {props.descriptiveText}
                         </Typography>
                     </CardContent>
                 </Card>
             </Grid>
-        </Grid>
         </>
     );
 }
