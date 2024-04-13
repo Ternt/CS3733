@@ -56,4 +56,54 @@ router.put("/update/", async function (req: Request, res: Response) {
     res.sendStatus(200);
 });
 
+router.delete("/delete/", async function (req: Request, res: Response) {
+    const prisma = new PrismaClient();
+
+    const startNodeID = req.query.startNodeID;
+    const endNodeID = req.query.endNodeID;
+    if (startNodeID === undefined || endNodeID === undefined) {
+        console.error("start and end node ids must be specified to delete an edge");
+        res.sendStatus(400);
+        return;
+    }
+
+    // try to delete original start/end ordering
+    let error = undefined;
+    try {
+        await prisma.edgeDB.delete({
+            where: {
+                edgeID: {
+                    startNodeID: startNodeID,
+                    endNodeID: endNodeID,
+                }
+            }
+        })
+
+        res.sendStatus(200);
+        return;
+    }
+    catch (e) {
+        error = e;
+    }
+
+    // try to delete reverse start/end ordering
+    try {
+        await prisma.edgeDB.delete({
+            where: {
+                edgeID: {
+                    startNodeID: endNodeID,
+                    endNodeID: startNodeID,
+                }
+            }
+        })
+    }
+    catch {
+        console.error(error.message);
+        res.sendStatus(400);
+        return;
+    }
+
+    res.sendStatus(200);
+});
+
 export default router;
