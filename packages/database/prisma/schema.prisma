@@ -12,22 +12,30 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
-// example table used in the express router example
-model HighScore {
-  id    Int      @id @default(autoincrement())
-  time  DateTime
-  score Int
+enum NodeType {
+  CONF
+  DEPT
+  HALL
+  LABS
+  REST
+  SERV
+  ELEV
+  EXIT
+  STAI
+  RETL
+  INFO
+  BATH
 }
 
 model NodeDB {
-  nodeID    String @unique
+  nodeID    String   @unique
   xcoord    Int
   ycoord    Int
   floor     String
   building  String
   longName  String
   shortName String
-  nodeType  String
+  nodeType  NodeType
 
   startEdges EdgeDB[]         @relation(name: "start")
   endEdges   EdgeDB[]         @relation(name: "end")
@@ -43,6 +51,8 @@ model EdgeDB {
   endNode   NodeDB @relation(name: "end", fields: [endNodeID], references: [nodeID], onDelete: Cascade)
 
   @@unique([startNodeID, endNodeID])
+  @@unique([endNodeID, startNodeID])
+  @@id(name: "edgeID", [startNodeID, endNodeID])
 }
 
 enum CartItemType {
@@ -86,7 +96,7 @@ enum ServiceRequestStatus {
 model ServiceRequest {
   requestID  Int                    @id @default(autoincrement())
   type       ServiceRequestType
-  notes      String
+  notes      String?
   location   NodeDB                 @relation(fields: [locationID], references: [nodeID], onDelete: Cascade)
   locationID String
   priority   ServiceRequestPriority
@@ -96,7 +106,6 @@ model ServiceRequest {
   medicineDetail    MedicineRequest?
   giftDetail        GiftRequest?
   maintenanceDetail MaintenanceRequest?
-  flowerDetail      FlowerRequest?
 }
 
 enum MaintenanceType {
@@ -177,20 +186,12 @@ model GiftRequest {
 
   senderName    String
   recipientName String
-  cardNumber    Int
   shippingType  ShippingType
 
+  cardNumber         Int
+  cardCVV            Int
+  cardHolderName     String
+  cardExpirationDate String
+
   items CartItemsInGiftRequests[]
-}
-
-enum FlowerType {
-  ROSE
-  DANDELION
-}
-
-model FlowerRequest {
-  request       ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
-  requestID     Int            @unique
-  flowerType    FlowerType
-  numberFlowers Int
 }

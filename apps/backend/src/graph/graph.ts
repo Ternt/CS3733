@@ -35,6 +35,8 @@ export enum NodeType {
   EXIT = "EXIT",
   STAI = "STAI",
   RETL = "RETL",
+  INFO = "INFO",
+  BATH = "BATH",
 }
 
 export class GraphNode {
