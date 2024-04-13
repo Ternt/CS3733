@@ -38,7 +38,7 @@ export const cartItems = [
     },
     {
         type: "FLOWER",
-        imageURL: "shutterstock_534123559.jpg",
+        imageURL: "https://www.floraqueen.com/blog/wp-content/uploads/2020/02/shutterstock_534123559.jpg",
         name: "Daisy",
         description: "Daisy",
         price: 30

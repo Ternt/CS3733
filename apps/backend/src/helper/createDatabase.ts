@@ -64,5 +64,8 @@ export async function createDatabase(
 
 async function createCartItems() {
     const prisma = new PrismaClient();
-    await prisma.cartItem.createMany({data: cartItems});
+    await prisma.$transaction([
+        prisma.cartItem.deleteMany(),
+        prisma.cartItem.createMany({data: cartItems})
+    ]);
 }
