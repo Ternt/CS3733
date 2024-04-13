@@ -34,7 +34,7 @@ function MedicineRequestForm() {
   useEffect(() => {
     document.title = "Medicine Request";
   });
-  const [formData, setFormData] = useState<form[]>([]);
+  // const [formData, setFormData] = useState<form[]>([]);
   const [formInput, setFormInput] = useState<form>({
     medicine: "",
     dosage: "",
@@ -68,10 +68,55 @@ function MedicineRequestForm() {
   }
 
   function submitForm() {
-    setFormData((prevRequests) => [...prevRequests, formInput]);
-    // sanitationRequests.addRequestToList(formInput);
+    let requestID = -1;
+    if (isComplete()) {
+      // Log the current state of service and details
+      console.log("Submitting Request");
+
+      // Configure requestID to a specific, unique value
+      requestID = Date.now();
+      requestID = parseInt(
+          requestID.toString().substring(8) +
+          parseInt(Math.random() * 1000 + "").toString(),
+      );
+
+      // Create a service request object
+      const medicineRequest = {
+        requestID: requestID,
+        type: "MEDICINE",
+        priority: formInput.priority,
+        status: formInput.status,
+        notes: "None",
+        locationID: formInput.location,
+        patientName: formInput.patientName,
+        primaryPhysicianName: formInput.physicianName,
+        medicine: formInput.medicine,
+        dosage: formInput.dosage,
+        form: formInput.form,
+      };
+      console.log(JSON.stringify(medicineRequest));
+
+      // Send a POST request to the server
+      fetch("/api/service-requests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(medicineRequest),
+      })
+          .then((response) => {
+            console.log(response);
+          })
+
+          .then((data) => console.log(data))
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+    } else {
+      // If service is "Null option", do not log anything
+      console.log("No service request submitted.");
+    }
     clearForm();
-    console.log(formData); // Print the array of requests to the console
   }
 
   function clearForm() {
@@ -187,10 +232,10 @@ function MedicineRequestForm() {
                 });
               }}
             >
-              <MenuItem value={"Low"}>Low</MenuItem>
-              <MenuItem value={"Medium"}>Medium</MenuItem>
-              <MenuItem value={"High"}>High</MenuItem>
-              <MenuItem value={"Emergency"}>Emergency</MenuItem>
+              <MenuItem value={"LOW"}>Low</MenuItem>
+              <MenuItem value={"MEDIUM"}>Medium</MenuItem>
+              <MenuItem value={"HIGH"}>High</MenuItem>
+              <MenuItem value={"EMERGENCY"}>Emergency</MenuItem>
             </TextField>
 
             <LocationDropdown
@@ -227,9 +272,9 @@ function MedicineRequestForm() {
                   });
                 }}
               >
-                <MenuItem value={"PainKillers"}>PainKillers</MenuItem>
-                <MenuItem value={"Tylenol"}>Tylenol</MenuItem>
-                <MenuItem value={"Paracetamol"}>Paracetamol</MenuItem>
+                <MenuItem value={"PAIN_KILLERS"}>Pain Killers</MenuItem>
+                <MenuItem value={"TYLENOL"}>Tylenol</MenuItem>
+                <MenuItem value={"PARACETAMOL"}>Paracetamol</MenuItem>
               </TextField>
 
               <TextField
@@ -275,12 +320,12 @@ function MedicineRequestForm() {
                   }}
                 >
                   <FormControlLabel
-                    value="Powder"
+                    value="POWDER"
                     control={<Radio />}
                     label="Powder"
                   />
                   <FormControlLabel
-                    value="Tab or Cap"
+                    value="TAB_OR_CAP"
                     control={<Radio />}
                     label="Tab/Cap"
                   />
@@ -293,12 +338,12 @@ function MedicineRequestForm() {
                   }}
                 >
                   <FormControlLabel
-                    value="Chewable"
+                    value="CHEWABLE"
                     control={<Radio />}
                     label="Chewable"
                   />
                   <FormControlLabel
-                    value="Liquid"
+                    value="LIQUID"
                     control={<Radio />}
                     label="Liquid"
                   />
@@ -311,7 +356,7 @@ function MedicineRequestForm() {
                   }}
                 >
                   <FormControlLabel
-                    value="Inhaler"
+                    value="INHALER"
                     control={<Radio />}
                     label="Inhaler"
                   />
@@ -333,10 +378,10 @@ function MedicineRequestForm() {
                 });
               }}
             >
-              <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-              <MenuItem value={"Assigned"}>Assigned</MenuItem>
-              <MenuItem value={"In Progress"}>In Progress</MenuItem>
-              <MenuItem value={"Closed"}>Closed</MenuItem>
+              <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
+              <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>
+              <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
+              <MenuItem value={"CLOSED"}>Closed</MenuItem>
             </TextField>
 
             <Box
@@ -397,20 +442,20 @@ function MedicineRequestForm() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {formData.map((request, index) => (
-                <TableRow key={index}>
-                  <TableCell component="th" scope="row">
-                    {request.patientName}
-                  </TableCell>
-                  <TableCell>{request.physicianName}</TableCell>
-                  <TableCell>{request.priority}</TableCell>
-                  <TableCell>{request.location}</TableCell>
-                  <TableCell>{request.medicine}</TableCell>
-                  <TableCell>{request.dosage}</TableCell>
-                  <TableCell>{request.form}</TableCell>
-                  <TableCell>{request.status}</TableCell>
-                </TableRow>
-              ))}
+              {/*{formData.map((request, index) => (*/}
+              {/*  <TableRow key={index}>*/}
+              {/*    <TableCell component="th" scope="row">*/}
+              {/*      {request.patientName}*/}
+              {/*    </TableCell>*/}
+              {/*    <TableCell>{request.physicianName}</TableCell>*/}
+              {/*    <TableCell>{request.priority}</TableCell>*/}
+              {/*    <TableCell>{request.location}</TableCell>*/}
+              {/*    <TableCell>{request.medicine}</TableCell>*/}
+              {/*    <TableCell>{request.dosage}</TableCell>*/}
+              {/*    <TableCell>{request.form}</TableCell>*/}
+              {/*    <TableCell>{request.status}</TableCell>*/}
+              {/*  </TableRow>*/}
+              {/*))}*/}
             </TableBody>
           </Table>
         </TableContainer>
