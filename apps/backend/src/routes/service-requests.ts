@@ -44,7 +44,6 @@ router.get("/", async function (req: Request, res: Response) {
                     },
                 },
                 maintenanceDetail: true,
-                flowerDetail: true,
             },
             where: {
                 ...(req.query.type !== undefined
