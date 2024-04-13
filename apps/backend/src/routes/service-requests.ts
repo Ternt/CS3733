@@ -36,7 +36,11 @@ router.get("/", async function (req: Request, res: Response) {
                 notes: true,
                 location: true,
 
-                sanitationDetail: true,
+                sanitationDetail: {
+                    include: {
+                        messTypes: true,
+                    },
+                },
                 medicineDetail: true,
                 giftDetail: {
                     include: {
