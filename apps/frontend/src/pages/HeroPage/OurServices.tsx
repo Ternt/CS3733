@@ -1,336 +1,59 @@
 import React from "react";
-import { Box, Typography, Grid, Card, CardContent } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import VaccinesIcon from "@mui/icons-material/Vaccines";
-import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
-import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
-import BedIcon from "@mui/icons-material/Bed";
+import { Box, Typography} from "@mui/material";
+// import { useNavigate } from "react-router-dom";
+// //import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
+// import VaccinesIcon from "@mui/icons-material/Vaccines";
+// import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
+// import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
+// import BedIcon from "@mui/icons-material/Bed";
+import ServiceBox from '../../components/HeroPage/ServiceBox.tsx';
 
 export default function OurServices() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleMenuItemClick = (path: string) => {
-    navigate(path);
+  // const handleMenuItemClick = (path: string) => {
+  //   navigate(path);
+  // };
+
+  const ServicesHeaderSxTemplate ={
+      fontFamily: "Open Sans",
+      fontSize: "50px",
+      width: "45vw",
+      textAlign: "center",
+      fontWeight: 1000,
+      color: "black",
+      display: "flex",
+      padding: "5vh",
   };
 
   return (
     <>
       <Box sx={{ height: "100vh", width: "100vw", display: "grid" }}>
         <Typography
-          sx={{
-            fontFamily: "Open Sans",
-            fontSize: "50px",
-            width: "45vw",
-            textAlign: "center",
-            fontWeight: 1000,
-            color: "black",
-            display: "flex",
-            padding: "5vh",
-          }}
+          sx={ ServicesHeaderSxTemplate }
         >
           Our Services
         </Typography>
 
-        <Grid
-          container
-          spacing={2}
-          sx={{
-            padding: "5vh",
-            position: "absolute",
-            top: "115vh",
-          }}
-        >
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            onClick={() => handleMenuItemClick("/service-request")}
-          >
-            <Card
-              sx={{
-                border: "2px solid #ccc",
-                borderRadius: "8px",
-                transition: "all 0.2s ease-in-out",
+        <ServiceBox gridPath={"/maintenance"}
+                    header={"Maintenance"}
+                    descriptiveText={"Request Maintenance"}/>
+         {/* <ServiceBox gridPath={"medicine-request"}*/}
+         {/*             header={"Medicine"}*/}
+         {/*             descriptiveText={"Order Medicine for a Patient"} />*/}
+         {/* <ServiceBox gridPath={"/gift-request"}*/}
+         {/*             header={"Gift Request"}*/}
+         {/*             descriptiveText={"Send a Gift to a Loved One"}/>*/}
+         {/* <ServiceBox gridPath={"/flower-request"}*/}
+         {/*             header={"Flowers"}*/}
+         {/*             descriptiveText={"Send Flowers to a Loved One"}/>*/}
+         {/*<ServiceBox gridPath={"/flower-request"}*/}
+         {/*            header={"PLACEHOLDER"}*/}
+         {/*            descriptiveText={"PLACEHOLDER"}/>*/}
+         {/* <ServiceBox gridPath={"/flower-request"}*/}
+         {/*             header={"PLACEHOLDER"}*/}
+         {/*             descriptiveText={"PLACEHOLDER"}/>*/}
 
-                "&:hover": {
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                  border: "1px solid #999",
-                  "& > .btmstripe": {
-                    backgroundColor: "#f6bd38",
-                  },
-                },
-                cursor: "pointer",
-                height: "30vh",
-                position: "relative",
-              }}
-            >
-              <Box
-                className={"btmstripe"}
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "10%",
-                  backgroundColor: "#012d5a",
-                  transition: "background-color 0.2s ease-in-out",
-                }}
-              />
-              <CardContent>
-                <HomeRepairServiceIcon style={{ fontSize: "40px" }} />
-                <Typography variant="h5" component="h2">
-                  Maintenance
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  Request Maintenance
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            onClick={() => navigate("/medicine-request")}
-          >
-            <Card
-              sx={{
-                border: "2px solid #ccc",
-                borderRadius: "8px",
-                transition: "all 0.2s ease-in-out",
-
-                "&:hover": {
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                  border: "1px solid #999",
-                  "& > .btmstripe": {
-                    backgroundColor: "#f6bd38",
-                  },
-                },
-                cursor: "pointer",
-                height: "30vh",
-                position: "relative",
-              }}
-            >
-              <Box
-                className={"btmstripe"}
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "10%",
-                  backgroundColor: "#012d5a",
-                  transition: "background-color 0.2s ease-in-out",
-                }}
-              />
-              <CardContent>
-                <VaccinesIcon style={{ fontSize: "40px" }} />
-                <Typography variant="h5" component="h2">
-                  Medicine
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  Order Medicine for a Patient
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            onClick={() => navigate("/gift-request")}
-          >
-            <Card
-              sx={{
-                border: "2px solid #ccc",
-                borderRadius: "8px",
-                transition: "all 0.2s ease-in-out",
-
-                "&:hover": {
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                  border: "1px solid #999",
-                  "& > .btmstripe": {
-                    backgroundColor: "#f6bd38",
-                  },
-                },
-                cursor: "pointer",
-                height: "30vh",
-                position: "relative",
-              }}
-            >
-              <Box
-                className={"btmstripe"}
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "10%",
-                  backgroundColor: "#012d5a",
-                  transition: "background-color 0.2s ease-in-out",
-                }}
-              />
-              <CardContent>
-                <CardGiftcardIcon style={{ fontSize: "40px" }} />
-                <Typography variant="h5" component="h2">
-                  Gifts
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  Send a Gift to a Loved One
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            onClick={() => navigate("/flower-request")}
-          >
-            <Card
-              sx={{
-                border: "2px solid #ccc",
-                borderRadius: "8px",
-                transition: "all 0.2s ease-in-out",
-
-                "&:hover": {
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                  border: "1px solid #999",
-                  "& > .btmstripe": {
-                    backgroundColor: "#f6bd38",
-                  },
-                },
-                cursor: "pointer",
-                height: "30vh",
-                position: "relative",
-              }}
-            >
-              <Box
-                className={"btmstripe"}
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "10%",
-                  backgroundColor: "#012d5a",
-                  transition: "background-color 0.2s ease-in-out",
-                }}
-              />
-              <CardContent>
-                <LocalFloristIcon style={{ fontSize: "40px" }} />
-                <Typography variant="h5" component="h2">
-                  Flowers
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  Send Flowers to a Loved One
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            onClick={() => navigate("/flower-request")}
-          >
-            <Card
-              sx={{
-                border: "2px solid #ccc",
-                borderRadius: "8px",
-                transition: "all 0.2s ease-in-out",
-
-                "&:hover": {
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                  border: "1px solid #999",
-                  "& > .btmstripe": {
-                    backgroundColor: "#f6bd38",
-                  },
-                },
-                cursor: "pointer",
-                height: "30vh",
-                position: "relative",
-              }}
-            >
-              <Box
-                className={"btmstripe"}
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "10%",
-                  backgroundColor: "#012d5a",
-                  transition: "background-color 0.2s ease-in-out",
-                }}
-              />
-              <CardContent>
-                <BedIcon style={{ fontSize: "40px" }} />
-                <Typography variant="h5" component="h2">
-                  PLACEHOLDER
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  PLACEHOLDER
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            onClick={() => navigate("/flower-request")}
-          >
-            <Card
-              sx={{
-                border: "2px solid #ccc",
-                borderRadius: "8px",
-                transition: "all 0.2s ease-in-out",
-
-                "&:hover": {
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                  border: "1px solid #999",
-                  "& > .btmstripe": {
-                    backgroundColor: "#f6bd38",
-                  },
-                },
-                cursor: "pointer",
-                height: "30vh",
-                position: "relative",
-              }}
-            >
-              <Box
-                className={"btmstripe"}
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "10%",
-                  backgroundColor: "#012d5a",
-                  transition: "background-color 0.2s ease-in-out",
-                }}
-              />
-
-              <CardContent>
-                <BedIcon style={{ fontSize: "40px" }} />
-                <Typography variant="h5" component="h2">
-                  PLACEHOLDER
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  PLACEHOLDER
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
       </Box>
     </>
   );
