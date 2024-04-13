@@ -11,7 +11,7 @@ import cartItemRouter from "./routes/cart-items.ts";
 import fileUpload from "express-fileupload";
 import * as fs from "fs";
 import path from "path";
-import { createDatabase } from "./helper/exportToDB.ts";
+import { createDatabase } from "./helper/createDatabase.ts";
 
 const app: Express = express(); // Setup the backend
 

@@ -1,6 +1,6 @@
 import express, { Router, Request, Response } from "express";
 import { PrismaClient } from "database";
-import { createDatabase } from "../helper/exportToDB.ts";
+import { createDatabase } from "../helper/createDatabase.ts";
 
 export function splitLines(t: string): string[] {
   return t.split(/\r\n|\r|\n/);
