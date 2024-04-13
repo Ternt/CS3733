@@ -82,7 +82,7 @@ export default function LocationDropdown(props: dropdownProps) {
       fullWidth
       id="location"
       value={getNodes().find((n) => n.nodeID === props.value) || null}
-      options={getNodes().filter((n) => !n.longName.includes("Hall"))}
+      options={getNodes().filter((n) => n.nodeType != "HALL")}
       getOptionLabel={(option) => option.longName}
       renderInput={(params) => <TextField {...params} label={props.label} />}
       onChange={(e, newValue) => {
