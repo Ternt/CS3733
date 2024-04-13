@@ -91,7 +91,7 @@ function MedicineRequestForm() {
         patientName: formInput.patientName,
         primaryPhysicianName: formInput.physicianName,
         medicine: formInput.medicine,
-        dosage: formInput.dosage,
+        dosage: parseInt(formInput.dosage),
         form: formInput.form,
       };
       console.log(JSON.stringify(medicineRequest));
