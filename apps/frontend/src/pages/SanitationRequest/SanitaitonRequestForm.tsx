@@ -1,6 +1,4 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { SanitationFormFields } from "./sanitationFields.ts";
-import RequestList from "../../helpers/requestList.ts";
 import {
   TextField,
   FormControl,
@@ -23,23 +21,27 @@ import {
 import Checkboxes from "../../components/FormElements/Checkboxes.tsx";
 import LocationDropdown from "../../components/LocationDropdown.tsx";
 
-const sanitationRequests = new RequestList();
+type form = {
+  name: string;
+  location: string;
+  priority: string;
+  type: [];
+  size: string;
+  status: string;
+};
 
 function SanitationRequestForm() {
   useEffect(() => {
     document.title = "Sanitation Request";
   });
-  const [submittedRequests, setSubmittedRequests] = useState<
-    SanitationFormFields[]
-  >([]);
 
-  const [formInput, setFormInput] = useState<SanitationFormFields>({
+  const [formInput, setFormInput] = useState<form>({
     name: "",
     priority: "",
     location: "",
     type: [],
     size: "",
-    assignmentStatus: "",
+    status: "",
   });
 
   function handleNameInput(e: ChangeEvent<HTMLInputElement>) {
@@ -70,15 +72,56 @@ function SanitationRequestForm() {
       formInput.location != "" &&
       formInput.type.length !== 0 &&
       formInput.size != "" &&
-      formInput.assignmentStatus != ""
+      formInput.status != ""
     );
   }
 
   function submitForm() {
-    setSubmittedRequests((prevRequests) => [...prevRequests, formInput]);
-    sanitationRequests.addRequestToList(formInput);
+    let requestID = -1;
+    if (isComplete()) {
+      // Log the current state of service and details
+      console.log("Submitting Request");
+
+      // Configure requestID to a specific, unique value
+      requestID = Date.now();
+      requestID = parseInt(
+          requestID.toString().substring(8) +
+          parseInt(Math.random() * 1000 + "").toString(),
+      );
+
+      // Create a service request object
+      const medicineRequest = {
+        requestID: requestID,
+        type: "SANITATION",
+        name: formInput.name,
+        priority: formInput.priority,
+        status: formInput.status,
+        notes: "None",
+        locationID: formInput.location,
+      };
+      console.log(JSON.stringify(medicineRequest));
+
+      // Send a POST request to the server
+      fetch("/api/service-requests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(medicineRequest),
+      })
+          .then((response) => {
+            console.log(response);
+          })
+
+          .then((data) => console.log(data))
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+    } else {
+      // If service is "Null option", do not log anything
+      console.log("No service request submitted.");
+    }
     clearForm();
-    console.log(sanitationRequests.requests); // Print the array of requests to the console
   }
 
   function clearForm() {
@@ -89,7 +132,7 @@ function SanitationRequestForm() {
       location: "",
       type: [],
       size: "",
-      assignmentStatus: "",
+      status: "",
     });
     const form = document.getElementById("sanitationForm");
     if (form == null) {
@@ -222,17 +265,17 @@ function SanitationRequestForm() {
               onChange={updateSizeInput}
             >
               <FormControlLabel
-                value="small"
+                value="SMALL"
                 control={<Radio />}
                 label="Small"
               />
               <FormControlLabel
-                value="medium"
+                value="MEDIUM"
                 control={<Radio />}
                 label="Medium"
               />
               <FormControlLabel
-                value="large"
+                value="LARGE"
                 control={<Radio />}
                 label="Large"
               />
@@ -241,14 +284,14 @@ function SanitationRequestForm() {
             <TextField
               required
               select
-              value={formInput.assignmentStatus}
+              value={formInput.status}
               label={"Status"}
               margin="normal"
               inputProps={{ MenuProps: { disableScrollLock: true } }}
               onChange={(event) => {
                 setFormInput({
                   ...formInput,
-                  assignmentStatus: event.target.value,
+                  status: event.target.value,
                 });
               }}
             >
@@ -314,18 +357,18 @@ function SanitationRequestForm() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {submittedRequests.map((request, index) => (
-                <TableRow key={index}>
-                  <TableCell component="th" scope="row">
-                    {request.name}
-                  </TableCell>
-                  <TableCell>{request.priority}</TableCell>
-                  <TableCell>{request.location}</TableCell>
-                  <TableCell>{request.type.join(", ")}</TableCell>
-                  <TableCell>{request.size}</TableCell>
-                  <TableCell>{request.assignmentStatus}</TableCell>
-                </TableRow>
-              ))}
+              {/*{submittedRequests.map((request, index) => (*/}
+              {/*  <TableRow key={index}>*/}
+              {/*    <TableCell component="th" scope="row">*/}
+              {/*      {request.name}*/}
+              {/*    </TableCell>*/}
+              {/*    <TableCell>{request.priority}</TableCell>*/}
+              {/*    <TableCell>{request.location}</TableCell>*/}
+              {/*    <TableCell>{request.type.join(", ")}</TableCell>*/}
+              {/*    <TableCell>{request.size}</TableCell>*/}
+              {/*    <TableCell>{request.assignmentStatus}</TableCell>*/}
+              {/*  </TableRow>*/}
+              {/*))}*/}
             </TableBody>
           </Table>
         </TableContainer>
