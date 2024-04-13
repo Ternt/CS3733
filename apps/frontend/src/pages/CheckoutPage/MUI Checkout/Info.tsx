@@ -15,9 +15,9 @@ export default function Info({ cart, handleDeleteItem }) {
                 marginLeft: "-3.5vw",
                 marginTop: '3vh',
                 marginBottom: "3%",
+                marginRight: "0.5 rem",
             }}>
-                Cart
-                <ShoppingCartIcon/>
+                Cart <ShoppingCartIcon/>
             </Typography>
 
             <Box
