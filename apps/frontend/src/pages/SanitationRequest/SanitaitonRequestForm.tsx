@@ -15,11 +15,11 @@ import {
 import Checkboxes from "../../components/FormElements/Checkboxes.tsx";
 import LocationDropdown from "../../components/LocationDropdown.tsx";
 
-type form = {
+type formFields = {
   name: string;
   location: string;
   priority: string;
-  type: [];
+  type: string[];
   size: string;
   status: string;
 };
@@ -29,7 +29,7 @@ function SanitationRequestForm() {
     document.title = "Sanitation Request";
   });
 
-  const [formInput, setFormInput] = useState<form>({
+  const [formInput, setFormInput] = useState<formFields>({
     name: "",
     priority: "",
     location: "",
@@ -84,7 +84,7 @@ function SanitationRequestForm() {
       );
 
       // Create a service request object
-      const medicineRequest = {
+      const sanitationRequest = {
         requestID: requestID,
         type: "SANITATION",
         name: formInput.name,
@@ -92,8 +92,10 @@ function SanitationRequestForm() {
         status: formInput.status,
         notes: "None",
         locationID: formInput.location,
+        messType: formInput.type,
+        messSize: formInput.size,
       };
-      console.log(JSON.stringify(medicineRequest));
+      console.log(JSON.stringify(sanitationRequest));
 
       // Send a POST request to the server
       fetch("/api/service-requests", {
@@ -101,7 +103,7 @@ function SanitationRequestForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(medicineRequest),
+        body: JSON.stringify(sanitationRequest),
       })
           .then((response) => {
             console.log(response);
