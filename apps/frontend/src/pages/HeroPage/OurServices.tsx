@@ -35,7 +35,7 @@ export default function OurServices() {
           Our Services
         </Typography>
 
-        <ServiceBox gridPath={"/maintenance"}
+        <ServiceBox gridPath={"/service-request"}
                     header={"Maintenance"}
                     descriptiveText={"Request Maintenance"}/>
          {/* <ServiceBox gridPath={"medicine-request"}*/}
