@@ -51,6 +51,8 @@ model EdgeDB {
   endNode   NodeDB @relation(name: "end", fields: [endNodeID], references: [nodeID], onDelete: Cascade)
 
   @@unique([startNodeID, endNodeID])
+  @@unique([endNodeID, startNodeID])
+  @@id(name: "edgeID", [startNodeID, endNodeID])
 }
 
 enum CartItemType {
