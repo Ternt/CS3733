@@ -6,13 +6,14 @@ import TableViewIcon from "@mui/icons-material/TableView";
 import MapCanvas from "../../components/Map/MapCanvas.tsx";
 import { useState } from "react";
 import DisplayCSV from "../TableDisplayPage/displayCSV.tsx";
+import ServiceRequestOverview from "./ServiceRequestOverview.tsx";
 
 export default function AdminDashboard() {
   const [selectedTab, setSelectedTab] = useState(0);
   let tabInject = <></>;
 
   if (selectedTab === 0) {
-    console.log("a");
+    tabInject = (<ServiceRequestOverview/>);
   } else if (selectedTab === 1) {
     tabInject = (
       <MapCanvas
