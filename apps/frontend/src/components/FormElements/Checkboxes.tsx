@@ -18,9 +18,9 @@ function Checkboxes(props: checkboxProps) {
   const checkbox = (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "top",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "top",
       }}
     >
       {props.items.map((item: string) => (
@@ -33,9 +33,11 @@ function Checkboxes(props: checkboxProps) {
               onChange={(e) => {
                 props.onChange(e);
               }}
+              sx={{paddingLeft: 0, paddingRight: 1, paddingY: 1}}
             />
           }
           label={item}
+          sx={{margin: 0}}
         />
       ))}
     </Box>

@@ -84,6 +84,8 @@ const items: ItemCardData[] = [
 export const StoreContext = React.createContext(null);
 
 function GiftRequestPage() {
+
+
     useEffect(() => {
         document.title = "Gift Request";
     });
@@ -92,6 +94,12 @@ function GiftRequestPage() {
     const initialCart: Item[] = location.state?.cart || [];
 
     const [cart, setCart] = useState(initialCart);
+
+    const handleDeleteItem = (indexToRemove: number) => {
+        console.log(indexToRemove);
+        const newCart = cart.filter((item, index) => index !== indexToRemove);
+        setCart(newCart); // This will update the state and trigger a re-render
+    };
 
     function addItem(item: Item) {
         setCart([...cart, item]);
@@ -140,7 +148,7 @@ function GiftRequestPage() {
                     <Box sx={{
                         marginLeft: '20%'
                     }}>
-                        <Info cart={cart} handleDeleteItem={""}/>
+                        <Info cart={cart} onDeleteItem={handleDeleteItem}/>
                         <Box
                             sx={{
                                 display: "flex",

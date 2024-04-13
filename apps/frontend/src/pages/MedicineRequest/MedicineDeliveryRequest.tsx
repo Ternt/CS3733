@@ -1,33 +1,28 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 import LocationDropdown from "../../components/LocationDropdown.tsx";
+import Calendar from "../../components/Calendar/Calendar.tsx";
 import {
-  TextField,
-  FormControl,
-  MenuItem,
-  Button,
-  Box,
-  Typography,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  FormLabel,
+    TextField,
+    FormControl,
+    MenuItem,
+    Button,
+    Box,
+    Typography,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+    FormLabel,
 } from "@mui/material";
 
 type form = {
-  medicine: string;
-  dosage: string;
-  form: string;
-  patientName: string;
-  physicianName: string;
-  location: string;
-  priority: string;
-  status: string;
+    medicine: string;
+    dosage: string;
+    form: string;
+    patientName: string;
+    physicianName: string;
+    location: string;
+    priority: string;
+    status: string;
 };
 
 function MedicineRequestForm() {
@@ -46,27 +41,27 @@ function MedicineRequestForm() {
     status: "",
   });
 
-  function isComplete(): boolean {
-    return (
-      formInput.medicine != "" &&
-      formInput.dosage != "" &&
-      formInput.form != "" &&
-      formInput.patientName != "" &&
-      formInput.physicianName != "" &&
-      formInput.location != "" &&
-      formInput.priority != "" &&
-      formInput.status != ""
-    );
-  }
+    function isComplete(): boolean {
+        return (
+            formInput.medicine != "" &&
+            formInput.dosage != "" &&
+            formInput.form != "" &&
+            formInput.patientName != "" &&
+            formInput.physicianName != "" &&
+            formInput.location != "" &&
+            formInput.priority != "" &&
+            formInput.status != ""
+        );
+    }
 
-  function handlePhysicianNameInput(e: ChangeEvent<HTMLInputElement>) {
-    setFormInput({ ...formInput, physicianName: e.target.value });
-  }
+    function handlePhysicianNameInput(e: ChangeEvent<HTMLInputElement>) {
+        setFormInput({...formInput, physicianName: e.target.value});
+    }
 
-  function handlePatientNameInput(e: ChangeEvent<HTMLInputElement>) {
-    setFormInput({ ...formInput, patientName: e.target.value });
-  }
-
+    function handlePatientNameInput(e: ChangeEvent<HTMLInputElement>) {
+        setFormInput({...formInput, patientName: e.target.value});
+    }
+    
   function submitForm() {
     let requestID = -1;
     if (isComplete()) {
@@ -119,103 +114,104 @@ function MedicineRequestForm() {
     clearForm();
   }
 
-  function clearForm() {
-    setFormInput({
-      ...formInput,
-      medicine: "",
-      dosage: "",
-      form: "",
-      patientName: "",
-      physicianName: "",
-      location: "",
-      priority: "",
-      status: "",
-    });
-  }
+    function clearForm() {
+        setFormInput({
+            ...formInput,
+            medicine: "",
+            dosage: "",
+            form: "",
+            patientName: "",
+            physicianName: "",
+            location: "",
+            priority: "",
+            status: "",
+        });
+    }
 
-  return (
-    <Box
-      position="relative"
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        height: "150vh",
-        backgroundSize: "cover",
-      }}
-    >
-      <Box
-        position="absolute"
-        top={70}
-        sx={{
-          width: "500px",
-          display: "flex",
-          justifyContent: "center",
-          backgroundColor: "#012d5a",
-          color: "#f6bd38",
-          p: 2,
-          borderRadius: "23px 23px 0 0",
-        }}
-      >
-        <Typography
-          style={{ fontFamily: "Open Sans", fontWeight: 600 }}
-          variant="h4"
-          component="h1"
-          align="center"
-        >
-          MEDICINE REQUEST
-        </Typography>
-      </Box>
-
-      <Box
-        position="absolute"
-        top={150}
-        sx={{
-          width: "500px",
-          backgroundColor: "whitesmoke",
-          borderRadius: "0 0 23px 23px",
-        }}
-      >
-        <form
-          id="medicineForm"
-          style={{
-            backgroundColor: "whitesmoke",
-            display: "flex",
-            justifyContent: "center",
-            borderRadius: "0 0 23px 23px",
-          }}
-        >
-          <FormControl
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "top",
-            }}
-          >
+    return (
+        <Box sx={{
+            width: '100vw',
+            display: 'flex'
+        }}>
             <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-              }}
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'start',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    m: '3%',
+                    mt: '6%',
+                    width: '70%'
+                }}
             >
-              <Typography>Made by Thinh & Nick</Typography>
-            </Box>
+                <Box
+                    sx={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        backgroundColor: '#012d5a',
+                        color: '#f6bd38',
+                        p: 2,
+                        borderRadius: '23px 23px 0 0',
+                    }}
+                >
+                    <Typography
+                        style={{fontFamily: 'Open Sans', fontWeight: 600}}
+                        variant="h4"
+                        component="h1"
+                        align="center"
+                    >
+                        MEDICINE REQUEST
+                    </Typography>
+                </Box>
 
-            <TextField
-              required
-              label="Patient Name"
-              onChange={handlePatientNameInput}
-              margin="normal"
-              value={formInput.patientName}
-              fullWidth
-            />
+                <Box
+                    sx={{
+                        width: '100%',
+                        backgroundColor: 'whitesmoke',
+                        borderRadius: '0 0 23px 23px',
+                        boxShadow: 3,
+                    }}
+                >
+                    <form
+                        id="medicineForm"
+                        style={{
+                            backgroundColor: 'whitesmoke',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            borderRadius: '0 0 23px 23px',
+                            flexDirection: 'column',
+                            margin: '2%',
+                        }}
+                    >
+                        <FormControl
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "top",
+                                padding: 2,
+                                gap: 1,
+                            }}
+                        >
+                            <TextField
+                                required
+                                label="Patient Name"
+                                onChange={handlePatientNameInput}
+                                margin="normal"
+                                value={formInput.patientName}
+                                fullWidth
+                                sx={{marginY: 0}}
+                            />
 
-            <TextField
-              required
-              label={"Name of Primary Physician"}
-              onChange={handlePhysicianNameInput}
-              margin="normal"
-              value={formInput.physicianName}
-            />
+                            <TextField
+                                required
+                                label={"Name of Primary Physician"}
+                                onChange={handlePhysicianNameInput}
+                                margin="normal"
+                                value={formInput.physicianName}
+                                sx={{marginY: 0}}
+                            />
 
             <TextField
               required
@@ -238,228 +234,200 @@ function MedicineRequestForm() {
               <MenuItem value={"EMERGENCY"}>Emergency</MenuItem>
             </TextField>
 
-            <LocationDropdown
-              onChange={(v: string) => {
-                setFormInput({ ...formInput, location: v });
-              }}
-              value={formInput.location}
-              filterTypes={["HALL"]}
-              label={"Location"}
-            />
+                            <Box sx={{marginY: 0}}><LocationDropdown
+                                onChange={(v: string) => {
+                                    setFormInput({...formInput, location: v});
+                                }}
+                                value={formInput.location}
+                                filterTypes={["HALL"]}
+                                label={"Location"}
+                            /></Box>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    marginY: 0,
+                                }}
+                            >
+                                <TextField
+                                    required
+                                    select
+                                    id="medicine-select"
+                                    label={"Medicine"}
+                                    inputProps={{MenuProps: {disableScrollLock: true}}}
+                                    value={formInput.medicine}
+                                    onChange={(event) => {
+                                        setFormInput({
+                                            ...formInput,
+                                            medicine: event.target.value,
+                                        });
+                                    }}
+                                    sx={{width: "60%", pr: "5%"}}
+                                >
+                                    <MenuItem value={"PainKillers"}>PainKillers</MenuItem>
+                                    <MenuItem value={"Tylenol"}>Tylenol</MenuItem>
+                                    <MenuItem value={"Paracetamol"}>Paracetamol</MenuItem>
+                                </TextField>
 
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <TextField
-                required
-                select
-                id="medicine-select"
-                label={"Medicine"}
-                margin="normal"
-                inputProps={{ MenuProps: { disableScrollLock: true } }}
-                sx={{
-                  width: "60%",
-                  pr: "5%",
-                }}
-                value={formInput.medicine}
-                onChange={(event) => {
-                  setFormInput({
-                    ...formInput,
-                    medicine: event.target.value,
-                  });
-                }}
-              >
-                <MenuItem value={"PAIN_KILLERS"}>Pain Killers</MenuItem>
-                <MenuItem value={"TYLENOL"}>Tylenol</MenuItem>
-                <MenuItem value={"PARACETAMOL"}>Paracetamol</MenuItem>
-              </TextField>
+                                <TextField
+                                    required
+                                    sx={{width: "35%"}}
+                                    label="Dosage"
+                                    onChange={(event) => {
+                                        setFormInput({
+                                            ...formInput,
+                                            dosage: event.target.value,
+                                        });
+                                    }}
+                                    value={formInput.dosage}
+                                />
+                            </Box>
 
-              <TextField
-                required
-                sx={{
-                  width: "35%",
-                }}
-                label="Dosage"
-                onChange={(event) => {
-                  setFormInput({
-                    ...formInput,
-                    dosage: event.target.value,
-                  });
-                }}
-                margin="normal"
-                value={formInput.dosage}
-              />
+                            <Box sx={{marginY: 0}}>
+                                <FormLabel id="medicine-form">Form</FormLabel>
+                                <RadioGroup
+                                    name="medicine-form"
+                                    aria-labelledby="medicine-form"
+                                    value={formInput.form}
+                                    onChange={(event) => {
+                                        setFormInput({
+                                            ...formInput,
+                                            form: event.target.value,
+                                        });
+                                    }}
+                                    sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <Box sx={{display: "flex"}}>
+                                        <Box sx={{width: "10rem"}}><FormControlLabel
+                                            value="POWDER"
+                                            control={<Radio/>}
+                                            label="Powder"
+                                        /></Box>
+                                        <Box><FormControlLabel
+                                            value="TAB_OR_CAP"
+                                            control={<Radio/>}
+                                            label="Tab/Cap"
+                                        /></Box>
+                                    </Box>
+                                    <Box sx={{display: "flex"}}>
+                                        <Box sx={{width: "10rem"}}><FormControlLabel
+                                            value="CHEWABLE"
+                                            control={<Radio/>}
+                                            label="Chewable"
+                                        /></Box>
+                                        <Box><FormControlLabel
+                                            value="LIQUID"
+                                            control={<Radio/>}
+                                            label="Liquid"
+                                        /></Box>
+                                    </Box>
+                                    <Box sx={{display: "flex"}}>
+                                        <FormControlLabel
+                                            value="INHALER"
+                                            control={<Radio/>}
+                                            label="Inhaler"
+                                        />
+                                    </Box>
+                                </RadioGroup>
+                            </Box>
+
+
+                            <TextField
+                                required
+                                select
+                                value={formInput.status}
+                                label={"Status"}
+                                margin="normal"
+                                inputProps={{MenuProps: {disableScrollLock: true}}}
+                                onChange={(event) => {
+                                    setFormInput({
+                                        ...formInput,
+                                        status: event.target.value,
+                                    });
+                                }}
+                                sx={{marginY: 0}}
+                            >
+                                <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
+                                <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>
+                                <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
+                                <MenuItem value={"CLOSED"}>Closed</MenuItem>
+                            </TextField>
+
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    marginY: 0,
+                                }}
+                            >
+                                <Button
+                                    type="button"
+                                    variant="contained"
+                                    color="secondary"
+                                    sx={{margin: 1}}
+                                    onClick={clearForm}
+                                >
+                                    Clear
+                                </Button>
+
+                                <Button
+                                    type="button"
+                                    variant="contained"
+                                    color="secondary"
+                                    sx={{margin: 1}}
+                                    disabled={!isComplete()}
+                                    onClick={submitForm}
+                                >
+                                    Submit
+                                </Button>
+                            </Box>
+                        </FormControl>
+                    </form>
+
+                </Box>
             </Box>
 
-            <Box>
-              <FormLabel id="mess-size">Form</FormLabel>
-              <RadioGroup
-                name="medicine-form"
-                aria-labelledby="medicine-form"
-                value={formInput.form}
-                onChange={(event) => {
-                  setFormInput({
-                    ...formInput,
-                    form: event.target.value,
-                  });
-                }}
-                sx={{
-                  width: "80%",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
+            <Box sx={{
+                mt: '6%',
+            }}>
                 <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
+                    sx={{
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        backgroundColor: '#012d5a',
+                        color: '#f6bd38',
+                        p: 2,
+                        borderRadius: '23px 23px 0 0',
+                    }}
                 >
-                  <FormControlLabel
-                    value="POWDER"
-                    control={<Radio />}
-                    label="Powder"
-                  />
-                  <FormControlLabel
-                    value="TAB_OR_CAP"
-                    control={<Radio />}
-                    label="Tab/Cap"
-                  />
+                    <Typography
+                        style={{fontFamily: 'Open Sans', fontWeight: 600}}
+                        variant="h4"
+                        component="h1"
+                        align="center"
+                    >
+                        Date
+                    </Typography>
                 </Box>
+
                 <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
+                    sx={{
+                        backgroundColor: 'whitesmoke',
+                        borderRadius: '0 0 23px 23px',
+                        boxShadow: 3,
+                        padding: '1%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}
                 >
-                  <FormControlLabel
-                    value="CHEWABLE"
-                    control={<Radio />}
-                    label="Chewable"
-                  />
-                  <FormControlLabel
-                    value="LIQUID"
-                    control={<Radio />}
-                    label="Liquid"
-                  />
+                    <Calendar/>
+
                 </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <FormControlLabel
-                    value="INHALER"
-                    control={<Radio />}
-                    label="Inhaler"
-                  />
-                </Box>
-              </RadioGroup>
-            </Box>
-
-            <TextField
-              required
-              select
-              value={formInput.status}
-              label={"Status"}
-              margin="normal"
-              inputProps={{ MenuProps: { disableScrollLock: true } }}
-              onChange={(event) => {
-                setFormInput({
-                  ...formInput,
-                  status: event.target.value,
-                });
-              }}
-            >
-              <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
-              <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>
-              <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
-              <MenuItem value={"CLOSED"}>Closed</MenuItem>
-            </TextField>
-
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-              pb={"30px"}
-            >
-              <Button
-                type="button"
-                variant="contained"
-                color="secondary"
-                sx={{
-                  margin: 1,
-                }}
-                onClick={clearForm}
-              >
-                Clear
-              </Button>
-
-              <Button
-                type="button"
-                variant="contained"
-                color="secondary"
-                sx={{
-                  margin: 1,
-                }}
-                disabled={!isComplete()}
-                onClick={submitForm}
-              >
-                Submit
-              </Button>
-            </Box>
-          </FormControl>
-        </form>
-      </Box>
-
-      <Box sx={{ position: "absolute", width: "80%", top: "127vh" }}>
-        <TableContainer>
-          <Table>
-            <TableHead
-              sx={{
-                backgroundColor: "#012d5a",
-              }}
-            >
-              <TableRow>
-                <TableCell sx={{ color: "#f6bd38" }}>Patient Name</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>Physician Name</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>Priority</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>Location</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>Medicine</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>Dosage</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>Form</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>
-                  Assignment Status
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {/*{formData.map((request, index) => (*/}
-              {/*  <TableRow key={index}>*/}
-              {/*    <TableCell component="th" scope="row">*/}
-              {/*      {request.patientName}*/}
-              {/*    </TableCell>*/}
-              {/*    <TableCell>{request.physicianName}</TableCell>*/}
-              {/*    <TableCell>{request.priority}</TableCell>*/}
-              {/*    <TableCell>{request.location}</TableCell>*/}
-              {/*    <TableCell>{request.medicine}</TableCell>*/}
-              {/*    <TableCell>{request.dosage}</TableCell>*/}
-              {/*    <TableCell>{request.form}</TableCell>*/}
-              {/*    <TableCell>{request.status}</TableCell>*/}
-              {/*  </TableRow>*/}
-              {/*))}*/}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
     </Box>
   );
 }

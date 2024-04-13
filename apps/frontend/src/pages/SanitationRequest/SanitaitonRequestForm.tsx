@@ -1,20 +1,14 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import {
   TextField,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
   FormControl,
   MenuItem,
   Button,
   Box,
   Typography,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   FormLabel,
 } from "@mui/material";
 
@@ -149,7 +143,7 @@ function SanitationRequestForm() {
       sx={{
         display: "flex",
         justifyContent: "center",
-        height: "150vh",
+        height: "100vh",
         backgroundSize: "cover",
       }}
     >
@@ -183,8 +177,18 @@ function SanitationRequestForm() {
           width: "500px",
           backgroundColor: "whitesmoke",
           borderRadius: "0 0 23px 23px ",
+            boxShadow: 3,
         }}
       >
+          {/*<Box*/}
+          {/*    sx={{*/}
+          {/*        display: "flex",*/}
+          {/*        justifyContent: "center",*/}
+          {/*    }}*/}
+          {/*>*/}
+          {/*    <Typography>Made by Yuhan & Warwick</Typography>*/}
+          {/*</Box>*/}
+
         <form
           id="sanitationForm"
           style={{
@@ -199,17 +203,10 @@ function SanitationRequestForm() {
               display: "flex",
               flexDirection: "column",
               alignItems: "top",
+                padding: 2,
+                gap: 1,
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Typography>Made by Yuhan & Warwick</Typography>
-            </Box>
-
             <TextField
               required
               label="Employee Name"
@@ -217,6 +214,7 @@ function SanitationRequestForm() {
               margin="normal"
               value={formInput.name}
               fullWidth
+              sx={{marginY: 0}}
             />
 
             <TextField
@@ -233,6 +231,7 @@ function SanitationRequestForm() {
                   priority: event.target.value,
                 });
               }}
+              sx={{marginY: 0}}
             >
               <MenuItem value={"Low"}>Low</MenuItem>
               <MenuItem value={"Medium"}>Medium</MenuItem>
@@ -240,23 +239,23 @@ function SanitationRequestForm() {
               <MenuItem value={"Emergency"}>Emergency</MenuItem>
             </TextField>
 
-            <LocationDropdown
-              onChange={(v: string) => {
-                setFormInput({ ...formInput, location: v });
-              }}
-              value={formInput.location}
-              filterTypes={["HALL"]}
-              label={"Location"}
-            />
+              <Box sx={{marginY: 0}}><LocationDropdown
+                  onChange={(v: string) => {
+                      setFormInput({ ...formInput, location: v });
+                  }}
+                  value={formInput.location}
+                  filterTypes={["HALL"]}
+                  label={"Location"}
+              /></Box>
 
-            <Checkboxes
+            <Box sx={{marginY: 0}}><Checkboxes
               label={"Mess Type"}
               onChange={handleTypeChange}
               items={["Solid Waste", "Liquid Spill", "Other"]}
               checked={formInput.type}
-            />
+            /></Box>
 
-            <FormLabel id="mess-size">Mess Size</FormLabel>
+            <Box sx={{marginY: 0}}><FormLabel id="mess-size">Mess Size</FormLabel>
             <RadioGroup
               row
               name="mess-size"
@@ -268,6 +267,7 @@ function SanitationRequestForm() {
                 value="SMALL"
                 control={<Radio />}
                 label="Small"
+
               />
               <FormControlLabel
                 value="MEDIUM"
@@ -279,7 +279,7 @@ function SanitationRequestForm() {
                 control={<Radio />}
                 label="Large"
               />
-            </RadioGroup>
+            </RadioGroup></Box>
 
             <TextField
               required
@@ -294,6 +294,7 @@ function SanitationRequestForm() {
                   status: event.target.value,
                 });
               }}
+              sx={{marginY: 0}}
             >
               <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
               <MenuItem value={"Assigned"}>Assigned</MenuItem>
@@ -301,78 +302,42 @@ function SanitationRequestForm() {
               <MenuItem value={"Closed"}>Closed</MenuItem>
             </TextField>
 
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-              pb={"30px"}
-            >
-              <Button
-                type="button"
-                variant="contained"
-                color="secondary"
-                sx={{
-                  margin: 1,
-                }}
-                onClick={clearForm}
+              <Box
+                  sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginY: 0,
+                  }}
               >
-                Clear
-              </Button>
+                  <Button
+                      type="button"
+                      variant="contained"
+                      color="secondary"
+                      sx={{
+                          margin: 1,
+                      }}
+                      onClick={clearForm}
+                  >
+                      Clear
+                  </Button>
 
-              <Button
-                type="button"
-                variant="contained"
-                color="secondary"
-                sx={{
-                  margin: 1,
-                }}
-                disabled={!isComplete()}
-                onClick={submitForm}
-              >
-                Submit
-              </Button>
-            </Box>
+                  <Button
+                      type="button"
+                      variant="contained"
+                      color="secondary"
+                      sx={{
+                          margin: 1,
+                      }}
+                      disabled={!isComplete()}
+                      onClick={submitForm}
+                  >
+                      Submit
+                  </Button>
+              </Box>
           </FormControl>
         </form>
       </Box>
 
-      <Box sx={{ position: "absolute", width: "80%", top: "120vh" }}>
-        <TableContainer>
-          <Table>
-            <TableHead
-              sx={{
-                backgroundColor: "#012d5a",
-              }}
-            >
-              <TableRow>
-                <TableCell sx={{ color: "#f6bd38" }}>Name</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>Priority</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>Location</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>Type</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>Size</TableCell>
-                <TableCell sx={{ color: "#f6bd38" }}>
-                  Assignment Status
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {/*{submittedRequests.map((request, index) => (*/}
-              {/*  <TableRow key={index}>*/}
-              {/*    <TableCell component="th" scope="row">*/}
-              {/*      {request.name}*/}
-              {/*    </TableCell>*/}
-              {/*    <TableCell>{request.priority}</TableCell>*/}
-              {/*    <TableCell>{request.location}</TableCell>*/}
-              {/*    <TableCell>{request.type.join(", ")}</TableCell>*/}
-              {/*    <TableCell>{request.size}</TableCell>*/}
-              {/*    <TableCell>{request.assignmentStatus}</TableCell>*/}
-              {/*  </TableRow>*/}
-              {/*))}*/}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Box>
     </Box>
   );
 }

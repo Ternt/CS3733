@@ -1,6 +1,6 @@
 import express, { Router, Request, Response } from "express";
 import { PrismaClient } from "database";
-import { createDatabase } from "../helper/exportToDB.ts";
+import { createDatabase } from "../helper/createDatabase.ts";
 
 export function splitLines(t: string): string[] {
   return t.split(/\r\n|\r|\n/);
@@ -11,16 +11,16 @@ const router: Router = express.Router();
 //Return all map edges and nodes
 router.get("/", async function (req: Request, res: Response) {
   const prisma = new PrismaClient();
-  const nodes = await prisma.nodeDB.findMany({});
-  const edges = await prisma.edgeDB.findMany({});
+  const nodes = await prisma.nodeDB.findMany();
+  const edges = await prisma.edgeDB.findMany();
 
   if (nodes == null) {
-    console.log("Node Retrieval Failed");
+    console.error("Node Retrieval Failed");
     res.sendStatus(204); // and send 204, no data
   }
 
   if (edges == null) {
-    console.log("Edge Retrieval Failed");
+    console.error("Edge Retrieval Failed");
     res.sendStatus(204); // and send 204, no data
   }
 
