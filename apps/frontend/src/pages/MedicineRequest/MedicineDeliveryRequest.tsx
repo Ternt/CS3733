@@ -30,16 +30,16 @@ function MedicineRequestForm() {
     document.title = "Medicine Request";
   });
   // const [formData, setFormData] = useState<form[]>([]);
-  const [formInput, setFormInput] = useState<form>({
-    medicine: "",
-    dosage: "",
-    form: "",
-    patientName: "",
-    physicianName: "",
-    location: "",
-    priority: "",
-    status: "",
-  });
+    const [formInput, setFormInput] = useState<form>({
+        medicine: "",
+        dosage: "",
+        form: "",
+        patientName: "",
+        physicianName: "",
+        location: "",
+        priority: "",
+        status: "",
+      });
 
     function isComplete(): boolean {
         return (
@@ -428,6 +428,7 @@ function MedicineRequestForm() {
                     <Calendar/>
 
                 </Box>
+            </Box>
     </Box>
   );
 }
