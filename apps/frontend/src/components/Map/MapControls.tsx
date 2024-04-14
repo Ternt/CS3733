@@ -1,9 +1,10 @@
 import React from "react";
 import { Box, SpeedDial, SpeedDialAction } from "@mui/material";
-import PinDropIcon from "@mui/icons-material/PinDrop";
+//import PinDropIcon from "@mui/icons-material/PinDrop";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
+import {MAP_IDS} from "../../helpers/MapHelper.ts";
 
 type MapControlProps = {
   floor: number;
@@ -31,7 +32,7 @@ export default function MapControls(props: MapControlProps) {
     >
       <SpeedDial
         ariaLabel="Map controls"
-        icon={<PinDropIcon />}
+        icon={<p> {MAP_IDS[props.floor]}</p>}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
