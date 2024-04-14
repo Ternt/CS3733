@@ -11,8 +11,9 @@ import {
     RadioGroup,
     FormControlLabel,
     Radio,
-    FormLabel,
+    FormLabel, InputAdornment, IconButton, Grow,
 } from "@mui/material";
+import EventIcon from '@mui/icons-material/Event';
 
 type form = {
     medicine: string;
@@ -29,7 +30,9 @@ function MedicineRequestForm() {
   useEffect(() => {
     document.title = "Medicine Request";
   });
-  // const [formData, setFormData] = useState<form[]>([]);
+
+    const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(true);
+    const [formMenuTransform, setFormMenuTransform] = useState<number>(150);
     const [formInput, setFormInput] = useState<form>({
         medicine: "",
         dosage: "",
@@ -39,7 +42,7 @@ function MedicineRequestForm() {
         location: "",
         priority: "",
         status: "",
-      });
+    });
 
     function isComplete(): boolean {
         return (
@@ -129,20 +132,23 @@ function MedicineRequestForm() {
     }
 
     return (
-        <Box sx={{
-            width: '100vw',
-            display: 'flex'
-        }}>
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+            }}>
             <Box
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    alignItems: 'start',
-                    justifyContent: 'center',
                     position: 'relative',
                     m: '3%',
-                    mt: '6%',
-                    width: '70%'
+                    mt: '3%',
+                    width: '60%',
+                    transform: `translate(${formMenuTransform}px)`,
+                    transition: '0.5s',
+                    transitionDelay: (calendarMenuFlag? '100ms':'0ms'),
                 }}
             >
                 <Box
@@ -213,27 +219,30 @@ function MedicineRequestForm() {
                                 sx={{marginY: 0}}
                             />
 
-            <TextField
-              required
-              select
-              id="priority-select"
-              label={"Priority"}
-              margin="normal"
-              inputProps={{ MenuProps: { disableScrollLock: true } }}
-              value={formInput.priority}
-              onChange={(event) => {
-                setFormInput({
-                  ...formInput,
-                  priority: event.target.value,
-                });
-              }}
-            >
-              <MenuItem value={"LOW"}>Low</MenuItem>
-              <MenuItem value={"MEDIUM"}>Medium</MenuItem>
-              <MenuItem value={"HIGH"}>High</MenuItem>
-              <MenuItem value={"EMERGENCY"}>Emergency</MenuItem>
-            </TextField>
+                            {/* Priority Dropdown */}
+                            <TextField
+                                required
+                                select
+                                id="priority-select"
+                                label={"Priority"}
+                                margin="normal"
+                                inputProps={{ MenuProps: { disableScrollLock: true } }}
+                                value={formInput.priority}
+                                onChange={(event) => {
+                                    setFormInput({
+                                        ...formInput,
+                                        priority: event.target.value,
+                                    });
+                                }}
+                                sx={{marginY: 0,}}
+                            >
+                                <MenuItem value={"LOW"}>Low</MenuItem>
+                                <MenuItem value={"MEDIUM"}>Medium</MenuItem>
+                                <MenuItem value={"HIGH"}>High</MenuItem>
+                                <MenuItem value={"EMERGENCY"}>Emergency</MenuItem>
+                            </TextField>
 
+                            {/* Location Dropdown */}
                             <Box sx={{marginY: 0}}><LocationDropdown
                                 onChange={(v: string) => {
                                     setFormInput({...formInput, location: v});
@@ -242,13 +251,30 @@ function MedicineRequestForm() {
                                 filterTypes={["HALL"]}
                                 label={"Location"}
                             /></Box>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    marginY: 0,
+
+                            {/* Datepicker */}
+                            <Box>
+                                <TextField
+                                label={"Date"}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton onClick={() => {
+                                                setCalendarMenuFlag(!calendarMenuFlag);
+                                                setFormMenuTransform((calendarMenuFlag?0:150));
+                                                console.log(calendarMenuFlag);
+                                            }}>
+                                                <EventIcon/>
+                                            </IconButton>
+                                        </InputAdornment>
+                                        ),
                                 }}
-                            >
+                                sx={{width:"100%"}}
+                                />
+                            </Box>
+
+                            {/* Medicine Dropdown and dosage text field */}
+                            <Box sx={{display: "flex", justifyContent: "space-between", marginY: 0}}>
                                 <TextField
                                     required
                                     select
@@ -283,7 +309,8 @@ function MedicineRequestForm() {
                                 />
                             </Box>
 
-                            <Box sx={{marginY: 0}}>
+                            {/* Radio button group for forms of medicine */}
+                            <Box sx={{marginY: 0, width: '100%'}}>
                                 <FormLabel id="medicine-form">Form</FormLabel>
                                 <RadioGroup
                                     name="medicine-form"
@@ -302,7 +329,7 @@ function MedicineRequestForm() {
                                     }}
                                 >
                                     <Box sx={{display: "flex"}}>
-                                        <Box sx={{width: "10rem"}}><FormControlLabel
+                                        <Box sx={{width: "50%"}}><FormControlLabel
                                             value="POWDER"
                                             control={<Radio/>}
                                             label="Powder"
@@ -314,7 +341,7 @@ function MedicineRequestForm() {
                                         /></Box>
                                     </Box>
                                     <Box sx={{display: "flex"}}>
-                                        <Box sx={{width: "10rem"}}><FormControlLabel
+                                        <Box sx={{width: "50%"}}><FormControlLabel
                                             value="CHEWABLE"
                                             control={<Radio/>}
                                             label="Chewable"
@@ -335,7 +362,7 @@ function MedicineRequestForm() {
                                 </RadioGroup>
                             </Box>
 
-
+                            {/* Status Assignment Dropdown */}
                             <TextField
                                 required
                                 select
@@ -357,13 +384,8 @@ function MedicineRequestForm() {
                                 <MenuItem value={"CLOSED"}>Closed</MenuItem>
                             </TextField>
 
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    marginY: 0,
-                                }}
-                            >
+                            {/* Submit and clear Button */}
+                            <Box sx={{display: "flex", justifyContent: "space-between", marginY: 0}}>
                                 <Button
                                     type="button"
                                     variant="contained"
@@ -387,47 +409,48 @@ function MedicineRequestForm() {
                             </Box>
                         </FormControl>
                     </form>
-
                 </Box>
             </Box>
 
-            <Box sx={{
-                mt: '6%',
-            }}>
-                <Box
-                    sx={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        backgroundColor: '#012d5a',
-                        color: '#f6bd38',
-                        p: 2,
-                        borderRadius: '23px 23px 0 0',
-                    }}
-                >
-                    <Typography
-                        style={{fontFamily: 'Open Sans', fontWeight: 600}}
-                        variant="h4"
-                        component="h1"
-                        align="center"
-                    >
-                        Date
-                    </Typography>
-                </Box>
 
-                <Box
-                    sx={{
-                        backgroundColor: 'whitesmoke',
-                        borderRadius: '0 0 23px 23px',
-                        boxShadow: 3,
-                        padding: '1%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <Calendar/>
-
-                </Box>
+            <Box sx={{mt: '6%'}}>
+               <Grow in={!calendarMenuFlag} {...!calendarMenuFlag? {timeout:1000}:{}}>{
+                       <Box>
+                           <Box
+                               sx={{
+                                   width: '100%',
+                                   display: 'flex',
+                                   justifyContent: 'center',
+                                   backgroundColor: '#012d5a',
+                                   color: '#f6bd38',
+                                   p: 2,
+                                   borderRadius: '23px 23px 0 0',
+                               }}
+                           >
+                               <Typography
+                                   style={{fontFamily: 'Open Sans', fontWeight: 600}}
+                                   variant="h4"
+                                   component="h1"
+                                   align="center"
+                               >
+                                   Date
+                               </Typography>
+                           </Box>
+                           <Box
+                               sx={{
+                                   backgroundColor: 'whitesmoke',
+                                   borderRadius: '0 0 23px 23px',
+                                   boxShadow: 3,
+                                   padding: '1%',
+                                   display: 'flex',
+                                   justifyContent: 'center',
+                               }}
+                           >
+                               <Calendar/>
+                           </Box>
+                       </Box>
+                   }
+               </Grow>
             </Box>
     </Box>
   );

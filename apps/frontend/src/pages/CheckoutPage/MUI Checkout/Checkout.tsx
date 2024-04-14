@@ -134,7 +134,6 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
             <CssBaseline/>
             <Grid container sx={{height: {xs: "100%", sm: "100dvh"}}}>
                 <Box sx={{
-                    marginTop: "10vh",
                     display: "flex",
                     flexDirection: "row",
                 }}>
@@ -150,9 +149,10 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                             borderRight: {sm: "none", md: "1px solid"},
                             borderColor: {sm: "none", md: "divider"},
                             alignItems: "start",
-                            pt: 4,
+                            pt: 2,
                             px: 10,
                             gap: 4,
+                            position: 'fixed',
                         }}
                     >
                         <Box
@@ -178,6 +178,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                                 flexGrow: 1,
                                 width: "100%",
                                 maxWidth: 500,
+                                marginTop: '-6vh'
                             }}
                         >
                             <Info cart={cart} onDeleteItem={handleDeleteItem}/>
@@ -199,6 +200,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                             pt: {xs: 2, sm: 4},
                             px: {xs: 2, sm: 10},
                             gap: {xs: 4, md: 8},
+                            ml: '30vw'
                         }}
                     >
                         <Box

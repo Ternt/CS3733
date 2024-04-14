@@ -117,7 +117,6 @@ function GiftRequestPage() {
                 display: "flex",
                 justifyContent: "flex-start",
                 flexDirection: "row",
-                marginTop: '10vh'
             }}
         >
             <Box
@@ -146,7 +145,8 @@ function GiftRequestPage() {
                         position: 'fixed',
                     }}>
                     <Box sx={{
-                        marginLeft: '20%'
+                        marginLeft: '20%',
+                        mt: '10%'
                     }}>
                         <Info cart={cart} onDeleteItem={handleDeleteItem}/>
                         <Box
