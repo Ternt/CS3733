@@ -87,7 +87,7 @@ function SanitationRequestForm() {
       const sanitationRequest = {
         requestID: requestID,
         type: "SANITATION",
-        //name: formInput.name,
+        employeeName: formInput.name,
         priority: formInput.priority,
         status: formInput.status,
         notes: "None",
