@@ -235,10 +235,10 @@ function SanitationRequestForm() {
               }}
               sx={{marginY: 0}}
             >
-              <MenuItem value={"Low"}>Low</MenuItem>
-              <MenuItem value={"Medium"}>Medium</MenuItem>
-              <MenuItem value={"High"}>High</MenuItem>
-              <MenuItem value={"Emergency"}>Emergency</MenuItem>
+              <MenuItem value={"LOW"}>Low</MenuItem>
+              <MenuItem value={"MEDIUM"}>Medium</MenuItem>
+              <MenuItem value={"HIGH"}>High</MenuItem>
+              <MenuItem value={"EMERGENCY"}>Emergency</MenuItem>
             </TextField>
 
               <Box sx={{marginY: 0}}><LocationDropdown
@@ -298,10 +298,10 @@ function SanitationRequestForm() {
               }}
               sx={{marginY: 0}}
             >
-              <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-              <MenuItem value={"Assigned"}>Assigned</MenuItem>
-              <MenuItem value={"In Progress"}>In Progress</MenuItem>
-              <MenuItem value={"Closed"}>Closed</MenuItem>
+              <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
+              <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>
+              <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
+              <MenuItem value={"CLOSED"}>Closed</MenuItem>
             </TextField>
 
               <Box
