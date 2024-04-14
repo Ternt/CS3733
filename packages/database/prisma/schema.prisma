@@ -184,8 +184,6 @@ model CartItemsInGiftRequests {
 
   cartItem   CartItem @relation(fields: [cartItemID], references: [id], onDelete: Cascade)
   cartItemID Int
-
-  @@id([giftRequestID, cartItemID])
 }
 
 model GiftRequest {
