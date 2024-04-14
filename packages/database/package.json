@@ -20,15 +20,16 @@
     "lint:fix": "yarn shared:prettierlint:fix && prisma format && yarn shared:eslint:fix && yarn shared:tslint",
     "build": "yarn -T run pnpify prisma generate",
     "build:dev": "yarn -T run pnpify prisma generate",
-    "migrate:dev": "prisma migrate dev --skip-generate",
-    "migrate:reset": "prisma migrate reset --skip-generate",
-    "migrate:deploy": "prisma migrate deploy",
-    "migrate:resolve": "prisma migrate resolve",
+    "migrate:dev": "yarn run dotenv -e ../../.env -- prisma migrate dev --skip-generate",
+    "migrate:reset": "yarn run dotenv -e ../../.env -- prisma migrate reset --skip-generate",
+    "migrate:deploy": "yarn run dotenv -e ../../.env -- prisma migrate deploy",
+    "migrate:resolve": "yarn run dotenv -e ../../.env -- prisma migrate resolve",
     "db:pull": "prisma db pull --skip-generate",
     "db:push": "prisma db push --skip-generate"
   },
   "dependencies": {
     "@prisma/client": "4.15.0",
+    "dotenv-cli": "^7.4.1",
     "prisma": "4.15.0"
   }
 }

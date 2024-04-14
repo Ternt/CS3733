@@ -1,25 +1,19 @@
 import React from "react";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Outlet,
-  useNavigate,
-} from "react-router-dom";
-import ServiceRequest from "./serviceRequest.tsx";
-import { ThemeProvider } from "@mui/material/styles"; // Import ThemeProvider
-import CustomTheme from "./components/CustomTheme.tsx"; // Import your custom theme
-import MapPage from "./routes/mapPage.tsx";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { ThemeProvider } from "@mui/material/styles";
+import CustomTheme from "./components/CustomTheme.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
-import ServiceRequests from "./showAllSR.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
-import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
-import NavBar from "./components/navbar/navbar.tsx";
+//import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
+import NavBar from "./components/Navbar/Navbar.tsx";
+import HeroPage from "./pages/HeroPage/HeroPage.tsx";
 import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
-import GiftCheckoutPage from "./pages/GiftCheckoutPage/GiftCheckoutPage.tsx";
-import FlowerRequestPage from "./pages/FlowerRequestPage/FlowerRequestPage.tsx";
-import FlowerCheckoutPage from "./pages/FlowerCheckoutPage/FlowerCheckoutPage.tsx";
+import Checkout from "./pages/CheckoutPage/MUI Checkout/Checkout.tsx";
 import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
-import { Auth0Provider } from "@auth0/auth0-react";
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
+import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
+import MapPage from "./pages/MapPage.tsx";
+import {Box} from "@mui/material";
 
 function App() {
   const router = createBrowserRouter([
@@ -29,44 +23,52 @@ function App() {
       element: <Root />,
       children: [
         {
-          path: "/service-request",
-          element: <ServiceRequest />,
+          path: "",
+          element: <HeroPage />,
+        },
+        {
+          path: "/map",
+          element: <MapPage />,
+        },
+        {
+          path: "/medicine-request",
+          element: <MedicineDeliveryForm />,
         },
         {
           path: "/sanitation",
           element: <SanitationRequestForm />,
         },
         {
-          path: "",
-          element: <MapPage />,
-        },
-        {
           path: "/login",
           element: <LoginPage />,
-        },
-        {
-          path: "/service-request-display",
-          element: <ServiceRequests />,
         },
         {
           path: "/gift-request",
           element: <GiftRequestPage />,
         },
         {
-          path: "/gift-checkout",
-          element: <GiftCheckoutPage />,
+          path: "/flower-request",
+          element: <GiftRequestPage />,
         },
         {
-          path: "/flower-request",
-          element: <FlowerRequestPage />,
+          path: "/gift-checkout",
+          element: (
+            <Checkout checkoutType="gift" returnPath="/gift-request" />
+          ),
         },
         {
           path: "/flower-checkout",
-          element: <FlowerCheckoutPage />,
+          element: (
+            <Checkout checkoutType="flower" returnPath="/flower-request" />
+          ),
         },
         {
           path: "/tables",
           element: <MapDataDisplay />,
+        },
+        {
+          path: "/admin",
+          element: <AdminDashboard />,
         },
       ],
     },
@@ -81,29 +83,16 @@ function App() {
   );
 
   function Root() {
-    const navigate = useNavigate();
     return (
       <>
-        <TouchToStart />
-        <Auth0Provider
-          useRefreshTokens
-          cacheLocation="localstorage"
-          domain="dev-0kmc0cto8b1g261n.us.auth0.com"
-          clientId="bphcdyBgEk1u7ZP1E2EnaMSXQMOIjH3V"
-          onRedirectCallback={(appState) => {
-            navigate(appState?.returnTo || window.location.pathname);
-          }}
-          authorizationParams={{
-            redirection_uri: window.location.origin,
-            audience: "/api",
-            scope: "openid profile email offline_access",
-          }}
-        >
+        <ThemeProvider theme={CustomTheme}>
           <div className="w-full flex flex-col">
             <NavBar />
+            <Box
+              key={"Navbar spacer"} sx={{width:'100vh', height:'10vh', backgroundColor: "#012d5a",}}></Box>
             <Outlet />
           </div>
-        </Auth0Provider>
+        </ThemeProvider>
       </>
     );
   }

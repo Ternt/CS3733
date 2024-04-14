@@ -2,77 +2,108 @@
 // @ts-nocheck
 
 import express, { Router, Request, Response } from "express";
-import { PrismaClient } from "database";
+import {Prisma, PrismaClient} from "database";
 import { exportEdgeDBToCSV } from "../helper/manageDatabases";
 import path from "path";
 
 const router: Router = express.Router();
 
-function splitLines(t: string): string[] {
-  return t.split(/\r\n|\r|\n/);
-}
-
-router.post("/upload/", async function (req: Request, res: Response) {
-  if (!req.files || Object.keys(req.files).length === 0) {
-    res.status(400).send("No files were uploaded.");
-    return;
-  }
-
-  // Get file data
-  const files = req.files;
-  const str: string = files.file.data.toString();
-  // ^ eslint does not like this line
-
-  // Check if headers are included in the file
-  let header: boolean = true;
-  if (req.query.header !== undefined) {
-    if (req.query.header!.toString() === "true") {
-      header = true;
-    } else if (req.query.header!.toString() === "false") {
-      header = false;
-    } else {
-      console.log("header must be 'true' or 'false'");
-      res.status(200);
-      return;
-    }
-  }
-
-  const prisma = new PrismaClient();
-
-  try {
-    // parse csv
-    const lines = splitLines(str).filter((line) => /\S/.test(line));
-    if (header) {
-      lines.shift();
-    }
-    const rows = lines.map((line) => line.split(","));
-
-    const data = Array.from(
-      rows.map((row) => ({
-        startNodeID: row[0],
-        endNodeID: row[1],
-        blocked: false,
-      })),
-    );
-
-    // upload node file
-    await prisma.$transaction([
-      prisma.EdgeDB.deleteMany(),
-      prisma.EdgeDB.createMany({ data }),
-    ]);
-  } catch {
-    console.log("edge file upload failed");
-    res.sendStatus(406);
-    return;
-  }
-
-  res.sendStatus(200);
-});
-
 router.get("/download/", async function (req: Request, res: Response) {
   const prisma = new PrismaClient();
-  await exportEdgeDBToCSV(prisma, "../../map/edges.csv");
-  res.download(path.join(__dirname, "../../map/edges.csv"));
+  await exportEdgeDBToCSV(prisma, "../../map/temp/edgesDownload.csv");
+  res.download(path.join(__dirname, "../../map/temp/edgesDownload.csv"));
+});
+
+router.put("/update/", async function (req: Request, res: Response) {
+    const prisma = new PrismaClient();
+    const edge: Prisma.EdgeDBCreateInput = req.body;
+
+    try {
+        // check if edge in the reverse direction exists
+        // if so flip start/end to match it
+        const reverse = await prisma.edgeDB.findUnique({
+            where: {
+                edgeID: {
+                    startNodeID: edge.endNodeID,
+                    endNodeID: edge.startNodeID,
+                }
+            }
+        })
+        if (reverse != null) {
+            const temp = edge.startNodeID;
+            edge.startNodeID = edge.endNodeID;
+            edge.endNodeID = temp;
+        }
+
+        // try to add/update edge in the database
+        await prisma.edgeDB.upsert({
+            where: {
+                edgeID: {
+                    startNodeID: edge.startNodeID,
+                    endNodeID: edge.endNodeID,
+                }
+            },
+            update: edge,
+            create: edge,
+        })
+    }
+    catch (error) {
+        console.error(error.message);
+        res.sendStatus(400);
+        return;
+    }
+
+    res.sendStatus(200);
+});
+
+router.delete("/delete/", async function (req: Request, res: Response) {
+    const prisma = new PrismaClient();
+
+    const startNodeID = req.query.startNodeID;
+    const endNodeID = req.query.endNodeID;
+    if (startNodeID === undefined || endNodeID === undefined) {
+        console.error("start and end node ids must be specified to delete an edge");
+        res.sendStatus(400);
+        return;
+    }
+
+    // try to delete original start/end ordering
+    let error = undefined;
+    try {
+        await prisma.edgeDB.delete({
+            where: {
+                edgeID: {
+                    startNodeID: startNodeID,
+                    endNodeID: endNodeID,
+                }
+            }
+        })
+
+        res.sendStatus(200);
+        return;
+    }
+    catch (e) {
+        error = e;
+    }
+
+    // try to delete reverse start/end ordering
+    try {
+        await prisma.edgeDB.delete({
+            where: {
+                edgeID: {
+                    startNodeID: endNodeID,
+                    endNodeID: startNodeID,
+                }
+            }
+        })
+    }
+    catch {
+        console.error(error.message);
+        res.sendStatus(400);
+        return;
+    }
+
+    res.sendStatus(200);
 });
 
 export default router;

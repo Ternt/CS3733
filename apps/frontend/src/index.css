@@ -7,6 +7,7 @@
   background-color: #ffffff;
   font-size: 18px;
   line-height: 1.4;
+  overflow-x: hidden;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,10 +15,12 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
 body {
   width: 100%;
   height: 100%;
 }
+
 #root {
   display: flex;
   height: 100%;
@@ -33,8 +36,4 @@ body {
 
 .text-block {
   max-width: 600px;
-}
-
-.example-component {
-  background-color: cyan;
 }
