@@ -117,7 +117,6 @@ function GiftRequestPage() {
                 display: "flex",
                 justifyContent: "flex-start",
                 flexDirection: "row",
-                marginTop: '10vh'
             }}
         >
             <Box
