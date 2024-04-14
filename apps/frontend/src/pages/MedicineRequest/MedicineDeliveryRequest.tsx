@@ -32,7 +32,7 @@ function MedicineRequestForm() {
   });
 
     const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(true);
-    const [formMenuTransform, setFormMenuTransform] = useState<number>(150);
+    const [formMenuTransform, setFormMenuTransform] = useState<number>(0);
     const [formInput, setFormInput] = useState<form>({
         medicine: "",
         dosage: "",
@@ -145,10 +145,10 @@ function MedicineRequestForm() {
                     position: 'relative',
                     m: '3%',
                     mt: '3%',
-                    width: '60%',
+                    width: '40%',
                     transform: `translate(${formMenuTransform}px)`,
                     transition: '0.5s',
-                    transitionDelay: (calendarMenuFlag? '100ms':'0ms'),
+                    transitionDelay: (calendarMenuFlag? '0ms':'100ms'),
                 }}
             >
                 <Box
@@ -262,7 +262,7 @@ function MedicineRequestForm() {
                                         <InputAdornment position="end">
                                             <IconButton onClick={() => {
                                                 setCalendarMenuFlag(!calendarMenuFlag);
-                                                setFormMenuTransform((calendarMenuFlag?0:150));
+                                                setFormMenuTransform((calendarMenuFlag?150:0));
                                             }}>
                                                 <EventIcon/>
                                             </IconButton>
@@ -414,7 +414,7 @@ function MedicineRequestForm() {
 
 
             <Box sx={{mt: '6%'}}>
-               <Grow in={!calendarMenuFlag} {...!calendarMenuFlag? {timeout:1000}:{}}>{
+               <Grow in={calendarMenuFlag} {...calendarMenuFlag? {timeout:1000}:{}}>{
                        <Box>
                            <Box
                                sx={{
