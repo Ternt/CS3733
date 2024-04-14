@@ -18,7 +18,7 @@ const NODE_SIZE = 3.1;
 type mapCanvasProps = {
   defaultFloor: number;
   startLocation: string;
-  pathfinding: boolean;
+  pathfinding: string | null;
   endLocation: string;
   onDeselectEndLocation?: () => void;
 };
@@ -332,12 +332,7 @@ export default function MapCanvas(props: mapCanvasProps) {
 
       if (props.pathfinding) {
         axios
-          .get(
-            "/api/astar-api?&startNode=" +
-            closestNode.nodeID +
-            "&endNode=" +
-            props.startLocation,
-          )
+          .get("/api/pathfind&startNode=" + closestNode.nodeID + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
           .then((res) => {
             const pathNodes: node[] = [];
             for (const s of res.data.path) {
@@ -459,12 +454,7 @@ export default function MapCanvas(props: mapCanvasProps) {
       )
         return;
       axios
-        .get(
-          "/api/astar-api?&startNode=" +
-          props.endLocation +
-          "&endNode=" +
-          props.startLocation,
-        )
+        .get("/api/pathfind?startNode=" +props.endLocation + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding)
         .then((res) => {
           const pathNodes: node[] = [];
           for (const s of res.data.path) {
@@ -486,7 +476,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           });
         });
     }
-  }, [pathing, nodes, props.endLocation, props.startLocation]);
+  }, [pathing, nodes, props.endLocation, props.startLocation, props.pathfinding]);
 
   return (
     <Box
