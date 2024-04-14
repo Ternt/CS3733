@@ -35,69 +35,71 @@ export default function HeroPage() {
           padding: 0,
         }}
       ></Box>
-      <Box>
+      <Box
+        sx={{
+          position:'absolute',
+          top: "35vh",
+          left: "6vw",
+        }}
+      >
         <Typography
           sx={{
             fontFamily: "Open Sans",
-            fontSize: "70px",
-            position: "absolute",
-            width: "45vw",
-            top: "35vh",
-            left: "2vw",
-            textAlign: "center",
+            fontSize: "5rem",
+            textAlign: "left",
             fontWeight: 1000,
             color: "#f1f1f1",
+            p:'1rem',
           }}
         >
-          Aware Because We Care.
+          Aware Because<br/>We Care.
         </Typography>
-        <Button
-          key={"login"}
-          onClick={() => handleMenuItemClick("/login")}
+        <Box
           sx={{
-            position: "absolute",
-            top: "70vh",
-            left: "6.5vw",
-            height: "7vh",
-            paddingX: "2vw",
-            color: "black",
-            transition: "all 0.2s ease-in-out",
-            fontSize: "20px",
-            display: "block",
-            maxWidth: "15vw",
-            width: "15vw",
-            background: "#f6bd38",
-            "&:hover": { background: "#f9d070", color: "black" },
+            display:'flex',
+            flexDirection:{xs:'column', sm:'row'},
+            flexWrap:'wrap',
+            gap:'1rem'
           }}
         >
-          {"login"}
-        </Button>
-        <Button
-          key="learnMore"
-          onClick={handleLearnMoreClick}
-          sx={{
-            position: "absolute",
-            top: "70vh",
-            left: "23.5vw",
-            height: "7vh",
-            maxWidth: "15vw",
-            width: "15vw",
-            paddingX: "2vw",
-            color: "white",
-            transition: "all 0.2s ease-in-out",
-            fontSize: "20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "#012d5a",
-            "&:hover": { background: "#1a426a", color: "white" },
-          }}
-        >
-          <Typography variant="body1" mr={1}>
-            Learn More
-          </Typography>
-          <KeyboardDoubleArrowDownIcon />
-        </Button>
+          <Button
+            key={"login"}
+            onClick={() => handleMenuItemClick("/login")}
+            sx={{
+              color: "black",
+              transition: "all 0.2s ease-in-out",
+              fontSize: "20px",
+              display: "block",
+              width: "fit-content",
+              px:'2rem',
+              bgcolor: "#f6bd38",
+              "&:hover": { background: "#f9d070", color: "black" },
+            }}
+          >
+            {"login"}
+          </Button>
+          <Button
+            key="learnMore"
+            onClick={handleLearnMoreClick}
+            sx={{
+              width: "fit-content",
+              px:'2rem',
+              color: "white",
+              transition: "all 0.2s ease-in-out",
+              fontSize: "20px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "#012d5a",
+              "&:hover": { background: "#1a426a", color: "white" },
+            }}
+          >
+            <Typography variant="body1" mr={1}>
+              Learn More
+            </Typography>
+            <KeyboardDoubleArrowDownIcon />
+          </Button>
+        </Box>
       </Box>
       <Box ref={heroPage2Ref}>
         <OurServices />

@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Typography, Grid} from "@mui/material";
-// import { useNavigate } from "react-router-dom";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import VaccinesIcon from "@mui/icons-material/Vaccines";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
@@ -9,11 +8,6 @@ import BedIcon from "@mui/icons-material/Bed";
 import ServiceBox from '../../components/HeroPage/ServiceBox.tsx';
 
 export default function OurServices() {
-  // const navigate = useNavigate();
-
-  // const handleMenuItemClick = (path: string) => {
-  //   navigate(path);
-  // };
 
   const ServicesHeaderSxTemplate ={
       fontFamily: "Open Sans",
