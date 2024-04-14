@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {ReactNode, useEffect, useRef, useState} from "react";
 
 import { Box } from "@mui/material";
 import { edge, node, vec2 } from "../../helpers/typestuff.ts";
@@ -29,16 +29,16 @@ export default function MapCanvas(props: mapCanvasProps) {
 
   // map data
   const [mouseData, setMouseData] = useState({
-    pos: { x: 0, y: 0 },
+    pos: {x: 0, y: 0},
     down: false,
-    downPos: { x: 0, y: 0 },
+    downPos: {x: 0, y: 0},
   });
   const [viewingFloor, setViewingFloor] = useState(props.defaultFloor);
   const [nodes, setNodes] = useState<node[]>([]);
   const [edges, setEdges] = useState<edge[]>([]);
   const [cameraControl, setCameraControl] = useState({
-    pan: { x: 0, y: 0 },
-    panAnchor: { x: 0, y: 0 },
+    pan: {x: 0, y: 0},
+    panAnchor: {x: 0, y: 0},
     zoom: 1,
     zoomDelta: 0,
   });
@@ -56,15 +56,49 @@ export default function MapCanvas(props: mapCanvasProps) {
     nearestNode: null,
   });
   const [draggingNode, setDraggingNode] = useState<node | null>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [svgInject, setSvgInject] = useState<ReactNode[]>([]);
+  const svgElementInjector = <svg
+    width="100%"
+    height="100%"
+    ref={svgRef}
+  >
+    <image
+      href={MAPS[viewingFloor]}
+      width={getMapData().width / cameraControl.zoom}
+      height={getMapData().height / cameraControl.zoom}
+      x={cameraControl.pan.x}
+      y={cameraControl.pan.y}
+    />
+    {svgInject}
+  </svg>;
 
   // canvas data
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const image = useMemo(() => {
-    const image: CanvasImageSource = new Image();
-    image.src = MAPS[viewingFloor];
-    return image;
-  }, [viewingFloor]);
+  const [svgRect, setSvgRect] = useState({
+    width:0,
+    height:0,
+    top:0,
+    bottom:0,
+    left:0,
+    right:0
+  });
+
+  useEffect(() => {
+
+    if(svgRef.current){
+      const r = svgRef.current.getBoundingClientRect();
+      setSvgRect({
+        width:r.width,
+        height:r.height,
+        top:r.top,
+        bottom:r.bottom,
+        left:r.left,
+        right:r.right,
+      });
+    }
+  }, []);
+
 
   useEffect(() => {
     setRenderData({
@@ -86,16 +120,6 @@ export default function MapCanvas(props: mapCanvasProps) {
   // draw to canvas
   useEffect(() => {
     function canvasDraw() {
-      const canv = canvasRef.current!;
-      const ctx = canv.getContext("2d")!;
-      ctx.clearRect(0, 0, canv.width, canv.height);
-      ctx.drawImage(
-        image,
-        cameraControl.pan.x,
-        cameraControl.pan.y,
-        canv.width / cameraControl.zoom,
-        canv.height / cameraControl.zoom,
-      );
 
       function vecToCanvSpace(a: vec2) {
         return {
@@ -105,72 +129,48 @@ export default function MapCanvas(props: mapCanvasProps) {
         };
       }
 
-      function drawPoint(p: vec2) {
+      function drawPoint(p: vec2, color: string) {
         p = vecToCanvSpace(p);
         if (p.z !== viewingFloor) return;
-        ctx.arc(p.x, p.y, NODE_SIZE, 0, 2 * Math.PI);
+        return <ellipse cx={p.x} cy={p.y} rx={NODE_SIZE} ry={NODE_SIZE} fill={color}/>;
       }
 
       function drawLine(a: vec2, b: vec2) {
         if (a.z !== viewingFloor) return;
         a = vecToCanvSpace(a);
         b = vecToCanvSpace(b);
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
+        return <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={"blue"}/>;
       }
 
-      if (mouseData.down && draggingNode === null) return;
-
       // pathfinding here
+      const svgElements = [];
       if (props.pathfinding) {
         if (
           pathing.selectedPoint === null &&
           (props.endLocation === undefined || props.endLocation === "")
         )
           return;
-        ctx.lineWidth = 15;
-        ctx.beginPath();
-        if (pathing.selectedPoint !== null) drawPoint(pathing.selectedPoint);
-        ctx.stroke();
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = "blue";
-        ctx.lineCap = "round";
-        ctx.beginPath();
+
+        if (pathing.selectedPoint !== null)
+          svgElements.push(drawPoint(pathing.selectedPoint, "blue"));
         for (let i = 0; i < pathing.path.length - 1; i++) {
-          drawLine(pathing.path[i].point, pathing.path[i + 1].point);
-          //ctx.font = "30px Arial";
-          //ctx.fillText(i+"",vecToCanvSpace(pathing.path[i].point).x,vecToCanvSpace(pathing.path[i].point).y);
+          svgElements.push(drawLine(pathing.path[i].point, pathing.path[i + 1].point));
         }
         if (pathing.selectedPoint !== null)
-          drawLine(
-            pathing.path[pathing.path.length - 1].point,
-            pathing.selectedPoint,
-          );
-        ctx.stroke();
+          svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint));
       } else {
         for (const n of renderData.n) {
-          ctx.lineWidth = 15;
-          ctx.strokeStyle = "blue";
-          if (n.nodeID === pathing.nearestNode?.nodeID) ctx.strokeStyle = "red";
-          ctx.beginPath();
-          drawPoint(n.point);
-          ctx.stroke();
+          svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID ? "red" : "blue")));
         }
         for (const e of renderData.e) {
-          ctx.lineWidth = 5;
-          ctx.strokeStyle = "blue";
-          ctx.lineCap = "round";
-          drawLine(e.startNode.point, e.endNode.point);
-          ctx.stroke();
+          svgElements.push(drawLine(e.startNode.point, e.endNode.point));
         }
       }
+      setSvgInject(svgElements);
     }
 
-    image.onload = () => {
-      canvasDraw();
-    };
     canvasDraw();
-  }, [cameraControl.pan.x, cameraControl.pan.y, cameraControl.zoom, cameraControl.zoomDelta, image, mouseData.down, mouseData.downPos.x, mouseData.downPos.y, mouseData.pos.x, mouseData.pos.y, pathing.nearestNode?.nodeID, pathing.path, pathing.selectedPoint, props.pathfinding, renderData.e, renderData.n, viewingFloor, props.endLocation, draggingNode, X_MULT, Y_MULT]);
+  }, [cameraControl.pan.x, cameraControl.pan.y, cameraControl.zoom, cameraControl.zoomDelta, mouseData.down, mouseData.downPos.x, mouseData.downPos.y, mouseData.pos.x, mouseData.pos.y, pathing.nearestNode?.nodeID, pathing.path, pathing.selectedPoint, props.pathfinding, renderData.e, renderData.n, viewingFloor, props.endLocation, draggingNode, X_MULT, Y_MULT]);
 
   // wheel
   useEffect(() => {
@@ -187,13 +187,13 @@ export default function MapCanvas(props: mapCanvasProps) {
       const Qx =
         mouseData.pos.x -
         ((mouseData.pos.x - cameraControl.pan.x) /
-          (canvasRef.current!.width / cameraControl.zoom)) *
-          (canvasRef.current!.width / z);
+          (svgRect.width / cameraControl.zoom)) *
+        (svgRect.width / z);
       const Qy =
         mouseData.pos.y -
         ((mouseData.pos.y - cameraControl.pan.y) /
-          (canvasRef.current!.height / cameraControl.zoom)) *
-          (canvasRef.current!.height / z);
+          (svgRect.height / cameraControl.zoom)) *
+        (svgRect.height / z);
 
       setCameraControl({
         ...cameraControl,
@@ -209,20 +209,16 @@ export default function MapCanvas(props: mapCanvasProps) {
     return () => {
       window.removeEventListener("wheel", handleZoom);
     };
-  }, [cameraControl, mouseData.pos.x, mouseData.pos.y]);
+  }, [cameraControl, mouseData.pos.x, mouseData.pos.y, svgRect.height, svgRect.width]);
 
   //mousemove
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove);
 
     function handleMouseMove(e: MouseEvent) {
-      const rect = canvasRef.current!.getBoundingClientRect(); // get element's abs. position
-      const x =
-        ((e.clientX - rect.left) / (rect.right - rect.left)) *
-        canvasRef.current!.width;
-      const y =
-        ((e.clientY - rect.top) / (rect.bottom - rect.top)) *
-        canvasRef.current!.height;
+
+      const x = e.clientX - svgRect.left;
+      const y = e.clientY - svgRect.top;
       setMouseData({
         ...mouseData,
         pos: {
@@ -245,7 +241,7 @@ export default function MapCanvas(props: mapCanvasProps) {
             },
           });
         } else {
-          draggingNode.point = { x: x2, y: y2, z: draggingNode.point.z };
+          draggingNode.point = {x: x2, y: y2, z: draggingNode.point.z};
         }
       }
     }
@@ -253,25 +249,20 @@ export default function MapCanvas(props: mapCanvasProps) {
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [X_MULT, Y_MULT, cameraControl, draggingNode, mouseData]);
+  }, [X_MULT, Y_MULT, cameraControl, draggingNode, mouseData, svgRect.left, svgRect.top]);
 
   //mousedown
   useEffect(() => {
     window.addEventListener("mousedown", handleMouseDown);
 
     function handleMouseDown(e: MouseEvent) {
-      const rect = canvasRef.current!.getBoundingClientRect(); // get element's abs. position
-      const x =
-        ((e.clientX - rect.left) / (rect.right - rect.left)) *
-        canvasRef.current!.width;
-      const y =
-        ((e.clientY - rect.top) / (rect.bottom - rect.top)) *
-        canvasRef.current!.height;
+      const x = e.clientX - svgRect.left;
+      const y = e.clientY - svgRect.top;
       setMouseData({
         ...mouseData,
-        pos: { x: x, y: y },
+        pos: {x: x, y: y},
         down: true,
-        downPos: { x: x, y: y },
+        downPos: {x: x, y: y},
       });
       setCameraControl({
         ...cameraControl,
@@ -285,7 +276,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         // Move point to nearest edge
         if (nodes === null) return;
         const closestNode = pointHelper({
-          pos: { x: x2, y: y2, z: viewingFloor },
+          pos: {x: x2, y: y2, z: viewingFloor},
           nodes: nodes,
           floor: viewingFloor,
           distance: NODE_SIZE / cameraControl.zoom,
@@ -297,20 +288,15 @@ export default function MapCanvas(props: mapCanvasProps) {
     return () => {
       window.removeEventListener("mousedown", handleMouseDown);
     };
-  }, [X_MULT, Y_MULT, cameraControl, edges, mouseData, nodes, pathing, props.pathfinding, props.startLocation, viewingFloor]);
+  }, [X_MULT, Y_MULT, cameraControl, edges, mouseData, nodes, pathing, props.pathfinding, props.startLocation, svgRect.left, svgRect.top, viewingFloor]);
 
   //dblclick
   useEffect(() => {
     window.addEventListener("dblclick", handleDblclick);
 
     function handleDblclick(e: MouseEvent) {
-      const rect = canvasRef.current!.getBoundingClientRect(); // get element's abs. position
-      const x =
-        ((e.clientX - rect.left) / (rect.right - rect.left)) *
-        canvasRef.current!.width;
-      const y =
-        ((e.clientY - rect.top) / (rect.bottom - rect.top)) *
-        canvasRef.current!.height;
+      const x = e.clientX - svgRect.left;
+      const y = e.clientY - svgRect.top;
 
       const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
       const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
@@ -318,7 +304,7 @@ export default function MapCanvas(props: mapCanvasProps) {
       // Move point to nearest edge
       if (nodes === null) return;
       const coords = graphHelper({
-        pos: { x: x2, y: y2, z: viewingFloor },
+        pos: {x: x2, y: y2, z: viewingFloor},
         nodes: nodes,
         edges: edges,
         floor: viewingFloor,
@@ -335,9 +321,9 @@ export default function MapCanvas(props: mapCanvasProps) {
         axios
           .get(
             "/api/astar-api?&startNode=" +
-              closestNode.nodeID +
-              "&endNode=" +
-              props.startLocation,
+            closestNode.nodeID +
+            "&endNode=" +
+            props.startLocation,
           )
           .then((res) => {
             const pathNodes: node[] = [];
@@ -381,14 +367,14 @@ export default function MapCanvas(props: mapCanvasProps) {
     return () => {
       window.removeEventListener("dblclick", handleDblclick);
     };
-  }, [X_MULT, Y_MULT, cameraControl, edges, mouseData, nodes, pathing, props, props.pathfinding, props.startLocation, viewingFloor]);
+  }, [X_MULT, Y_MULT, cameraControl, edges, mouseData, nodes, pathing, props, props.pathfinding, props.startLocation, svgRect.left, svgRect.top, viewingFloor]);
 
   //mouseup
   useEffect(() => {
     window.addEventListener("mouseup", handleMouseUp);
 
     function handleMouseUp() {
-      setMouseData({ ...mouseData, down: false });
+      setMouseData({...mouseData, down: false});
       setDraggingNode(null);
       setDraggingNode(null);
     }
@@ -431,7 +417,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           return n.nodeID === r["endNodeID"];
         });
         if (end === undefined) continue;
-        const e: edge = { startNode: start, endNode: end };
+        const e: edge = {startNode: start, endNode: end};
         es.push(e);
       }
 
@@ -451,9 +437,9 @@ export default function MapCanvas(props: mapCanvasProps) {
       axios
         .get(
           "/api/astar-api?&startNode=" +
-            props.endLocation +
-            "&endNode=" +
-            props.startLocation,
+          props.endLocation +
+          "&endNode=" +
+          props.startLocation,
         )
         .then((res) => {
           const pathNodes: node[] = [];
@@ -500,15 +486,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         {/*  }}*/}
         {/*  ref={canvasRef}*/}
         {/*/>*/}
-        <svg width="100%" height="100%">
-          <image
-            href={MAPS[viewingFloor]}
-            width={getMapData().width / cameraControl.zoom}
-            height={getMapData().height / cameraControl.zoom}
-            x={cameraControl.pan.x}
-            y={cameraControl.pan.y}
-          />
-        </svg>
+        {svgElementInjector}
       </Box>
 
       {!props.pathfinding && pathing.nearestNode !== null && (
