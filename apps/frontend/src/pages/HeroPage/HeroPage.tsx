@@ -28,7 +28,7 @@ export default function HeroPage() {
         alt={"logo"}
         sx={{
           width: "100vw",
-          height: "100vh",
+          height: "90vh",
           objectFit: "cover",
           overflow: "hidden",
           filter: "brightness(45%) blur(1px)",
