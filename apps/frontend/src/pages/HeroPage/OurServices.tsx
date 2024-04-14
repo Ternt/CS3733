@@ -22,7 +22,7 @@ export default function OurServices() {
 
   return (
     <>
-      <Box sx={{ height: "100vh", width: "100vw", display: "grid" }}>
+      <Box sx={{ height: "90vh", width: "100vw", display: "grid" }}>
         <Typography
           sx={ ServicesHeaderSxTemplate }
         >
