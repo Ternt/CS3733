@@ -144,8 +144,9 @@ model SanitationRequest {
   request   ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
   requestID Int            @unique
 
-  messTypes SanitationRequestMessTypes[]
-  messSize  MessSize
+  employeeName String
+  messTypes    SanitationRequestMessTypes[]
+  messSize     MessSize
 }
 
 enum Medicine {
