@@ -179,6 +179,8 @@ enum ShippingType {
 }
 
 model CartItemsInGiftRequests {
+  id Int @id @default(autoincrement())
+
   giftRequest   GiftRequest @relation(fields: [giftRequestID], references: [requestID], onDelete: Cascade)
   giftRequestID Int
 
