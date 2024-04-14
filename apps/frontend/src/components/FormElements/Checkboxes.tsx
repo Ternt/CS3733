@@ -29,7 +29,7 @@ function Checkboxes(props: checkboxProps) {
           control={
             <Checkbox
               id={convertToDBFormat(item)}
-              checked={props.checked.includes(item)}
+              checked={props.checked.includes(convertToDBFormat(item))}
               onChange={(e) => {
                 props.onChange(e);
               }}
