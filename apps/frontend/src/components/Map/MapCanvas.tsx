@@ -138,14 +138,30 @@ export default function MapCanvas(props: mapCanvasProps) {
       function drawPoint(p: vec2, color: string) {
         p = vecToCanvSpace(p);
         if (p.z !== viewingFloor) return;
-        return <ellipse cx={p.x} cy={p.y} rx={NODE_SIZE} ry={NODE_SIZE} fill={color}/>;
+        return <ellipse
+          key={"Point "+p.x+","+p.y+","+p.z}
+          cx={p.x}
+          cy={p.y}
+          rx={NODE_SIZE}
+          ry={NODE_SIZE}
+          fill={color}
+        />;
       }
 
       function drawLine(a: vec2, b: vec2) {
         if (a.z !== viewingFloor) return;
         a = vecToCanvSpace(a);
         b = vecToCanvSpace(b);
-        return <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={"blue"}/>;
+        return <line
+          key={"Edge "+a.x+","+a.y+","+a.z+","+b.x+","+b.y+","+b.z}
+          x1={a.x}
+          y1={a.y}
+          x2={b.x}
+          y2={b.y}
+          stroke={"blue"}
+          strokeWidth={NODE_SIZE*.5}
+          strokeLinecap={"round"}
+        />;
       }
 
       // pathfinding here
