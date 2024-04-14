@@ -24,7 +24,7 @@ export default function createServiceRequestBody(body): any | undefined {
             }
             if (body.messTypes.length == 0) {
                 console.error("messTypes must have at least one value");
-                return undefined
+                return undefined;
             }
             body.sanitationDetail = {
                 create: {
@@ -35,9 +35,11 @@ export default function createServiceRequestBody(body): any | undefined {
                             };
                         }),
                     },
+                    employeeName: body.employeeName,
                     messSize: body.messSize,
                 },
             };
+            delete body.employeeName;
             delete body.messTypes;
             delete body.messSize;
             break;
