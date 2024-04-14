@@ -52,10 +52,12 @@ export default function MapCanvas(props: mapCanvasProps) {
     selectedPoint: vec2 | null;
     path: node[];
     nearestNode: node | null;
+    algo: string;
   }>({
     selectedPoint: null,
     path: [],
     nearestNode: null,
+    algo: ""
   });
   const [draggingNode, setDraggingNode] = useState<node | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -332,7 +334,7 @@ export default function MapCanvas(props: mapCanvasProps) {
 
       if (props.pathfinding) {
         axios
-          .get("/api/pathfind&startNode=" + closestNode.nodeID + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
+          .get("/api/pathfind?startNode=" + closestNode.nodeID + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
           .then((res) => {
             const pathNodes: node[] = [];
             for (const s of res.data.path) {
@@ -450,8 +452,11 @@ export default function MapCanvas(props: mapCanvasProps) {
       if (
         pathing.path.length > 0 &&
         pathing.path[0].nodeID === props.startLocation &&
-        pathing.path[pathing.path.length - 1].nodeID === props.endLocation
+        pathing.path[pathing.path.length - 1].nodeID === props.endLocation &&
+        props.pathfinding === pathing.algo
       )
+        return;
+      if(props.pathfinding === null)
         return;
       axios
         .get("/api/pathfind?startNode=" +props.endLocation + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding)
@@ -473,6 +478,7 @@ export default function MapCanvas(props: mapCanvasProps) {
             ...pathing,
             path: pathNodes,
             selectedPoint: null,
+            algo: props.pathfinding!
           });
         });
     }
