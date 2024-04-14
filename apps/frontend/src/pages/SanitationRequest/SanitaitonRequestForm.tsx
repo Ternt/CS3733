@@ -87,12 +87,12 @@ function SanitationRequestForm() {
       const sanitationRequest = {
         requestID: requestID,
         type: "SANITATION",
-        name: formInput.name,
+        //name: formInput.name,
         priority: formInput.priority,
         status: formInput.status,
         notes: "None",
         locationID: formInput.location,
-        messType: formInput.type,
+        messTypes: formInput.type,
         messSize: formInput.size,
       };
       console.log(JSON.stringify(sanitationRequest));
