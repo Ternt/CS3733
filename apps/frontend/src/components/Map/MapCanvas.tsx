@@ -58,20 +58,26 @@ export default function MapCanvas(props: mapCanvasProps) {
   const [draggingNode, setDraggingNode] = useState<node | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [svgInject, setSvgInject] = useState<ReactNode[]>([]);
-  const svgElementInjector = <svg
-    width="100%"
-    height="100%"
-    ref={svgRef}
-  >
-    <image
-      href={MAPS[viewingFloor]}
-      width={getMapData().width / cameraControl.zoom}
-      height={getMapData().height / cameraControl.zoom}
-      x={cameraControl.pan.x}
-      y={cameraControl.pan.y}
-    />
-    {svgInject}
-  </svg>;
+  const svgElementInjector = (
+    <svg
+      width="100%"
+      height="100%"
+      ref={svgRef}
+    >
+      <image
+        href={MAPS[viewingFloor]}
+        width={getMapData().width / cameraControl.zoom}
+        height={getMapData().height / cameraControl.zoom}
+        x={cameraControl.pan.x}
+        y={cameraControl.pan.y}
+      />
+      <g
+        transform={"translate("+cameraControl.pan.x+" "+cameraControl.pan.y+") scale("+(1/cameraControl.zoom)+" "+(1/cameraControl.zoom)+")"}
+      >
+        {svgInject}
+      </g>
+    </svg>
+  );
 
   // canvas data
 
@@ -123,8 +129,8 @@ export default function MapCanvas(props: mapCanvasProps) {
 
       function vecToCanvSpace(a: vec2) {
         return {
-          x: (a.x / cameraControl.zoom) * X_MULT + cameraControl.pan.x,
-          y: (a.y / cameraControl.zoom) * Y_MULT + cameraControl.pan.y,
+          x: (a.x) * X_MULT,// + cameraControl.pan.x,
+          y: (a.y) * Y_MULT,// + cameraControl.pan.y,
           z: a.z,
         };
       }
@@ -170,7 +176,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     }
 
     canvasDraw();
-  }, [cameraControl.pan.x, cameraControl.pan.y, cameraControl.zoom, cameraControl.zoomDelta, mouseData.down, mouseData.downPos.x, mouseData.downPos.y, mouseData.pos.x, mouseData.pos.y, pathing.nearestNode?.nodeID, pathing.path, pathing.selectedPoint, props.pathfinding, renderData.e, renderData.n, viewingFloor, props.endLocation, draggingNode, X_MULT, Y_MULT]);
+  }, [mouseData.down, mouseData.downPos.x, mouseData.downPos.y, mouseData.pos.x, mouseData.pos.y, pathing.nearestNode?.nodeID, pathing.path, pathing.selectedPoint, props.pathfinding, renderData.e, renderData.n, viewingFloor, props.endLocation, draggingNode, X_MULT, Y_MULT]);
 
   // wheel
   useEffect(() => {
@@ -478,14 +484,6 @@ export default function MapCanvas(props: mapCanvasProps) {
           overflow: "hidden",
         }}
       >
-        {/*<canvas*/}
-        {/*  width={MAP_WIDTH}*/}
-        {/*  height={MAP_HEIGHT}*/}
-        {/*  style={{*/}
-        {/*    aspectRatio: BASE_MAP_WIDTH + "/" + BASE_MAP_HEIGHT,*/}
-        {/*  }}*/}
-        {/*  ref={canvasRef}*/}
-        {/*/>*/}
         {svgElementInjector}
       </Box>
 
