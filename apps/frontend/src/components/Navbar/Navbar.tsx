@@ -62,9 +62,7 @@ function ResponsiveAppBar() {
           <Link
             href=""
             underline="none"
-            sx={{
-              maxWidth: "30%",
-            }}
+            sx={{maxWidth: "30%"}}
           >
             <Box
               component="img"
@@ -72,10 +70,7 @@ function ResponsiveAppBar() {
               src={logo}
               alt={"logo"}
               onClick={() => handleMenuItemClick("")}
-              sx={{
-                width: "1.6vw",
-                marginRight: "2vw",
-              }}
+              sx={{width: "1.6vw", marginRight: "2vw",}}
             ></Box>
           </Link>
 
@@ -103,9 +98,7 @@ function ResponsiveAppBar() {
               }}
             >
               <Typography
-                sx={{
-                  fontSize: "2.3vh",
-                }}
+                sx={{fontSize: "1.1rem",}}
               >
                 Home
               </Typography>
@@ -129,9 +122,7 @@ function ResponsiveAppBar() {
               }}
             >
               <Typography
-                sx={{
-                  fontSize: "2.3vh",
-                }}
+                sx={{fontSize: "1.1rem"}}
               >
                 Map
               </Typography>
@@ -156,7 +147,7 @@ function ResponsiveAppBar() {
             >
               <Typography
                 sx={{
-                  fontSize: "2.3vh",
+                  fontSize: "1.1rem",
                 }}
               >
                 Admin
@@ -186,7 +177,7 @@ function ResponsiveAppBar() {
             >
               <Typography
                 sx={{
-                  fontSize: "2.3vh",
+                  fontSize: "1.1rem",
                 }}
               >
                 Service Requests
