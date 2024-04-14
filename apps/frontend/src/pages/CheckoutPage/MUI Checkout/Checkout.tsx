@@ -26,6 +26,8 @@ import Review from "./Review.tsx";
 import {useEffect, useState} from "react";
 import {Item} from "../../GiftRequestPage/GiftRequestPage.tsx";
 
+import axios from "axios";
+
 const steps = ["Order Information", "Payment details", "Review your order"];
 
 
@@ -77,6 +79,25 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
             case 1:
                 return <PaymentForm cardDetails={cardData} onUpdateCardDetails={setCardData}/>;
             case 2:
+                axios.post( // todo finish/fix api post
+                    "api/service-requests",
+                    [
+                        "GIFT", // type
+                        "", // notes
+                        orderData.priority, // priority
+                        orderData.status, // status
+                        orderData.location, // location (nodeID)
+                        orderData.name, // senderName
+                        orderData.name, // recipientName
+                        orderData.shippingType, // shippingType
+                        cardData.cardNumber, // cardNumber
+                        cardData.cvv, // cardCVV
+                        cardData.cardHolderName, // cardHolderName
+                        cardData.expirationDate, // expirationDate
+                        cart.map(item => item.id)
+                    ]
+                );
+
                 return <Review
                     orderDetails={orderData}
                     cardDetails={cardData}
