@@ -79,7 +79,13 @@ function ResponsiveAppBar() {
             ></Box>
           </Link>
 
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex", justifyContent: "flex-start" },
 
+            }}
+          >
             <Button
               key={"home"}
               onClick={() => handleMenuItemClick("/")}
@@ -167,7 +173,7 @@ function ResponsiveAppBar() {
               onClick={handleOnClickRequests}
               sx={{
                 my: "5vh",
-                mr: "37vw",
+                mr: "1vw",
                 height: 45,
                 color: "white",
                 display: "block",
@@ -213,6 +219,7 @@ function ResponsiveAppBar() {
                 </MenuItem>
               ))}
             </Menu>
+          </Box>
           <SearchBar />
           <Button
             key={"login"}
