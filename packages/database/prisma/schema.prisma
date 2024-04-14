@@ -132,12 +132,20 @@ enum MessSize {
   LARGE
 }
 
+model SanitationRequestMessTypes {
+  request   SanitationRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
+  requestID Int
+  messType  MessType
+
+  @@unique([requestID, messType])
+}
+
 model SanitationRequest {
   request   ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
   requestID Int            @unique
 
-  messType MessType
-  messSize MessSize
+  messTypes SanitationRequestMessTypes[]
+  messSize  MessSize
 }
 
 enum Medicine {

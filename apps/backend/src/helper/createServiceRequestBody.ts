@@ -18,13 +18,27 @@ export default function createServiceRequestBody(body): any | undefined {
     // check for data corresponding to each service request type
     switch (body.type) {
         case "SANITATION":
+            if (!Array.isArray(body.messTypes)) {
+                console.error("messTypes must be an array");
+                return undefined;
+            }
+            if (body.messTypes.length == 0) {
+                console.error("messTypes must have at least one value");
+                return undefined
+            }
             body.sanitationDetail = {
                 create: {
-                    messType: body.messType,
+                    messTypes: {
+                        create: body.messTypes.map((messType: string) => {
+                            return {
+                                messType: messType,
+                            };
+                        }),
+                    },
                     messSize: body.messSize,
                 },
             };
-            delete body.messType;
+            delete body.messTypes;
             delete body.messSize;
             break;
         case "MEDICINE":
@@ -44,6 +58,14 @@ export default function createServiceRequestBody(body): any | undefined {
             delete body.form;
             break;
         case "GIFT":
+            if (!Array.isArray(body.items)) {
+                console.error("items must be an array");
+                return undefined;
+            }
+            if (body.items.length == 0) {
+                console.error("items must have at least one value");
+                return undefined
+            }
             body.giftDetail = {
                 create: {
                     senderName: body.senderName,
