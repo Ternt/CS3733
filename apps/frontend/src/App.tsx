@@ -5,7 +5,7 @@ import CustomTheme from "./components/CustomTheme.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 //import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
-import NavBar from "./components/navbar/navbar.tsx";
+import NavBar from "./components/Navbar/Navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
 import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
 import Checkout from "./pages/CheckoutPage/MUI Checkout/Checkout.tsx";
@@ -13,6 +13,7 @@ import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestFo
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 import MapPage from "./pages/MapPage.tsx";
+import {Box} from "@mui/material";
 
 function App() {
   const router = createBrowserRouter([
@@ -87,6 +88,8 @@ function App() {
         <ThemeProvider theme={CustomTheme}>
           <div className="w-full flex flex-col">
             <NavBar />
+            <Box
+              key={"Navbar spacer"} sx={{width:'100vh', height:'10vh', backgroundColor: "#012d5a",}}></Box>
             <Outlet />
           </div>
         </ThemeProvider>
