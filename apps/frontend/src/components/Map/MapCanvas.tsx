@@ -9,7 +9,7 @@ import InformationMenu from "../InformationMenu.tsx";
 import {MAPS, ZOOM, clamp, FLOOR_NAME_TO_INDEX, getMapData, MAP_BASE} from "./MapHelper.ts";
 
 
-const NODE_SIZE = 3;
+const NODE_SIZE = 3.1;
 
 
 
