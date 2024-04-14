@@ -132,12 +132,21 @@ enum MessSize {
   LARGE
 }
 
+model SanitationRequestMessTypes {
+  request   SanitationRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
+  requestID Int
+  messType  MessType
+
+  @@unique([requestID, messType])
+}
+
 model SanitationRequest {
   request   ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
   requestID Int            @unique
 
-  messType MessType
-  messSize MessSize
+  employeeName String
+  messTypes    SanitationRequestMessTypes[]
+  messSize     MessSize
 }
 
 enum Medicine {
@@ -171,13 +180,13 @@ enum ShippingType {
 }
 
 model CartItemsInGiftRequests {
+  id Int @id @default(autoincrement())
+
   giftRequest   GiftRequest @relation(fields: [giftRequestID], references: [requestID], onDelete: Cascade)
   giftRequestID Int
 
   cartItem   CartItem @relation(fields: [cartItemID], references: [id], onDelete: Cascade)
   cartItemID Int
-
-  @@id([giftRequestID, cartItemID])
 }
 
 model GiftRequest {
