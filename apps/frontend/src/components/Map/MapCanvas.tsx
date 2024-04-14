@@ -203,22 +203,10 @@ export default function MapCanvas(props: mapCanvasProps) {
 
     function handleZoom(e: WheelEvent) {
       const velocity = Math.sign(e.deltaY);
-      const z = clamp(
-        cameraControl.zoom + ZOOM.SPEED * velocity,
-        ZOOM.MIN,
-        ZOOM.MAX,
-      );
+      const z = clamp(cameraControl.zoom + ZOOM.SPEED * velocity, ZOOM.MIN, ZOOM.MAX,);
 
-      const Qx =
-        mouseData.pos.x -
-        ((mouseData.pos.x - cameraControl.pan.x) /
-          (svgRect.width / cameraControl.zoom)) *
-        (svgRect.width / z);
-      const Qy =
-        mouseData.pos.y -
-        ((mouseData.pos.y - cameraControl.pan.y) /
-          (svgRect.height / cameraControl.zoom)) *
-        (svgRect.height / z);
+      const Qx = mouseData.pos.x - ((mouseData.pos.x - cameraControl.pan.x) / (svgRect.width / cameraControl.zoom)) * (svgRect.width / z);
+      const Qy = mouseData.pos.y - ((mouseData.pos.y - cameraControl.pan.y) / (svgRect.height / cameraControl.zoom)) * (svgRect.height / z);
 
       setCameraControl({
         ...cameraControl,
@@ -534,14 +522,24 @@ export default function MapCanvas(props: mapCanvasProps) {
       <MapControls
         floor={viewingFloor}
         zoom={cameraControl.zoom}
-        zoomSpeed={ZOOM.SPEED * 10}
+        zoomSpeed={ZOOM.SPEED * 3}
         onSetFloorIndex={(floorIndex: number) => {
           handleSetViewingFloor(floorIndex);
         }}
-        onSetZoom={(zoom: number) => {
+        onSetZoom={(z: number) => {
+          const zc = clamp(z, ZOOM.MIN, ZOOM.MAX,);
+          const mx = (svgRect.width / 2) ;
+          const my = (svgRect.height / 2);
+          const Qx = mx - ((mx - cameraControl.pan.x) / (svgRect.width / cameraControl.zoom)) * (svgRect.width / zc);
+          const Qy = my - ((my - cameraControl.pan.y) / (svgRect.height / cameraControl.zoom)) * (svgRect.height / zc);
+
           setCameraControl({
             ...cameraControl,
-            zoom: clamp(zoom, ZOOM.MIN, ZOOM.MAX),
+            zoom: zc,
+            pan: {
+              x: Qx,
+              y: Qy,
+            },
           });
         }}
         onResetMap={() => {

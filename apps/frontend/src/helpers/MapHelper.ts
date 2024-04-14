@@ -4,7 +4,9 @@ import L2 from "../assets/BWHospitalMaps/01_thefirstfloor.png";
 import L3 from "../assets/BWHospitalMaps/02_thesecondfloor.png";
 import L4 from "../assets/BWHospitalMaps/03_thethirdfloor.png";
 export const MAPS = [L0, L1, L2, L3, L4];
-export const MAP_IDS = ["L2", "L1", "F1", "F2", "F3"];
+export const FLOOR_IDS = ["L2", "L1", "F1", "F2", "F3"];
+export const FLOOR_NAMES = ["Lower 2", "Lower 1", "Floor 1", "Floor 2", "Floor 3"];
+
 export const ZOOM = {
   SPEED: 0.05,
   MAX: 2,
