@@ -26,10 +26,10 @@ type form = {
 };
 
 function MedicineRequestForm() {
-    useEffect(() => {
-        document.title = "Medicine Request";
-    });
-    const [formData, setFormData] = useState<form[]>([]);
+  useEffect(() => {
+    document.title = "Medicine Request";
+  });
+  // const [formData, setFormData] = useState<form[]>([]);
     const [formInput, setFormInput] = useState<form>({
         medicine: "",
         dosage: "",
@@ -39,7 +39,7 @@ function MedicineRequestForm() {
         location: "",
         priority: "",
         status: "",
-    });
+      });
 
     function isComplete(): boolean {
         return (
@@ -61,12 +61,58 @@ function MedicineRequestForm() {
     function handlePatientNameInput(e: ChangeEvent<HTMLInputElement>) {
         setFormInput({...formInput, patientName: e.target.value});
     }
+    
+  function submitForm() {
+    let requestID = -1;
+    if (isComplete()) {
+      // Log the current state of service and details
+      console.log("Submitting Request");
 
-    function submitForm() {
-        setFormData((prevRequests) => [...prevRequests, formInput]);
-        clearForm();
-        console.log(formData); // Print the array of requests to the console
+      // Configure requestID to a specific, unique value
+      requestID = Date.now();
+      requestID = parseInt(
+          requestID.toString().substring(8) +
+          parseInt(Math.random() * 1000 + "").toString(),
+      );
+
+      // Create a service request object
+      const medicineRequest = {
+        requestID: requestID,
+        type: "MEDICINE",
+        priority: formInput.priority,
+        status: formInput.status,
+        notes: "None",
+        locationID: formInput.location,
+        patientName: formInput.patientName,
+        primaryPhysicianName: formInput.physicianName,
+        medicine: formInput.medicine,
+        dosage: parseInt(formInput.dosage),
+        form: formInput.form,
+      };
+      console.log(JSON.stringify(medicineRequest));
+
+      // Send a POST request to the server
+      fetch("/api/service-requests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(medicineRequest),
+      })
+          .then((response) => {
+            console.log(response);
+          })
+
+          .then((data) => console.log(data))
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+    } else {
+      // If service is "Null option", do not log anything
+      console.log("No service request submitted.");
     }
+    clearForm();
+  }
 
     function clearForm() {
         setFormInput({
@@ -167,27 +213,26 @@ function MedicineRequestForm() {
                                 sx={{marginY: 0}}
                             />
 
-                            <TextField
-                                required
-                                select
-                                id="priority-select"
-                                label={"Priority"}
-                                margin="normal"
-                                inputProps={{MenuProps: {disableScrollLock: true}}}
-                                value={formInput.priority}
-                                onChange={(event) => {
-                                    setFormInput({
-                                        ...formInput,
-                                        priority: event.target.value,
-                                    });
-                                }}
-                                sx={{marginY: 0}}
-                            >
-                                <MenuItem value={"Low"}>Low</MenuItem>
-                                <MenuItem value={"Medium"}>Medium</MenuItem>
-                                <MenuItem value={"High"}>High</MenuItem>
-                                <MenuItem value={"Emergency"}>Emergency</MenuItem>
-                            </TextField>
+            <TextField
+              required
+              select
+              id="priority-select"
+              label={"Priority"}
+              margin="normal"
+              inputProps={{ MenuProps: { disableScrollLock: true } }}
+              value={formInput.priority}
+              onChange={(event) => {
+                setFormInput({
+                  ...formInput,
+                  priority: event.target.value,
+                });
+              }}
+            >
+              <MenuItem value={"LOW"}>Low</MenuItem>
+              <MenuItem value={"MEDIUM"}>Medium</MenuItem>
+              <MenuItem value={"HIGH"}>High</MenuItem>
+              <MenuItem value={"EMERGENCY"}>Emergency</MenuItem>
+            </TextField>
 
                             <Box sx={{marginY: 0}}><LocationDropdown
                                 onChange={(v: string) => {
@@ -258,37 +303,38 @@ function MedicineRequestForm() {
                                 >
                                     <Box sx={{display: "flex"}}>
                                         <Box sx={{width: "10rem"}}><FormControlLabel
-                                            value="Powder"
+                                            value="POWDER"
                                             control={<Radio/>}
                                             label="Powder"
                                         /></Box>
                                         <Box><FormControlLabel
-                                            value="Tab or Cap"
+                                            value="TAB_OR_CAP"
                                             control={<Radio/>}
                                             label="Tab/Cap"
                                         /></Box>
                                     </Box>
                                     <Box sx={{display: "flex"}}>
                                         <Box sx={{width: "10rem"}}><FormControlLabel
-                                            value="Chewable"
+                                            value="CHEWABLE"
                                             control={<Radio/>}
                                             label="Chewable"
                                         /></Box>
                                         <Box><FormControlLabel
-                                            value="Liquid"
+                                            value="LIQUID"
                                             control={<Radio/>}
                                             label="Liquid"
                                         /></Box>
                                     </Box>
                                     <Box sx={{display: "flex"}}>
                                         <FormControlLabel
-                                            value="Inhaler"
+                                            value="INHALER"
                                             control={<Radio/>}
                                             label="Inhaler"
                                         />
                                     </Box>
                                 </RadioGroup>
                             </Box>
+
 
                             <TextField
                                 required
@@ -305,10 +351,10 @@ function MedicineRequestForm() {
                                 }}
                                 sx={{marginY: 0}}
                             >
-                                <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-                                <MenuItem value={"Assigned"}>Assigned</MenuItem>
-                                <MenuItem value={"In Progress"}>In Progress</MenuItem>
-                                <MenuItem value={"Closed"}>Closed</MenuItem>
+                                <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
+                                <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>
+                                <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
+                                <MenuItem value={"CLOSED"}>Closed</MenuItem>
                             </TextField>
 
                             <Box
@@ -341,6 +387,7 @@ function MedicineRequestForm() {
                             </Box>
                         </FormControl>
                     </form>
+
                 </Box>
             </Box>
 
@@ -379,15 +426,11 @@ function MedicineRequestForm() {
                     }}
                 >
                     <Calendar/>
+
                 </Box>
-
             </Box>
-
-
-
-
-        </Box>
-    );
+    </Box>
+  );
 }
 
 export default MedicineRequestForm;

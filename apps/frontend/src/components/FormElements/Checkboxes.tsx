@@ -8,6 +8,12 @@ type checkboxProps = {
   checked: string[];
 };
 
+function convertToDBFormat(text: string) {
+    text = text.toUpperCase();
+    text = text.replace(" ", "_");
+    return text;
+}
+
 function Checkboxes(props: checkboxProps) {
   const checkbox = (
     <Box
@@ -22,8 +28,8 @@ function Checkboxes(props: checkboxProps) {
           key={item}
           control={
             <Checkbox
-              id={item}
-              checked={props.checked.includes(item)}
+              id={convertToDBFormat(item)}
+              checked={props.checked.includes(convertToDBFormat(item))}
               onChange={(e) => {
                 props.onChange(e);
               }}
