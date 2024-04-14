@@ -1,8 +1,8 @@
-import L0 from "../../assets/BWHospitalMaps/00_thelowerlevel2.png";
-import L1 from "../../assets/BWHospitalMaps/00_thelowerlevel1.png";
-import L2 from "../../assets/BWHospitalMaps/01_thefirstfloor.png";
-import L3 from "../../assets/BWHospitalMaps/02_thesecondfloor.png";
-import L4 from "../../assets/BWHospitalMaps/03_thethirdfloor.png";
+import L0 from "../assets/BWHospitalMaps/00_thelowerlevel2.png";
+import L1 from "../assets/BWHospitalMaps/00_thelowerlevel1.png";
+import L2 from "../assets/BWHospitalMaps/01_thefirstfloor.png";
+import L3 from "../assets/BWHospitalMaps/02_thesecondfloor.png";
+import L4 from "../assets/BWHospitalMaps/03_thethirdfloor.png";
 export const MAPS = [L0, L1, L2, L3, L4];
 export const ZOOM = {
   SPEED: 0.05,
@@ -38,8 +38,4 @@ export function FLOOR_NAME_TO_INDEX(f: string) {
   }
   console.error("No index for " + f);
   return -1;
-}
-
-export function clamp(value: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, value));
 }

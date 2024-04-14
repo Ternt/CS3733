@@ -6,7 +6,9 @@ import axios, { AxiosResponse } from "axios";
 import { graphHelper, pointHelper } from "../../helpers/clickCorrectionMath.ts";
 import MapControls from "./MapControls.tsx";
 import InformationMenu from "../InformationMenu.tsx";
-import {MAPS, ZOOM, clamp, FLOOR_NAME_TO_INDEX, getMapData, MAP_BASE} from "./MapHelper.ts";
+import {MAPS, ZOOM, FLOOR_NAME_TO_INDEX, getMapData, MAP_BASE} from "../../helpers/MapHelper.ts";
+import {clamp, distance} from "../../helpers/MathHelp.ts";
+
 
 
 const NODE_SIZE = 3.1;
@@ -148,7 +150,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         />;
       }
 
-      function drawLine(a: vec2, b: vec2) {
+      function drawLine(a: vec2, b: vec2, color: string) {
         if (a.z !== viewingFloor) return;
         a = vecToCanvSpace(a);
         b = vecToCanvSpace(b);
@@ -158,7 +160,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           y1={a.y}
           x2={b.x}
           y2={b.y}
-          stroke={"blue"}
+          stroke={color}
           strokeWidth={NODE_SIZE*.5}
           strokeLinecap={"round"}
         />;
@@ -176,16 +178,17 @@ export default function MapCanvas(props: mapCanvasProps) {
         if (pathing.selectedPoint !== null)
           svgElements.push(drawPoint(pathing.selectedPoint, "blue"));
         for (let i = 0; i < pathing.path.length - 1; i++) {
-          svgElements.push(drawLine(pathing.path[i].point, pathing.path[i + 1].point));
+          svgElements.push(drawLine(pathing.path[i].point, pathing.path[i + 1].point, "black"));
         }
+        // check that the selected point is
         if (pathing.selectedPoint !== null)
-          svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint));
+          svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
       } else {
         for (const n of renderData.n) {
           svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID ? "red" : "blue")));
         }
         for (const e of renderData.e) {
-          svgElements.push(drawLine(e.startNode.point, e.endNode.point));
+          svgElements.push(drawLine(e.startNode.point, e.endNode.point, "blue"));
         }
       }
       setSvgInject(svgElements);
@@ -325,19 +328,19 @@ export default function MapCanvas(props: mapCanvasProps) {
 
       // Move point to nearest edge
       if (nodes === null) return;
-      const coords = graphHelper({
+      const graphResponse = graphHelper({
         pos: {x: x2, y: y2, z: viewingFloor},
         nodes: nodes,
         edges: edges,
         floor: viewingFloor,
       });
-      if (coords === null) return;
-      const closestNode = pointHelper({
-        pos: coords,
-        nodes: nodes,
-        floor: viewingFloor,
-      });
-      if (closestNode === null) return;
+      if(graphResponse === null) return;
+      const coords = graphResponse.point;
+      const closestEdge = graphResponse.edge;
+      if (coords === null || closestEdge === null) return;
+      let closestNode = closestEdge!.startNode;
+      if(distance(closestEdge!.startNode.point, coords) > distance(closestEdge!.endNode.point, coords))
+        closestNode = closestEdge!.endNode;
 
       if (props.pathfinding) {
         axios
@@ -361,6 +364,17 @@ export default function MapCanvas(props: mapCanvasProps) {
               console.error("no path");
               return;
             }
+
+            if(pathNodes.length > 2){
+              if(pathNodes[pathNodes.length-2].nodeID === closestEdge.startNode.nodeID && pathNodes[pathNodes.length-1].nodeID === closestEdge.endNode.nodeID){
+                pathNodes.pop();
+              }
+              else if(pathNodes[pathNodes.length-2].nodeID === closestEdge.endNode.nodeID && pathNodes[pathNodes.length-1].nodeID === closestEdge.startNode.nodeID){
+                pathNodes.pop();
+              }
+            }
+
+
             setPathing({
               ...pathing,
               path: pathNodes,

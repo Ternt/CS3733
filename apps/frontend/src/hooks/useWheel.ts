@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {clamp} from "../components/Map/MapHelper.ts";
+import {clamp} from "../helpers/MapHelper.ts";
 
 export default function useWheel(init:number, min:number, max:number, setter:(zoom:number)=>void){
   const [delta, setDelta] = useState(0);
