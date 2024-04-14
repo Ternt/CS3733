@@ -256,13 +256,13 @@ function MedicineRequestForm() {
                             <Box>
                                 <TextField
                                 label={"Date"}
+                                defaultValue={"MM/DD/YY"}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton onClick={() => {
                                                 setCalendarMenuFlag(!calendarMenuFlag);
                                                 setFormMenuTransform((calendarMenuFlag?0:150));
-                                                console.log(calendarMenuFlag);
                                             }}>
                                                 <EventIcon/>
                                             </IconButton>
