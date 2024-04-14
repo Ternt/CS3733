@@ -148,6 +148,7 @@ function MedicineRequestForm() {
                     width: '30%',
                     transform: `translate(${formMenuTransform}px)`,
                     transition: '0.5s',
+                    transitionDelay: (calendarMenuFlag? '100ms':'0ms'),
                 }}
             >
                 <Box
@@ -413,7 +414,7 @@ function MedicineRequestForm() {
 
 
             <Box sx={{mt: '6%'}}>
-               <Grow in={!calendarMenuFlag}>{
+               <Grow in={!calendarMenuFlag} {...!calendarMenuFlag? {timeout:1000}:{}}>{
                        <Box>
                            <Box
                                sx={{
