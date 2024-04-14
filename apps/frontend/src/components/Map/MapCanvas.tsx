@@ -1,46 +1,17 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-import L0 from "../../assets/BWHospitalMaps/00_thelowerlevel2.png";
-import L1 from "../../assets/BWHospitalMaps/00_thelowerlevel1.png";
-import L2 from "../../assets/BWHospitalMaps/01_thefirstfloor.png";
-import L3 from "../../assets/BWHospitalMaps/02_thesecondfloor.png";
-import L4 from "../../assets/BWHospitalMaps/03_thethirdfloor.png";
-
 import { Box } from "@mui/material";
 import { edge, node, vec2 } from "../../helpers/typestuff.ts";
 import axios, { AxiosResponse } from "axios";
 import { graphHelper, pointHelper } from "../../helpers/clickCorrectionMath.ts";
 import MapControls from "./MapControls.tsx";
 import InformationMenu from "../InformationMenu.tsx";
+import {MAPS, ZOOM, clamp, FLOOR_NAME_TO_INDEX, getMapData, MAP_BASE} from "./MapHelper.ts";
 
-const MAPS = [L0, L1, L2, L3, L4];
-const ZOOM_SPEED = 0.05;
-const ZOOM_MAX = 2;
-const ZOOM_MIN = 0.25;
-const BASE_MAP_WIDTH = 5000;
-const BASE_MAP_HEIGHT = 3400;
-const MAP_WIDTH = 1920;
-const MAP_HEIGHT = (BASE_MAP_HEIGHT / BASE_MAP_WIDTH) * MAP_WIDTH;
-const X_MULT = MAP_WIDTH / BASE_MAP_WIDTH;
-const Y_MULT = MAP_HEIGHT / BASE_MAP_HEIGHT;
+
 const NODE_SIZE = 3;
 
-function FLOOR_NAME_TO_INDEX(f: string) {
-  switch (f) {
-    case "L2":
-      return 0;
-    case "L1":
-      return 1;
-    case "1":
-      return 2;
-    case "2":
-      return 3;
-    case "3":
-      return 4;
-  }
-  console.error("No index for " + f);
-  return -1;
-}
+
 
 type mapCanvasProps = {
   defaultFloor: number;
@@ -50,11 +21,12 @@ type mapCanvasProps = {
   onDeselectEndLocation?: () => void;
 };
 
-function clamp(value: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, value));
-}
 
 export default function MapCanvas(props: mapCanvasProps) {
+
+  const X_MULT = getMapData().width / MAP_BASE.WIDTH;
+  const Y_MULT = getMapData().height / MAP_BASE.HEIGHT;
+
   // map data
   const [mouseData, setMouseData] = useState({
     pos: { x: 0, y: 0 },
@@ -198,27 +170,7 @@ export default function MapCanvas(props: mapCanvasProps) {
       canvasDraw();
     };
     canvasDraw();
-  }, [
-    cameraControl.pan.x,
-    cameraControl.pan.y,
-    cameraControl.zoom,
-    cameraControl.zoomDelta,
-    image,
-    mouseData.down,
-    mouseData.downPos.x,
-    mouseData.downPos.y,
-    mouseData.pos.x,
-    mouseData.pos.y,
-    pathing.nearestNode?.nodeID,
-    pathing.path,
-    pathing.selectedPoint,
-    props.pathfinding,
-    renderData.e,
-    renderData.n,
-    viewingFloor,
-    props.endLocation,
-    draggingNode,
-  ]);
+  }, [cameraControl.pan.x, cameraControl.pan.y, cameraControl.zoom, cameraControl.zoomDelta, image, mouseData.down, mouseData.downPos.x, mouseData.downPos.y, mouseData.pos.x, mouseData.pos.y, pathing.nearestNode?.nodeID, pathing.path, pathing.selectedPoint, props.pathfinding, renderData.e, renderData.n, viewingFloor, props.endLocation, draggingNode, X_MULT, Y_MULT]);
 
   // wheel
   useEffect(() => {
@@ -227,9 +179,9 @@ export default function MapCanvas(props: mapCanvasProps) {
     function handleZoom(e: WheelEvent) {
       const velocity = Math.sign(e.deltaY);
       const z = clamp(
-        cameraControl.zoom + ZOOM_SPEED * velocity,
-        ZOOM_MIN,
-        ZOOM_MAX,
+        cameraControl.zoom + ZOOM.SPEED * velocity,
+        ZOOM.MIN,
+        ZOOM.MAX,
       );
 
       const Qx =
@@ -301,7 +253,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [cameraControl, draggingNode, mouseData]);
+  }, [X_MULT, Y_MULT, cameraControl, draggingNode, mouseData]);
 
   //mousedown
   useEffect(() => {
@@ -345,16 +297,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     return () => {
       window.removeEventListener("mousedown", handleMouseDown);
     };
-  }, [
-    cameraControl,
-    edges,
-    mouseData,
-    nodes,
-    pathing,
-    props.pathfinding,
-    props.startLocation,
-    viewingFloor,
-  ]);
+  }, [X_MULT, Y_MULT, cameraControl, edges, mouseData, nodes, pathing, props.pathfinding, props.startLocation, viewingFloor]);
 
   //dblclick
   useEffect(() => {
@@ -438,17 +381,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     return () => {
       window.removeEventListener("dblclick", handleDblclick);
     };
-  }, [
-    cameraControl,
-    edges,
-    mouseData,
-    nodes,
-    pathing,
-    props,
-    props.pathfinding,
-    props.startLocation,
-    viewingFloor,
-  ]);
+  }, [X_MULT, Y_MULT, cameraControl, edges, mouseData, nodes, pathing, props, props.pathfinding, props.startLocation, viewingFloor]);
 
   //mouseup
   useEffect(() => {
@@ -559,21 +492,30 @@ export default function MapCanvas(props: mapCanvasProps) {
           overflow: "hidden",
         }}
       >
-        <canvas
-          width={MAP_WIDTH}
-          height={MAP_HEIGHT}
-          style={{
-            aspectRatio: BASE_MAP_WIDTH + "/" + BASE_MAP_HEIGHT,
-          }}
-          ref={canvasRef}
-        />
+        {/*<canvas*/}
+        {/*  width={MAP_WIDTH}*/}
+        {/*  height={MAP_HEIGHT}*/}
+        {/*  style={{*/}
+        {/*    aspectRatio: BASE_MAP_WIDTH + "/" + BASE_MAP_HEIGHT,*/}
+        {/*  }}*/}
+        {/*  ref={canvasRef}*/}
+        {/*/>*/}
+        <svg width="100%" height="100%">
+          <image
+            href={MAPS[viewingFloor]}
+            width={getMapData().width / cameraControl.zoom}
+            height={getMapData().height / cameraControl.zoom}
+            x={cameraControl.pan.x}
+            y={cameraControl.pan.y}
+          />
+        </svg>
       </Box>
 
       {!props.pathfinding && pathing.nearestNode !== null && (
         <InformationMenu
           nodeData={pathing.nearestNode}
           onClose={() => {
-            setPathing({ ...pathing, nearestNode: null });
+            setPathing({...pathing, nearestNode: null});
           }}
           onChangeNode={(node) => {
             setPathing({
@@ -586,14 +528,14 @@ export default function MapCanvas(props: mapCanvasProps) {
       <MapControls
         floor={viewingFloor}
         zoom={cameraControl.zoom}
-        zoomSpeed={ZOOM_SPEED * 10}
+        zoomSpeed={ZOOM.SPEED * 10}
         onSetFloorIndex={(floorIndex: number) => {
           handleSetViewingFloor(floorIndex);
         }}
         onSetZoom={(zoom: number) => {
           setCameraControl({
             ...cameraControl,
-            zoom: clamp(zoom, ZOOM_MIN, ZOOM_MAX),
+            zoom: clamp(zoom, ZOOM.MIN, ZOOM.MAX),
           });
         }}
         onResetMap={() => {

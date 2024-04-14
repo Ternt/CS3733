@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import MapCanvas from "../components/Map/MapCanvas.tsx";
+//import MapCanvas from "../components/Map/MapCanvas.tsx";
 import { Grid, Box, Typography } from "@mui/material";
 import LocationDropdown from "../components/LocationDropdown.tsx";
+import VectorMap from "../components/Map/VectorMap.tsx";
 
 export default function MapPage() {
   useEffect(() => {
@@ -15,6 +16,7 @@ export default function MapPage() {
       direction="row"
       justifyContent="stretch"
       alignItems="stretch"
+      height='90vh'
     >
       <Grid
         item
@@ -63,15 +65,16 @@ export default function MapPage() {
       </Grid>
 
       <Grid item xs={9}>
-        <MapCanvas
-          defaultFloor={2}
-          pathfinding={true}
-          startLocation={startLocation}
-          endLocation={endLocation}
-          onDeselectEndLocation={() => {
-            setEndLocation("");
-          }}
-        />
+        {/*<MapCanvas*/}
+        {/*  defaultFloor={2}*/}
+        {/*  pathfinding={true}*/}
+        {/*  startLocation={startLocation}*/}
+        {/*  endLocation={endLocation}*/}
+        {/*  onDeselectEndLocation={() => {*/}
+        {/*    setEndLocation("");*/}
+        {/*  }}*/}
+        {/*/>*/}
+        <VectorMap/>
       </Grid>
     </Grid>
   );
