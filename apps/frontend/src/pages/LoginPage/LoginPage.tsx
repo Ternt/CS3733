@@ -22,12 +22,22 @@ export default function LoginPage() {
                 appState: {
                     returnTo: location.pathname,
                 },
+            }).then(() => {
+                // Handle any logic here after loginWithRedirect completes
+            }).catch((error) => {
+                // Handle any errors here
+                console.error(error);
             });
         }
     };
 
     const handleLogout = () => {
-        logout();
+        logout().then(() => {
+            // Handle any logic here after logout completes
+        }).catch((error) => {
+            // Handle any errors here
+            console.error(error);
+        });
     };
 
     // Log user info

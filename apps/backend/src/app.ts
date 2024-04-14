@@ -27,7 +27,7 @@ const graph = new Graph();
   await exportEdgeDBToCSV(prisma, "../../map/edges.csv");
 })();
 
-const app: Express = express(); // Setup the backend
+const app: Express = express(); // Set up the backend
 
 //const fileUpload = require("express-fileupload");
 app.use(fileUpload());
@@ -58,18 +58,24 @@ app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });
 
-//if not in test mode, enable auth0
-if (!process.env["VITEST"]) {
-  //JWT checker to make sure routes have authorization
-  //enforce on all endpoints :)
-  app.use(
-    auth({
-      audience: "/api",
-      issuerBaseURL: "dev-0kmc0cto8b1g261n.us.auth0.com",
-      tokenSigningAlg: "RS256",
-    }),
-  );
-}
+// Create the auth middleware
+const authMiddleware = auth({
+    audience: "/api",
+    issuerBaseURL: "dev-0kmc0cto8b1g261n.us.auth0.com",
+    tokenSigningAlg: "RS256",
+});
+
+// Apply the auth middleware only to the /secure route
+app.use('/secure', authMiddleware);
+
+// Now only the /secure route requires authentication
+app.get('/secure', (req, res) => {
+    res.send('This is a secure route');
+});
+
+app.get('/public', (req, res) => {
+    res.send('This is a public route');
+});
 
 /**
  * Catch all 404 errors, and forward them to the error handler

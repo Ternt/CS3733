@@ -373,36 +373,36 @@ export async function exportNodeDBToCSV(
 }
 
 export async function exportEdgeDBToCSV(
-  prisma: PrismaClient,
-  filename: string,
+    prisma: PrismaClient,
+    filename: string,
 ) {
-  try {
-    const data = await prisma.edgeDB.findMany();
+    try {
+        const data = await prisma.edgeDB.findMany();
 
-    if (data.length === 0) {
-      console.error("No data found to export.");
-      return;
+        if (data.length === 0) {
+            console.error("No data found to export.");
+            return;
+        }
+
+        const columns = Object.keys(data[0]);
+        let csvContent = columns.join(",") + "\n";
+        const rows: string = data
+            .map((edge) => {
+                return [edge.endNodeID, edge.endNodeID, edge.blocked].join(",");
+            })
+            .join("\n");
+        csvContent += rows;
+
+        const filePath: string = path.join(__dirname, filename); // Change type to string
+
+        fs.writeFile(filePath, csvContent, "utf8", (err) => {
+            if (err) {
+                console.error("An error occurred:", err);
+                return;
+            }
+            console.log(`CSV file successfully exported to ${filePath}`);
+        });
+    } catch (error) {
+        console.error("Error exporting to CSV: ", error);
     }
-
-    const columns = Object.keys(data[0]);
-    let csvContent = columns.join(",") + "\n";
-    const rows: string = data
-      .map((edge) => {
-        return [edge.endNodeID, edge.endNodeID, edge.blocked].join(",");
-      })
-      .join("\n");
-    csvContent += rows;
-
-    const filePath = path.join(__dirname, filename);
-
-    fs.writeFile(filePath, csvContent, "utf8", (err) => {
-      if (err) {
-        console.error("An error occurred:", err);
-        return;
-      }
-      console.log(`CSV file successfully exported to ${filePath}`);
-    });
-  } catch (error) {
-    console.error("Error exporting to CSV: ", error);
-  }
 }
