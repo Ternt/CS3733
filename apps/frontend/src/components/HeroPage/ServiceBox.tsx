@@ -1,5 +1,5 @@
 import {Box, Card, CardContent, Grid, Typography} from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import React from 'react';
 
 type ServiceBoxProps = {
@@ -7,7 +7,8 @@ type ServiceBoxProps = {
     header: string,
     descriptiveText: string,
     icon: React.ReactNode,
-    };
+    onClick?: (event: React.MouseEvent<HTMLElement>) => void
+};
 
 function ServiceBox(props: ServiceBoxProps) {
     const navigate = useNavigate();
@@ -19,7 +20,6 @@ function ServiceBox(props: ServiceBoxProps) {
 
     return (
         <>
-
             <Grid
                 item
                 xs={12}
@@ -36,6 +36,7 @@ function ServiceBox(props: ServiceBoxProps) {
                         "&:hover": {
                             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                             border: "1px solid #999",
+                            transform: 'translateY(-8px)',
                             "& > .btmstripe": {
                                 backgroundColor: "#f6bd38",
                             },
@@ -58,12 +59,13 @@ function ServiceBox(props: ServiceBoxProps) {
                         }}
                     />
                     <CardContent>
-                        {props.icon}
-                        {/*<HomeRepairServiceIcon style={{ fontSize: "40px" }} />*/}
-                        <Typography variant="h5" component="h2">
+                        {React.cloneElement(props.icon, {style: {fontSize: '50px'}})}
+                        <Typography component="h2" sx={{
+                            fontSize: '22px',
+                        }}>
                             {props.header}
                         </Typography>
-                        <Typography variant="body1" color="textSecondary">
+                        <Typography variant="body1" color="textSecondary"  style={{whiteSpace: 'pre-line'}}>
                             {props.descriptiveText}
                         </Typography>
                     </CardContent>

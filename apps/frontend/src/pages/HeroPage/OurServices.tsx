@@ -1,18 +1,17 @@
 import React from "react";
 import { Box, Typography, Grid} from "@mui/material";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import VaccinesIcon from "@mui/icons-material/Vaccines";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
-import BedIcon from "@mui/icons-material/Bed";
 import ServiceBox from '../../components/HeroPage/ServiceBox.tsx';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import MapIcon from '@mui/icons-material/Map';
 
 export default function OurServices() {
 
   const ServicesHeaderSxTemplate ={
       fontFamily: "Open Sans",
       fontSize: "50px",
-      width: "45vw",
+      width: "100%",
       textAlign: "center",
       fontWeight: 1000,
       color: "black",
@@ -20,13 +19,17 @@ export default function OurServices() {
       padding: "5vh",
   };
 
+    const handleExternalLink = (url: string) => {
+        window.open(url, '');
+    };
+
   return (
     <>
       <Box sx={{ height: "90vh", width: "100vw", display: "grid" }}>
         <Typography
           sx={ ServicesHeaderSxTemplate }
         >
-          Our Services
+            About Us
         </Typography>
           <Grid
               container
@@ -37,30 +40,34 @@ export default function OurServices() {
                   top: "115vh",
               }}
           >
-              <ServiceBox path={"/service-request"}
-                          icon={<HomeRepairServiceIcon/>}
-                          header={"Maintenance"}
-                          descriptiveText={"Request Maintenance"}/>
-              <ServiceBox path={"medicine-request"}
-                          icon={<VaccinesIcon/>}
-                          header={"Medicine"}
-                          descriptiveText={"Order Medicine for a Patient"} />
+              <ServiceBox path={""}
+                          icon={<LocationCityIcon/>}
+                          header={"Brigham and Women's Hospital"}
+                          descriptiveText={"• 75 Francis Street, Boston, MA 02115\n• 617-732-5500"}
+                          onClick={() => handleExternalLink('https://www.brighamandwomens.org/about-bwh/locations/boston-main-hospital-campus')}/>
+
+              <ServiceBox path={""}
+                          icon={<LocationCityIcon/>}
+                          header={"Brigham and Women's Faulkner Hospital"}
+                          descriptiveText={"• 1153 Centre Street, Jamacia Plain, MA 02130\n • 617-983-7000"}
+                          onClick={() => handleExternalLink('https://www.brighamandwomens.org/about-bwh/locations/faulkner-hospital-jamaica-plain')}/>
+
+              <ServiceBox path={"/map"}
+                          icon={<MapIcon/>}
+                          header={"Map"}
+                          descriptiveText={"• Find your way to any location within the hospital"}/>
+
+
               <ServiceBox path={"/gift-request"}
                           icon={<CardGiftcardIcon/>}
-                          header={"Gift Request"}
-                          descriptiveText={"Send a Gift to a Loved One"}/>
+                          header={"Send a Gift"}
+                          descriptiveText={"• Get your loved one a customized gift that will be delivered directly to their room"}/>
+
               <ServiceBox path={"/flower-request"}
                           icon={<LocalFloristIcon/>}
-                          header={"Flowers"}
-                          descriptiveText={"Send Flowers to a Loved One"}/>
-             <ServiceBox path={"/flower-request"}
-                         icon={<BedIcon/>}
-                         header={"PLACEHOLDER"}
-                         descriptiveText={"PLACEHOLDER"}/>
-              <ServiceBox path={"/flower-request"}
-                          icon={<BedIcon/>}
-                          header={"PLACEHOLDER"}
-                          descriptiveText={"PLACEHOLDER"}/>
+                          header={"Buy Flowers"}
+                          descriptiveText={"• Send Flowers directly to the room of a loved one"}/>
+
           </Grid>
       </Box>
     </>
