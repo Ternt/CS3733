@@ -3,6 +3,7 @@ import { Graph } from "../graph/graph.ts";
 import { BreathFirstSearch } from "../graph/breath-first-search";
 import { DepthFirstSearch } from "../graph/depth-first-search";
 import { AStarSearch } from "../graph/a-star-search";
+import { DijkstraSearch } from "../graph/dijkstra-search.ts";
 
 const router: Router = express.Router();
 
@@ -44,6 +45,9 @@ router.get("/", async function (req: Request, res: Response) {
                 break;
             case "astar":
                 graph.strategy = new AStarSearch();
+                break;
+            case "dijkstra":
+                graph.strategy = new DijkstraSearch();
                 break;
             default:
                 console.log("invalid search algorithm");

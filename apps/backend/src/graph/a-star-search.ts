@@ -3,6 +3,11 @@ import {PriorityQueue} from "./priority-queue.ts";
 import { PathfindingStrategy } from "./graph.ts";
 
 export class AStarSearch implements PathfindingStrategy {
+
+    heuristic(graph: Graph, StartNodeID: string, EndNodeID: string): number {
+        return graph.cost(StartNodeID, EndNodeID);
+    }
+
     runSearch(graph: Graph, start: string, end: string) {
         const frontier = new PriorityQueue();
         frontier.push([start, 0.0]);
@@ -34,7 +39,7 @@ export class AStarSearch implements PathfindingStrategy {
                     new_cost < cost_so_far.get(neighbour)!
                 ) {
                     cost_so_far.set(neighbour, new_cost);
-                    const priority = new_cost + graph.cost(end, neighbour);
+                    const priority = new_cost + this.heuristic(graph, end, neighbour);
                     frontier.push([neighbour, priority]);
                     came_from.set(neighbour, current);
                 }

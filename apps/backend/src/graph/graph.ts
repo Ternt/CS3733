@@ -1,6 +1,6 @@
 import PrismaClient from "../bin/database-connection.ts";
 import { AStarSearch } from "./a-star-search.ts";
-import {GraphNode, NodeType, Edge, floorNameArray, floorArray, floorValueDict} from "./graphDataTypes.ts"
+import {GraphNode, NodeType, Edge, floorNameArray, floorArray, floorValueDict} from "./graphDataTypes.ts";
 
 export interface PathfindingStrategy {
     runSearch(
@@ -14,7 +14,7 @@ export class Graph {
     nodes: Map<string, GraphNode>;
     edges: Map<string, Edge[]>;
 
-    strategy: PathfindingStrategy
+    strategy: PathfindingStrategy;
 
     constructor() {
         this.nodes = new Map<string, GraphNode>();
