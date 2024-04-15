@@ -46,7 +46,7 @@ router.post("/assign", async function (req: Request, res: Response) {
         return;
     }
 
-    // Attempt to save the employee
+    // Attempt to assign employee
     try {
         // Attempt to update record
         await PrismaClient.serviceRequest.update({
