@@ -147,6 +147,7 @@ model SanitationRequest {
   employeeName String
   messTypes    SanitationRequestMessTypes[]
   messSize     MessSize
+  date         String
 }
 
 enum Medicine {
@@ -172,6 +173,7 @@ model MedicineRequest {
   medicine             Medicine
   dosage               Int
   form                 MedicineForm
+  date                 String
 }
 
 enum ShippingType {
