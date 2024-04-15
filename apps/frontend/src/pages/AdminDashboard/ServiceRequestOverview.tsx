@@ -24,10 +24,12 @@ export default function ServiceRequestOverview(){
 
     const [selectedCard, setSelectedCard] = useState<RequestCard | null>(null);
     const [reqs, setReqs] = useState<serviceRequest[]>([]);
+    const reqTypes = ["MEDICINE", "SANITATION", "GIFT", "DELIVERY"];
 
     useEffect(()=>{
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
             setReqs(res.data);
+            console.log(res.data);
         });
     }, []);
 
@@ -46,10 +48,10 @@ export default function ServiceRequestOverview(){
                 }}
             >
                 {
-                    reqs.map((service)=>{
+                    reqTypes.map((category)=>{
                         return (
                             <Box
-                                key={service.requestID}
+                                key={category}
                                 sx={{
                                     width: ((100.0/reqs.length - 2)+"%"),
                                     minHeight:'85vh',
@@ -61,18 +63,23 @@ export default function ServiceRequestOverview(){
                                     gap:'1rem',
                                 }}
                             >
-                                <Typography variant={"h4"}>{service.type}</Typography>
-                                <Paper
-                                    sx={{
-                                        width:'100%',
-                                        height:'300px',
-                                        bgcolor:'white'
-                                    }}
-                                    elevation={5}
-                                >
-
-                                </Paper>
-
+                                <Typography variant={"h4"}>{category}</Typography>
+                                {
+                                    reqs.map((service) => {
+                                        return(
+                                            ((service.type === category)?
+                                                <Paper
+                                                    key={service.requestID}
+                                                    sx={{
+                                                        width:'100%',
+                                                        height:'300px',
+                                                        bgcolor:'white'
+                                                    }}
+                                                    elevation={5}
+                                                /> : <></>)
+                                        );
+                                    })
+                                }
                             </Box>
                         );})
                 }
