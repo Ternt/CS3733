@@ -27,6 +27,14 @@ enum NodeType {
   BATH
 }
 
+model Employee {
+  id        Int    @id @default(autoincrement())
+  firstName String
+  lastName  String
+
+  assignedRequests ServiceRequest[]
+}
+
 model NodeDB {
   nodeID    String   @unique
   xcoord    Int
@@ -101,6 +109,9 @@ model ServiceRequest {
   locationID String
   priority   ServiceRequestPriority
   status     ServiceRequestStatus
+
+  assignedEmployeeID Int?
+  assignedEmployee   Employee? @relation(fields: [assignedEmployeeID], references: [id], onDelete: SetNull)
 
   sanitationDetail  SanitationRequest?
   medicineDetail    MedicineRequest?
