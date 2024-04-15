@@ -4,10 +4,15 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import {Item} from "../../GiftRequestPage/GiftRequestPage.tsx";
+import {Item} from "../../StoreRequestPage/StoreRequestPage.tsx";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-export default function Info({ cart, onDeleteItem }) {
+type InfoProps = {
+    cart: Item[];
+    onDeleteItem: (index: number) => void;
+};
+
+export default function Info(props: InfoProps) {
     return (
         <>
             <Typography sx={{
@@ -41,7 +46,7 @@ export default function Info({ cart, onDeleteItem }) {
                         mt: '1vh',
                     }}
                 >
-                    {cart.map((item: Item, index: number) => (
+                    {props.cart.map((item: Item, index: number) => (
                         <Card
                             key={index}
                             sx={{
@@ -112,7 +117,7 @@ export default function Info({ cart, onDeleteItem }) {
                                                 p: 0.5,
                                             }}
                                         >
-                                            {item.name}
+                                            {item.title}
                                         </Typography>
                                         <Typography
                                             style={{fontFamily: "Open Sans", fontSize: "14px"}}
@@ -149,7 +154,7 @@ export default function Info({ cart, onDeleteItem }) {
                                                 transform: "scale(1.2)"
                                             },
                                         }}
-                                        onClick={() => onDeleteItem(index)}>
+                                        onClick={() => props.onDeleteItem(index)}>
                                     </HighlightOffIcon>
                                 </Box>
                             </Box>
@@ -178,7 +183,7 @@ export default function Info({ cart, onDeleteItem }) {
                 ml: '-3.5vw',
             }}>
                 $
-                {cart
+                {props.cart
                     .map((item: Item) => item.price)
                     .reduce(
                         (accumulator: number, currentValue: number) =>

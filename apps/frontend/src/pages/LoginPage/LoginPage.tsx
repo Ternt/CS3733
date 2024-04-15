@@ -1,94 +1,125 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Box, Button, FormControl, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  FormControl,
+  Typography,
+} from "@mui/material";
+import { useAuth0 } from "@auth0/auth0-react";
 import background from "./login-page-background.png";
-import Card from "@mui/material/Card";
-
-type LoginCredentials = {
-  username:string;
-  password:string;
-};
-
+import User from '../../../../../packages/common/src/User.tsx';
 export default function LoginPage() {
-  useEffect(() => {
-    document.title = "B&W Login";
-  });
-  const [credential, setCredential] = useState<LoginCredentials>({
-    username: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
+    const { loginWithRedirect, logout, user, error, isAuthenticated,} = useAuth0();
 
-  const navigate = useNavigate();
-  function handleUsernameInput(e: string) {
-    setCredential({ ...credential, username: e });
-  }
-
-  function handlePasswordInput(e: string) {
-    setCredential({ ...credential, password: e });
-  }
-
-  function handleSubmit() {
-    if (credential.username === "admin" && credential.password === "admin") {
-      navigate("/admin");
-    } else {
-      setError("Incorrect Username or Password"); // TODO make this response come from an API call
-      handleUsernameInput("");
-      handlePasswordInput("");
-      setTimeout(() => {
-        //TODO use useEffect to make this a non overlapping action
-        setError("");
-      }, 5000);
+    function logUserInfo(user: User) {
+        console.log(user);
     }
-  }
 
-  return (
-    <>
-      <Box
-        component="img"
-        src={background}
-        sx={{
-          objectFit: "cover",
-          overflow: "hidden",
-          height: "72.2vh",
-        }}
-      ></Box>
+    const handleSubmit = () => {
+        if (!user) {
+            loginWithRedirect({
+                appState: {
+                    returnTo: location.pathname,
+                },
+            }).then(() => {
+                // Handle any logic here after loginWithRedirect completes
+            }).catch((error) => {
+                // Handle any errors here
+                console.error(error);
+            });
+        }
+    };
 
-      <Box
-        className={"login-page"}
-        sx={{
-          height: 0,
-        }}
-      >
-        <Card>
-          <h1>Login</h1>
-          <FormControl fullWidth>
-            <TextField
-              id="input-with-sx"
-              label="Username"
-              variant="standard"
-              onChange={(e) => handleUsernameInput(e.target.value)}
+    const handleLogout = () => {
+        logout().then(() => {
+            // Handle any logic here after logout completes
+        }).catch((error) => {
+            // Handle any errors here
+            console.error(error);
+        });
+    };
+
+    // Log user info
+    if (user) {
+        logUserInfo(user);
+    }
+
+    // if (isLoading) {
+    //     return <div>Loading...</div>;
+    // }
+
+    //isAuthenticated here
+
+
+    // Log user info
+    if (user) {
+        logUserInfo(user);
+    }
+
+
+
+    return (
+        <>
+            <img
+                src={background}
+                alt={"login-background"}
+                style={{
+                    width: "100vw",
+                    height: "50vh",
+                    objectFit: "cover",
+                }}
             />
-            <TextField
-              id="password-input"
-              label="Password"
-              variant="standard"
-              type={"password"}
-              onChange={(e) => handlePasswordInput(e.target.value)}
-            />
-            <Button
-              color="secondary"
-              variant="contained"
-              type="submit"
-              onClick={() => handleSubmit()}
-              style={{ marginTop: "40px" }}
-            >
-              Login
-            </Button>
-            <p className={"error-message"}>{error}</p>
-          </FormControl>
-        </Card>
-      </Box>
-    </>
-  );
+            <Box>
+                <Card
+                    sx={{
+                        width: "20vw",
+                        position: "absolute",
+                        left: "50%",
+                        top: "60%",
+                        transform: "translate(-50%,-50%)",
+                        boxShadow: 5,
+                        px: 5,
+                        pt: 5,
+                        pb: 10,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "flex-start",
+                    }}
+                >
+                    <Typography variant={"h5"}>{isAuthenticated ? 'Logout' : 'Login'}</Typography>
+                    <FormControl fullWidth>
+                        {!isAuthenticated && (
+                            <Button
+                                color="secondary"
+                                variant="contained"
+                                type="submit"
+                                onClick={() => handleSubmit()}
+                                style={{ marginTop: "40px" }}
+                            >
+                                Login
+                            </Button>
+                        )}
+                        {isAuthenticated && (
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                type="button"
+                                onClick={() => handleLogout()}
+                                style={{ marginTop: "20px" }}
+                            >
+                                Logout
+                            </Button>
+                        )}
+                        <Typography
+                            variant={"subtitle2"}
+                            sx={{ color: "red", textAlign: "center" }}
+                        >
+                            {error?.message}
+                        </Typography>
+                    </FormControl>
+                </Card>
+            </Box>
+        </>
+    );
 }

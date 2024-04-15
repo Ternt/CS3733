@@ -7,13 +7,15 @@ import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 //import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
 import NavBar from "./components/Navbar/Navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
-import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
+import StoreRequestPage from "./pages/StoreRequestPage/StoreRequestPage.tsx";
 import Checkout from "./pages/CheckoutPage/MUI Checkout/Checkout.tsx";
 import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 import MapPage from "./pages/MapPage.tsx";
-import {Box} from "@mui/material";
+import {Auth0Provider} from "@auth0/auth0-react";
+import { useNavigate } from 'react-router-dom';
+
 
 function App() {
   const router = createBrowserRouter([
@@ -44,11 +46,11 @@ function App() {
         },
         {
           path: "/gift-request",
-          element: <GiftRequestPage />,
+          element: <StoreRequestPage requestType={"gift"}/>,
         },
         {
           path: "/flower-request",
-          element: <GiftRequestPage />,
+          element: <StoreRequestPage requestType={"flower"}/>,
         },
         {
           path: "/gift-checkout",
@@ -82,19 +84,31 @@ function App() {
     </ThemeProvider>
   );
 
-  function Root() {
-    return (
-      <>
-        <ThemeProvider theme={CustomTheme}>
-          <div className="w-full flex flex-col">
-            <NavBar />
-            <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a",}}></Box>
-            <Outlet />
-          </div>
-        </ThemeProvider>
-      </>
-    );
-  }
+    function Root() {
+        const navigate = useNavigate();
+        return (
+            <>
+
+                <Auth0Provider
+                    useRefreshTokens
+                    cacheLocation="localstorage"
+                    domain="dev-0kmc0cto8b1g261n.us.auth0.com"
+                    clientId="bphcdyBgEk1u7ZP1E2EnaMSXQMOIjH3V"
+                    onRedirectCallback={(appState) => {
+                        navigate(appState?.returnTo || window.location.pathname);
+                    }}
+                    authorizationParams={{
+                        redirect_uri: window.location.origin
+                    }}
+                >
+                    <div className="w-full flex flex-col">
+                        <NavBar />
+                        <Outlet />
+                    </div>
+                </Auth0Provider>
+            </>
+        );
+    }
 }
 
 export default App;
