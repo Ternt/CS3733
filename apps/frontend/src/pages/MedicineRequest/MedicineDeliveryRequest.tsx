@@ -457,7 +457,7 @@ function MedicineRequestForm() {
                         >
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DateCalendar
-                                    defaultValue={dayjs('2003-12-06')}
+                                    defaultValue={dayjs(Date.now())}
                                     views={['year', 'month', 'day']}
                                     onChange={(mewDate) => {
                                         setFormInput({...formInput, date: mewDate.format('MM/DD/YY')});

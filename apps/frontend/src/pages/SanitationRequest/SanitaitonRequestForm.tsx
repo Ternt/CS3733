@@ -410,7 +410,7 @@ function SanitationRequestForm() {
                         >
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DateCalendar
-                                    defaultValue={dayjs()}
+                                    defaultValue={dayjs(Date.now())}
                                     views={['year', 'month', 'day']}
                                     onChange={(newDate) => {
                                         setFormInput({...formInput, date: newDate.format("MM/DD/YY")});
