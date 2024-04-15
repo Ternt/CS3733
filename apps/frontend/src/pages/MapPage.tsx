@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Grid, Box, Typography } from "@mui/material";
 import LocationDropdown from "../components/LocationDropdown.tsx";
 import MapCanvas from "../components/Map/MapCanvas.tsx";
+import NaturalLanguageDirection from "../components/NaturalLanguageDirection/NaturalLanguageDirection.tsx";
 
 export default function MapPage() {
   useEffect(() => {
@@ -62,6 +63,11 @@ export default function MapPage() {
         </Box>
 
         <Typography>*reserved space for other features*</Typography>
+          <Typography>{startLocation}</Typography>
+          <Typography>{endLocation}</Typography>
+          <NaturalLanguageDirection startLocation={startLocation} endLocation={endLocation} />
+
+
       </Grid>
 
       <Grid item xs={9}>
