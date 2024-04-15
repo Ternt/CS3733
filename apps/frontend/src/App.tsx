@@ -15,6 +15,7 @@ import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryReques
 import MapPage from "./pages/MapPage.tsx";
 import {Auth0Provider} from "@auth0/auth0-react";
 import { useNavigate } from 'react-router-dom';
+import Box from "@mui/material/Box";
 
 
 function App() {
@@ -88,7 +89,6 @@ function App() {
         const navigate = useNavigate();
         return (
             <>
-
                 <Auth0Provider
                     useRefreshTokens
                     cacheLocation="localstorage"
