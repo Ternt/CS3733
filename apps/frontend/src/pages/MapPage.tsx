@@ -12,8 +12,9 @@ export default function MapPage() {
 
   const algos = [
     {title:'A-Star', api:'astar', helper:'The quickest route'},
-    {title:'Breadth First', api:'bfs', helper:'A decent route'},
-    {title:'Depth First', api:'dfs', helper:'The scenic route'},
+    {title:'Breadth First Search', api:'bfs', helper:'A decent route'},
+    {title:'Depth First Search', api:'dfs', helper:'The scenic route'},
+    {title:'Dijkstra\'s', api:'dijkstra', helper: 'A very quick route'}
   ];
   const [startLocation, setStartLocation] = useState("Abrams Conference Room");
   const [endLocation, setEndLocation] = useState("Abrams Conference Room");
@@ -36,8 +37,7 @@ export default function MapPage() {
         }}
       >
         <Typography
-          fontFamily={"open-sans"}
-          variant={"h3"}
+          variant={"h4"}
           sx={{
             p: 2,
           }}
@@ -52,7 +52,7 @@ export default function MapPage() {
               setStartLocation(v);
             }}
             value={startLocation}
-            filterTypes={["HALL"]}
+            filterTypes={["HALL", "ELEV"]}
             label={"Start "}
           />
         </Box>
@@ -64,7 +64,7 @@ export default function MapPage() {
               setEndLocation(v);
             }}
             value={endLocation}
-            filterTypes={["HALL"]}
+            filterTypes={["HALL", "ELEV"]}
             label={"End "}
           />
         </Box>
