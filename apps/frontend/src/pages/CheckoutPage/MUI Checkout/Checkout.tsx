@@ -24,7 +24,7 @@ import Info from "./Info.tsx";
 import PaymentForm from "./PaymentForm.tsx";
 import Review from "./Review.tsx";
 import {useEffect, useState} from "react";
-import {Item} from "../../GiftRequestPage/GiftRequestPage.tsx";
+import {Item} from "../../StoreRequestPage/StoreRequestPage.tsx";
 
 const steps = ["Order Information", "Payment details", "Review your order"];
 

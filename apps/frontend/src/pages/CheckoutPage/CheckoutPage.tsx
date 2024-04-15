@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Item } from "../GiftRequestPage/GiftRequestPage.tsx";
+import { Item } from "../StoreRequestPage/StoreRequestPage.tsx";
 import React, { useEffect, useState } from "react";
 import LocationDropdown from "../../components/LocationDropdown.tsx";
 import {
@@ -151,7 +151,7 @@ function CheckoutPage({ checkoutType, returnPath }: CheckoutProps) {
                     p: 1.2,
                   }}
                 >
-                  {item.name}
+                  {item.title}
                 </Typography>
                 <hr
                   style={{
