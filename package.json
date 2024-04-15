@@ -30,7 +30,6 @@
     "test:stop": "docker-compose -f docker-compose.dev.yaml down --volumes --rmi local",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
-    "postinstall": "husky install || exit 0",
     "build": "turbo run build",
     "docker:upload": "turbo run docker:upload --concurrency=1"
   },
@@ -44,7 +43,6 @@
     "eslint": "^8.56.0",
     "eslint-config-custom": "workspace:*",
     "happy-dom": "^10.6.3",
-    "husky": "^8.0.0",
     "prettier": "2.8.8",
     "prettier-config-custom": "workspace:*",
     "tsconfig-custom": "workspace:*",
