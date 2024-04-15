@@ -359,11 +359,11 @@ export default function MapCanvas(props: mapCanvasProps) {
               }
             }
 
-
             setPathing({
               ...pathing,
               path: pathNodes,
               selectedPoint: coords,
+              algo: props.pathfinding!
             });
             if (props.onDeselectEndLocation !== undefined)
               props.onDeselectEndLocation();
@@ -389,6 +389,67 @@ export default function MapCanvas(props: mapCanvasProps) {
       window.removeEventListener("dblclick", handleDblclick);
     };
   }, [X_MULT, Y_MULT, cameraControl, edges, mouseData, nodes, pathing, props, props.pathfinding, props.startLocation, svgRect.left, svgRect.top, viewingFloor]);
+
+
+  useEffect(()=>{
+    if(props.pathfinding !== null && props.pathfinding !== pathing.algo && pathing.selectedPoint !== null){
+      const x2 = pathing.selectedPoint.x;
+      const y2 = pathing.selectedPoint.y;
+
+      // Move point to nearest edge
+      if (nodes === null) return;
+      const graphResponse = graphHelper({
+        pos: {x: x2, y: y2, z: viewingFloor},
+        nodes: nodes,
+        edges: edges,
+        floor: viewingFloor,
+      });
+      if(graphResponse === null) return;
+      const coords = graphResponse.point;
+      const closestEdge = graphResponse.edge;
+      if (coords === null || closestEdge === null) return;
+      let closestNode = closestEdge!.startNode;
+      if(distance(closestEdge!.startNode.point, coords) > distance(closestEdge!.endNode.point, coords))
+        closestNode = closestEdge!.endNode;
+
+      if (props.pathfinding) {
+        axios
+          .get("/api/pathfind?startNode=" + closestNode.nodeID + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
+          .then((res) => {
+            const pathNodes: node[] = [];
+            for (const s of res.data.path) {
+              const n = nodes.find((no: node) => {
+                return no.nodeID === s;
+              });
+              if (n === undefined) continue;
+              pathNodes.push(n);
+            }
+
+            if (pathNodes === undefined || pathNodes.length === 0) {
+              console.error("no path");
+              return;
+            }
+
+            if(pathNodes.length > 2){
+              if(pathNodes[pathNodes.length-2].nodeID === closestEdge.startNode.nodeID && pathNodes[pathNodes.length-1].nodeID === closestEdge.endNode.nodeID){
+                pathNodes.pop();
+              }
+              else if(pathNodes[pathNodes.length-2].nodeID === closestEdge.endNode.nodeID && pathNodes[pathNodes.length-1].nodeID === closestEdge.startNode.nodeID){
+                pathNodes.pop();
+              }
+            }
+
+            setPathing({
+              ...pathing,
+              path: pathNodes,
+              selectedPoint: coords,
+              algo: props.pathfinding!
+            });
+          });
+      }
+    }
+  }, [edges, nodes, pathing, pathing.algo, props.pathfinding, props.startLocation, viewingFloor]);
+
 
   //mouseup
   useEffect(() => {
