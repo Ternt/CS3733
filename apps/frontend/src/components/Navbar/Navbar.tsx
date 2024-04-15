@@ -6,7 +6,6 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Link from "@mui/material/Link";
-import "./navbar.scss";
 import logo from "../../assets/Brigham_and_Womens_Hospital_Logo_White.png";
 import { useNavigate } from "react-router-dom";
 import { Menu, Typography } from "@mui/material";
@@ -78,7 +77,7 @@ function ResponsiveAppBar() {
               src={logo}
               alt={"logo"}
               onClick={() => handleMenuItemClick("")}
-              sx={{width: "3vh", aspectRatio: "294/423", mx: 2}}
+              sx={{width: "3vh", aspectRatio: "294/423", mx: 2, p:"2%"}}
             ></Box>
           </Link>
             <Button
