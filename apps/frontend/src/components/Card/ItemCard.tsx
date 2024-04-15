@@ -5,7 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
 import {Typography} from "@mui/material";
-import {Item} from "../../pages/GiftRequestPage/GiftRequestPage.tsx";
+import {Item} from "../../pages/StoreRequestPage/StoreRequestPage.tsx";
 
 type CardProps = {
     id: string;
@@ -13,6 +13,7 @@ type CardProps = {
     title: string;
     price: string;
     description: string;
+    type: string;
     handleAdd: (item: Item) => void;
 };
 
@@ -21,9 +22,10 @@ function ItemCard(props: CardProps) {
         return {
             id: props.id,
             imageURL: props.imageURL,
-            name: props.title,
+            title: props.title,
             price: parseInt(props.price),
             description: props.description,
+            type: props.type,
         };
     }
 
