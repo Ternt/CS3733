@@ -1,22 +1,15 @@
-import { useState } from "react";
-import { LoginCredentials } from "../../common/LoginCredentials.ts";
-import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
   Card,
   FormControl,
-  TextField,
   Typography,
 } from "@mui/material";
+import { useAuth0 } from "@auth0/auth0-react";
 import background from "./login-page-background.png";
-
+import User from '../../../../../packages/common/src/User.tsx';
 export default function LoginPage() {
-  const [credential, setCredential] = useState<LoginCredentials>({
-    username: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
+    const { loginWithRedirect, logout, user, error, isAuthenticated,} = useAuth0();
 
     function logUserInfo(user: User) {
         console.log(user);
@@ -51,9 +44,19 @@ export default function LoginPage() {
         logUserInfo(user);
     }
 
-    if (isLoading) {
-        return <div>Loading...</div>;
+    // if (isLoading) {
+    //     return <div>Loading...</div>;
+    // }
+
+    //isAuthenticated here
+
+
+    // Log user info
+    if (user) {
+        logUserInfo(user);
     }
+
+
 
     return (
         <>
