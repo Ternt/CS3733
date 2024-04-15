@@ -39,7 +39,7 @@ export default function HeroPage() {
         sx={{
           position:'absolute',
           top: "35vh",
-          left: "6vw",
+          left: "2vw",
         }}
       >
         <Typography
@@ -59,7 +59,8 @@ export default function HeroPage() {
             display:'flex',
             flexDirection:{xs:'column', sm:'row'},
             flexWrap:'wrap',
-            gap:'1rem'
+            gap:'3rem',
+              marginLeft: '3%'
           }}
         >
           <Button
@@ -70,7 +71,7 @@ export default function HeroPage() {
               transition: "all 0.2s ease-in-out",
               fontSize: "20px",
               display: "block",
-              width: "fit-content",
+              width: "30%",
               px:'2rem',
               bgcolor: "#f6bd38",
               "&:hover": { background: "#f9d070", color: "black" },
@@ -82,7 +83,7 @@ export default function HeroPage() {
             key="learnMore"
             onClick={handleLearnMoreClick}
             sx={{
-              width: "fit-content",
+                width: "30%",
               px:'2rem',
               color: "white",
               transition: "all 0.2s ease-in-out",
