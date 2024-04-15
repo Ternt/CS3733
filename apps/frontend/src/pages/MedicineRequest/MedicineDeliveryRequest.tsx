@@ -258,6 +258,7 @@ function MedicineRequestForm() {
                                 label={"Date"}
                                 defaultValue={"MM/DD/YY"}
                                 InputProps={{
+                                    readOnly: true,
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton onClick={() => {
