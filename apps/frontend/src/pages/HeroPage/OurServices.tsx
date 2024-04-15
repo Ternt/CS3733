@@ -20,7 +20,8 @@ export default function OurServices() {
   };
 
     const handleExternalLink = (url: string) => {
-        window.open(url, '');
+        console.log("test");
+        window.open(url, '_blank');
     };
 
   return (

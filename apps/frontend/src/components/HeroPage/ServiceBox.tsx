@@ -14,6 +14,10 @@ function ServiceBox(props: ServiceBoxProps) {
     const navigate = useNavigate();
 
     const handleMenuItemClick = (path: string) => {
+        if(props.onClick){
+            props.onClick();
+            return;
+        }
         navigate(path);
     };
 

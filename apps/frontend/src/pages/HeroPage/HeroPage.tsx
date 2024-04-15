@@ -39,7 +39,7 @@ export default function HeroPage() {
         sx={{
           position:'absolute',
           top: "35vh",
-          left: "6vw",
+          left: "2vw",
         }}
       >
         <Typography
@@ -59,7 +59,8 @@ export default function HeroPage() {
             display:'flex',
             flexDirection:{xs:'column', sm:'row'},
             flexWrap:'wrap',
-            gap:'1rem'
+            gap:'3rem',
+              marginLeft: '3%'
           }}
         >
           <Button
