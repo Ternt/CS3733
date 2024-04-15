@@ -51,18 +51,26 @@ function ResponsiveAppBar() {
         display: "flex",
         justifyContent: "center",
         backgroundColor: "#012d5a",
+          height: "100%",
         maxHeight: "10vh",
         boxShadow: "none",
           position: 'fixed',
           zIndex: 3,
       }}
     >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
+      <Container maxWidth="xl" sx={{maxHeight: "100%"}}>
+        <Toolbar disableGutters sx={{height: "10vh"}}>
+          <Box
+            sx={{
+                flexGrow: 1,
+                maxHeight: "10vh",
+                display: { xs: "none", md: "flex", justifyContent: "flex-start" },
+            }}
+          >
           <Link
             href=""
             underline="none"
-            sx={{maxWidth: "30%"}}
+            sx={{}}
           >
             <Box
               component="img"
@@ -70,24 +78,13 @@ function ResponsiveAppBar() {
               src={logo}
               alt={"logo"}
               onClick={() => handleMenuItemClick("")}
-              sx={{width: "1.6vw", marginRight: "2vw",}}
+              sx={{width: "3vh", aspectRatio: "294/423", mx: 2}}
             ></Box>
           </Link>
-
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: { xs: "none", md: "flex", justifyContent: "flex-start" },
-
-            }}
-          >
             <Button
               key={"home"}
               onClick={() => handleMenuItemClick("/")}
               sx={{
-                my: "5vh",
-                mr: "1vw",
-                height: 45,
                 color: "white",
                 display: "block",
                 fontSize: 15,
@@ -109,9 +106,6 @@ function ResponsiveAppBar() {
               key={"map"}
               onClick={() => handleMenuItemClick("/map")}
               sx={{
-                my: "5vh",
-                mr: "1vw",
-                height: 45,
                 color: "white",
                 display: "block",
                 fontSize: 15,
@@ -133,9 +127,6 @@ function ResponsiveAppBar() {
               key={"admin"}
               onClick={() => handleMenuItemClick("/admin")}
               sx={{
-                my: "5vh",
-                mr: "1vw",
-                height: 45,
                 color: "white",
                 display: "block",
                 fontSize: 15,
@@ -163,9 +154,6 @@ function ResponsiveAppBar() {
               aria-expanded={openRequests ? "true" : undefined}
               onClick={handleOnClickRequests}
               sx={{
-                my: "5vh",
-                mr: "1vw",
-                height: 45,
                 color: "white",
                 display: "block",
                 fontSize: 15,
