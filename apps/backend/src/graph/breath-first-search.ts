@@ -1,6 +1,4 @@
 import {Graph} from "./graph.ts";
-import {GraphNode, Edge} from "./graphDataTypes.ts";
-
 
 export function breathFirstSearch(graph: Graph, start: string, end: string) {
     const came_from = new Map<string, string>();
