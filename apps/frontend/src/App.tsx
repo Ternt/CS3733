@@ -1,5 +1,5 @@
-import React from "react";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import React, {useEffect} from "react";
+import {createBrowserRouter, RouterProvider, Outlet, Route} from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
@@ -13,68 +13,102 @@ import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestFo
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 import MapPage from "./pages/MapPage.tsx";
-import {Auth0Provider} from "@auth0/auth0-react";
+import {Auth0Provider, useAuth0} from "@auth0/auth0-react";
 import { useNavigate } from 'react-router-dom';
+import {ReactNode, FC} from "react";
 
+
+interface PrivateRouteProps {
+    path: string;
+    children: ReactNode;
+}
+
+const PrivateRoute: FC<PrivateRouteProps> = ({ children, ...rest }) => {
+    const { isAuthenticated } = useAuth0();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/login", { replace: true });
+        }
+    }, [isAuthenticated, navigate]);
+
+    return (
+        <Route {...rest}>
+            {children}
+        </Route>
+    );
+};
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      errorElement: <div />,
-      element: <Root />,
-      children: [
+    const router = createBrowserRouter([
         {
-          path: "",
-          element: <HeroPage />,
+            path: "/",
+            errorElement: <div />,
+            element: <Root />,
+            children: [
+                {
+                    path: "",
+                    element: <HeroPage />,
+                },
+                {
+                    path: "/map",
+                    element: <MapPage />,
+                },
+                {
+                    path: "/medicine-request",
+                    element: <MedicineDeliveryForm />,
+                },
+                {
+                    path: "/sanitation",
+                    element: <SanitationRequestForm />,
+                },
+                {
+                    path: "/login",
+                    element: <LoginPage />,
+                },
+                {
+                    path: "/gift-request",
+                    element: <GiftRequestPage />,
+                },
+                {
+                    path: "/flower-request",
+                    element: <GiftRequestPage />,
+                },
+                {
+                    path: "/gift-checkout",
+                    element: (
+                        <Checkout checkoutType="gift" returnPath="/gift-request" />
+                    ),
+                },
+                {
+                    path: "/flower-checkout",
+                    element: (
+                        <Checkout checkoutType="flower" returnPath="/flower-request" />
+                    ),
+                },
+                {
+                    path: "/tables",
+                    element: <MapDataDisplay />,
+                },
+                {
+                    path: "/admin",
+                    element: <AdminDashboard />,
+                },
+            ].map(route => {
+                // If the path is /map or /login, return the route as is
+                if (route.path === "/map" || route.path === "/login") {
+                    return route;
+                }
+
+                // Otherwise, return the route as a PrivateRoute
+                return {
+                    ...route,
+                    element: <PrivateRoute path={route.path}>{route.element}</PrivateRoute>,
+                };
+            }),
         },
-        {
-          path: "/map",
-          element: <MapPage />,
-        },
-        {
-          path: "/medicine-request",
-          element: <MedicineDeliveryForm />,
-        },
-        {
-          path: "/sanitation",
-          element: <SanitationRequestForm />,
-        },
-        {
-          path: "/login",
-          element: <LoginPage />,
-        },
-        {
-          path: "/gift-request",
-          element: <GiftRequestPage />,
-        },
-        {
-          path: "/flower-request",
-          element: <GiftRequestPage />,
-        },
-        {
-          path: "/gift-checkout",
-          element: (
-            <Checkout checkoutType="gift" returnPath="/gift-request" />
-          ),
-        },
-        {
-          path: "/flower-checkout",
-          element: (
-            <Checkout checkoutType="flower" returnPath="/flower-request" />
-          ),
-        },
-        {
-          path: "/tables",
-          element: <MapDataDisplay />,
-        },
-        {
-          path: "/admin",
-          element: <AdminDashboard />,
-        },
-      ],
-    },
-  ]);
+    ]);
 
   return (
     <ThemeProvider theme={CustomTheme}>
