@@ -11,6 +11,9 @@ import { useNavigate } from "react-router-dom";
 import { Menu, Typography } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import SearchBar from "../SearchBar/searchBar.tsx";
+import {useAuth0} from "@auth0/auth0-react";
+
+
 
 const services = [
   { label: "Sanitation", path: "/sanitation" },
@@ -25,7 +28,9 @@ function ResponsiveAppBar() {
   const openRequests = Boolean(anchorElRequests);
 
   const navigate = useNavigate();
-  const handleMenuItemClick = (path: string) => {
+  const {isAuthenticated, logout } = useAuth0();
+    console.log(isAuthenticated); //to debug
+    const handleMenuItemClick = (path: string) => {
     navigate(path);
   };
 
@@ -199,6 +204,11 @@ function ResponsiveAppBar() {
             </Menu>
           </Box>
           <SearchBar />
+            {isAuthenticated && (
+                <Button onClick={() => logout()}>
+                    Log Out
+                </Button>
+            )}
           <Button
             key={"login"}
             onClick={() => handleMenuItemClick("/login")}

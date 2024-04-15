@@ -1,5 +1,5 @@
-import React from "react";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import React, {FC, ReactNode, useEffect} from "react";
+import {createBrowserRouter, RouterProvider, Outlet, Route} from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
@@ -13,10 +13,35 @@ import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestFo
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 import MapPage from "./pages/MapPage.tsx";
-import {Auth0Provider} from "@auth0/auth0-react";
+import {Auth0Provider, useAuth0} from "@auth0/auth0-react";
 import { useNavigate } from 'react-router-dom';
 import Box from "@mui/material/Box";
+import { Routes} from "react-router-dom";
 
+
+interface PrivateRouteProps {
+    path: string;
+    children: ReactNode;
+}
+
+const PrivateRoute: FC<PrivateRouteProps> = ({ children, ...rest }) => {
+    const { isAuthenticated } = useAuth0();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/login", { replace: true });
+        }
+    }, [isAuthenticated, navigate]);
+
+    return (
+        <Routes>
+            <Route {...rest}>
+                {children}
+            </Route>
+        </Routes>
+    );
+};
 
 function App() {
   const router = createBrowserRouter([
@@ -26,8 +51,8 @@ function App() {
       element: <Root />,
       children: [
         {
-          path: "",
-          element: <HeroPage />,
+          path: "/*",
+            element: <Route path="/" element={<HeroPage />} />,
         },
         {
           path: "/map",
@@ -73,7 +98,18 @@ function App() {
           path: "/admin",
           element: <AdminDashboard />,
         },
-      ],
+      ].map(route => {
+          // If the path is /map or /login, return the route as is
+          if (route.path === "/map" || route.path === "/login") {
+              return route;
+          }
+
+          // Otherwise, return the route as a PrivateRoute
+          return {
+              ...route,
+              element: <PrivateRoute path={route.path}>{route.element}</PrivateRoute>,
+          };
+      }),
     },
   ]);
 
