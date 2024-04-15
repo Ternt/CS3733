@@ -3,41 +3,36 @@ import {GraphNode, Edge} from "./graphDataTypes.ts";
 
 
 export function breathFirstSearch(graph: Graph, start: string, end: string) {
-    end.split("");
-    // ^ so esline doesnt complain the end is unused
     const came_from = new Map<string, string>();
     const visited = new Map<string, boolean>();
-    const queue: GraphNode[] = [];
+    const queue: string[] = [];
 
-    graph.nodes.forEach((value: GraphNode, key: string) => {
-        visited.set(key, false);
-    });
+    queue.push(start);
+    visited.set(start, true);
 
-    nodeBFS(graph, start, visited, queue, came_from);
+    main_loop:
+    while (queue.length != 0) {
+        const current: string = queue.shift()!;
+
+        const neighbours = graph.edges
+            .get(current)!
+            .filter((edge) => !edge.blocked)
+            .map((edge) => edge.neighborOf(current)!.id);
+
+        for (const neighbor of neighbours) {
+            if (!visited.get(neighbor)) {
+                visited.set(current, true);
+                came_from.set(neighbor, current);
+                queue.push(neighbor);
+
+                if (neighbor === end) {
+                    break main_loop;
+                }
+            }
+        }
+    }
 
     return came_from;
 }
 
-function nodeBFS(
-    graph: Graph,
-    id: string,
-    visited: Map<string, boolean>,
-    queue: Array<GraphNode | undefined>,
-    backtrack: Map<string, string>,
-) {
-    visited.set(id, true);
 
-    const edges = graph.edges.get(id);
-    if (edges) {
-        edges.forEach((edge: Edge) => {
-            const neighborId = edge.neighborOf(id)!.id;
-            if (!visited.get(neighborId)) {
-                queue.push(graph.nodes.get(neighborId));
-                backtrack.set(neighborId, id);
-            }
-        });
-    }
-    if (queue.length !== 0) {
-        nodeBFS(graph, queue.shift()!.id, visited, queue, backtrack);
-    }
-}
