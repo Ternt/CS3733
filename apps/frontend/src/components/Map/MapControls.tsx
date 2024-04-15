@@ -31,7 +31,6 @@ export default function MapControls(props: MapControlProps) {
   }
 
   useEffect(() => {
-    console.log(props.floor);
     setNotification("Viewing "+ FLOOR_NAMES[props.floor]);
   }, [props.floor]);
 

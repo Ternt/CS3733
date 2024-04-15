@@ -298,7 +298,6 @@ export default function MapCanvas(props: mapCanvasProps) {
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleDblclick(e: MouseEvent) {
-    console.log('db;');
     const x = e.clientX - svgRect.left;
     const y = e.clientY - svgRect.top;
 
@@ -379,7 +378,6 @@ export default function MapCanvas(props: mapCanvasProps) {
 
     const dp = mouseData.downPos;
     const up = mouseData.pos;
-    console.log(dp, up);
     if(dp.x === up.x && dp.y === up.y){
       handleDblclick(e);
     }
