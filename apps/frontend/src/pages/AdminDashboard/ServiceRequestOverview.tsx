@@ -1,7 +1,8 @@
-import {Box, Paper, Typography} from "@mui/material";
-import {useEffect, useState} from "react";
+import {Box, FormControl, Paper, TextField, Typography} from "@mui/material";
+import {ChangeEvent, useEffect, useState} from "react";
 import {RequestInspectionDialogue} from "./RequestInspectionDialogue.tsx";
 import axios, {AxiosResponse} from "axios";
+import MenuItem from "@mui/material/MenuItem";
 
 export type RequestCard = {
     type:string;
@@ -10,10 +11,10 @@ export type RequestCard = {
 
 type serviceRequest = {
     requestID: number,
-    assignedEmployee: string,
     priority: string,
     status: string,
     type: string,
+    assignedEmployee?: string,
     giftDetail? : string,
     maintenanceDetail?: string,
     medicineDetail?: string,
@@ -32,6 +33,11 @@ export default function ServiceRequestOverview(){
             console.log(res.data);
         });
     }, []);
+
+    // On change, the function finds the specific request object in an array of service requests, and then update it with a new status field.
+    function onChangeStatus(event: ChangeEvent<HTMLInputElement>){
+        console.log(event.target.value);
+    }
 
 
     return(
@@ -76,7 +82,31 @@ export default function ServiceRequestOverview(){
                                                         bgcolor:'white'
                                                     }}
                                                     elevation={5}
-                                                /> : <></>)
+                                                >
+                                                    <Box>
+                                                        <FormControl
+                                                            sx={{
+                                                                gap: 1,
+                                                                width: "100%",
+                                                                padding: "5%",
+                                                        }}>
+                                                            <TextField
+                                                                select
+                                                                label={"Status"}
+                                                                value={service.status}
+                                                                margin="normal"
+                                                                inputProps={{MenuProps: {disableScrollLock: true}}}
+                                                                sx={{marginY: 0, width: "100%"}}
+                                                                onChange={onChangeStatus}
+                                                            >
+                                                                <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
+                                                                <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>
+                                                                <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
+                                                                <MenuItem value={"CLOSED"}>Closed</MenuItem>
+                                                            </TextField>
+                                                        </FormControl>
+                                                    </Box>
+                                                </Paper> : <></>)
                                         );
                                     })
                                 }
