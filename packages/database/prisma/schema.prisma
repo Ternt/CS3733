@@ -210,7 +210,7 @@ model GiftRequest {
   recipientName String
   shippingType  ShippingType
 
-  cardNumber         Int
+  cardNumber         BigInt
   cardCVV            Int
   cardHolderName     String
   cardExpirationDate String
