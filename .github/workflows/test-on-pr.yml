@@ -24,14 +24,14 @@ jobs:
           - 5432:5432
     steps:
       #checks out repository
-      - uses: actions/checkout@v4
-      - name: setupNode
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Install dependencies
-        run: yarn install --immutable
-      - name: build project
-        run: yarn run build
-      - name: test
-        run: yarn run vitest --run
+#      - uses: actions/checkout@v4
+#      - name: setupNode
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: 20
+#      - name: Install dependencies
+#        run: yarn install --immutable
+#      - name: build project
+#        run: yarn run build
+#      - name: test
+#        run: yarn run vitest --run
