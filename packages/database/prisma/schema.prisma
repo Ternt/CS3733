@@ -27,6 +27,14 @@ enum NodeType {
   BATH
 }
 
+model Employee {
+  id        Int    @id @default(autoincrement())
+  firstName String
+  lastName  String
+
+  assignedRequests ServiceRequest[]
+}
+
 model NodeDB {
   nodeID    String   @unique
   xcoord    Int
@@ -102,6 +110,9 @@ model ServiceRequest {
   priority   ServiceRequestPriority
   status     ServiceRequestStatus
 
+  assignedEmployeeID Int?
+  assignedEmployee   Employee? @relation(fields: [assignedEmployeeID], references: [id], onDelete: SetNull)
+
   sanitationDetail  SanitationRequest?
   medicineDetail    MedicineRequest?
   giftDetail        GiftRequest?
@@ -147,6 +158,7 @@ model SanitationRequest {
   employeeName String
   messTypes    SanitationRequestMessTypes[]
   messSize     MessSize
+  date         String
 }
 
 enum Medicine {
@@ -172,6 +184,7 @@ model MedicineRequest {
   medicine             Medicine
   dosage               Int
   form                 MedicineForm
+  date                 String
 }
 
 enum ShippingType {
@@ -197,7 +210,7 @@ model GiftRequest {
   recipientName String
   shippingType  ShippingType
 
-  cardNumber         Int
+  cardNumber         BigInt
   cardCVV            Int
   cardHolderName     String
   cardExpirationDate String

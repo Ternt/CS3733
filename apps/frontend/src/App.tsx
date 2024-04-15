@@ -7,7 +7,7 @@ import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 //import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
 import NavBar from "./components/Navbar/Navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
-import GiftRequestPage from "./pages/GiftRequestPage/GiftRequestPage.tsx";
+import StoreRequestPage from "./pages/StoreRequestPage/StoreRequestPage.tsx";
 import Checkout from "./pages/CheckoutPage/MUI Checkout/Checkout.tsx";
 import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestForm.tsx";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
@@ -41,6 +41,63 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ children, ...rest }) => {
 };
 
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      errorElement: <div />,
+      element: <Root />,
+      children: [
+        {
+          path: "",
+          element: <HeroPage />,
+        },
+        {
+          path: "/map",
+          element: <MapPage />,
+        },
+        {
+          path: "/medicine-request",
+          element: <MedicineDeliveryForm />,
+        },
+        {
+          path: "/sanitation",
+          element: <SanitationRequestForm />,
+        },
+        {
+          path: "/login",
+          element: <LoginPage />,
+        },
+        {
+          path: "/gift-request",
+          element: <StoreRequestPage requestType={"gift"}/>,
+        },
+        {
+          path: "/flower-request",
+          element: <StoreRequestPage requestType={"flower"}/>,
+        },
+        {
+          path: "/gift-checkout",
+          element: (
+            <Checkout checkoutType="gift" returnPath="/gift-request" />
+          ),
+        },
+        {
+          path: "/flower-checkout",
+          element: (
+            <Checkout checkoutType="flower" returnPath="/flower-request" />
+          ),
+        },
+        {
+          path: "/tables",
+          element: <MapDataDisplay />,
+        },
+        {
+          path: "/admin",
+          element: <AdminDashboard />,
+        },
+      ],
+    },
+  ]);
     const router = createBrowserRouter([
         {
             path: "/",

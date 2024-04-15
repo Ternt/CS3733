@@ -20,7 +20,8 @@ export class Graph {
 
     pathfind(start: string, end: string) {
         const came_from = this.searchAlgorithm(this, start, end);
-        const path: string[] = this.backtrack(came_from, start, end);
+        let path: string[] = this.backtrack(came_from, start, end);
+        path = this.postProcessPath(path);
         this.printPath(path);
         return path;
     }
@@ -121,6 +122,35 @@ export class Graph {
             tmp = came_from.get(tmp)!;
         }
         path.push(tmp);
+
+        return path;
+    }
+
+    postProcessPath(path: string[] | undefined) {
+        if (path === undefined || path.length == 0) {
+            return [];
+        }
+
+        const toRemove: number[] = [];
+        let elevatorCount = 0;
+
+        for (let i = 0; i < path.length ; i++) {
+            const node: GraphNode = this.nodes.get(path[i])!;
+            if (node.type === NodeType.ELEV) {
+                elevatorCount += 1;
+                if (elevatorCount >= 3) {
+                    toRemove.push(i - 1);
+                    elevatorCount -= 1;
+                }
+            }
+            else {
+                elevatorCount = 0;
+            }
+        }
+
+        toRemove.forEach((value, index) => {
+            path.splice(value - index, 1);
+        });
 
         return path;
     }
