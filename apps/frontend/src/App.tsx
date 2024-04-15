@@ -88,8 +88,7 @@ function App() {
         <ThemeProvider theme={CustomTheme}>
           <div className="w-full flex flex-col">
             <NavBar />
-            <Box
-              key={"Navbar spacer"} sx={{width:'100vh', height:'10vh', backgroundColor: "#012d5a",}}></Box>
+            <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a",}}></Box>
             <Outlet />
           </div>
         </ThemeProvider>
