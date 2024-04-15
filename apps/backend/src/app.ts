@@ -14,6 +14,7 @@ import * as fs from "fs";
 import path from "path";
 import { createDatabase } from "./helper/createDatabase.ts";
 import {auth} from "express-oauth2-jwt-bearer";
+const _ = require('./helper/bigIntFix.ts');
 
 const app: Express = express(); // Set up the backend
 
