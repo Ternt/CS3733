@@ -12,8 +12,9 @@ import fileUpload from "express-fileupload";
 import * as fs from "fs";
 import path from "path";
 import { createDatabase } from "./helper/createDatabase.ts";
+import {auth} from "express-oauth2-jwt-bearer";
 
-const app: Express = express(); // Setup the backend
+const app: Express = express(); // Set up the backend
 
 (async () => {
   // this will remove all service requests from the DB
@@ -23,7 +24,7 @@ const app: Express = express(); // Setup the backend
   const node_str = fs.readFileSync(nodePath, "utf8");
   const edge_str = fs.readFileSync(edgePath, "utf8");
 
-  createDatabase(true, node_str, edge_str);
+  await createDatabase(true, node_str, edge_str);
 })();
 
 //const fileUpload = require("express-fileupload");
@@ -53,6 +54,25 @@ app.use("/api/edges", edgesRouter);
 app.use("/api/cart-items", cartItemRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
+});
+
+// Create the auth middleware
+const authMiddleware = auth({
+    audience: "/api",
+    issuerBaseURL: "dev-0kmc0cto8b1g261n.us.auth0.com",
+    tokenSigningAlg: "RS256",
+});
+
+// Apply the auth middleware only to the /secure route
+app.use('/secure', authMiddleware);
+
+// Now only the /secure route requires authentication
+app.get('/secure', (req, res) => {
+    res.send('This is a secure route');
+});
+
+app.get('/public', (req, res) => {
+    res.send('This is a public route');
 });
 
 /**
