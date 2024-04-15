@@ -207,13 +207,13 @@ export default function MapCanvas(props: mapCanvasProps) {
     el.addEventListener("mousemove",handleMouseMove);
     el.addEventListener("mousedown", handleMouseDown);
     el.addEventListener("mouseup", handleMouseUp);
-    el.addEventListener("dblclick", handleDblclick);
+    //el.addEventListener("dblclick", handleDblclick);
     return () => {
       el.removeEventListener("wheel", handleZoom);
       el.removeEventListener("mousemove",handleMouseMove);
       el.removeEventListener("mousedown", handleMouseDown);
       el.removeEventListener("mouseup", handleMouseUp);
-      el.removeEventListener("dblclick", handleDblclick);
+      //el.removeEventListener("dblclick", handleDblclick);
     };
   }, [handleDblclick, handleMouseDown, handleMouseMove, handleMouseUp, handleZoom]);
 
@@ -298,6 +298,7 @@ export default function MapCanvas(props: mapCanvasProps) {
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleDblclick(e: MouseEvent) {
+    console.log('db;');
     const x = e.clientX - svgRect.left;
     const y = e.clientY - svgRect.top;
 
@@ -373,7 +374,16 @@ export default function MapCanvas(props: mapCanvasProps) {
     }
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  function handleMouseUp() {
+  function handleMouseUp(e: MouseEvent) {
+    // check if the mouse down pos and mouse up pos are the same, if so call dbl
+
+    const dp = mouseData.downPos;
+    const up = mouseData.pos;
+    console.log(dp, up);
+    if(dp.x === up.x && dp.y === up.y){
+      handleDblclick(e);
+    }
+
     setMouseData({...mouseData, down: false});
     setDraggingNode(null);
     setDraggingNode(null);
