@@ -1,41 +1,38 @@
 import {Graph} from "./graph.ts";
-import {GraphNode, Edge} from "./graphDataTypes.ts";
 import { PathfindingStrategy } from "./graph.ts";
 
 export class DepthFirstSearch implements PathfindingStrategy {
     runSearch(graph: Graph, start: string, end: string) {
-        end.split("");
-        // ^ so esline doesnt complain the end is unused
         const came_from = new Map<string, string>();
         const visited = new Map<string, boolean>();
+        const stack: string[] = [];
 
-        graph.nodes.forEach((value: GraphNode, key: string) => {
-            visited.set(key, false);
-        });
+        stack.push(start);
+        visited.set(start, true);
 
-        this.nodeDFS(graph, start, visited, came_from);
+        main_loop:
+            while (stack.length != 0) {
+                const current: string = stack.pop()!;
+
+                const neighbours = graph.edges
+                    .get(current)!
+                    .filter((edge) => !edge.blocked)
+                    .map((edge) => edge.neighborOf(current)!.id);
+
+                for (const neighbor of neighbours) {
+                    if (!visited.get(neighbor)) {
+                        visited.set(current, true);
+                        came_from.set(neighbor, current);
+                        stack.push(neighbor);
+
+                        if (neighbor === end) {
+                            break main_loop;
+                        }
+                    }
+                }
+            }
 
         return came_from;
-    }
-
-    nodeDFS(
-        graph: Graph,
-        id: string,
-        visited: Map<string, boolean>,
-        backtrack: Map<string, string>,
-    ) {
-        visited.set(id, true);
-
-        const edges = graph.edges.get(id);
-        if (edges) {
-            edges.forEach((edge: Edge) => {
-                const neighborId = edge.neighborOf(id)!.id;
-                if (!visited.get(neighborId)) {
-                    backtrack.set(neighborId, id);
-                    this.nodeDFS(graph, neighborId, visited, backtrack);
-                }
-            });
-        }
     }
 }
 
