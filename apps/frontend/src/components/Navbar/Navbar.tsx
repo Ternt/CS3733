@@ -28,12 +28,18 @@ function ResponsiveAppBar() {
   const openRequests = Boolean(anchorElRequests);
 
   const navigate = useNavigate();
-  const {isAuthenticated, logout } = useAuth0();
+  const {user, isAuthenticated, isLoading} = useAuth0();
     console.log(isAuthenticated); //to debug
     const handleMenuItemClick = (path: string) => {
     navigate(path);
   };
-
+    let permissionLevel = 0;
+    if(isAuthenticated){
+        permissionLevel = 1;
+        if(user && user["dev-0kmc0cto8b1g261n.us.auth0.com/roles"] && user["dev-0kmc0cto8b1g261n.us.auth0.com/roles"].includes("admin")){
+            permissionLevel = 2;
+        }
+    }
   const handleCloseRequests = () => {
     setAnchorElRequests(null);
   };
@@ -71,6 +77,115 @@ function ResponsiveAppBar() {
                 display: { xs: "none", md: "flex", justifyContent: "flex-start" },
             }}
           >
+              {!isLoading && (
+                  <>
+                      {permissionLevel === 2 && (
+                          <Button
+                              key={"admin"}
+                              onClick={() => handleMenuItemClick("/admin")}
+                              sx={{
+                                  color: "white",
+                                  display: "block",
+                                  fontSize: 15,
+                                  transition: "all 0.2s ease-in-out",
+                                  "&:hover": {
+                                      textDecoration: "underline",
+                                      background: "#012d5a",
+                                  },
+                              }}
+                          >
+                              <Typography
+                                  sx={{
+                                      fontSize: "1.1rem",
+                                  }}
+                              >
+                                  Admin
+                              </Typography>
+                          </Button>
+                      )}
+
+                      {permissionLevel >= 1 && (
+                          <div><Button
+                              key={"Request Services"}
+                              id="demo-customized-button"
+                              aria-controls={openRequests ? "demo-customized-menu" : undefined}
+                              aria-haspopup="true"
+                              aria-expanded={openRequests ? "true" : undefined}
+                              onClick={handleOnClickRequests}
+                              sx={{
+                                  color: "white",
+                                  display: "block",
+                                  fontSize: 15,
+                                  transition: "all 0.2s ease-in-out",
+                                  "&:hover": {
+                                      textDecoration: "underline",
+                                      background: "#012d5a",
+                                  },
+                              }}
+                          >
+                              <Typography
+                                  sx={{
+                                      fontSize: "1.1rem",
+                                  }}
+                              >
+                                  Service Requests
+                                  <ArrowDropDownIcon sx={{
+                                      height: '1rem'
+                                  }}/>
+                              </Typography>
+                          </Button></div>
+                      )}
+
+                      {permissionLevel >= 0 && (
+                          <div>
+                              <Button
+                                  key={"home"}
+                                  onClick={() => handleMenuItemClick("/")}
+                                  sx={{
+                                      color: "white",
+                                      display: "block",
+                                      fontSize: 15,
+                                      transition: "all 0.2s ease-in-out",
+                                      "&:hover": {
+                                          textDecoration: "underline",
+                                          background: "#012d5a",
+                                      },
+                                  }}
+                              >
+                                  <Typography
+                                      sx={{fontSize: "1.1rem",}}
+                                  >
+                                      Home
+                                  </Typography>
+                              </Button>
+
+                              <Button
+                                  key={"map"}
+                                  onClick={() => handleMenuItemClick("/map")}
+                                  sx={{
+                                      color: "white",
+                                      display: "block",
+                                      fontSize: 15,
+                                      transition: "all 0.2s ease-in-out",
+                                      "&:hover": {
+                                          textDecoration: "underline",
+                                          background: "#012d5a",
+                                      },
+                                  }}
+                              >
+                                  <Typography
+                                      sx={{fontSize: "1.1rem"}}
+                                  >
+                                      Map
+                                  </Typography>
+                              </Button>
+
+                          </div>
+                      )}
+
+
+                  </>
+              )}
           <Link
             href=""
             underline="none"
@@ -85,100 +200,11 @@ function ResponsiveAppBar() {
               sx={{width: "3vh", aspectRatio: "294/423", mx: 2, p:"2%"}}
             ></Box>
           </Link>
-            <Button
-              key={"home"}
-              onClick={() => handleMenuItemClick("/")}
-              sx={{
-                color: "white",
-                display: "block",
-                fontSize: 15,
-                transition: "all 0.2s ease-in-out",
-                "&:hover": {
-                  textDecoration: "underline",
-                  background: "#012d5a",
-                },
-              }}
-            >
-              <Typography
-                sx={{fontSize: "1.1rem",}}
-              >
-                Home
-              </Typography>
-            </Button>
 
-            <Button
-              key={"map"}
-              onClick={() => handleMenuItemClick("/map")}
-              sx={{
-                color: "white",
-                display: "block",
-                fontSize: 15,
-                transition: "all 0.2s ease-in-out",
-                "&:hover": {
-                  textDecoration: "underline",
-                  background: "#012d5a",
-                },
-              }}
-            >
-              <Typography
-                sx={{fontSize: "1.1rem"}}
-              >
-                Map
-              </Typography>
-            </Button>
 
-            <Button
-              key={"admin"}
-              onClick={() => handleMenuItemClick("/admin")}
-              sx={{
-                color: "white",
-                display: "block",
-                fontSize: 15,
-                transition: "all 0.2s ease-in-out",
-                "&:hover": {
-                  textDecoration: "underline",
-                  background: "#012d5a",
-                },
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: "1.1rem",
-                }}
-              >
-                Admin
-              </Typography>
-            </Button>
 
-            <Button
-              key={"Request Services"}
-              id="demo-customized-button"
-              aria-controls={openRequests ? "demo-customized-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={openRequests ? "true" : undefined}
-              onClick={handleOnClickRequests}
-              sx={{
-                color: "white",
-                display: "block",
-                fontSize: 15,
-                transition: "all 0.2s ease-in-out",
-                "&:hover": {
-                  textDecoration: "underline",
-                  background: "#012d5a",
-                },
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: "1.1rem",
-                }}
-              >
-                Service Requests
-                <ArrowDropDownIcon sx={{
-                    height: '1rem'
-                }}/>
-              </Typography>
-            </Button>
+
+
             <Menu
               id="demo-customized-menu"
               MenuListProps={{
@@ -204,11 +230,6 @@ function ResponsiveAppBar() {
             </Menu>
           </Box>
           <SearchBar />
-            {isAuthenticated && (
-                <Button onClick={() => logout()}>
-                    Log Out
-                </Button>
-            )}
           <Button
             key={"login"}
             onClick={() => handleMenuItemClick("/login")}
