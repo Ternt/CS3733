@@ -50,7 +50,7 @@ async function getLanguageDirection(path: Array<string>){
     return directions;
 }
 
-async function fetchPathData({startLocation, endLocation}) {
+export async function fetchPathData({startLocation, endLocation}) {
     try {
         const response = await axios.get(`/api/astar-api?&startNode=${endLocation}&endNode=${startLocation}`);
         return response.data.path; // Return the path in array
@@ -60,7 +60,7 @@ async function fetchPathData({startLocation, endLocation}) {
     }
 }
 
-function NaturalLanguageDirection({startLocation, endLocation}) {
+export function NaturalLanguageDirection({startLocation, endLocation}) {
 
     const [path, setPathData] = useState([]); // Use useState to manage the path data state
     const [directionData, setDirectionData] = useState([]);

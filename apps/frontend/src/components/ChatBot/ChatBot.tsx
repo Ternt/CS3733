@@ -1,7 +1,7 @@
     import OpenAI from "openai";
     import {useState} from "react";
     import Button from "@mui/material/Button";
-
+    import {NaturalLanguageDirection, fetchPathData} from "../NaturalLanguageDirection/NaturalLanguageDirection.tsx";
     import {KEY} from "./key/private.ts";
     import {Box, TextField, Typography} from "@mui/material";
 
@@ -61,6 +61,11 @@
             if(checkUserMessage(userMessage).start !== '' && checkUserMessage(userMessage).end !== ''){
                 const start: string = checkUserMessage(userMessage).start;
                 const end: string = checkUserMessage(userMessage).end;
+
+
+                console.log(fetchPathData({startLocation: start, endLocation: end}));
+                console.log(NaturalLanguageDirection({startLocation: start, endLocation: end}));
+
                 
                 console.log(start);
                 console.log(end);
