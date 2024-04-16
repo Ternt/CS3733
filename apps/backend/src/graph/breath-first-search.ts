@@ -1,43 +1,37 @@
 import {Graph} from "./graph.ts";
-import {GraphNode, Edge} from "./graphDataTypes.ts";
+import { PathfindingStrategy } from "./graph.ts";
 
+export class BreathFirstSearch implements PathfindingStrategy {
+    runSearch(graph: Graph, start: string, end: string) {
+        const came_from = new Map<string, string>();
+        const visited = new Map<string, boolean>();
+        const queue: string[] = [];
 
-export function breathFirstSearch(graph: Graph, start: string, end: string) {
-    end.split("");
-    // ^ so esline doesnt complain the end is unused
-    const came_from = new Map<string, string>();
-    const visited = new Map<string, boolean>();
-    const queue: GraphNode[] = [];
+        queue.push(start);
+        visited.set(start, true);
 
-    graph.nodes.forEach((value: GraphNode, key: string) => {
-        visited.set(key, false);
-    });
+        main_loop:
+            while (queue.length != 0) {
+                const current: string = queue.shift()!;
 
-    nodeBFS(graph, start, visited, queue, came_from);
+                const neighbours = graph.edges
+                    .get(current)!
+                    .filter((edge) => !edge.blocked)
+                    .map((edge) => edge.neighborOf(current)!.id);
 
-    return came_from;
-}
+                for (const neighbor of neighbours) {
+                    if (!visited.get(neighbor)) {
+                        visited.set(current, true);
+                        came_from.set(neighbor, current);
+                        queue.push(neighbor);
 
-function nodeBFS(
-    graph: Graph,
-    id: string,
-    visited: Map<string, boolean>,
-    queue: Array<GraphNode | undefined>,
-    backtrack: Map<string, string>,
-) {
-    visited.set(id, true);
-
-    const edges = graph.edges.get(id);
-    if (edges) {
-        edges.forEach((edge: Edge) => {
-            const neighborId = edge.neighborOf(id)!.id;
-            if (!visited.get(neighborId)) {
-                queue.push(graph.nodes.get(neighborId));
-                backtrack.set(neighborId, id);
+                        if (neighbor === end) {
+                            break main_loop;
+                        }
+                    }
+                }
             }
-        });
-    }
-    if (queue.length !== 0) {
-        nodeBFS(graph, queue.shift()!.id, visited, queue, backtrack);
+
+        return came_from;
     }
 }

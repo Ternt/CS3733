@@ -1,6 +1,8 @@
-import {splitLines} from "../routes/map.ts";
-import {PrismaClient} from "database";
-import {cartItems} from "./cartItems.ts";
+import { splitLines } from "../routes/map.ts";
+import { PrismaClient } from "database";
+import { cartItems } from "./initialData/cartItems.ts";
+import { employees } from "./initialData/employees.ts";
+import { serviceRequests } from "./initialData/serviceRequests.ts";
 
 export async function createDatabase(
     header: boolean,
@@ -60,6 +62,8 @@ export async function createDatabase(
 
     // add cart items
     await createCartItems();
+    await createEmployees();
+    await createServiceRequests();
 }
 
 async function createCartItems() {
@@ -68,4 +72,20 @@ async function createCartItems() {
         prisma.cartItem.deleteMany(),
         prisma.cartItem.createMany({data: cartItems})
     ]);
+}
+
+async function createEmployees() {
+    const prisma = new PrismaClient();
+    await prisma.$transaction([
+        prisma.employee.deleteMany(),
+        prisma.employee.createMany({data: employees})
+    ]);
+}
+
+async function createServiceRequests() {
+    const prisma = new PrismaClient();
+    await prisma.serviceRequest.deleteMany()
+    for (let data of serviceRequests) {
+        await prisma.serviceRequest.create({data: data});
+    }
 }

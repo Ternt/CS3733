@@ -2,6 +2,7 @@
 
 export const cartItems = [
     {
+        id: 1,
         type: "GIFT",
         imageURL: "https://m.media-amazon.com/images/I/91oxSXgVD6L._AC_UF894,1000_QL80_.jpg",
         name: "Teddy Bear",
@@ -9,6 +10,7 @@ export const cartItems = [
         price: 12
     },
     {
+        id: 2,
         type: "GIFT",
         imageURL: "https://www.grahamschocolate.com/wp-content/uploads/2019/11/Sampler2.png",
         name: "Chocolates",
@@ -16,6 +18,7 @@ export const cartItems = [
         price: 15
     },
     {
+        id: 3,
         type: "GIFT",
         imageURL: "https://handletheheat.com/wp-content/uploads/2015/03/Best-Birthday-Cake-with-milk-chocolate-buttercream-SQUARE.jpg",
         name: "Cake",
@@ -23,6 +26,7 @@ export const cartItems = [
         price: 40
     },
     {
+        id: 4,
         type: "GIFT",
         imageURL: "https://cdn.mos.cms.futurecdn.net/HkdMToxijoHfz4JwUgfh3G.jpg",
         name: "PS5",
@@ -30,6 +34,7 @@ export const cartItems = [
         price: 600
     },
     {
+        id: 5,
         type: "FLOWER",
         imageURL: "https://www.beneva.com/assets/img/dictionary/rose-main.jpg",
         name: "Rose",
@@ -37,6 +42,7 @@ export const cartItems = [
         price: "20"
     },
     {
+        id: 6,
         type: "FLOWER",
         imageURL: "https://www.floraqueen.com/blog/wp-content/uploads/2020/02/shutterstock_534123559.jpg",
         name: "Daisy",
@@ -44,6 +50,7 @@ export const cartItems = [
         price: 30
     },
     {
+        id: 7,
         type: "FLOWER",
         imageURL: "https://www.whiteflowerfarm.com/mas_assets/cache/image/8/7/6/3/34659.Jpg",
         name: "Tulip",
@@ -51,6 +58,7 @@ export const cartItems = [
         price: 35
     },
     {
+        id: 8,
         type: "FLOWER",
         imageURL: "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1703084510-forget-me-not-blue-1.jpg",
         name: "Forget-Me-Not",

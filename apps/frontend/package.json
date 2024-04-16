@@ -14,7 +14,7 @@
     "docker:upload": "docker push wbarker18/team-d-prod-front:frontend"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^2.1.1",
+    "@auth0/auth0-react": "^2.2.4",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@material-ui/core": "^4.12.4",
@@ -33,6 +33,7 @@
     "bootstrap": "^5.2.3",
     "common": "workspace:*",
     "dayjs": "^1.11.10",
+    "framer-motion": "^11.0.28",
     "fuzzy-search": "^3.2.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",

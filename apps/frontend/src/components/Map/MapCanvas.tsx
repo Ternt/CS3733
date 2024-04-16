@@ -8,6 +8,7 @@ import MapControls from "./MapControls.tsx";
 import InformationMenu from "../InformationMenu.tsx";
 import {MAPS, ZOOM, FLOOR_NAME_TO_INDEX, getMapData, MAP_BASE} from "../../helpers/MapHelper.ts";
 import {clamp, distance} from "../../helpers/MathHelp.ts";
+import AnimatedPath from "./AnimatedPath.tsx";
 
 
 
@@ -18,7 +19,7 @@ const NODE_SIZE = 3.1;
 type mapCanvasProps = {
   defaultFloor: number;
   startLocation: string;
-  pathfinding: boolean;
+  pathfinding: string | null;
   endLocation: string;
   onDeselectEndLocation?: () => void;
 };
@@ -52,14 +53,17 @@ export default function MapCanvas(props: mapCanvasProps) {
     selectedPoint: vec2 | null;
     path: node[];
     nearestNode: node | null;
+    algo: string;
   }>({
     selectedPoint: null,
     path: [],
     nearestNode: null,
+    algo: ""
   });
   const [draggingNode, setDraggingNode] = useState<node | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [svgInject, setSvgInject] = useState<ReactNode[]>([]);
+  const [pathStringInject, setPathStringInject] = useState("");
   const svgElementInjector = (
     <svg
       width="100%"
@@ -76,7 +80,7 @@ export default function MapCanvas(props: mapCanvasProps) {
       <g
         transform={"translate("+cameraControl.pan.x+" "+cameraControl.pan.y+") scale("+(1/cameraControl.zoom)+" "+(1/cameraControl.zoom)+")"}
       >
-        {svgInject}
+        {(props.pathfinding === null)?(svgInject): <AnimatedPath svgPath={pathStringInject} />}
       </g>
     </svg>
   );
@@ -174,15 +178,23 @@ export default function MapCanvas(props: mapCanvasProps) {
           (props.endLocation === undefined || props.endLocation === "")
         )
           return;
-
-        if (pathing.selectedPoint !== null)
-          svgElements.push(drawPoint(pathing.selectedPoint, "blue"));
+        let pathString = "";
         for (let i = 0; i < pathing.path.length - 1; i++) {
-          svgElements.push(drawLine(pathing.path[i].point, pathing.path[i + 1].point, "black"));
+          // svgElements.push(drawLine(pathing.path[i].point, pathing.path[i + 1].point, "black"));
+          if (pathing.path[i].point.z !== viewingFloor) continue;
+          const a = vecToCanvSpace(pathing.path[i].point);
+          const b = vecToCanvSpace(pathing.path[i+1].point);
+          pathString += "M "+a.x+" "+a.y+", L "+b.x+" "+b.y+",";
         }
         // check that the selected point is
-        if (pathing.selectedPoint !== null)
-          svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
+        if (pathing.selectedPoint !== null && pathing.path[pathing.path.length - 1].point.z === viewingFloor) {
+          // svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
+          const a = vecToCanvSpace(pathing.path[pathing.path.length - 1].point);
+          const b = vecToCanvSpace(pathing.selectedPoint);
+          pathString += "M " + a.x + " " + a.y + ", L " + b.x + " " + b.y + ",";
+        }
+        console.log(pathString);
+        setPathStringInject(pathString);
       } else {
         for (const n of renderData.n) {
           svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID ? "red" : "blue")));
@@ -332,12 +344,7 @@ export default function MapCanvas(props: mapCanvasProps) {
 
       if (props.pathfinding) {
         axios
-          .get(
-            "/api/astar-api?&startNode=" +
-            closestNode.nodeID +
-            "&endNode=" +
-            props.startLocation,
-          )
+          .get("/api/pathfind?startNode=" + closestNode.nodeID + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
           .then((res) => {
             const pathNodes: node[] = [];
             for (const s of res.data.path) {
@@ -362,11 +369,11 @@ export default function MapCanvas(props: mapCanvasProps) {
               }
             }
 
-
             setPathing({
               ...pathing,
               path: pathNodes,
               selectedPoint: coords,
+              algo: props.pathfinding!
             });
             if (props.onDeselectEndLocation !== undefined)
               props.onDeselectEndLocation();
@@ -392,6 +399,67 @@ export default function MapCanvas(props: mapCanvasProps) {
       window.removeEventListener("dblclick", handleDblclick);
     };
   }, [X_MULT, Y_MULT, cameraControl, edges, mouseData, nodes, pathing, props, props.pathfinding, props.startLocation, svgRect.left, svgRect.top, viewingFloor]);
+
+
+  useEffect(()=>{
+    if(props.pathfinding !== null && props.pathfinding !== pathing.algo && pathing.selectedPoint !== null){
+      const x2 = pathing.selectedPoint.x;
+      const y2 = pathing.selectedPoint.y;
+
+      // Move point to nearest edge
+      if (nodes === null) return;
+      const graphResponse = graphHelper({
+        pos: {x: x2, y: y2, z: viewingFloor},
+        nodes: nodes,
+        edges: edges,
+        floor: viewingFloor,
+      });
+      if(graphResponse === null) return;
+      const coords = graphResponse.point;
+      const closestEdge = graphResponse.edge;
+      if (coords === null || closestEdge === null) return;
+      let closestNode = closestEdge!.startNode;
+      if(distance(closestEdge!.startNode.point, coords) > distance(closestEdge!.endNode.point, coords))
+        closestNode = closestEdge!.endNode;
+
+      if (props.pathfinding) {
+        axios
+          .get("/api/pathfind?startNode=" + closestNode.nodeID + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
+          .then((res) => {
+            const pathNodes: node[] = [];
+            for (const s of res.data.path) {
+              const n = nodes.find((no: node) => {
+                return no.nodeID === s;
+              });
+              if (n === undefined) continue;
+              pathNodes.push(n);
+            }
+
+            if (pathNodes === undefined || pathNodes.length === 0) {
+              console.error("no path");
+              return;
+            }
+
+            if(pathNodes.length > 2){
+              if(pathNodes[pathNodes.length-2].nodeID === closestEdge.startNode.nodeID && pathNodes[pathNodes.length-1].nodeID === closestEdge.endNode.nodeID){
+                pathNodes.pop();
+              }
+              else if(pathNodes[pathNodes.length-2].nodeID === closestEdge.endNode.nodeID && pathNodes[pathNodes.length-1].nodeID === closestEdge.startNode.nodeID){
+                pathNodes.pop();
+              }
+            }
+
+            setPathing({
+              ...pathing,
+              path: pathNodes,
+              selectedPoint: coords,
+              algo: props.pathfinding!
+            });
+          });
+      }
+    }
+  }, [edges, nodes, pathing, pathing.algo, props.pathfinding, props.startLocation, viewingFloor]);
+
 
   //mouseup
   useEffect(() => {
@@ -455,16 +523,14 @@ export default function MapCanvas(props: mapCanvasProps) {
       if (
         pathing.path.length > 0 &&
         pathing.path[0].nodeID === props.startLocation &&
-        pathing.path[pathing.path.length - 1].nodeID === props.endLocation
+        pathing.path[pathing.path.length - 1].nodeID === props.endLocation &&
+        props.pathfinding === pathing.algo
       )
         return;
+      if(props.pathfinding === null)
+        return;
       axios
-        .get(
-          "/api/astar-api?&startNode=" +
-          props.endLocation +
-          "&endNode=" +
-          props.startLocation,
-        )
+        .get("/api/pathfind?startNode=" +props.endLocation + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding)
         .then((res) => {
           const pathNodes: node[] = [];
           for (const s of res.data.path) {
@@ -483,10 +549,11 @@ export default function MapCanvas(props: mapCanvasProps) {
             ...pathing,
             path: pathNodes,
             selectedPoint: null,
+            algo: props.pathfinding!
           });
         });
     }
-  }, [pathing, nodes, props.endLocation, props.startLocation]);
+  }, [pathing, nodes, props.endLocation, props.startLocation, props.pathfinding]);
 
   return (
     <Box

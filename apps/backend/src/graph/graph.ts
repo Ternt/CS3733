@@ -1,26 +1,31 @@
 import PrismaClient from "../bin/database-connection.ts";
-import {aStarSearch} from "./a-star-search.ts";
-import {GraphNode, NodeType, Edge, floorNameArray, floorArray, floorValueDict} from "./graphDataTypes.ts"
+import { AStarSearch } from "./a-star-search.ts";
+import {GraphNode, NodeType, Edge, floorNameArray, floorArray, floorValueDict} from "./graphDataTypes.ts";
+
+export interface PathfindingStrategy {
+    runSearch(
+        graph: Graph,
+        start: string,
+        end: string,
+    ): Map<string, string>;
+}
 
 export class Graph {
     nodes: Map<string, GraphNode>;
     edges: Map<string, Edge[]>;
 
-    searchAlgorithm: (
-        graph: Graph,
-        start: string,
-        end: string,
-    ) => Map<string, string>;
+    strategy: PathfindingStrategy;
 
     constructor() {
         this.nodes = new Map<string, GraphNode>();
         this.edges = new Map<string, Edge[]>();
-        this.searchAlgorithm = aStarSearch;
+        this.strategy = new AStarSearch();
     }
 
     pathfind(start: string, end: string) {
-        const came_from = this.searchAlgorithm(this, start, end);
-        const path: string[] = this.backtrack(came_from, start, end);
+        const came_from = this.strategy.runSearch(this, start, end);
+        let path: string[] = this.backtrack(came_from, start, end);
+        path = this.postProcessPath(path);
         this.printPath(path);
         return path;
     }
@@ -121,6 +126,35 @@ export class Graph {
             tmp = came_from.get(tmp)!;
         }
         path.push(tmp);
+
+        return path;
+    }
+
+    postProcessPath(path: string[] | undefined) {
+        if (path === undefined || path.length == 0) {
+            return [];
+        }
+
+        const toRemove: number[] = [];
+        let elevatorCount = 0;
+
+        for (let i = 0; i < path.length ; i++) {
+            const node: GraphNode = this.nodes.get(path[i])!;
+            if (node.type === NodeType.ELEV) {
+                elevatorCount += 1;
+                if (elevatorCount >= 3) {
+                    toRemove.push(i - 1);
+                    elevatorCount -= 1;
+                }
+            }
+            else {
+                elevatorCount = 0;
+            }
+        }
+
+        toRemove.forEach((value, index) => {
+            path.splice(value - index, 1);
+        });
 
         return path;
     }

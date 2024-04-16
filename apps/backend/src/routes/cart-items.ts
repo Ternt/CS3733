@@ -15,7 +15,7 @@ router.post("/", async function (req: Request, res: Response) {
   }
 
   const cartItem: Prisma.CartItemCreateInput = body;
-  // Attempt to save the high score
+  // Attempt to save the cart item
   try {
     // Attempt to create in the database
     await PrismaClient.cartItem.create({ data: cartItem });

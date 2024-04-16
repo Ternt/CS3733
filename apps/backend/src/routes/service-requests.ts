@@ -27,6 +27,34 @@ router.post("/", async function (req: Request, res: Response) {
     }
 });
 
+router.post("/update", async function (req: Request, res: Response) {
+    const body = req.body;
+
+    if (body.requestID === undefined) {
+        console.error("must specify request id to update");
+        res.sendStatus(400);
+        return;
+    }
+
+    // Attempt to update status
+    try {
+        // Attempt to update record
+        await PrismaClient.serviceRequest.update({
+            where: {
+                requestID: body.requestID
+            },
+            data: body
+        })
+    } catch (error) {
+        // Log any failures
+        console.error(`Unable to update service request ${body}: ${error}`);
+        res.sendStatus(400); // Send error
+        return; // Don't try to send duplicate statuses
+    }
+
+    res.sendStatus(200); // Otherwise say it's fine
+});
+
 router.get("/", async function (req: Request, res: Response) {
     try {
         const serviceRequests = await PrismaClient.serviceRequest.findMany({
@@ -35,6 +63,9 @@ router.get("/", async function (req: Request, res: Response) {
                 type: true,
                 notes: true,
                 location: true,
+                priority: true,
+                status: true,
+                assignedEmployee: true,
 
                 sanitationDetail: {
                     include: {
