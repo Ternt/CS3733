@@ -1,11 +1,12 @@
 import { motion, useAnimation } from 'framer-motion';
 import React, { useEffect } from "react";
+// import {Box} from "@mui/material";
 
 type AnimatedPathProps = {
-    svgPath: string,
-}
+    svgPath: string;
+};
 
-export default function AnimatedPath({ props:  }) {
+export default function AnimatedPath(props: AnimatedPathProps) {
     const controls = useAnimation();
 
     useEffect(() => {
@@ -19,31 +20,30 @@ export default function AnimatedPath({ props:  }) {
                 }
             });
         };
-        animatePath();
+        requestAnimationFrame(animatePath);
     }, [controls]);
 
     return (
-        <motion.svg
-            style={{ width: "80%", height: "80%" }}
-            viewBox="0 0 480 480"
-        >
+        <>
             {/* Static Path */}
             <motion.path
-                d={svgPath}
-                strokeWidth={8} // Adjust the stroke width as needed
+                d={props.svgPath}
+                strokeWidth={3} // Adjust the stroke width as needed
                 stroke={"gray"} // Adjust the color as needed
                 fill="none"
+                strokeLinejoin={"round"}
+                strokeLinecap={"round"}
             />
             {/* Animated Path */}
             <motion.path
-                d={svgPath}
-                strokeWidth={4}
+                d={props.svgPath}
+                strokeWidth={1}
                 stroke={"black"}
                 fill="none"
                 initial={{ strokeDasharray: "20 10", strokeDashoffset: 1000 }} // Adjust the strokeDasharray for longer lines
                 animate={{ strokeDashoffset: 0 }}
                 transition={{ duration: 4, ease: "linear", repeat: Infinity }}
             />
-        </motion.svg>
+        </>
     );
 }
