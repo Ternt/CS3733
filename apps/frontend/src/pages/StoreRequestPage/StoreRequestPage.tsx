@@ -12,7 +12,7 @@ export type Item = {
     type: string;
     imageURL: string;
     title: string;
-    price: string;
+    price: number;
     description: string;
 };
 

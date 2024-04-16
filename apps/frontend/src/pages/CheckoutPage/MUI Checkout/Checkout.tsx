@@ -79,7 +79,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
             case 1:
                 return <PaymentForm cardDetails={cardData} onUpdateCardDetails={setCardData}/>;
             case 2:
-                axios.post( // todo finish/fix api post
+                axios.post(
                     "api/service-requests",
                     {
                         "type": "GIFT",
@@ -93,7 +93,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                         "cardCVV": parseInt(cardData.cvv, 10),
                         "cardHolderName": cardData.cardHolderName,
                         "cardExpirationDate": cardData.expirationDate,
-                        "items": [96]
+                        "items": cart.map((item: Item) => item.id)
                     }
                 );
 
