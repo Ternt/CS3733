@@ -11,7 +11,7 @@ export type Item = {
     id: string;
     type: string;
     imageURL: string;
-    title: string;
+    name: string;
     price: number;
     description: string;
 };
@@ -148,7 +148,7 @@ function StoreRequestPage() {
                         <ItemCard
                             id={item.id}
                             imageURL={item.imageURL}
-                            title={item.title}
+                            name={item.name}
                             price={item.price}
                             description={item.description}
                             handleAdd={addItem}
