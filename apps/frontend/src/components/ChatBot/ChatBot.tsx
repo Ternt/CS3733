@@ -45,6 +45,33 @@
                 ]);
             }
 
+            //Hijacking for Natural Language
+            function checkUserMessage(message: string): { start: string; end: string } {
+                const pattern = /^How do I get from (.*) to (.*)\?$/;
+                const match = message.match(pattern);
+
+                if (match) {
+                    const [, start, end] = match;
+                    return { start, end };
+                } else {
+                    return { start: '', end: '' };
+                }
+            }
+
+            if(checkUserMessage(userMessage).start !== '' && checkUserMessage(userMessage).end !== ''){
+                const start: string = checkUserMessage(userMessage).start;
+                const end: string = checkUserMessage(userMessage).end;
+                
+                console.log(start);
+                console.log(end);
+                
+                setChatMessages((prevMessages) => [
+                    ...prevMessages,
+                    {role: "ChatBot", content: 'Hi Zach we just Hijacked'},
+                ]);
+                return;
+            }
+
             try {
                 const response = await openai.chat.completions.create({
                     messages: [{role: "system", content: userMessage!}],
