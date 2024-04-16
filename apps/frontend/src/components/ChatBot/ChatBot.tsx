@@ -1,10 +1,9 @@
     import OpenAI from "openai";
     import {useState} from "react";
     import Button from "@mui/material/Button";
-    import {NaturalLanguageDirection, fetchPathData} from "../NaturalLanguageDirection/NaturalLanguageDirection.tsx";
+    //import NaturalLanguageDirection from "../NaturalLanguageDirection/NaturalLanguageDirection.tsx";
     import {KEY} from "./key/private.ts";
     import {Box, TextField, Typography} from "@mui/material";
-
     const openai = new OpenAI({apiKey: KEY, dangerouslyAllowBrowser: true});
     const seed: string = "You are an AI Chatbot for my mock brigham and women's hospital";
 
@@ -15,8 +14,9 @@
     });
     console.log(seedMessage);
 
-
     export default function Chatbot() {
+        const [showBot, setShowBot] = useState(false);
+
         console.log("Initialization Done");
         const [chatMessages, setChatMessages] = useState([{
             role: "system",
@@ -62,17 +62,11 @@
                 const start: string = checkUserMessage(userMessage).start;
                 const end: string = checkUserMessage(userMessage).end;
 
+                //const NaturalLanguage = NaturalLanguageDirection({startLocation: start, endLocation: end})
 
-                console.log(fetchPathData({startLocation: start, endLocation: end}));
-                console.log(NaturalLanguageDirection({startLocation: start, endLocation: end}));
-
-                
-                console.log(start);
-                console.log(end);
-                
                 setChatMessages((prevMessages) => [
                     ...prevMessages,
-                    {role: "ChatBot", content: 'Hi Zach we just Hijacked'},
+                    {role: "ChatBot", content: 'Path from ' + start +  ' to ' + end + ': PATH HERE'},
                 ]);
                 return;
             }
@@ -108,7 +102,14 @@
                 left: '70%',
                 padding: '1%',
                 boxShadow: 100,
+                opacity: showBot ? '0%' : '100%',
             }}>
+                <Button onClick={() => setShowBot(true)} sx={{
+                    position: 'absolute',
+                    top: '0vh',
+                    backgroundColor: 'black',
+                }}>X</Button>
+
                 <Box sx={{
                     height: '12%',
                     backgroundColor: '#012d5a',
