@@ -3,7 +3,7 @@ export default function createServiceRequestBody(body): any | undefined {
     if (body === undefined) {
         return undefined;
     }
-    if (body.id !== undefined) {
+    if (body.requestID !== undefined) {
         console.error("Not allowed to specify request id. It is auto generated");
         return undefined;
     }
