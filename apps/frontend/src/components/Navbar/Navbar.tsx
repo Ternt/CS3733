@@ -12,6 +12,7 @@ import { Menu, Typography } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import SearchBar from "../SearchBar/searchBar.tsx";
 import {useAuth0} from "@auth0/auth0-react";
+// import User from '../../../../../packages/common/src/User.tsx';
 
 
 
@@ -28,7 +29,7 @@ function ResponsiveAppBar() {
   const openRequests = Boolean(anchorElRequests);
 
   const navigate = useNavigate();
-  const {user, isAuthenticated, isLoading} = useAuth0();
+    const { user, isAuthenticated, isLoading } = useAuth0();
     console.log(isAuthenticated); //to debug
     const handleMenuItemClick = (path: string) => {
     navigate(path);
@@ -36,7 +37,7 @@ function ResponsiveAppBar() {
     let permissionLevel = 0;
     if(isAuthenticated){
         permissionLevel = 1;
-        if(user && user["dev-0kmc0cto8b1g261n.us.auth0.com/roles"] && user["dev-0kmc0cto8b1g261n.us.auth0.com/roles"].includes("admin")){
+        if (user?.email && user.email.substring(0, 5) === "admin") {
             permissionLevel = 2;
         }
     }
@@ -53,7 +54,7 @@ function ResponsiveAppBar() {
     navigate(path);
     setAnchorElRequests(null);
   };
-
+    console.log(permissionLevel);
   return (
     <AppBar
       position="static"
@@ -79,7 +80,9 @@ function ResponsiveAppBar() {
           >
               {!isLoading && (
                   <>
+
                       {permissionLevel === 2 && (
+
                           <Button
                               key={"admin"}
                               onClick={() => handleMenuItemClick("/admin")}
@@ -136,52 +139,7 @@ function ResponsiveAppBar() {
                           </Button></div>
                       )}
 
-                      {permissionLevel >= 0 && (
-                          <div>
-                              <Button
-                                  key={"home"}
-                                  onClick={() => handleMenuItemClick("/")}
-                                  sx={{
-                                      color: "white",
-                                      display: "block",
-                                      fontSize: 15,
-                                      transition: "all 0.2s ease-in-out",
-                                      "&:hover": {
-                                          textDecoration: "underline",
-                                          background: "#012d5a",
-                                      },
-                                  }}
-                              >
-                                  <Typography
-                                      sx={{fontSize: "1.1rem",}}
-                                  >
-                                      Home
-                                  </Typography>
-                              </Button>
 
-                              <Button
-                                  key={"map"}
-                                  onClick={() => handleMenuItemClick("/map")}
-                                  sx={{
-                                      color: "white",
-                                      display: "block",
-                                      fontSize: 15,
-                                      transition: "all 0.2s ease-in-out",
-                                      "&:hover": {
-                                          textDecoration: "underline",
-                                          background: "#012d5a",
-                                      },
-                                  }}
-                              >
-                                  <Typography
-                                      sx={{fontSize: "1.1rem"}}
-                                  >
-                                      Map
-                                  </Typography>
-                              </Button>
-
-                          </div>
-                      )}
 
 
                   </>
@@ -201,7 +159,47 @@ function ResponsiveAppBar() {
             ></Box>
           </Link>
 
+              <Button
+                  key={"home"}
+                  onClick={() => handleMenuItemClick("/")}
+                  sx={{
+                      color: "white",
+                      display: "block",
+                      fontSize: 15,
+                      transition: "all 0.2s ease-in-out",
+                      "&:hover": {
+                          textDecoration: "underline",
+                          background: "#012d5a",
+                      },
+                  }}
+              >
+                  <Typography
+                      sx={{fontSize: "1.1rem",}}
+                  >
+                      Home
+                  </Typography>
+              </Button>
 
+              <Button
+                  key={"map"}
+                  onClick={() => handleMenuItemClick("/map")}
+                  sx={{
+                      color: "white",
+                      display: "block",
+                      fontSize: 15,
+                      transition: "all 0.2s ease-in-out",
+                      "&:hover": {
+                          textDecoration: "underline",
+                          background: "#012d5a",
+                      },
+                  }}
+              >
+                  <Typography
+                      sx={{fontSize: "1.1rem"}}
+                  >
+                      Map
+                  </Typography>
+              </Button>
 
 
 
