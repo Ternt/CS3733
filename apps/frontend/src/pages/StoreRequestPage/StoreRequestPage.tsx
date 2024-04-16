@@ -148,7 +148,7 @@ function StoreRequestPage() {
                         <ItemCard
                             id={item.id}
                             imageURL={item.imageURL}
-                            title={item.name}
+                            title={item.title}
                             price={item.price}
                             description={item.description}
                             handleAdd={addItem}

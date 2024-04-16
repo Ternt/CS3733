@@ -11,7 +11,7 @@ type CardProps = {
     id: string;
     imageURL: string;
     title: string;
-    price: string;
+    price: number;
     description: string;
     type: string;
     handleAdd: (item: Item) => void;
