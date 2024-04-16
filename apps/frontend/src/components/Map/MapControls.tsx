@@ -48,7 +48,7 @@ export default function MapControls(props: MapControlProps) {
       <SpeedDial
         ariaLabel="Map controls"
         icon={<Typography variant={"subtitle1"}> {FLOOR_IDS[props.floor]}</Typography>}
-        open={floorSelectorOpen}
+        open={true}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();

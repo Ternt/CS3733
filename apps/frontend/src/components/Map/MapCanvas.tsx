@@ -80,7 +80,8 @@ export default function MapCanvas(props: mapCanvasProps) {
       <g
         transform={"translate("+cameraControl.pan.x+" "+cameraControl.pan.y+") scale("+(1/cameraControl.zoom)+" "+(1/cameraControl.zoom)+")"}
       >
-        {(props.pathfinding === null)?(svgInject): <AnimatedPath svgPath={pathStringInject} />}
+        <AnimatedPath svgPath={pathStringInject} />
+        {svgInject}
       </g>
     </svg>
   );
@@ -175,24 +176,35 @@ export default function MapCanvas(props: mapCanvasProps) {
       const svgElements = [];
       if (props.pathfinding) {
         if (
-          pathing.selectedPoint === null &&
-          (props.endLocation === undefined || props.endLocation === "")
+          (pathing.selectedPoint === null &&
+          (props.endLocation === undefined || props.endLocation === "")) ||
+          (!pathing.path ||
+          pathing.path.length < 1)
         )
           return;
+
         let pathString = "";
+        let lastFloor = -1;
         for (let i = 0; i < pathing.path.length - 1; i++) {
           // svgElements.push(drawLine(pathing.path[i].point, pathing.path[i + 1].point, "black"));
-          if (pathing.path[i].point.z !== viewingFloor) continue;
           const a = vecToCanvSpace(pathing.path[i].point);
           const b = vecToCanvSpace(pathing.path[i+1].point);
-          pathString += "M "+a.x+" "+a.y+", L "+b.x+" "+b.y+",";
+          if(lastFloor !== pathing.path[i].point.z){
+            lastFloor = pathing.path[i].point.z;
+            pathString += "M "+a.x+" "+a.y+",";
+          }
+          if (pathing.path[i].point.z !== viewingFloor) continue;
+          pathString +=  "L "+b.x+" "+b.y+",";
         }
         // check that the selected point is
         if (pathing.selectedPoint !== null && pathing.path[pathing.path.length - 1].point.z === viewingFloor) {
           // svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
           const a = vecToCanvSpace(pathing.path[pathing.path.length - 1].point);
           const b = vecToCanvSpace(pathing.selectedPoint);
-          pathString += "M " + a.x + " " + a.y + ", L " + b.x + " " + b.y + ",";
+          if(lastFloor !== pathing.selectedPoint.z){
+            pathString += "M "+a.x+" "+a.y+",";
+          }
+          pathString += "L " + b.x + " " + b.y + ",";
         }
         console.log(pathString);
         setPathStringInject(pathString);
