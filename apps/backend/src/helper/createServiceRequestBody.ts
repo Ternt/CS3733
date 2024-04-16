@@ -24,7 +24,7 @@ export default function createServiceRequestBody(body): any | undefined {
             }
             if (body.messTypes.length == 0) {
                 console.error("messTypes must have at least one value");
-                return undefined
+                return undefined;
             }
             body.sanitationDetail = {
                 create: {
@@ -35,11 +35,15 @@ export default function createServiceRequestBody(body): any | undefined {
                             };
                         }),
                     },
+                    employeeName: body.employeeName,
                     messSize: body.messSize,
+                    date: body.date,
                 },
             };
+            delete body.employeeName;
             delete body.messTypes;
             delete body.messSize;
+            delete body.date;
             break;
         case "MEDICINE":
             body.medicineDetail = {
@@ -49,6 +53,7 @@ export default function createServiceRequestBody(body): any | undefined {
                     medicine: body.medicine,
                     dosage: body.dosage,
                     form: body.form,
+                    date: body.date,
                 },
             };
             delete body.patientName;
@@ -56,6 +61,7 @@ export default function createServiceRequestBody(body): any | undefined {
             delete body.medicine;
             delete body.dosage;
             delete body.form;
+            delete body.date;
             break;
         case "GIFT":
             if (!Array.isArray(body.items)) {

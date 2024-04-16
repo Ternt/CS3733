@@ -11,7 +11,7 @@ export type Item = {
     id: string;
     type: string;
     imageURL: string;
-    name: string;
+    title: string;
     price: string;
     description: string;
 };
@@ -85,7 +85,7 @@ export type Item = {
 
 export const StoreContext = React.createContext(null);
 
-function GiftRequestPage() {
+function StoreRequestPage() {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -130,7 +130,6 @@ function GiftRequestPage() {
                 display: "flex",
                 justifyContent: "flex-start",
                 flexDirection: "row",
-                marginTop: '10vh'
             }}
         >
             <Box
@@ -159,7 +158,8 @@ function GiftRequestPage() {
                         position: 'fixed',
                     }}>
                     <Box sx={{
-                        marginLeft: '20%'
+                        marginLeft: '20%',
+                        mt: '10%'
                     }}>
                         <Info cart={cart} onDeleteItem={handleDeleteItem}/>
                         <Box
@@ -179,15 +179,15 @@ function GiftRequestPage() {
                             >
                                 Clear
                             </Button>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleSubmit}
-                                style={{minWidth: "10vw"}}
-                                sx={{margin: 1}}
-                            >
-                                Submit
-                            </Button>
+                             <Button
+                                 variant="contained"
+                                 color="primary"
+                                 onClick={handleSubmit}
+                                 style={{minWidth: "10vw"}}
+                                 sx={{margin: 1}}
+                             >
+                                 Submit
+                             </Button>
                         </Box>
                     </Box>
                 </Box>
@@ -232,4 +232,4 @@ function GiftRequestPage() {
     );
 }
 
-export default GiftRequestPage;
+export default StoreRequestPage;
