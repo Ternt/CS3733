@@ -8,6 +8,7 @@ import MapControls from "./MapControls.tsx";
 import InformationMenu from "../InformationMenu.tsx";
 import {MAPS, ZOOM, FLOOR_NAME_TO_INDEX, getMapData, MAP_BASE} from "../../helpers/MapHelper.ts";
 import {clamp, distance} from "../../helpers/MathHelp.ts";
+import AnimatedPath from "./AnimatedPath.tsx";
 
 
 
@@ -62,6 +63,7 @@ export default function MapCanvas(props: mapCanvasProps) {
   const [draggingNode, setDraggingNode] = useState<node | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [svgInject, setSvgInject] = useState<ReactNode[]>([]);
+  const [pathStringInject, setPathStringInject] = useState("");
   const svgElementInjector = (
     <svg
       width="100%"
@@ -78,7 +80,7 @@ export default function MapCanvas(props: mapCanvasProps) {
       <g
         transform={"translate("+cameraControl.pan.x+" "+cameraControl.pan.y+") scale("+(1/cameraControl.zoom)+" "+(1/cameraControl.zoom)+")"}
       >
-        {svgInject}
+        {(props.pathfinding === null)?(svgInject): <AnimatedPath svgPath={pathStringInject} />}
       </g>
     </svg>
   );
@@ -177,15 +179,23 @@ export default function MapCanvas(props: mapCanvasProps) {
           (props.endLocation === undefined || props.endLocation === "")
         )
           return;
-
-        if (pathing.selectedPoint !== null)
-          svgElements.push(drawPoint(pathing.selectedPoint, "blue"));
+        let pathString = "";
         for (let i = 0; i < pathing.path.length - 1; i++) {
-          svgElements.push(drawLine(pathing.path[i].point, pathing.path[i + 1].point, "black"));
+          // svgElements.push(drawLine(pathing.path[i].point, pathing.path[i + 1].point, "black"));
+          if (pathing.path[i].point.z !== viewingFloor) continue;
+          const a = vecToCanvSpace(pathing.path[i].point);
+          const b = vecToCanvSpace(pathing.path[i+1].point);
+          pathString += "M "+a.x+" "+a.y+", L "+b.x+" "+b.y+",";
         }
         // check that the selected point is
-        if (pathing.selectedPoint !== null)
-          svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
+        if (pathing.selectedPoint !== null && pathing.path[pathing.path.length - 1].point.z === viewingFloor) {
+          // svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
+          const a = vecToCanvSpace(pathing.path[pathing.path.length - 1].point);
+          const b = vecToCanvSpace(pathing.selectedPoint);
+          pathString += "M " + a.x + " " + a.y + ", L " + b.x + " " + b.y + ",";
+        }
+        console.log(pathString);
+        setPathStringInject(pathString);
       } else {
         for (const n of renderData.n) {
           svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID ? "red" : "blue")));
