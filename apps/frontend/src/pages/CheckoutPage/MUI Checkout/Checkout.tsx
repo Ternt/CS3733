@@ -109,7 +109,6 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
     const handleNext = () => {
         setActiveStep(activeStep + 1);
 
-        console.log(activeStep);
         if(activeStep == steps.length - 1) {
             axios.post(
                 "api/service-requests",
