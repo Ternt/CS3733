@@ -13,9 +13,9 @@ import SanitationRequestForm from "./pages/SanitationRequest/SanitaitonRequestFo
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 import MapPage from "./pages/MapPage.tsx";
-// import {Auth0Provider} from "@auth0/auth0-react";
-// import { useNavigate } from 'react-router-dom';
-
+import {Auth0Provider} from "@auth0/auth0-react";
+import { useNavigate } from 'react-router-dom';
+import Box from "@mui/material/Box";
 
 import AnimatedPath from "./components/Map/AnimatedPath.tsx";
 
@@ -93,27 +93,27 @@ M 795.6900000000002 119.07000000000001, L 797.5800000000002 124.74,M 797.5800000
   );
 
     function Root() {
-        // const navigate = useNavigate();
+        const navigate = useNavigate();
         return (
             <>
-
-                {/*<Auth0Provider*/}
-                {/*    useRefreshTokens*/}
-                {/*    cacheLocation="localstorage"*/}
-                {/*    domain="dev-0kmc0cto8b1g261n.us.auth0.com"*/}
-                {/*    clientId="bphcdyBgEk1u7ZP1E2EnaMSXQMOIjH3V"*/}
-                {/*    onRedirectCallback={(appState) => {*/}
-                {/*        navigate(appState?.returnTo || window.location.pathname);*/}
-                {/*    }}*/}
-                {/*    authorizationParams={{*/}
-                {/*        redirect_uri: window.location.origin*/}
-                {/*    }}*/}
-                {/*>*/}
-                    <div className="w-full flex flex-col">
+                <Auth0Provider
+                    useRefreshTokens
+                    cacheLocation="localstorage"
+                    domain="dev-0kmc0cto8b1g261n.us.auth0.com"
+                    clientId="bphcdyBgEk1u7ZP1E2EnaMSXQMOIjH3V"
+                    onRedirectCallback={(appState) => {
+                        navigate(appState?.returnTo || window.location.pathname);
+                    }}
+                    authorizationParams={{
+                        redirect_uri: window.location.origin
+                    }}
+                >
+                  <div className="w-full flex flex-col">
                         <NavBar />
+                        <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a",}}></Box>
                         <Outlet />
                     </div>
-                {/*</Auth0Provider>*/}
+                </Auth0Provider>
             </>
         );
     }

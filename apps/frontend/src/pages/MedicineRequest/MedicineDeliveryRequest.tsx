@@ -1,6 +1,9 @@
 import {ChangeEvent, useEffect, useState} from "react";
 import LocationDropdown from "../../components/LocationDropdown.tsx";
-import Calendar from "../../components/Calendar/Calendar.tsx";
+import dayjs from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import {
     TextField,
     FormControl,
@@ -22,17 +25,18 @@ type form = {
     patientName: string;
     physicianName: string;
     location: string;
+    date: string;
     priority: string;
     status: string;
 };
 
 function MedicineRequestForm() {
-  useEffect(() => {
-    document.title = "Medicine Request";
-  });
+    useEffect(() => {
+        document.title = "Medicine Request";
+    });
 
     const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(true);
-    const [formMenuTransform, setFormMenuTransform] = useState<number>(150);
+    const [formMenuTransform, setFormMenuTransform] = useState<number>(0);
     const [formInput, setFormInput] = useState<form>({
         medicine: "",
         dosage: "",
@@ -40,6 +44,7 @@ function MedicineRequestForm() {
         patientName: "",
         physicianName: "",
         location: "",
+        date: "MM/DD/YY",
         priority: "",
         status: "",
     });
@@ -52,6 +57,7 @@ function MedicineRequestForm() {
             formInput.patientName != "" &&
             formInput.physicianName != "" &&
             formInput.location != "" &&
+            formInput.date != "" &&
             formInput.priority != "" &&
             formInput.status != ""
         );
@@ -64,58 +70,59 @@ function MedicineRequestForm() {
     function handlePatientNameInput(e: ChangeEvent<HTMLInputElement>) {
         setFormInput({...formInput, patientName: e.target.value});
     }
-    
-  function submitForm() {
-    let requestID = -1;
-    if (isComplete()) {
-      // Log the current state of service and details
-      console.log("Submitting Request");
 
-      // Configure requestID to a specific, unique value
-      requestID = Date.now();
-      requestID = parseInt(
-          requestID.toString().substring(8) +
-          parseInt(Math.random() * 1000 + "").toString(),
-      );
+    function submitForm() {
+        let requestID = -1;
+        if (isComplete()) {
+            // Log the current state of service and details
+            console.log("Submitting Request");
 
-      // Create a service request object
-      const medicineRequest = {
-        requestID: requestID,
-        type: "MEDICINE",
-        priority: formInput.priority,
-        status: formInput.status,
-        notes: "None",
-        locationID: formInput.location,
-        patientName: formInput.patientName,
-        primaryPhysicianName: formInput.physicianName,
-        medicine: formInput.medicine,
-        dosage: parseInt(formInput.dosage),
-        form: formInput.form,
-      };
-      console.log(JSON.stringify(medicineRequest));
+            // Configure requestID to a specific, unique value
+            requestID = Date.now();
+            requestID = parseInt(
+                requestID.toString().substring(8) +
+                parseInt(Math.random() * 1000 + "").toString(),
+            );
 
-      // Send a POST request to the server
-      fetch("/api/service-requests", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(medicineRequest),
-      })
-          .then((response) => {
-            console.log(response);
-          })
+            // Create a service request object
+            const medicineRequest = {
+                requestID: requestID,
+                type: "MEDICINE",
+                priority: formInput.priority,
+                status: formInput.status,
+                notes: "None",
+                locationID: formInput.location,
+                date: formInput.date,
+                patientName: formInput.patientName,
+                primaryPhysicianName: formInput.physicianName,
+                medicine: formInput.medicine,
+                dosage: parseInt(formInput.dosage),
+                form: formInput.form,
+            };
+            console.log(JSON.stringify(medicineRequest));
 
-          .then((data) => console.log(data))
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-    } else {
-      // If service is "Null option", do not log anything
-      console.log("No service request submitted.");
+            // Send a POST request to the server
+            fetch("/api/service-requests", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(medicineRequest),
+            })
+                .then((response) => {
+                    console.log(response);
+                })
+
+                .then((data) => console.log(data))
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        } else {
+            // If service is "Null option", do not log anything
+            console.log("No service request submitted.");
+        }
+        clearForm();
     }
-    clearForm();
-  }
 
     function clearForm() {
         setFormInput({
@@ -126,6 +133,7 @@ function MedicineRequestForm() {
             patientName: "",
             physicianName: "",
             location: "",
+            date: "MM/DD/YY",
             priority: "",
             status: "",
         });
@@ -145,10 +153,10 @@ function MedicineRequestForm() {
                     position: 'relative',
                     m: '3%',
                     mt: '3%',
-                    width: '60%',
+                    width: '40%',
                     transform: `translate(${formMenuTransform}px)`,
                     transition: '0.5s',
-                    transitionDelay: (calendarMenuFlag? '100ms':'0ms'),
+                    transitionDelay: (calendarMenuFlag? '0ms':'100ms'),
                 }}
             >
                 <Box
@@ -255,21 +263,22 @@ function MedicineRequestForm() {
                             {/* Datepicker */}
                             <Box>
                                 <TextField
-                                label={"Date"}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton onClick={() => {
-                                                setCalendarMenuFlag(!calendarMenuFlag);
-                                                setFormMenuTransform((calendarMenuFlag?0:150));
-                                                console.log(calendarMenuFlag);
-                                            }}>
-                                                <EventIcon/>
-                                            </IconButton>
-                                        </InputAdornment>
+                                    label={"Date"}
+                                    value={formInput.date}
+                                    InputProps={{
+                                        readOnly: true,
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton onClick={() => {
+                                                    setCalendarMenuFlag(!calendarMenuFlag);
+                                                    setFormMenuTransform((calendarMenuFlag?150:0));
+                                                }}>
+                                                    <EventIcon/>
+                                                </IconButton>
+                                            </InputAdornment>
                                         ),
-                                }}
-                                sx={{width:"100%"}}
+                                    }}
+                                    sx={{width:"100%"}}
                                 />
                             </Box>
 
@@ -413,47 +422,56 @@ function MedicineRequestForm() {
             </Box>
 
 
-            <Box sx={{mt: '6%'}}>
-               <Grow in={!calendarMenuFlag} {...!calendarMenuFlag? {timeout:1000}:{}}>{
-                       <Box>
-                           <Box
-                               sx={{
-                                   width: '100%',
-                                   display: 'flex',
-                                   justifyContent: 'center',
-                                   backgroundColor: '#012d5a',
-                                   color: '#f6bd38',
-                                   p: 2,
-                                   borderRadius: '23px 23px 0 0',
-                               }}
-                           >
-                               <Typography
-                                   style={{fontFamily: 'Open Sans', fontWeight: 600}}
-                                   variant="h4"
-                                   component="h1"
-                                   align="center"
-                               >
-                                   Date
-                               </Typography>
-                           </Box>
-                           <Box
-                               sx={{
-                                   backgroundColor: 'whitesmoke',
-                                   borderRadius: '0 0 23px 23px',
-                                   boxShadow: 3,
-                                   padding: '1%',
-                                   display: 'flex',
-                                   justifyContent: 'center',
-                               }}
-                           >
-                               <Calendar/>
-                           </Box>
-                       </Box>
-                   }
-               </Grow>
+            <Box sx={{mt: '3%'}}>
+                <Grow in={calendarMenuFlag} {...calendarMenuFlag? {timeout:1000}:{}}>{
+                    <Box>
+                        <Box
+                            sx={{
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                backgroundColor: '#012d5a',
+                                color: '#f6bd38',
+                                p: 2,
+                                borderRadius: '23px 23px 0 0',
+                            }}
+                        >
+                            <Typography
+                                style={{fontFamily: 'Open Sans', fontWeight: 600}}
+                                variant="h4"
+                                component="h1"
+                                align="center"
+                            >
+                                Date
+                            </Typography>
+                        </Box>
+                        <Box
+                            sx={{
+                                backgroundColor: 'whitesmoke',
+                                borderRadius: '0 0 23px 23px',
+                                boxShadow: 3,
+                                padding: '1%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DateCalendar
+                                    defaultValue={dayjs(Date.now())}
+                                    views={['year', 'month', 'day']}
+                                    onChange={(mewDate) => {
+                                        setFormInput({...formInput, date: mewDate.format('MM/DD/YY')});
+                                        console.log(mewDate.format('MM/DD/YY'));
+                                    }}
+                                />
+                            </LocalizationProvider>
+                        </Box>
+                    </Box>
+                }
+                </Grow>
             </Box>
-    </Box>
-  );
+        </Box>
+    );
 }
 
 export default MedicineRequestForm;
