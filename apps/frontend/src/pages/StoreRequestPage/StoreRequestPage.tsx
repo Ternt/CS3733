@@ -16,75 +16,6 @@ export type Item = {
     description: string;
 };
 
-// type ItemCardData = {
-//     id: string;
-//     imageURL: string;
-//     title: string;
-//     price: string;
-//     description: string;
-// };
-
-// const items: ItemCardData[] = [
-//     {
-//         id: "1-tedd",
-//         imageURL: "https://cdn.nodenium.com/3d10056f-1f66-4071-b9bc-2eab34dc5bf1",
-//         title: "Teddy Bear",
-//         price: "12",
-//         description: "A cute Teddy Bear",
-//     },
-//     {
-//         id: "2-choc",
-//         imageURL: "https://cdn.nodenium.com/e03b0f04-9153-4c5b-8370-8da3be2a2760",
-//         title: "Chocolates",
-//         price: "15",
-//         description: "Taste good",
-//     },
-//     {
-//         id: "3-cake",
-//         imageURL: "https://cdn.nodenium.com/32c982b8-4c41-4e5a-be07-8079d6f9c319",
-//         title: "Cake",
-//         price: "40",
-//         description: "chocolate cake",
-//     },
-//     {
-//         id: "4-ps5",
-//         imageURL: "https://cdn.nodenium.com/4372f71b-2caf-440e-b238-c2085499f95b",
-//         title: "PS5",
-//         price: "600",
-//         description: "ps5",
-//     },
-//     {
-//         id: "1-rose",
-//         imageURL: "https://cdn.nodenium.com/37eed916-975b-4788-a5a4-b8ff64490f04",
-//         title: "Rose",
-//         price: "20",
-//         description: "Rose",
-//     },
-//     {
-//         id: "2-dais",
-//         imageURL: "https://cdn.nodenium.com/d5074553-86a1-4351-93a0-f720b503dada",
-//         title: "Daisy",
-//         price: "30",
-//         description: "Daisy",
-//     },
-//     {
-//         id: "3-tuli",
-//         imageURL: "https://cdn.nodenium.com/38afd65e-4f26-46c8-b853-66cf863b975d",
-//         title: "Tulip",
-//         price: "35",
-//         description: "Tulip",
-//     },
-//     {
-//         id: "4-forg",
-//         imageURL: "https://cdn.nodenium.com/a7aa8e0a-c057-46ee-b99b-212908aebe73",
-//         title: "Forget-Me-Not",
-//         price: "12",
-//         description: "Flower",
-//     },
-// ];
-
-export const StoreContext = React.createContext(null);
-
 function StoreRequestPage() {
 
     const navigate = useNavigate();
@@ -215,13 +146,13 @@ function StoreRequestPage() {
                 >
                     {items.map((item) => (
                         <ItemCard
-                            key={item.id}
                             id={item.id}
                             imageURL={item.imageURL}
                             title={item.name}
                             price={item.price}
                             description={item.description}
                             handleAdd={addItem}
+                            type={item.type}
                         />
                     ))}
 

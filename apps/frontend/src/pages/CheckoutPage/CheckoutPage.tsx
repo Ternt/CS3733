@@ -314,10 +314,10 @@ function CheckoutPage({ checkoutType, returnPath }: CheckoutProps) {
                     setData({ ...data, priority: e.target.value });
                   }}
                 >
-                  <MenuItem value={"low"}>Low</MenuItem>
-                  <MenuItem value={"medium"}>Medium</MenuItem>
-                  <MenuItem value={"high"}>High</MenuItem>
-                  <MenuItem value={"emergency"}>Emergency</MenuItem>
+                  <MenuItem value={"LOW"}>Low</MenuItem>
+                  <MenuItem value={"MEDIUM"}>Medium</MenuItem>
+                  <MenuItem value={"HIGH"}>High</MenuItem>
+                  <MenuItem value={"EMERGENCY"}>Emergency</MenuItem>
                 </TextField>
 
                 <TextField
@@ -355,8 +355,8 @@ function CheckoutPage({ checkoutType, returnPath }: CheckoutProps) {
                     setData({ ...data, shippingType: e.target.value });
                   }}
                 >
-                  <MenuItem value={"Standard"}>Standard</MenuItem>
-                  <MenuItem value={"Express"}>Express</MenuItem>
+                  <MenuItem value={"STANDARD"}>Standard</MenuItem>
+                  <MenuItem value={"EXPRESS"}>Express</MenuItem>
                 </TextField>
 
                 <TextField
@@ -371,10 +371,10 @@ function CheckoutPage({ checkoutType, returnPath }: CheckoutProps) {
                     setData({ ...data, status: e.target.value });
                   }}
                 >
-                  <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-                  <MenuItem value={"Assigned"}>Assigned</MenuItem>
-                  <MenuItem value={"In Progress"}>In Progress</MenuItem>
-                  <MenuItem value={"Closed"}>Closed</MenuItem>
+                  <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
+                  <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>
+                  <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
+                  <MenuItem value={"CLOSED"}>Closed</MenuItem>
                 </TextField>
               </FormControl>
 

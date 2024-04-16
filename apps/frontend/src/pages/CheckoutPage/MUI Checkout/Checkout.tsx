@@ -81,21 +81,20 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
             case 2:
                 axios.post( // todo finish/fix api post
                     "api/service-requests",
-                    [
-                        "GIFT", // type
-                        "", // notes
-                        orderData.priority, // priority
-                        orderData.status, // status
-                        orderData.location, // location (nodeID)
-                        orderData.name, // senderName
-                        orderData.name, // recipientName
-                        orderData.shippingType, // shippingType
-                        cardData.cardNumber, // cardNumber
-                        cardData.cvv, // cardCVV
-                        cardData.cardHolderName, // cardHolderName
-                        cardData.expirationDate, // expirationDate
-                        cart.map(item => item.id)
-                    ]
+                    {
+                        "type": "GIFT",
+                        "priority": orderData.priority.toUpperCase(),
+                        "status": orderData.status.toUpperCase(),
+                        "locationID": orderData.location,
+                        "senderName": cardData.cardHolderName,
+                        "recipientName": orderData.name,
+                        "shippingType": orderData.shippingType.toUpperCase(),
+                        "cardNumber": parseInt(cardData.cardNumber, 10),
+                        "cardCVV": parseInt(cardData.cvv, 10),
+                        "cardHolderName": cardData.cardHolderName,
+                        "cardExpirationDate": cardData.expirationDate,
+                        "items": [96]
+                    }
                 );
 
                 return <Review
