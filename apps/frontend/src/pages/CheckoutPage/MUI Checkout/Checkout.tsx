@@ -82,24 +82,6 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
             case 1:
                 return <PaymentForm cardDetails={cardData} onUpdateCardDetails={setCardData}/>;
             case 2:
-                axios.post(
-                    "api/service-requests",
-                    {
-                        "type": "GIFT",
-                        "priority": orderData.priority,
-                        "status": orderData.status,
-                        "locationID": orderData.location,
-                        "senderName": cardData.cardHolderName,
-                        "recipientName": orderData.name,
-                        "shippingType": orderData.shippingType,
-                        "cardNumber": parseInt(cardData.cardNumber, 10),
-                        "cardCVV": parseInt(cardData.cvv, 10),
-                        "cardHolderName": cardData.cardHolderName,
-                        "cardExpirationDate": cardData.expirationDate,
-                        "items": cart.map((item: Item) => item.id)
-                    }
-                );
-
                 return <Review
                     orderDetails={orderData}
                     cardDetails={cardData}
@@ -126,6 +108,25 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
+        if(activeStep == steps.length - 1) {
+            axios.post(
+                "api/service-requests",
+                {
+                    "type": "GIFT",
+                    "priority": orderData.priority,
+                    "status": orderData.status,
+                    "locationID": orderData.location,
+                    "senderName": cardData.cardHolderName,
+                    "recipientName": orderData.name,
+                    "shippingType": orderData.shippingType,
+                    "cardNumber": parseInt(cardData.cardNumber, 10),
+                    "cardCVV": parseInt(cardData.cvv, 10),
+                    "cardHolderName": cardData.cardHolderName,
+                    "cardExpirationDate": cardData.expirationDate,
+                    "items": cart.map((item: Item) => item.id)
+                }
+            );
+        }
     };
 
     const handleBack = () => {
