@@ -41,134 +41,82 @@ export default function MapPage() {
             justifyContent="stretch"
             alignItems="stretch"
             height='90vh'
+            overflow='hidden'
         >
             <Grid
                 item
                 xs={3}
-                sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                }}
             >
-                <Box sx={{
-                    width: '90%',
-                    maxHeight: '55%',
-                    backgroundColor: 'whitesmoke',
-                    borderRadius: '23px',
-                    boxShadow: 3,
-                    m: '3%',
-                    mx: '10%',
-                }}>
-                    <Box
-                        sx={{
-                            maxHeight: '16%',
-                            width: '100%',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            backgroundColor: '#012d5a',
-                            color: '#f6bd38',
-                            p: 2,
-                            borderRadius: '23px 23px 0 0',
-                        }}
+                <Box
+                  sx={{
+                    width: '95%',
+                    height: 'calc(90vh - 1.25%)',
+                    borderRadius: '2rem',
+                    boxShadow: 5,
+                    p:2,
+                    m:'2.5%',
+                    display:'flex',
+                    flexDirection:'column',
+                    gap:1.2,
+                }}
+                >
+                    <Typography
+                        variant="h6"
+                        component="h1"
+                        align="center"
                     >
-                        <Typography
-                            style={{fontFamily: 'Open Sans', fontWeight: 600}}
-                            variant="h6"
-                            component="h1"
-                            align="center"
-                        >
-                            NAVIGATION MENU
-                        </Typography>
-                    </Box>
-                    {/* start location dropdown menu */}
-                    <Box sx={{p: 2, width: "100%"}}>
-                        <LocationDropdown
-                            onChange={(v: string) => {
-                                setStartLocation(v);
-                            }}
-                            value={startLocation}
-                            filterTypes={["HALL"]}
-                            label={"Start "}
-                        />
-                    </Box>
-
-                    {/* end location dropdown menu */}
-                    <Box sx={{p: 2, width: "100%"}}>
-                        <LocationDropdown
-                            onChange={(v: string) => {
-                                setEndLocation(v);
-                            }}
-                            value={endLocation}
-                            filterTypes={["HALL"]}
-                            label={"End "}
-                        />
-                    </Box>
-                    {/* Algorithm choose */}
-                    <Box sx={{p: 2, width: "100%"}}>
-                        <TextField
-                            select
-                            onChange={(e) => {
-                                setSearchAlgorithm(parseInt(e.target.value));
-                            }}
-                            sx={{
-                                width: '100%'
-                            }}
-                            value={searchAlgorithm}
-                            label={"Algorithm "}
-                            helperText={algos[searchAlgorithm].helper}
-                        >
-                            {
-                                algos.map((a, i) => <MenuItem key={a.api} value={i}>{a.title}</MenuItem>)
-                            }
-                        </TextField>
-
-                    </Box>
-                </Box>
-
-                <Box sx={{
-                    width: '90%',
-                    height: '40vh',
-                    backgroundColor: 'whitesmoke',
-                    borderRadius: '23px',
-                    boxShadow: 3,
-                    m: '3%',
-                    mX: '10%',
-                }}>
-                    <Box
-                        sx={{
-                            maxHeight: '45%',
-                            width: '100%',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            backgroundColor: '#012d5a',
-                            color: '#f6bd38',
-                            p: 2,
-                            borderRadius: '23px 23px 0 0',
+                        NAVIGATION MENU
+                    </Typography>
+                    <LocationDropdown
+                        onChange={(v: string) => {
+                            setStartLocation(v);
                         }}
+                        value={startLocation}
+                        filterTypes={["HALL"]}
+                        label={"Start "}
+                    />
+                    <LocationDropdown
+                        onChange={(v: string) => {
+                            setEndLocation(v);
+                        }}
+                        value={endLocation}
+                        filterTypes={["HALL"]}
+                        label={"End "}
+                    />
+                    <TextField
+                        select
+                        onChange={(e) => {
+                            setSearchAlgorithm(parseInt(e.target.value));
+                        }}
+                        sx={{
+                            width: '100%'
+                        }}
+                        value={searchAlgorithm}
+                        label={"Algorithm "}
+                        helperText={algos[searchAlgorithm].helper}
                     >
-                        <Typography
-                            style={{fontFamily: 'Open Sans', fontWeight: 600}}
-                            variant="h6"
-                            component="h1"
-                            align="center"
-                        >
-                            NATURAL LANGUAGE
-                        </Typography>
-                    </Box>
+                        {
+                            algos.map((a, i) => <MenuItem key={a.api} value={i}>{a.title}</MenuItem>)
+                        }
+                    </TextField>
                     <Box sx={{
-                        maxHeight: '70%',
-                        width: '100%',
-                        backgroundColor: 'white',
-                        borderRadius: '0 0 23px 23px',
-                        overflowY: 'scroll'
+                      width: '100%',
+                      backgroundColor: 'white',
+                      borderRadius: '0 0 23px 23px',
+                      overflowY: 'scroll',
+                      display:'flex',
+                      flexWrap:'nowrap',
+                      flexDirection:'column',
+                      gap:'.1rem',
+                      borderTop:' 1px solid black',
+                      pb:'5rem',
                     }}>
 
                         {natLangPath.map((d: string, index) => {
                             return (
                                 <Typography
-                                    sx={{color: 'black', fontSize: '18px', m: '3%'}}
                                     key={index}
+                                    variant={"subtitle2"}
                                 >
                                     {index + 1}. {d}
                                 </Typography>
