@@ -53,7 +53,7 @@ export default function MapPage() {
             >
                 <Box sx={{
                     width: '90%',
-                    height: '60%',
+                    maxHeight: '55%',
                     backgroundColor: 'whitesmoke',
                     borderRadius: '23px',
                     boxShadow: 3,
@@ -62,6 +62,7 @@ export default function MapPage() {
                 }}>
                     <Box
                         sx={{
+                            maxHeight: '16%',
                             width: '100%',
                             display: 'flex',
                             justifyContent: 'center',
@@ -126,17 +127,17 @@ export default function MapPage() {
                 </Box>
 
                 <Box sx={{
-                        width: '90%',
-                        height: '20%',
-                        backgroundColor: 'whitesmoke',
-                        borderRadius: '23px',
-                        boxShadow: 3,
-                        m: '3%',
-                        mX: '10%',
+                    width: '90%',
+                    height: '40vh',
+                    backgroundColor: 'whitesmoke',
+                    borderRadius: '23px',
+                    boxShadow: 3,
+                    m: '3%',
+                    mX: '10%',
                 }}>
                     <Box
                         sx={{
-                            height: '40%',
+                            maxHeight: '45%',
                             width: '100%',
                             display: 'flex',
                             justifyContent: 'center',
@@ -156,22 +157,23 @@ export default function MapPage() {
                         </Typography>
                     </Box>
                     <Box sx={{
-                        height: '30vh',
+                        maxHeight: '70%',
                         width: '100%',
-                        mt: '3vh',
-                        backgroundColor: 'white'
+                        backgroundColor: 'white',
+                        borderRadius: '0 0 23px 23px',
+                        overflowY: 'scroll'
                     }}>
 
-                        {
-                            natLangPath.map((d: string) => {
-                                return <Typography sx={{
-                                    color: 'black',
-                                    fontSize: 100
-                                }}>
-                                    {d}
-                                </Typography>;
-                            })
-                        }
+                        {natLangPath.map((d: string, index) => {
+                            return (
+                                <Typography
+                                    sx={{color: 'black', fontSize: '18px', m: '3%'}}
+                                    key={index}
+                                >
+                                    {index + 1}. {d}
+                                </Typography>
+                            );
+                        })}
                     </Box>
                 </Box>
             </Grid>
