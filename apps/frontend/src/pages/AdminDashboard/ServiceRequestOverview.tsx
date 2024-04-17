@@ -105,7 +105,7 @@ export default function ServiceRequestOverview(){
                     flexDirection:'row',
                     justifyContent:'space-evenly',
                     alignItems:'flex-start',
-                    backgroundColor: '#E4E4E4',
+                    backgroundColor: '#fff',
                 }}
             >
                     {
@@ -121,10 +121,11 @@ export default function ServiceRequestOverview(){
                                         justifyContent:'flex-start',
                                         alignItems:'flex-start',
                                         p: "0.5%",
+                                        boxShadow:5,
                                     }}
                                 >
                                     <Typography
-                                        variant={"h4"}
+                                        variant={"h5"}
                                         sx={{
                                             display: "flex",
                                             justifyContent: "center",
@@ -132,6 +133,9 @@ export default function ServiceRequestOverview(){
                                             px: "5%",
                                             pt: "4%",
                                             pb: "2%",
+                                            width:'100%',
+                                            textAlign:'center',
+                                            textDecoration:'underline',
                                         }}>{category}
                                     </Typography>
                                     <Box
@@ -147,20 +151,12 @@ export default function ServiceRequestOverview(){
                                         {
                                             reqs.map((service) => {
                                                 return(
-                                                    ((service.type === category)? <KanbanBoardCard serviceRequestData={service}/> : <></>)
+                                                    service.type === category ?
+                                                      <KanbanBoardCard serviceRequestData={service}/> :
+                                                      <></>
                                                 );
                                             })
                                         }
-                                        {/*<Box sx={{display: 'flex'}}>*/}
-                                        {/*    <Button*/}
-                                        {/*        variant="contained"*/}
-                                        {/*        sx={{*/}
-                                        {/*            width: "20vw",*/}
-                                        {/*        }}*/}
-                                        {/*    >*/}
-                                        {/*        <AddIcon/>*/}
-                                        {/*    </Button>*/}
-                                        {/*</Box>*/}
                                     </Box>
                                 </Box>
                             );})

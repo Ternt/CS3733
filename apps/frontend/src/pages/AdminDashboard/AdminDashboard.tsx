@@ -1,7 +1,6 @@
 import {Box, CircularProgress, Typography} from "@mui/material";
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
-import MenuIcon from "@mui/icons-material/Menu";
-import MapIcon from "@mui/icons-material/Map";
+import ViewKanbanIcon from '@mui/icons-material/ViewKanban';import MapIcon from "@mui/icons-material/Map";
 import TableViewIcon from "@mui/icons-material/TableView";
 import MapCanvas from "../../components/Map/MapCanvas.tsx";
 import { useState } from "react";
@@ -73,7 +72,7 @@ export default function AdminDashboard() {
               handleSelect(i);
             }}
           >
-            <MenuIcon/>
+            <ViewKanbanIcon/>
             <MapIcon/>
             <TableViewIcon/>
           </SidebarMenu>
