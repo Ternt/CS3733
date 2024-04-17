@@ -372,7 +372,7 @@ export default function MapCanvas(props: mapCanvasProps) {
 
     const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
     const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
-    if(props.startLocation === ''){
+    if(props.startLocation === '' && props.pathfinding){
       setNotification("Select a start location");
       return;
     }
