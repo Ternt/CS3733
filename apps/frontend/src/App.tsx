@@ -16,7 +16,7 @@ import {Auth0Provider} from "@auth0/auth0-react";
 import { useNavigate } from 'react-router-dom';
 import Box from "@mui/material/Box";
 import AnimatedPath from "./components/Map/AnimatedPath.tsx";
-import Chatbot from "./components/ChatBot/ChatBot.tsx";
+// import Chatbot from "./components/ChatBot/ChatBot.tsx";
 
 function App() {
     const router = createBrowserRouter([
@@ -47,11 +47,11 @@ function App() {
                 },
                 {
                     path: "/gift-request",
-                    element: <StoreRequestPage requestType={"gift"}/>,
+                    element: <StoreRequestPage/>,
                 },
                 {
                     path: "/flower-request",
-                    element: <StoreRequestPage requestType={"flower"}/>,
+                    element: <StoreRequestPage/>,
                 },
                 {
                     path: "/gift-checkout",
@@ -111,7 +111,7 @@ M 795.6900000000002 119.07000000000001, L 797.5800000000002 124.74,M 797.5800000
                         <NavBar />
                         <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a",}}></Box>
                         <Outlet />
-                        <Chatbot/>
+                        {/*<Chatbot/>*/}
                     </div>
                 </Auth0Provider>
             </>
