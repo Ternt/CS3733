@@ -1,6 +1,6 @@
 export const serviceRequests = [
     {
-        requestID: 1,
+        requestID: -1,
         type: "SANITATION",
         notes: null,
         locationID: "WELEV00ML1",
@@ -26,7 +26,7 @@ export const serviceRequests = [
         },
     },
     {
-        requestID: 2,
+        requestID: -2,
         type: "MEDICINE",
         notes: "note",
         locationID: "IDEPT00303",
@@ -45,7 +45,7 @@ export const serviceRequests = [
         }
     },
     {
-        requestID: 3,
+        requestID: -3,
         type: "GIFT",
         notes: null,
         locationID: "FHALL02201",
@@ -64,10 +64,10 @@ export const serviceRequests = [
                 items: {
                     create: [
                         {
-                            cartItemID: 1
+                            cartItemID: -1
                         },
                         {
-                            cartItemID: 2
+                            cartItemID: -2
                         }
                     ]
                 }
@@ -75,7 +75,7 @@ export const serviceRequests = [
         }
     },
     {
-        requestID: 4,
+        requestID: -4,
         type: "GIFT",
         notes: null,
         locationID: "DDEPT00102",
@@ -94,10 +94,10 @@ export const serviceRequests = [
                 items: {
                     create: [
                         {
-                            cartItemID: 6
+                            cartItemID: -6
                         },
                         {
-                            cartItemID: 7
+                            cartItemID: -7
                         }
                     ]
                 }
@@ -105,13 +105,13 @@ export const serviceRequests = [
         }
     },
     {
-        requestID: 5,
+        requestID: -5,
         type: "SANITATION",
         notes: "cool notes",
         locationID: "CLABS005L1",
         priority: "MEDIUM",
         status: "ASSIGNED",
-        assignedEmployeeID: 8,
+        assignedEmployeeID: -8,
         sanitationDetail: {
             create: {
                 employeeName: "employeeName",
@@ -128,13 +128,13 @@ export const serviceRequests = [
         }
     },
     {
-        requestID: 6,
+        requestID: -6,
         type: "MEDICINE",
         notes: "medicine notes",
         locationID: "IDEPT00303",
         priority: "HIGH",
         status: "CLOSED",
-        assignedEmployeeID: 2,
+        assignedEmployeeID: -2,
         medicineDetail: {
             create: {
                 patientName: "patient name",
@@ -147,13 +147,13 @@ export const serviceRequests = [
         }
     },
     {
-        requestID: 7,
+        requestID: -7,
         type: "MEDICINE",
         notes: "medicine notes",
         locationID: "IDEPT00303",
         priority: "HIGH",
         status: "IN_PROGRESS",
-        assignedEmployeeID: 5,
+        assignedEmployeeID: -5,
         medicineDetail: {
             create: {
                 patientName: "patient name",
