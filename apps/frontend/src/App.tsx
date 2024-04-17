@@ -2,7 +2,7 @@ import React from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
-import LoginPage from "./pages/LoginPage/LoginPage.tsx";
+import LoginButton from "./components/LoginButton/LoginButton.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
 import NavBar from "./components/Navbar/Navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
@@ -42,7 +42,7 @@ function App() {
         },
         {
           path: "/login",
-          element: <LoginPage />,
+          element: <LoginButton />,
         },
         {
           path: "/gift-request",
@@ -80,7 +80,7 @@ function App() {
         <ThemeProvider theme={CustomTheme}>
             {" "}
             {/* Wrap RouterProvider with ThemeProvider */}
-            <RouterProvider router={router} />
+            <RouterProvider router={router}/>
         </ThemeProvider>
     );
 

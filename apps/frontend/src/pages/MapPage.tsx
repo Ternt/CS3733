@@ -12,9 +12,10 @@ export default function MapPage() {
     });
 
     const algos = [
-        {title: 'A-Star', api: 'astar', helper: 'The quickest route'},
-        {title: 'Breadth First', api: 'bfs', helper: 'A decent route'},
-        {title: 'Depth First', api: 'dfs', helper: 'The scenic route'},
+      {title: 'A-Star', api: 'astar', helper: 'The quickest route'},
+      {title: 'Breadth First Search', api: 'bfs', helper: 'A decent route'},
+      {title: 'Depth First Search', api: 'dfs', helper: 'The scenic route'},
+      {title: 'Dijkstra\'s', api: 'dijkstra', helper: 'A very fast route'},
     ];
     const [startLocation, setStartLocation] = useState("Abrams Conference Room");
     const [endLocation, setEndLocation] = useState("Abrams Conference Room");
@@ -57,7 +58,7 @@ export default function MapPage() {
                     borderRadius: '23px',
                     boxShadow: 3,
                     m: '3%',
-                    mX: '10%',
+                    mx: '10%',
                 }}>
                     <Box
                         sx={{
