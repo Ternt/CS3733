@@ -1,8 +1,6 @@
 import {ChangeEvent, useState} from "react";
-import { ServiceRequest } from "./ServiceRequestOverview";
-import {Card, Collapse, Typography} from "@mui/material";
-import {FormControl} from "@mui/material";
-import {TextField} from "@mui/material";
+import {ServiceRequest} from "./ServiceRequestOverview";
+import {Card, Collapse, FormControl, TextField, Typography} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
@@ -52,12 +50,12 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                 display: 'flex',
                 flexDirection: 'column',
                 width:'100%',
-                backgroundColor:'#FFFFFF',
             }}
         >
             <Card
                 sx={{
-                    borderRadius: "2% 2% 0 0",
+                    backgroundColor:'#FFFFFF',
+                    borderRadius: 2,
                 }}>
                     <CardContent
                         sx={{
@@ -65,44 +63,81 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                             flexDirection: 'column',
                             px: "5%",
                             pt: "5%",
-                            pb: "5%"
                         }}>
                         <Typography variant="h6">{serviceData.location.longName}</Typography>
                     </CardContent>
                     <Collapse in={expanded} timeout={'auto'} unmountOnExit>
                         <CardContent>
-                            <Typography>{serviceData.location.nodeID}</Typography>
-                            <Typography>{serviceData.priority}</Typography>
-                            <Typography>{
-                                (serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
-                                    "" : (serviceData.giftDetail.senderName + " " + serviceData.giftDetail.recipientName)
+                            <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                <Typography sx={{width: '50%'}}>Priority: </Typography>
+                                <Typography>{serviceData.priority.toLowerCase()}</Typography>
+                            </Box>
+                            {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Recipient: </Typography>
+                                    <Typography>{serviceData.giftDetail.recipientName}</Typography>
+                                </Box>
                             }
-                            </Typography>
-                            <Typography>{
-                                (serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
-                                    "" : (serviceData.medicineDetail.patientName)
+
+                            {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Sender: </Typography>
+                                    <Typography>{serviceData.giftDetail.senderName}</Typography>
+                                </Box>
+
                             }
-                            </Typography>
-                            <Typography>{
-                                (serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
-                                    "" : (serviceData.medicineDetail.primaryPhysicianName)
+
+                            {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Patient Name: </Typography>
+                                    <Typography>{serviceData.medicineDetail.patientName}</Typography>
+                                </Box>
                             }
-                            </Typography>
-                            <Typography>{
-                                (serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
-                                    "" : (serviceData.medicineDetail.medicine.toLowerCase().replace("_", " "))
+
+                            {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Physician Name: </Typography>
+                                    <Typography>{serviceData.medicineDetail.primaryPhysicianName}</Typography>
+                                </Box>
                             }
-                            </Typography>
-                            <Typography>{
-                                (serviceData.assignedEmployee === undefined || serviceData.assignedEmployee === null)?
-                                    "" : (serviceData.assignedEmployee.firstName + " " + serviceData.assignedEmployee.lastName)
+
+                            {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Medicine: </Typography>
+                                    <Typography>{serviceData.medicineDetail.medicine.toLowerCase().replace("_", " ")}</Typography>
+                                </Box>
                             }
-                            </Typography>
+
+                            {(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?
+                                <></> : <Typography>Date: {serviceData.sanitationDetail.date}</Typography>
+                            }
+
+                            {(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?"":(
+                                serviceData.sanitationDetail.messTypes.map((messtype)=>{
+                                    return(
+                                        <Typography>
+                                            Mess Type: {messtype.messType.toLowerCase().replace("_", " ")}
+                                        </Typography>
+                                    );
+                                })
+                            )}
                             <Box sx={{
                                 display: 'flex',
                                 flexDirection: 'row',
-                                px: "5%", pb: "5%", pt: "5%",
                             }}>
+                                {(serviceData.assignedEmployee === undefined || serviceData.assignedEmployee === null)?
+                                    <></> : <Typography>{serviceData.assignedEmployee.firstName + " " + serviceData.assignedEmployee.lastName}</Typography>
+                                }
                                 <FormControl
                                     sx={{width: "100%", display: "flex", flexDirection: "row"}}>
                                     <TextField
@@ -130,6 +165,8 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                         sx={{
                             backgroundColor: "#F1F1F1",
                             borderRadius: 2,
+                            display: "flex",
+                            flexDirection: "row",
                         }}>
                         <CardActions>
                             <Button
@@ -139,6 +176,19 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                 }}
                             >expand</Button>
                         </CardActions>
+                        <Box
+                            sx={{
+                                p: 1,
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                alignItems: 'center',
+                                width: '100%',
+                            }}
+                        >
+                            <Typography>
+                                ID{serviceData.requestID}
+                            </Typography>
+                        </Box>
                     </Box>
             </Card>
         </Box>
