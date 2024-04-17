@@ -127,6 +127,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                     "items": cart.map((item: Item) => item.id)
                 }
             );
+            navigate(checkoutType === "flower"? "/flower-order-confirmation" : "/gift-order-confirmation");
         }
     };
 
