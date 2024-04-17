@@ -10,6 +10,13 @@ export type RequestCard = {
     type:string;
 }
 
+export type AssignedEmployee = {
+    id: number;
+    firstName: string;
+    lastName: string;
+    assignedRequests: ServiceRequest[];
+}
+
 export type Node = {
     nodeID: string;
     xcoord: number;
@@ -21,14 +28,25 @@ export type Node = {
     nodeType: string;
 }
 
+export type GiftRequest = {
+    requestID: number;
+    senderName: string;
+    recipientName: string;
+    shippingType: string;
+    cardNumber: number;
+    cardCVV: number;
+    cardHolderName: string;
+    cardExpirationDate: string;
+}
+
 export type ServiceRequest = {
     requestID: number,
     priority: string,
     status: string,
     type: string,
     location: Node,
-    assignedEmployee?: string,
-    giftDetail? : string,
+    assignedEmployee?: AssignedEmployee,
+    giftDetail? : GiftRequest,
     maintenanceDetail?: string,
     medicineDetail?: string,
     notes?: string,
@@ -43,6 +61,7 @@ export default function ServiceRequestOverview(){
     useEffect(()=>{
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
             setReqs(res.data);
+            console.log(res.data);
         });
     }, []);
 
@@ -92,7 +111,6 @@ export default function ServiceRequestOverview(){
                                             display: "flex",
                                             flexDirection: "column",
                                             width: '100%',
-                                            minHeight:'80vh',
                                             height: '80vh',
                                             gap: "1rem",
                                             overflow: 'scroll',

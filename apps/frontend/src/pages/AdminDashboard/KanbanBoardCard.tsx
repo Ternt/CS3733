@@ -1,6 +1,6 @@
 import {ChangeEvent, useState} from "react";
 import { ServiceRequest } from "./ServiceRequestOverview";
-import {Paper, Typography} from "@mui/material";
+import {Typography} from "@mui/material";
 import {FormControl} from "@mui/material";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
@@ -40,14 +40,16 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
 
 
     return(
-        <Paper
+        <Box
             key={serviceData.requestID}
             sx={{
+                display: 'flex',
+                flexDirection: 'column',
                 width:'100%',
                 backgroundColor:'#FFFFFF',
-                borderRadius: 2,
+                borderRadius: "2% 2% 0 0",
+                boxShadow: 1,
             }}
-            elevation={1}
         >
             <Box
                 sx={{
@@ -60,7 +62,16 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                 <Typography variant="h6">{serviceData.location.longName}</Typography>
                 <Typography>{serviceData.location.nodeID}</Typography>
                 <Typography>{serviceData.priority}</Typography>
-                <Typography variant="h6">{serviceData.location.longName}</Typography>
+                <Typography>{
+                    (serviceData.assignedEmployee === undefined || serviceData.assignedEmployee === null)?
+                        "" : (serviceData.assignedEmployee.firstName + " " + serviceData.assignedEmployee.lastName)
+                }
+                </Typography>
+                <Typography>{
+                    (serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
+                        "" : (serviceData.giftDetail.senderName + " " + serviceData.giftDetail.recipientName)
+                }
+                </Typography>
             </Box>
             <Box
                 sx={{
@@ -88,6 +99,6 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                     </Box>
                 </Box>
             </Box>
-        </Paper>
+        </Box>
     );
 }
