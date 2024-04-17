@@ -76,19 +76,19 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                 <></>
                                 :
                                 <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Recipient: </Typography>
-                                    <Typography>{serviceData.giftDetail.recipientName}</Typography>
+                                    <Typography sx={{width: '50%'}}>Sender: </Typography>
+                                    <Typography>{serviceData.giftDetail.senderName}</Typography>
                                 </Box>
+
                             }
 
                             {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
                                 <></>
                                 :
                                 <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Sender: </Typography>
-                                    <Typography>{serviceData.giftDetail.senderName}</Typography>
+                                    <Typography sx={{width: '50%'}}>Recipient: </Typography>
+                                    <Typography>{serviceData.giftDetail.recipientName}</Typography>
                                 </Box>
-
                             }
 
                             {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
@@ -119,21 +119,28 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                             }
 
                             {(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?
-                                <></> : <Typography>Date: {serviceData.sanitationDetail.date}</Typography>
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Date: </Typography>
+                                    <Typography>{serviceData.sanitationDetail.date}</Typography>
+                                </Box>
                             }
 
                             {(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?"":(
                                 serviceData.sanitationDetail.messTypes.map((messtype)=>{
                                     return(
-                                        <Typography>
-                                            Mess Type: {messtype.messType.toLowerCase().replace("_", " ")}
-                                        </Typography>
+                                        <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                            <Typography sx={{width: '50%'}}>Mess Type: </Typography>
+                                            <Typography>{messtype.messType.toLowerCase().replace("_", " ")}</Typography>
+                                        </Box>
                                     );
                                 })
                             )}
                             <Box sx={{
                                 display: 'flex',
                                 flexDirection: 'row',
+                                pt: 3
                             }}>
                                 {(serviceData.assignedEmployee === undefined || serviceData.assignedEmployee === null)?
                                     <></> : <Typography>{serviceData.assignedEmployee.firstName + " " + serviceData.assignedEmployee.lastName}</Typography>
