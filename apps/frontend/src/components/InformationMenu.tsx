@@ -65,6 +65,23 @@ export default function InformationMenu(props: InfoMenuProp) {
 
   function submitForm() {
     props.onChangeNode(newNodeData);
+
+    // Send a PUT request to the server
+    fetch("/api/nodes/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newNodeData),
+    })
+        .then((response) => {
+          console.log(response);
+        })
+
+        .then((data) => console.log(data))
+        .catch((error) => {
+          console.error("Error:", error);
+        });
   }
 
   return (
