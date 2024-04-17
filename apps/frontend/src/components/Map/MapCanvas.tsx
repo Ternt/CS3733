@@ -155,7 +155,6 @@ export default function MapCanvas(props: mapCanvasProps) {
           fill={color}
         />;
       }
-
       function drawLine(a: vec2, b: vec2, color: string) {
         if (a.z !== viewingFloor) return;
         a = vecToCanvSpace(a);
@@ -185,16 +184,51 @@ export default function MapCanvas(props: mapCanvasProps) {
 
         let pathString = "";
         let lastFloor = -1;
+        const tryAddIcon = (a:vec2, isDest:boolean)=>{
+          if(lastFloor !== a.z){
+            let flip = lastFloor > a.z;
+            console.log(a.z);
+            a = vecToCanvSpace(a);
+            const DOWN = "m480.385-332.309 145.768-145.768-41.768-41.768-74.001 74.001v-182.232h-60.383v182.232L376-519.845l-41.768 41.768 146.153 145.768Zm-.318 232.308q-78.836 0-148.204-29.92-69.369-29.92-120.682-81.21-51.314-51.291-81.247-120.629-29.933-69.337-29.933-148.173t29.92-148.204q29.92-69.369 81.21-120.682 51.291-51.314 120.629-81.247 69.337-29.933 148.173-29.933t148.204 29.92q69.369 29.92 120.682 81.21 51.314 51.291 81.247 120.629 29.933 69.337 29.933 148.173t-29.92 148.204q-29.92 69.369-81.21 120.682-51.291 51.314-120.629 81.247-69.337 29.933-148.173 29.933Z";
+            const UP = "M450.001-332.309h60.383V-514.54l74.001 74 41.768-41.768-145.768-145.768-146.153 145.768L376-440.54l74.001-74v182.231Zm30.066 232.308q-78.836 0-148.204-29.92-69.369-29.92-120.682-81.21-51.314-51.291-81.247-120.629-29.933-69.337-29.933-148.173t29.92-148.204q29.92-69.369 81.21-120.682 51.291-51.314 120.629-81.247 69.337-29.933 148.173-29.933t148.204 29.92q69.369 29.92 120.682 81.21 51.314 51.291 81.247 120.629 29.933 69.337 29.933 148.173t-29.92 148.204q-29.92 69.369-81.21 120.682-51.291 51.314-120.629 81.247-69.337 29.933-148.173 29.933Z";
+            const PIN = "M480-212.309q-136-101.307-202.999-196.23-67-94.923-67-185.467 0-68.389 24.538-119.922 24.539-51.533 63.128-86.379 38.589-34.846 86.825-52.269 48.236-17.423 95.508-17.423t95.508 17.423q48.236 17.423 86.825 52.269 38.589 34.846 63.128 86.379 24.538 51.533 24.538 119.922 0 90.544-67 185.467Q616-313.616 480-212.309Zm0-317.692q29.154 0 49.576-20.423 20.423-20.422 20.423-49.576t-20.423-49.576Q509.154-669.999 480-669.999t-49.576 20.423Q410.001-629.154 410.001-600t20.423 49.576q20.422 20.423 49.576 20.423Zm-269.999 440v-59.998h539.998v59.998H210.001Z";
+            if(a.z === viewingFloor) {
+              const wid = 10;
+              svgElements.push(
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height={""+(wid*2)}
+                  viewBox="0 -960 960 960"
+                  width={""+(wid*2)}
+                  x={a.x - wid}
+                  y={a.y - wid}
+                >
+                  <path
+                    d={isDest?PIN:(flip ? UP : DOWN)}
+                    fill={"#012d5a"}
+                    strokeWidth={'60px'} // Adjust the stroke width as needed
+                    stroke={"#f6bd38"} // Adjust the color as needed
+                    x={0}
+                    y={0}
+                    style={{
+                      filter: "drop-shadow(10px 20px 30px #000)"
+                    }}
+                  />
+                </svg>
+              );
+            }
+            lastFloor = a.z;
+            pathString += "M " + a.x + " " + a.y + ",";
+          }
+        };
         for (let i = 0; i < pathing.path.length - 1; i++) {
           // svgElements.push(drawLine(pathing.path[i].point, pathing.path[i + 1].point, "black"));
           const a = vecToCanvSpace(pathing.path[i].point);
           const b = vecToCanvSpace(pathing.path[i+1].point);
-          if(lastFloor !== pathing.path[i].point.z){
-            lastFloor = pathing.path[i].point.z;
-            pathString += "M "+a.x+" "+a.y+",";
-          }
-          if (pathing.path[i].point.z !== viewingFloor) continue;
-          pathString +=  "L "+b.x+" "+b.y+",";
+          tryAddIcon(pathing.path[i].point, i===0);
+
+          if (a.z !== viewingFloor) continue;
+          pathString += "L " + b.x + " " + b.y + ",";
         }
         // check that the selected point is
         if (pathing.selectedPoint !== null && pathing.path[pathing.path.length - 1].point.z === viewingFloor) {
@@ -206,7 +240,6 @@ export default function MapCanvas(props: mapCanvasProps) {
           }
           pathString += "L " + b.x + " " + b.y + ",";
         }
-        console.log(pathString);
         setPathStringInject(pathString);
       } else {
         for (const n of renderData.n) {
