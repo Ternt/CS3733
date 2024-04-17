@@ -70,10 +70,10 @@ export default function OrderInfo(props: OrderInfoProps) {
                       props.onUpdateFormInfo({...props.orderDetails, priority: e.target.value});
                     }}
                 >
-                    <MenuItem value={"low"}>Low</MenuItem>
-                    <MenuItem value={"medium"}>Medium</MenuItem>
-                    <MenuItem value={"high"}>High</MenuItem>
-                    <MenuItem value={"emergency"}>Emergency</MenuItem>
+                    <MenuItem value={"Low"}>Low</MenuItem>
+                    <MenuItem value={"Medium"}>Medium</MenuItem>
+                    <MenuItem value={"High"}>High</MenuItem>
+                    <MenuItem value={"Emergency"}>Emergency</MenuItem>
                 </TextField>
             </FormGrid>
 

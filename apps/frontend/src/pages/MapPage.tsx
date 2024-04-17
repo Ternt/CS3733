@@ -49,67 +49,80 @@ export default function MapPage() {
           alignItems: "center",
         }}
       >
-        <Typography
-          fontFamily={"open-sans"}
-          variant={"h3"}
-          sx={{
-            p: 2,
-          }}
-        >
-          Navigate
-        </Typography>
+          <Box  sx={{
+              width: '90%',
+              height: '100%',
+              backgroundColor: 'whitesmoke',
+              borderRadius: '23px',
+              boxShadow: 3,
+              m: '3%',
+              mX: '10%',
+          }}>
+              <Box
+                  sx={{
+                      width: '100%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      backgroundColor: '#012d5a',
+                      color: '#f6bd38',
+                      p: 2,
+                      borderRadius: '23px 23px 0 0',
+                  }}
+              >
+                  <Typography
+                      style={{fontFamily: 'Open Sans', fontWeight: 600}}
+                      variant="h6"
+                      component="h1"
+                      align="center"
+                  >
+                      NAVIGATION MENU
+                  </Typography>
+              </Box>
+              {/* start location dropdown menu */}
+              <Box sx={{ p: 2, width: "100%" }}>
+                  <LocationDropdown
+                      onChange={(v: string) => {
+                          setStartLocation(v);
+                      }}
+                      value={startLocation}
+                      filterTypes={["HALL"]}
+                      label={"Start "}
+                  />
+              </Box>
 
-        {/* start location dropdown menu */}
-        <Box sx={{ p: 2, width: "100%" }}>
-          <LocationDropdown
-            onChange={(v: string) => {
-              setStartLocation(v);
-            }}
-            value={startLocation}
-            filterTypes={["HALL"]}
-            label={"Start "}
-          />
-        </Box>
-
-        {/* end location dropdown menu */}
-        <Box sx={{ p: 2, width: "100%" }}>
-          <LocationDropdown
-            onChange={(v: string) => {
-              setEndLocation(v);
-            }}
-            value={endLocation}
-            filterTypes={["HALL"]}
-            label={"End "}
-          />
-        </Box>
-        {/* Algorithm choose */}
-        <Box sx={{ p: 2, width: "100%" }}>
-          <TextField
-            select
-            onChange={(e)=>{
-              setSearchAlgorithm(parseInt(e.target.value));
-            }}
-            sx={{
-              width:'100%'
-            }}
-            value={searchAlgorithm}
-            label={"Algorithm "}
-            helperText={algos[searchAlgorithm].helper}
-          >
-            {
-              algos.map((a, i)=><MenuItem key={a.api} value={i}>{a.title}</MenuItem>)
-            }
-          </TextField>
-        </Box>
-          <Typography>{startLocation}</Typography>
-          <Typography>{endLocation}</Typography>
-          <Box>
-              {
-                  natLangPath.map((d:string)=>{
-                      return <Typography variant={"body2"}>{d}</Typography>;
-                  })
-              }
+              {/* end location dropdown menu */}
+              <Box sx={{ p: 2, width: "100%" }}>
+                  <LocationDropdown
+                      onChange={(v: string) => {
+                          setEndLocation(v);
+                      }}
+                      value={endLocation}
+                      filterTypes={["HALL"]}
+                      label={"End "}
+                  />
+              </Box>
+              {/* Algorithm choose */}
+              <Box sx={{ p: 2, width: "100%" }}>
+                  <TextField
+                      select
+                      onChange={(e)=>{
+                          setSearchAlgorithm(parseInt(e.target.value));
+                      }}
+                      sx={{
+                          width:'100%'
+                      }}
+                      value={searchAlgorithm}
+                      label={"Algorithm "}
+                      helperText={algos[searchAlgorithm].helper}
+                  >
+                      {
+                          algos.map((a, i)=><MenuItem key={a.api} value={i}>{a.title}</MenuItem>)
+                      }
+                  </TextField>
+                  <Typography>*reserved space for other features*</Typography>
+              </Box>
           </Box>
+
 
 
       </Grid>
