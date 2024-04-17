@@ -10,8 +10,8 @@ import {Item} from "../../pages/StoreRequestPage/StoreRequestPage.tsx";
 type CardProps = {
     id: string;
     imageURL: string;
-    title: string;
-    price: string;
+    name: string;
+    price: number;
     description: string;
     type: string;
     handleAdd: (item: Item) => void;
@@ -22,7 +22,7 @@ function ItemCard(props: CardProps) {
         return {
             id: props.id,
             imageURL: props.imageURL,
-            title: props.title,
+            name: props.name,
             price: parseInt(props.price),
             description: props.description,
             type: props.type,
@@ -68,7 +68,7 @@ function ItemCard(props: CardProps) {
                         }}
                     >
                         <Typography variant="h6" color="text.secondary" textAlign={"left"}>
-                            {props.title}
+                            {props.name}
                         </Typography>
 
                         <Typography variant="h6" color="text.secondary" textAlign={"right"}>

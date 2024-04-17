@@ -48,11 +48,11 @@ function App() {
         },
         {
           path: "/gift-request",
-          element: <StoreRequestPage requestType={"gift"}/>,
+          element: <StoreRequestPage/>,
         },
         {
           path: "/flower-request",
-          element: <StoreRequestPage requestType={"flower"}/>,
+          element: <StoreRequestPage/>,
         },
         {
           path: "/gift-checkout",
