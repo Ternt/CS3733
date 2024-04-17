@@ -63,25 +63,51 @@ export default function InformationMenu(props: InfoMenuProp) {
     return <></>;
   }
 
+  function isComplete(): boolean {
+    return (
+        newNodeData?.nodeID != "" &&
+        newNodeData?.point.x != null &&
+        newNodeData?.point.y != null &&
+        newNodeData.floor != "" &&
+        newNodeData.building != "" &&
+        newNodeData.longName != "" &&
+        newNodeData.shortName != "" &&
+        newNodeData.nodeType != ""
+    );
+  }
+
   function submitForm() {
     props.onChangeNode(newNodeData);
 
-    // Send a PUT request to the server
-    fetch("/api/nodes/update", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newNodeData),
-    })
-        .then((response) => {
-          console.log(response);
-        })
+    if(isComplete() && newNodeData !== null) {
+      const editedNode = {
+        nodeID: newNodeData.nodeID,
+        xcoord: newNodeData.point.x,
+        ycoord: newNodeData.point.y,
+        floor: newNodeData.floor,
+        building: newNodeData.building,
+        longName: newNodeData.longName,
+        shortName: newNodeData.shortName,
+        nodeType: newNodeData.nodeType
+      };
 
-        .then((data) => console.log(data))
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      // Send a PUT request to the server
+      fetch("/api/nodes/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedNode),
+      })
+          .then((response) => {
+            console.log(response);
+          })
+
+          .then((data) => console.log(data))
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+    }
   }
 
   return (
