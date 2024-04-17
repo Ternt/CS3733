@@ -1,18 +1,21 @@
 import * as React from "react";
 
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CssBaseline from "@mui/material/CssBaseline";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Stepper from "@mui/material/Stepper";
-import {useLocation, useNavigate} from "react-router-dom";
+import {
+    Box,
+    Button,
+    Card,
+    Grid,
+    Stack,
+    Step,
+    StepLabel,
+    Stepper,
+    PaletteMode,
+    CssBaseline,
+    createTheme,
+    ThemeProvider
+} from "@mui/material";
 
-import {createTheme, ThemeProvider} from "@mui/material/styles";
-import {PaletteMode} from "@mui/material";
+import {useLocation, useNavigate} from "react-router-dom";
 
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
@@ -25,6 +28,8 @@ import PaymentForm from "./PaymentForm.tsx";
 import Review from "./Review.tsx";
 import {useEffect, useState} from "react";
 import {Item} from "../../StoreRequestPage/StoreRequestPage.tsx";
+
+import axios from "axios";
 
 const steps = ["Order Information", "Payment details", "Review your order"];
 
@@ -103,6 +108,26 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
+
+        if(activeStep == steps.length - 1) {
+            axios.post(
+                "api/service-requests",
+                {
+                    "type": "GIFT",
+                    "priority": orderData.priority.toUpperCase().replace(" ", "_"),
+                    "status": orderData.status.toUpperCase().replace(" ", "_"),
+                    "locationID": orderData.location,
+                    "senderName": cardData.cardHolderName,
+                    "recipientName": orderData.name,
+                    "shippingType": orderData.shippingType.toUpperCase().replace(" ", "_"),
+                    "cardNumber": parseInt(cardData.cardNumber, 10),
+                    "cardCVV": parseInt(cardData.cvv, 10),
+                    "cardHolderName": cardData.cardHolderName,
+                    "cardExpirationDate": cardData.expirationDate,
+                    "items": cart.map((item: Item) => item.id)
+                }
+            );
+        }
     };
 
     const handleBack = () => {

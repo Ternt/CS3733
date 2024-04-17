@@ -117,17 +117,7 @@ export default function Info(props: InfoProps) {
                                                 p: 0.5,
                                             }}
                                         >
-                                            {item.title}
-                                        </Typography>
-                                        <Typography
-                                            style={{fontFamily: "Open Sans", fontSize: "14px"}}
-                                            noWrap
-                                            sx={{
-                                                overflow: "visible",
-                                                pl: 1.2,
-                                            }}
-                                        >
-                                            {item.description}
+                                            {item.name}
                                         </Typography>
                                     </Box>
                                     <Typography
