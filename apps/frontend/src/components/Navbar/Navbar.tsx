@@ -13,6 +13,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import SearchBar from "../SearchBar/searchBar.tsx";
 import {useAuth0} from "@auth0/auth0-react";
 import LoginButton from "../LoginButton/LoginButton.tsx";
+import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 
 const services = [
   { label: "Sanitation", path: "/sanitation" },
@@ -21,7 +22,12 @@ const services = [
   { label: "Gift", path: "/gift-request" },
 ];
 
-function ResponsiveAppBar() {
+type ResponsiveAppBarProps = {
+  chatbotOpen:boolean;
+  toggleChatbot:()=>void;
+}
+
+function ResponsiveAppBar(props:ResponsiveAppBarProps) {
   const [anchorElRequests, setAnchorElRequests] =
     React.useState<null | HTMLElement>(null);
   const openRequests = Boolean(anchorElRequests);
@@ -218,10 +224,6 @@ function ResponsiveAppBar() {
                               </Typography>
                           </Button></>
                       )}
-
-
-
-
                   </>
               )}
             <Menu
@@ -248,6 +250,18 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
+          <LiveHelpIcon
+            sx={{
+              fontSize:'2.4rem',
+              color:(props.chatbotOpen ? "#f6bd38" : 'white'),
+              '&:hover':{
+                opacity:0.9
+              }
+            }}
+            onClick={()=>{
+              props.toggleChatbot();
+            }}
+          />
           <SearchBar />
           <LoginButton/>
         </Toolbar>
