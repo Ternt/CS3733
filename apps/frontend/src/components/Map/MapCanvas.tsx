@@ -6,7 +6,14 @@ import axios, { AxiosResponse } from "axios";
 import { graphHelper, pointHelper } from "../../helpers/clickCorrectionMath.ts";
 import MapControls from "./MapControls.tsx";
 import InformationMenu from "../InformationMenu.tsx";
-import {MAPS, ZOOM, FLOOR_NAME_TO_INDEX, getMapData, MAP_BASE} from "../../helpers/MapHelper.ts";
+import {
+  MAPS,
+  ZOOM,
+  FLOOR_NAME_TO_INDEX,
+  getMapData,
+  MAP_BASE,
+  FLOOR_IDS
+} from "../../helpers/MapHelper.ts";
 import {clamp, distance} from "../../helpers/MathHelp.ts";
 import AnimatedPath from "./AnimatedPath.tsx";
 
@@ -186,36 +193,41 @@ export default function MapCanvas(props: mapCanvasProps) {
         let lastFloor = -1;
         const tryAddIcon = (a:vec2, isDest:boolean)=>{
           if(lastFloor !== a.z){
-            let flip = lastFloor > a.z;
-            console.log(a.z);
             a = vecToCanvSpace(a);
-            const DOWN = "m480.385-332.309 145.768-145.768-41.768-41.768-74.001 74.001v-182.232h-60.383v182.232L376-519.845l-41.768 41.768 146.153 145.768Zm-.318 232.308q-78.836 0-148.204-29.92-69.369-29.92-120.682-81.21-51.314-51.291-81.247-120.629-29.933-69.337-29.933-148.173t29.92-148.204q29.92-69.369 81.21-120.682 51.291-51.314 120.629-81.247 69.337-29.933 148.173-29.933t148.204 29.92q69.369 29.92 120.682 81.21 51.314 51.291 81.247 120.629 29.933 69.337 29.933 148.173t-29.92 148.204q-29.92 69.369-81.21 120.682-51.291 51.314-120.629 81.247-69.337 29.933-148.173 29.933Z";
-            const UP = "M450.001-332.309h60.383V-514.54l74.001 74 41.768-41.768-145.768-145.768-146.153 145.768L376-440.54l74.001-74v182.231Zm30.066 232.308q-78.836 0-148.204-29.92-69.369-29.92-120.682-81.21-51.314-51.291-81.247-120.629-29.933-69.337-29.933-148.173t29.92-148.204q29.92-69.369 81.21-120.682 51.291-51.314 120.629-81.247 69.337-29.933 148.173-29.933t148.204 29.92q69.369 29.92 120.682 81.21 51.314 51.291 81.247 120.629 29.933 69.337 29.933 148.173t-29.92 148.204q-29.92 69.369-81.21 120.682-51.291 51.314-120.629 81.247-69.337 29.933-148.173 29.933Z";
-            const PIN = "M480-212.309q-136-101.307-202.999-196.23-67-94.923-67-185.467 0-68.389 24.538-119.922 24.539-51.533 63.128-86.379 38.589-34.846 86.825-52.269 48.236-17.423 95.508-17.423t95.508 17.423q48.236 17.423 86.825 52.269 38.589 34.846 63.128 86.379 24.538 51.533 24.538 119.922 0 90.544-67 185.467Q616-313.616 480-212.309Zm0-317.692q29.154 0 49.576-20.423 20.423-20.422 20.423-49.576t-20.423-49.576Q509.154-669.999 480-669.999t-49.576 20.423Q410.001-629.154 410.001-600t20.423 49.576q20.422 20.423 49.576 20.423Zm-269.999 440v-59.998h539.998v59.998H210.001Z";
+            const PIN = "M7 17.5C4.65 15.7667 2.89583 14.0833 1.7375 12.45C0.579167 10.8167 0 9.21667 0 7.65C0 6.46667 0.2125 5.42917 0.6375 4.5375C1.0625 3.64583 1.60833 2.9 2.275 2.3C2.94167 1.7 3.69167 1.25 4.525 0.95C5.35833 0.65 6.18333 0.5 7 0.5C7.81667 0.5 8.64167 0.65 9.475 0.95C10.3083 1.25 11.0583 1.7 11.725 2.3C12.3917 2.9 12.9375 3.64583 13.3625 4.5375C13.7875 5.42917 14 6.46667 14 7.65C14 9.21667 13.4208 10.8167 12.2625 12.45C11.1042 14.0833 9.35 15.7667 7 17.5Z";
             if(a.z === viewingFloor) {
-              const wid = 7.5;
+              const wid = 7;
               svgElements.push(
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height={""+(wid*2)}
-                  viewBox="0 -960 960 960"
-                  width={""+(wid*2)}
-                  x={a.x - wid}
-                  y={a.y - wid}
+              <svg
+                width="14"
+                height="18"
+                viewBox="-1 -1 15 19"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                x={a.x - 1 - wid}
+                y={a.y - 1 - wid * 2}
+              >
+                <path
+                  d={PIN}
+                  fill={"#012d5a"}
+                  style={{
+                    filter: "drop-shadow(10px 20px 30px #000)"
+                  }}
+                />
+                <text
+                  fill={"#f6bd38"}
+                  y={wid + 2.5}
+                  x={wid/2 - .4}
+                  style={{
+                    fontSize:wid+"px",
+                    fontWeight:800,
+                    fontFamily: 'Open Sans',
+                  }}
                 >
-                  <path
-                    d={isDest?PIN:(flip ? UP : DOWN)}
-                    fill={"#012d5a"}
-                    strokeWidth={'60px'} // Adjust the stroke width as needed
-                    stroke={"#f6bd38"} // Adjust the color as needed
-                    x={0}
-                    y={0}
-                    style={{
-                      filter: "drop-shadow(10px 20px 30px #000)"
-                    }}
-                  />
-                </svg>
-              );
+                  {(!isDest)?FLOOR_IDS[lastFloor]:<>&nbsp;●</>}
+                </text>
+              </svg>
+            );
             }
             lastFloor = a.z;
             pathString += "M " + a.x + " " + a.y + ",";
