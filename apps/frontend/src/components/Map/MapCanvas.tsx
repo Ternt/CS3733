@@ -369,7 +369,6 @@ export default function MapCanvas(props: mapCanvasProps) {
   function handleDblclick(e: MouseEvent) {
     const x = e.clientX - svgRect.left;
     const y = e.clientY - svgRect.top;
-
     const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
     const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
     if(props.startLocation === '' && props.pathfinding){

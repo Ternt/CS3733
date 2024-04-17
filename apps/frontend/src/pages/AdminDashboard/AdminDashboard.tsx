@@ -87,10 +87,8 @@ export default function AdminDashboard() {
               height:'8vh'
             }}
             >
-              <Typography variant={"h4"} sx={{
-                  fontWeight: '500',
-                    textAlign: 'center',
-                  textDecoration: 'underline'
+              <Typography variant={"h6"} sx={{
+                  textAlign: 'center',
               }}>
                   Welcome {user?.name}!
               </Typography>

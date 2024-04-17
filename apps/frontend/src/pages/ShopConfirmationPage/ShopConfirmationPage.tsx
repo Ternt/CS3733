@@ -5,6 +5,7 @@ import {
 } from '@mui/material';
 
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 type ShopConfirmationPageProps = {
     returnPath: string
 }
@@ -32,12 +33,22 @@ function ShopConfirmationPage(props: ShopConfirmationPageProps) {
             borderRadius:'2rem',
           }}
         >
-          <ShoppingBasketIcon
+          {props.returnPath === "/gift-request" && <ShoppingBasketIcon
             sx={{
               fontSize: '20vw',
-              marginBottom: 2
+              marginBottom: 2,
+              color:"#012d5a",
+              filter:"drop-shadow(2px 5px 2px #000000a0)",
             }}
-          />
+          />}
+          {props.returnPath === "/flower-request" && <LocalFloristIcon
+              sx={{
+                fontSize: '20vw',
+                marginBottom: 2,
+                color:"#012d5a",
+                filter:"drop-shadow(2px 5px 2px #000000a0)",
+              }}
+          />}
           <Typography variant="h3" sx={{textAlign:'center'}} gutterBottom>
             Your order is on its way!
           </Typography>

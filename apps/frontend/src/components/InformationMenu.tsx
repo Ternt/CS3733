@@ -1,39 +1,11 @@
 import Box from "@mui/material/Box";
 import * as React from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+//import Tabs from "@mui/material/Tabs";
+//import Tab from "@mui/material/Tab";
 import { FormControl, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { node } from "../helpers/typestuff.ts";
-
-interface TabPanelProps {
-  children?: JSX.Element | JSX.Element[];
-  index: number;
-  value: number;
-}
-
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-  };
-}
 
 type InfoMenuProp = {
   nodeData: node | null;
@@ -42,7 +14,7 @@ type InfoMenuProp = {
 };
 
 export default function InformationMenu(props: InfoMenuProp) {
-  const [tabValue, setTabValue] = useState(0);
+  //const [tabValue, setTabValue] = useState(0);
 
   const [newNodeData, setNewNodeData] = useState<node | null>(props.nodeData);
   useEffect(() => {
@@ -51,13 +23,12 @@ export default function InformationMenu(props: InfoMenuProp) {
   }, [props.nodeData]);
 
   const adminCardStyleBody = {
-    fontFamily: "ui-sans-serif",
+    fontFamily: "Open Sans",
     fontSize: "15",
     backgroundColor: "#f1f1f1",
     borderRadius: "5px",
     color: "#2f2f2f",
-    margin: 1,
-    width: "95%",
+    width: "100%",
   };
   if (newNodeData === null) {
     return <></>;
@@ -82,8 +53,8 @@ export default function InformationMenu(props: InfoMenuProp) {
     if(isComplete() && newNodeData !== null) {
       const editedNode = {
         nodeID: newNodeData.nodeID,
-        xcoord: newNodeData.point.x,
-        ycoord: newNodeData.point.y,
+        xcoord: Math.round(newNodeData.point.x),
+        ycoord: Math.round(newNodeData.point.y),
         floor: newNodeData.floor,
         building: newNodeData.building,
         longName: newNodeData.longName,
@@ -113,47 +84,58 @@ export default function InformationMenu(props: InfoMenuProp) {
   return (
     <Box
       sx={{
-        width: "300px",
-        height: "85vh",
-        p: 2,
+        width: "400px",
         display: "flex",
         justifyContent: "flex-start",
         flexDirection: "column",
         position: "fixed",
         top: "11vh",
         left: "120px",
-        bgcolor: "white",
-        boxShadow: 5,
-        overflowY: "scroll",
+        bgcolor: "transparent",
       }}
     >
-      <Button onClick={props.onClose} variant={"outlined"}>
-        X
-      </Button>
-      <Box
-        sx={{
-          backgroundColor: "#f1f1f1",
-        }}
-      >
-        <Tabs
-          value={tabValue}
-          onChange={() => {
-            setTabValue(1 - tabValue);
+        <FormControl
+          sx={{
+            display:'flex',
+            flexDirection:'row',
+            bgcolor:'transparent'
           }}
         >
-          <Tab label="Data" {...a11yProps(0)} />
-          <Tab label="Edges" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
-      <CustomTabPanel value={tabValue} index={0}>
-        <FormControl>
+          <Box
+            sx={{
+              mt:'2rem',
+              height:'2.5rem',
+              bgcolor:'white',
+              boxShadow:5,
+            }}
+          >
+            <Button
+              sx={{
+                fontSize:'1.5rem',
+                width:'100%',
+                height:'100%',
+              }}
+              onClick={()=>{
+                props.onClose();
+              }}
+            >
+              &lt;
+            </Button>
+          </Box>
           <Box
             sx={{
               padding: 0,
+              display: "flex",
+              justifyContent: "space-evenly",
+              flexDirection: "column",
+              height:'88vh',
+              px:2,
+              boxShadow: 5,
+              bgcolor:'white'
             }}
           >
             <TextField
-              label={"nodeID"}
+              label={"Node ID"}
               value={newNodeData.nodeID}
               sx={adminCardStyleBody}
               onChange={(e) => {
@@ -162,7 +144,7 @@ export default function InformationMenu(props: InfoMenuProp) {
               }}
             />
             <TextField
-              label={"shortName"}
+              label={"Short Name"}
               value={
                 newNodeData.shortName
               }
@@ -172,7 +154,7 @@ export default function InformationMenu(props: InfoMenuProp) {
               }}
             />
             <TextField
-              label={"longName"}
+              label={"Long Name"}
               value={
                 newNodeData.longName
               }
@@ -182,7 +164,7 @@ export default function InformationMenu(props: InfoMenuProp) {
               }}
             />
             <TextField
-              label={"floor"}
+              label={"Floor"}
               value={
                 newNodeData.floor
               }
@@ -192,7 +174,7 @@ export default function InformationMenu(props: InfoMenuProp) {
               }}
             />
             <TextField
-              label={"building"}
+              label={"Building"}
               value={
                 newNodeData.building
               }
@@ -202,7 +184,7 @@ export default function InformationMenu(props: InfoMenuProp) {
               }}
             />
             <TextField
-              label={"nodeType"}
+              label={"Node Type"}
               value={
                 newNodeData.nodeType
               }
@@ -214,10 +196,12 @@ export default function InformationMenu(props: InfoMenuProp) {
             <Box
               sx={{
                 display: "flex",
+                flexDirection:'row',
+                gap:1
               }}
             >
               <TextField
-                label={"x coord"}
+                label={"X"}
                 value={
                   newNodeData.point.x
                 }
@@ -226,7 +210,7 @@ export default function InformationMenu(props: InfoMenuProp) {
                   setNewNodeData({
                     ...newNodeData,
                     point: {
-                      x: parseFloat(e.target.value),
+                      x: Math.round(parseFloat(e.target.value)),
                       y: newNodeData?.point.y,
                       z: newNodeData?.point.z,
                     },
@@ -234,7 +218,7 @@ export default function InformationMenu(props: InfoMenuProp) {
                 }}
               />
               <TextField
-                label={"y coord"}
+                label={"Y"}
                 value={
                   newNodeData.point.y
                 }
@@ -243,7 +227,7 @@ export default function InformationMenu(props: InfoMenuProp) {
                   setNewNodeData({
                     ...newNodeData,
                     point: {
-                      y: parseFloat(e.target.value),
+                      y: Math.round(parseFloat(e.target.value)),
                       x: newNodeData?.point.x,
                       z: newNodeData?.point.z,
                     },
@@ -251,18 +235,16 @@ export default function InformationMenu(props: InfoMenuProp) {
                 }}
               />
             </Box>
+            <Button
+              type="button"
+              variant="contained"
+              color="secondary"
+              onClick={submitForm}
+            >
+              Save Node
+            </Button>
           </Box>
         </FormControl>
-      </CustomTabPanel>
-      <CustomTabPanel value={tabValue} index={1}></CustomTabPanel>
-      <Button
-        type="button"
-        variant="contained"
-        color="secondary"
-        onClick={submitForm}
-      >
-        Submit
-      </Button>
     </Box>
   );
 }

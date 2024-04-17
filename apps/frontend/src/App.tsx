@@ -76,6 +76,10 @@ function App() {
         {
           path: "/gift-order-confirmation",
           element: <ShopConfirmationPage returnPath="/gift-request"/>
+        },
+        {
+          path: "/flower-order-confirmation",
+          element: <ShopConfirmationPage returnPath="/flower-request"/>
         }
       ],
     },

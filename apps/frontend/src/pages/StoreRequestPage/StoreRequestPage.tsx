@@ -53,7 +53,7 @@ function StoreRequestPage() {
     }
 
     const handleSubmit = () => {
-        navigate("/gift-checkout", {state: {cart}});
+        navigate( pageType==="FLOWER"?"/flower-checkout":"/gift-checkout", {state: {cart}});
     };
 
     return (
