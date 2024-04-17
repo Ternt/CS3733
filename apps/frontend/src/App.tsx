@@ -92,7 +92,6 @@ function App() {
     function Root() {
         const navigate = useNavigate();
         const [chatbotOpen, setChatbotOpen] = useState(false);
-        console.log(chatbotOpen);
         return (
             <>
                 <Auth0Provider

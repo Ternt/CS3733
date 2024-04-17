@@ -33,9 +33,8 @@ function ResponsiveAppBar(props:ResponsiveAppBarProps) {
   const openRequests = Boolean(anchorElRequests);
 
   const navigate = useNavigate();
-    const { user, isAuthenticated, isLoading } = useAuth0();
-    console.log(isAuthenticated); //to debug
-    const handleMenuItemClick = (path: string) => {
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  const handleMenuItemClick = (path: string) => {
     navigate(path);
   };
     let permissionLevel = 0;
