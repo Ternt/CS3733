@@ -77,10 +77,10 @@ export default function HeroPage() {
                             alignItems: "center",
                             justifyContent: "center",
                             background: "#f6bd38",
-                            "&:hover": {background: "#f6bd38", color: "black"},
+                            "&:hover": {background: "#f8cd69", color: "black"},
                         }}
                     >
-                        <Typography variant="body1" mr={1}>
+                        <Typography variant="h6" mr={1}>
                             Map
                         </Typography>
                     </Button>
@@ -101,7 +101,7 @@ export default function HeroPage() {
                             "&:hover": {background: "#1a426a", color: "white"},
                         }}
                     >
-                        <Typography variant="body1" mr={1}>
+                        <Typography variant="h6" mr={1}>
                             Learn More
                         </Typography>
                         <KeyboardDoubleArrowDownIcon/>

@@ -1,6 +1,6 @@
 import React, {ReactNode, useEffect, useRef, useState} from "react";
 
-import { Box } from "@mui/material";
+import {Box, IconButton, Snackbar} from "@mui/material";
 import { edge, node, vec2 } from "../../helpers/typestuff.ts";
 import axios, { AxiosResponse } from "axios";
 import { graphHelper, pointHelper } from "../../helpers/clickCorrectionMath.ts";
@@ -16,6 +16,7 @@ import {
 } from "../../helpers/MapHelper.ts";
 import {clamp, distance} from "../../helpers/MathHelp.ts";
 import AnimatedPath from "./AnimatedPath.tsx";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 
@@ -71,6 +72,7 @@ export default function MapCanvas(props: mapCanvasProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [svgInject, setSvgInject] = useState<ReactNode[]>([]);
   const [pathStringInject, setPathStringInject] = useState("");
+  const [notification, setNotification] = useState('');
   const svgElementInjector = (
     <svg
       width="100%"
@@ -243,15 +245,15 @@ export default function MapCanvas(props: mapCanvasProps) {
           pathString += "L " + b.x + " " + b.y + ",";
         }
         // check that the selected point is
-        if (pathing.selectedPoint !== null && pathing.path[pathing.path.length - 1].point.z === viewingFloor) {
-          // svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
-          const a = vecToCanvSpace(pathing.path[pathing.path.length - 1].point);
-          const b = vecToCanvSpace(pathing.selectedPoint);
-          if(lastFloor !== pathing.selectedPoint.z){
-            pathString += "M "+a.x+" "+a.y+",";
-          }
-          pathString += "L " + b.x + " " + b.y + ",";
-        }
+        // if (pathing.selectedPoint !== null && pathing.path[pathing.path.length-1].point.z === viewingFloor) {
+        //   // svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
+        //   const a = vecToCanvSpace(pathing.path[pathing.path.length-1].point);
+        //   const b = vecToCanvSpace(pathing.selectedPoint);
+        //   if(lastFloor !== pathing.path[pathing.path.length-1].point.z){
+        //     pathString += "M "+a.x+" "+a.y+",";
+        //   }
+        //   pathString += "L " + b.x + " " + b.y + ",";
+        // }
         setPathStringInject(pathString);
       } else {
         for (const n of renderData.n) {
@@ -370,7 +372,10 @@ export default function MapCanvas(props: mapCanvasProps) {
 
     const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
     const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
-
+    if(props.startLocation === '' && props.pathfinding){
+      setNotification("Select a start location");
+      return;
+    }
     // Move point to nearest edge
     if (nodes === null) return;
     const graphResponse = graphHelper({
@@ -389,7 +394,7 @@ export default function MapCanvas(props: mapCanvasProps) {
 
     if (props.pathfinding) {
       axios
-        .get("/api/pathfind?startNode=" + closestNode.nodeID + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
+        .get("/api/pathfind?endNode=" + closestNode.nodeID + "&startNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
         .then((res) => {
           const pathNodes: node[] = [];
           for (const s of res.data.path) {
@@ -477,7 +482,7 @@ export default function MapCanvas(props: mapCanvasProps) {
 
       if (props.pathfinding) {
         axios
-          .get("/api/pathfind?startNode=" + closestNode.nodeID + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
+          .get("/api/pathfind?endNode=" + closestNode.nodeID + "&startNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
           .then((res) => {
             const pathNodes: node[] = [];
             for (const s of res.data.path) {
@@ -560,15 +565,15 @@ export default function MapCanvas(props: mapCanvasProps) {
     if (props.endLocation !== "" && props.endLocation !== undefined) {
       if (
         pathing.path.length > 0 &&
-        pathing.path[0].nodeID === props.startLocation &&
-        pathing.path[pathing.path.length - 1].nodeID === props.endLocation &&
+        pathing.path[pathing.path.length - 1].nodeID === props.startLocation &&
+        pathing.path[0].nodeID === props.endLocation &&
         props.pathfinding === pathing.algo
       )
         return;
       if(props.pathfinding === null)
         return;
       axios
-        .get("/api/pathfind?startNode=" +props.endLocation + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding)
+        .get("/api/pathfind?endNode=" +props.endLocation + "&startNode=" + props.startLocation +"&algorithm=" +props.pathfinding)
         .then((res) => {
           const pathNodes: node[] = [];
           for (const s of res.data.path) {
@@ -594,70 +599,94 @@ export default function MapCanvas(props: mapCanvasProps) {
   }, [pathing, nodes, props.endLocation, props.startLocation, props.pathfinding]);
 
   return (
-    <Box
-      sx={{
-        overflow: "hidden",
-        height: "90vh",
-      }}
-    >
+    <>
       <Box
         sx={{
-          height: "100%",
-          width: "100%",
           overflow: "hidden",
+          height: "90vh",
         }}
       >
-        {svgElementInjector}
-      </Box>
-
-      {!props.pathfinding && pathing.nearestNode !== null && (
-        <InformationMenu
-          nodeData={pathing.nearestNode}
-          onClose={() => {
-            setPathing({...pathing, nearestNode: null});
+        <Box
+          sx={{
+            height: "100%",
+            width: "100%",
+            overflow: "hidden",
           }}
-          onChangeNode={(node) => {
-            setPathing({
-              ...pathing,
-              nearestNode: node,
+        >
+          {svgElementInjector}
+        </Box>
+
+        {!props.pathfinding && pathing.nearestNode !== null && (
+          <InformationMenu
+            nodeData={pathing.nearestNode}
+            onClose={() => {
+              setPathing({...pathing, nearestNode: null});
+            }}
+            onChangeNode={(node) => {
+              setPathing({
+                ...pathing,
+                nearestNode: node,
+              });
+            }}
+          />
+        )}
+        <MapControls
+          floor={viewingFloor}
+          zoom={cameraControl.zoom}
+          zoomSpeed={ZOOM.SPEED * 3}
+          onSetFloorIndex={(floorIndex: number) => {
+            handleSetViewingFloor(floorIndex);
+          }}
+          onSetZoom={(z: number) => {
+            const zc = clamp(z, ZOOM.MIN, ZOOM.MAX,);
+            const mx = (svgRect.width / 2) ;
+            const my = (svgRect.height / 2);
+            const Qx = mx - ((mx - cameraControl.pan.x) / (svgRect.width / cameraControl.zoom)) * (svgRect.width / zc);
+            const Qy = my - ((my - cameraControl.pan.y) / (svgRect.height / cameraControl.zoom)) * (svgRect.height / zc);
+
+            setCameraControl({
+              ...cameraControl,
+              zoom: zc,
+              pan: {
+                x: Qx,
+                y: Qy,
+              },
+            });
+          }}
+          onResetMap={() => {
+            setCameraControl({
+              ...cameraControl,
+              zoom: 1,
+              pan: {
+                x: 0,
+                y: 0,
+              },
             });
           }}
         />
-      )}
-      <MapControls
-        floor={viewingFloor}
-        zoom={cameraControl.zoom}
-        zoomSpeed={ZOOM.SPEED * 3}
-        onSetFloorIndex={(floorIndex: number) => {
-          handleSetViewingFloor(floorIndex);
+      </Box>
+      <Snackbar
+        anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
+        open={notification !== ''}
+        onClose={()=>{
+          setNotification('');
         }}
-        onSetZoom={(z: number) => {
-          const zc = clamp(z, ZOOM.MIN, ZOOM.MAX,);
-          const mx = (svgRect.width / 2) ;
-          const my = (svgRect.height / 2);
-          const Qx = mx - ((mx - cameraControl.pan.x) / (svgRect.width / cameraControl.zoom)) * (svgRect.width / zc);
-          const Qy = my - ((my - cameraControl.pan.y) / (svgRect.height / cameraControl.zoom)) * (svgRect.height / zc);
-
-          setCameraControl({
-            ...cameraControl,
-            zoom: zc,
-            pan: {
-              x: Qx,
-              y: Qy,
-            },
-          });
-        }}
-        onResetMap={() => {
-          setCameraControl({
-            ...cameraControl,
-            zoom: 1,
-            pan: {
-              x: 0,
-              y: 0,
-            },
-          });
-        }}
+        autoHideDuration={5000}
+        message={notification}
+        key={"Notif"}
+        action={
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            sx={{ p: 0.5 }}
+            onClick={()=>{
+              setNotification('');
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
       />
-    </Box>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
@@ -16,6 +16,7 @@ import {Auth0Provider} from "@auth0/auth0-react";
 import { useNavigate } from 'react-router-dom';
 import Box from "@mui/material/Box";
 import Chatbot from "./components/ChatBot/ChatBot.tsx";
+import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -46,11 +47,11 @@ function App() {
         },
         {
           path: "/gift-request",
-          element: <StoreRequestPage requestType={"gift"}/>,
+          element: <StoreRequestPage/>,
         },
         {
           path: "/flower-request",
-          element: <StoreRequestPage requestType={"flower"}/>,
+          element: <StoreRequestPage/>,
         },
         {
           path: "/gift-checkout",
@@ -72,6 +73,10 @@ function App() {
           path: "/admin",
           element: <AdminDashboard />,
         },
+        {
+          path: "/gift-order-confirmation",
+          element: <ShopConfirmationPage returnPath="/gift-request"/>
+        }
       ],
     },
   ]);
@@ -86,6 +91,7 @@ function App() {
 
     function Root() {
         const navigate = useNavigate();
+        const [chatbotOpen, setChatbotOpen] = useState(false);
         return (
             <>
                 <Auth0Provider
@@ -101,10 +107,16 @@ function App() {
                     }}
                 >
                     <div className="w-full flex flex-col">
-                        <NavBar />
+                        <NavBar
+                          chatbotOpen={chatbotOpen}
+                          toggleChatbot={()=>setChatbotOpen(!chatbotOpen)}
+                        />
                         <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a",}}></Box>
                         <Outlet />
-                        <Chatbot/>
+                        <Chatbot
+                          open={chatbotOpen}
+                          onClose={()=>setChatbotOpen(false)}
+                        />
                     </div>
                 </Auth0Provider>
             </>

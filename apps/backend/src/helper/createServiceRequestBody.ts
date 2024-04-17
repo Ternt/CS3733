@@ -70,7 +70,7 @@ export default function createServiceRequestBody(body): any | undefined {
             }
             if (body.items.length == 0) {
                 console.error("items must have at least one value");
-                return undefined
+                return undefined;
             }
             body.giftDetail = {
                 create: {
@@ -105,5 +105,5 @@ export default function createServiceRequestBody(body): any | undefined {
             break;
     }
 
-    return body
+    return body;
 }

@@ -410,6 +410,7 @@ function MedicineRequestForm() {
                         </FormControl>
                     </form>
                 </Box>
+              <Typography variant={"caption"}>Made by Thinh and Nick</Typography>
             </Box>
 
 
