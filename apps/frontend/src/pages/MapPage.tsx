@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import {Grid, Box, Typography, TextField} from "@mui/material";
 import LocationDropdown from "../components/LocationDropdown.tsx";
 import MapCanvas from "../components/Map/MapCanvas.tsx";
-import NaturalLanguageDirection from "../components/NaturalLanguageDirection/NaturalLanguageDirection.tsx";
+import NaturalLanguageDirection from "../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
 import MenuItem from "@mui/material/MenuItem";
 
 export default function MapPage() {
@@ -19,6 +19,19 @@ export default function MapPage() {
   const [startLocation, setStartLocation] = useState("Abrams Conference Room");
   const [endLocation, setEndLocation] = useState("Abrams Conference Room");
   const [searchAlgorithm, setSearchAlgorithm] = useState(0);
+  const [natLangPath, setNatLangPath] = useState<string[]>([]);
+
+    useEffect(() => {
+        async function setPath(){
+            const res = await NaturalLanguageDirection(startLocation, endLocation);
+            if(res !== undefined)
+                setNatLangPath(res);
+            else
+                setNatLangPath(["Error in path text"]);
+        }
+        setPath();
+    }, [startLocation, endLocation]);
+
   return (
     <Grid
       container
@@ -88,10 +101,15 @@ export default function MapPage() {
             }
           </TextField>
         </Box>
-        <Typography>*reserved space for other features*</Typography>
           <Typography>{startLocation}</Typography>
           <Typography>{endLocation}</Typography>
-          <NaturalLanguageDirection startLocation={startLocation} endLocation={endLocation} />
+          <Box>
+              {
+                  natLangPath.map((d:string)=>{
+                      return <Typography variant={"body2"}>{d}</Typography>;
+                  })
+              }
+          </Box>
 
 
       </Grid>

@@ -1,124 +1,130 @@
-    import OpenAI from "openai";
-    import {useState} from "react";
-    import Button from "@mui/material/Button";
-    //import NaturalLanguageDirection from "../NaturalLanguageDirection/NaturalLanguageDirection.tsx";
-    import {KEY} from "./key/private.ts";
-    import {Box, TextField, Typography} from "@mui/material";
-    const openai = new OpenAI({apiKey: KEY, dangerouslyAllowBrowser: true});
-    const seed: string = "You are an AI Chatbot for my mock brigham and women's hospital";
+import OpenAI from "openai";
+import {useState} from "react";
+import Button from "@mui/material/Button";
+import {KEY} from "./key/private.ts";
+import {Box, TextField, Typography} from "@mui/material";
+import NaturalLanguageDirection from "../NaturalLanguageDirection/naturalLanguageDirection.tsx";
 
-    //Seeding ChatGPT
-    const seedMessage = await openai.chat.completions.create({
-        messages: [{role: "system", content: seed!}],
-        model: "gpt-3.5-turbo",
-    });
-    console.log(seedMessage);
+const openai = new OpenAI({apiKey: KEY, dangerouslyAllowBrowser: true});
+const seed: string = "You are an AI Chatbot for my mock brigham and women's hospital";
 
-    export default function Chatbot() {
-        const [showBot, setShowBot] = useState(false);
+//Seeding ChatGPT
+const seedMessage = await openai.chat.completions.create({
+    messages: [{role: "system", content: seed!}],
+    model: "gpt-3.5-turbo",
+});
+console.log(seedMessage);
 
-        console.log("Initialization Done");
-        const [chatMessages, setChatMessages] = useState([{
-            role: "system",
-            content: "Hi! I am a friendly AI ChatBot here to help!"
-        }]);
+async function sendToChatGPT(
+    userMessage: string,
+    chatMessages: { role: string; content: string }[]
+): Promise<{ chatMessages: { role: string; content: string }[]; error: string | null }> {
+    try {
+        const response = await openai.chat.completions.create({
+            messages: [{role: "user", content: userMessage}],
+            model: "gpt-3.5-turbo",
+        });
 
-        const [userMessage, setUserMessage] = useState('');
+        const assistantMessage = response.choices[0].message?.content;
 
-        //For Sending Message
-        const handleChange = (fieldName: string, value: string) => {
-            setUserMessage(value);
+        if (!assistantMessage) {
+            return {chatMessages, error: "No response received from ChatGPT"};
+        }
+
+        return {
+            chatMessages: [...chatMessages, {role: "assistant", content: assistantMessage}],
+            error: null,
         };
+    } catch (error) {
+        console.error("Error getting response:", error);
+        return {chatMessages, error: "Sorry, there was an error getting the response."};
+    }
+}
 
-        //Sending Message if you hit enter
-        const handleKeyDown = (event) => {
-            if (event.key === 'Enter') {
-                sendUserMessage();
-            }
-        };
+function checkUserMessage(message: string): { start: string; end: string } {
+    const pattern = /^How do I get from (.*) to (.*)\?$/;
+    const match = message.match(pattern);
 
-        const sendUserMessage = async () => {
-            if (userMessage) {
-                setChatMessages((prevMessages) => [
-                    ...prevMessages,
-                    {role: "user", content: userMessage},
-                ]);
-            }
+    if (match) {
+        const [, start, end] = match;
+        return {start, end};
+    } else {
+        return {start: '', end: ''};
+    }
+}
 
-            //Hijacking for Natural Language
-            function checkUserMessage(message: string): { start: string; end: string } {
-                const pattern = /^How do I get from (.*) to (.*)\?$/;
-                const match = message.match(pattern);
+export default function Chatbot() {
+    const [showBot, setShowBot] = useState(false);
 
-                if (match) {
-                    const [, start, end] = match;
-                    return { start, end };
-                } else {
-                    return { start: '', end: '' };
-                }
-            }
+    console.log("Initialization Done");
+    const [chatMessages, setChatMessages] = useState([{
+        role: "system",
+        content: "Hi! I am a friendly AI ChatBot here to help!"
+    }]);
 
-            if(checkUserMessage(userMessage).start !== '' && checkUserMessage(userMessage).end !== ''){
-                const start: string = checkUserMessage(userMessage).start;
-                const end: string = checkUserMessage(userMessage).end;
+    const [userMessage, setUserMessage] = useState('');
 
-                //const NaturalLanguage = NaturalLanguageDirection({startLocation: start, endLocation: end})
 
-                setChatMessages((prevMessages) => [
-                    ...prevMessages,
-                    {role: "ChatBot", content: 'Path from ' + start +  ' to ' + end + ': PATH HERE'},
-                ]);
-                return;
-            }
+    async function sendUserMessage(){
+        //if (userMessage) {
+            setChatMessages((prevMessages) => [
+                ...prevMessages,
+                {role: "user", content: userMessage},
+            ]);
+        //}
+        setUserMessage('');
 
-            try {
-                const response = await openai.chat.completions.create({
-                    messages: [{role: "system", content: userMessage!}],
-                    model: "gpt-3.5-turbo",
-                });
+        //Hijacking for Natural Language
+        const {start, end} = checkUserMessage(userMessage);
+        if (start !== '' && end !== '') {
+            const res = await NaturalLanguageDirection(start, end);
+            let path = ['Path text error'];
+            if(res !== undefined)
+                path = res;
+            setChatMessages((prevMessages) => [
+                ...prevMessages,
+                {role: "ChatBot", content: 'Path from ' + start + ' to ' + end + ': ' + path},
+            ]);
+            return;
+        }
 
-                //Adding ChatGPT Response to messages array
-                const assistantMessage = response.choices[0].message!.content!;
-                setChatMessages((prevMessages) => [
-                    ...prevMessages,
-                    {role: "ChatBot", content: assistantMessage},
-                ]);
-                setUserMessage('');
+        const {chatMessages: updatedChatMessages, error} = await sendToChatGPT(userMessage, chatMessages);
+        setChatMessages(updatedChatMessages);
+        if (error) {
+            console.error(error);
+        }
+    }
 
-            } catch (error) {
-                console.error("Error getting response:", error);
-                setUserMessage('');
-                return "Sorry, there was an error getting the response.";
-            }
-        };
+    return (
+        <Box sx={{
+            height: '65vh',
+            zIndex: 3,
+            position: 'fixed',
+            width: '30%',
+            top: '30%',
+            left: '70%',
+            padding: '1%',
+            boxShadow: 100,
+            opacity: showBot ? '0%' : '100%',
+        }}>
+            <Button onClick={() => setShowBot(true)} sx={{
+                position: 'absolute',
+                top: '4%',
+                backgroundColor: 'black',
+                borderRadius: '100%',
+                width: '40px', // Set the width of the button
+                height: '40px', // Set the height of the button
+            }}>X</Button>
 
-        return (
             <Box sx={{
-                height: '65vh',
-                zIndex: 3,
-                position: 'fixed',
-                width: '30%',
-                top: '30%',
-                left: '70%',
-                padding: '1%',
-                boxShadow: 100,
-                opacity: showBot ? '0%' : '100%',
+                height: '12%',
+                backgroundColor: '#012d5a',
+                borderRadius: '23px 23px 0 0 ',
+                display: 'flex',
+                justifyContent: 'center',
+                alignContent: 'center',
+
             }}>
-                <Button onClick={() => setShowBot(true)} sx={{
-                    position: 'absolute',
-                    top: '0vh',
-                    backgroundColor: 'black',
-                }}>X</Button>
-
-                <Box sx={{
-                    height: '12%',
-                    backgroundColor: '#012d5a',
-                    borderRadius: '23px 23px 0 0 ',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignContent: 'center',
-
-                }}>
 
                 <Typography sx={{
                     fontWeight: 500,
@@ -128,78 +134,78 @@
                 }}>
                     CHATBOT
                 </Typography>
-                </Box>
+            </Box>
+            <Box sx={{
+                backgroundColor: 'whitesmoke',
+                borderRadius: '0 0 23px 23px',
+            }}>
                 <Box sx={{
-                    backgroundColor: 'whitesmoke',
-                    borderRadius: '0 0 23px 23px',
+                    overflowY: 'scroll',
+                    height: "50vh",
                 }}>
-                    <Box sx={{
-                        overflowY: 'scroll',
-                        height: "50vh",
-                    }}>
-                        {chatMessages.map((message, index) => (
-                            <div key={index}>
+                    {chatMessages.map((message, index) => (
+                        <div key={index}>
 
-                                <Box sx={{
-                                    backgroundColor: message.role === "user" ? '#012d5a' : '#f6bd38',
-                                    width: 'fit-content',
-                                    borderRadius: '23px',
-                                    padding: '10px',
-                                    margin: '3%',
-                                }}>
-                                    <Typography sx={{
-                                        color: message.role === "user" ? 'white' : 'black',
-                                    }}>
-                                        {message.role === "user" ? "You: " : "ChatBot: "}
-                                        {message.content}
-                                    </Typography>
-                                </Box>
-                            </div>
-                        ))}
-                    </Box>
-
-                    <Box sx={{
-                        display: 'flex',
-                        backgroundColor: 'grey',
-                        outline: 'black',
-                        pl: '3%',
-                        paddingY: '1%',
-                        paddingX: '3%',
-                        borderRadius: '0 0 23px 23px',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}>
-                        <TextField
-                            id="outlined-basic"
-                            label="Type Your Message"
-                            variant="standard"
-                            style={{ width: '70%' }}
-                            onKeyDown={handleKeyDown}
-                            onChange={(e) => handleChange('userMessage', e.target.value)}
-                        />
-                        <Button
-                            onClick={sendUserMessage}
-                            sx={{
-                                backgroundColor: '#012d5a',
+                            <Box sx={{
+                                backgroundColor: message.role === "user" ? '#012d5a' : '#f6bd38',
+                                width: 'fit-content',
                                 borderRadius: '23px',
-                                height: '10%',
-                                paddingX: '10%',
-
-                                "&:hover": {
-                                    background: "#1a426a",
-                                    color: "white"
-                                },
-                            }}
-                        >
-                            <Typography sx={{
-                                fontSize: '15px',
-                                color: 'white'
+                                padding: '10px',
+                                margin: '3%',
                             }}>
-                                Send
-                            </Typography>
-                        </Button>
-                    </Box>
+                                <Typography sx={{
+                                    color: message.role === "user" ? 'white' : 'black',
+                                }}>
+                                    {message.role === "user" ? "You: " : "ChatBot: "}
+                                    {message.content}
+                                </Typography>
+                            </Box>
+                        </div>
+                    ))}
+                </Box>
+
+                <Box sx={{
+                    display: 'flex',
+                    backgroundColor: 'grey',
+                    outline: 'black',
+                    pl: '3%',
+                    paddingY: '1%',
+                    paddingX: '3%',
+                    borderRadius: '0 0 23px 23px',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <TextField
+                        id="outlined-basic"
+                        label="Type Your Message"
+                        variant="standard"
+                        style={{width: '70%'}}
+                        onKeyDown={(e) => {if(e.key === 'Enter') sendUserMessage();}}
+                        onChange={(e) => setUserMessage(e.target.value)}
+                    />
+                    <Button
+                        onClick={sendUserMessage}
+                        sx={{
+                            backgroundColor: '#012d5a',
+                            borderRadius: '23px',
+                            height: '10%',
+                            paddingX: '10%',
+
+                            "&:hover": {
+                                background: "#1a426a",
+                                color: "white"
+                            },
+                        }}
+                    >
+                        <Typography sx={{
+                            fontSize: '15px',
+                            color: 'white'
+                        }}>
+                            Send
+                        </Typography>
+                    </Button>
                 </Box>
             </Box>
-        );
-    }
+        </Box>
+    );
+}

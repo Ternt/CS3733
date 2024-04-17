@@ -1,6 +1,4 @@
-import { Box, Typography } from "@mui/material";
 import axios, { AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
 
 
 async function getLanguageDirection(path: Array<string>){
@@ -36,13 +34,13 @@ async function getLanguageDirection(path: Array<string>){
                 const directionChange = angle - anglePrev;
                 console.log(directionChange);
                 if (Math.abs(directionChange) < Math.PI / 4) {
-                    if (directions[directions.length - 1] != "Walk straight") {
+                    if (directions[directions.length - 1] != "Walk straight") { // TODO add a distance to the walk straight
                         directions.push("Walk straight");
                     }
                 } else if (directionChange > 0) {
-                    directions.push("Turn right at"+ currentNodeName);
+                    directions.push("Turn right at "+ currentNodeName);
                 } else {
-                    directions.push("Turn left at:" + currentNodeName);
+                    directions.push("Turn left at " + currentNodeName);
                 }
             }
         }}
@@ -50,52 +48,20 @@ async function getLanguageDirection(path: Array<string>){
     return directions;
 }
 
-async function fetchPathData({startLocation, endLocation}) {
+async function fetchPathData(startLocation: string, endLocation:string) {
     try {
         const response = await axios.get(`/api/astar-api?&startNode=${endLocation}&endNode=${startLocation}`);
         return response.data.path; // Return the path in array
     } catch (error) {
-        // console.error("Error fetching path data:", error);
         return ["no path"]; // Return no path if there's error ?probably doesn't work
     }
 }
 
-function NaturalLanguageDirection({startLocation, endLocation}) {
 
-    const [path, setPathData] = useState([]); // Use useState to manage the path data state
-    const [directionData, setDirectionData] = useState([]);
-
-    useEffect(() => {
-        // Define a function to fetch data
-        const fetchData = async () => {
-            const path = await fetchPathData({startLocation, endLocation});
-            setPathData(path); // Update state with the fetched path data
-        };
-
-        fetchData(); // Call the fetchData function
-    }, [startLocation, endLocation]); // Re-fetch data when startLocation or endLocation changes
-
-
-    useEffect(() => {
-        // Define a function to fetch data
-        const fetchDirection = async () => {
-            const directions = await getLanguageDirection(path);
-            setDirectionData(directions); // Update state with the fetched path data
-        };
-
-        if (path.length > 0) {
-            fetchDirection();
-        }
-    }, [path]); // Re-fetch data when startLocation or endLocation changes
-
-
-    return (
-        <Box sx={{ p: 2, width: "100%"}}>
-            <Typography>
-                Path from {startLocation} to {endLocation}: {directionData.join(", \n")}
-            </Typography>
-        </Box>
-    );
+export default async function NaturalLanguageDirection(startLocation: string, endLocation:string) {
+    const path = await fetchPathData(startLocation, endLocation);
+    if(path.length === 0)
+        return;
+   return await getLanguageDirection(path);
 }
 
-export default NaturalLanguageDirection;
