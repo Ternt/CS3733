@@ -39,6 +39,33 @@ export type GiftRequest = {
     cardExpirationDate: string;
 }
 
+export type MedicineRequest = {
+    requestID: number;
+    patientName: string;
+    primaryPhysicianName: string;
+    medicine: string;
+    dosage: number;
+    form: string;
+    date: string;
+}
+
+export type SanitationRequestMessTypes = {
+    messType: string;
+}
+
+export type SanitationRequest = {
+    requestID: number;
+    employeeName: string;
+    messTypes: SanitationRequestMessTypes[];
+    date: string;
+}
+
+export type MaintenanceRequest = {
+    requestID: number;
+    maintenanceType: string;
+    workersNeeded: number;
+}
+
 export type ServiceRequest = {
     requestID: number,
     priority: string,
@@ -47,8 +74,9 @@ export type ServiceRequest = {
     location: Node,
     assignedEmployee?: AssignedEmployee,
     giftDetail? : GiftRequest,
-    maintenanceDetail?: string,
-    medicineDetail?: string,
+    maintenanceDetail?: MaintenanceRequest,
+    sanitationDetail?: SanitationRequest,
+    medicineDetail?: MedicineRequest,
     notes?: string,
 }
 
@@ -56,7 +84,7 @@ export default function ServiceRequestOverview(){
 
     const [selectedCard, setSelectedCard] = useState<RequestCard | null>(null);
     const [reqs, setReqs] = useState<ServiceRequest[]>([]);
-    const reqTypes = ["MEDICINE", "SANITATION", "GIFT", "FLOWER"];
+    const reqTypes = ["MEDICINE", "SANITATION", "GIFT", "MAINTENANCE"];
 
     useEffect(()=>{
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
