@@ -77,7 +77,7 @@ function ResponsiveAppBar() {
               src={logo}
               alt={"logo"}
               onClick={() => handleMenuItemClick("")}
-              sx={{width: "3vh", aspectRatio: "294/423", mx: 2, p:"2%"}}
+              sx={{width: "4vh", aspectRatio: "294/423", mx: 1, p:"1%"}}
             ></Box>
           </Link>
             <Button
@@ -95,7 +95,7 @@ function ResponsiveAppBar() {
               }}
             >
               <Typography
-                sx={{fontSize: "1.1rem",}}
+                sx={{fontSize: "0.9rem",}}
               >
                 Home
               </Typography>
@@ -116,7 +116,7 @@ function ResponsiveAppBar() {
               }}
             >
               <Typography
-                sx={{fontSize: "1.1rem"}}
+                sx={{fontSize: "0.9rem"}}
               >
                 Map
               </Typography>
@@ -138,7 +138,7 @@ function ResponsiveAppBar() {
             >
               <Typography
                 sx={{
-                  fontSize: "1.1rem",
+                  fontSize: "0.9rem",
                 }}
               >
                 Admin
@@ -165,7 +165,7 @@ function ResponsiveAppBar() {
             >
               <Typography
                 sx={{
-                  fontSize: "1.1rem",
+                  fontSize: "0.9rem",
                 }}
               >
                 Service Requests
