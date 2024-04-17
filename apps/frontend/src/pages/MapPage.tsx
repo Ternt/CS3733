@@ -17,8 +17,8 @@ export default function MapPage() {
       {title: 'Depth First Search', api: 'dfs', helper: 'The scenic route'},
       {title: 'Dijkstra\'s', api: 'dijkstra', helper: 'A very fast route'},
     ];
-    const [startLocation, setStartLocation] = useState("Abrams Conference Room");
-    const [endLocation, setEndLocation] = useState("Abrams Conference Room");
+    const [startLocation, setStartLocation] = useState("");
+    const [endLocation, setEndLocation] = useState("");
     const [searchAlgorithm, setSearchAlgorithm] = useState(0);
     const [natLangPath, setNatLangPath] = useState<string[]>([]);
 
