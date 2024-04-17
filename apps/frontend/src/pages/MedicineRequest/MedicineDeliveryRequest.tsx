@@ -72,21 +72,12 @@ function MedicineRequestForm() {
     }
 
     function submitForm() {
-        let requestID = -1;
         if (isComplete()) {
             // Log the current state of service and details
             console.log("Submitting Request");
 
-            // Configure requestID to a specific, unique value
-            requestID = Date.now();
-            requestID = parseInt(
-                requestID.toString().substring(8) +
-                parseInt(Math.random() * 1000 + "").toString(),
-            );
-
             // Create a service request object
             const medicineRequest = {
-                requestID: requestID,
                 type: "MEDICINE",
                 priority: formInput.priority,
                 status: formInput.status,
@@ -299,9 +290,9 @@ function MedicineRequestForm() {
                                     }}
                                     sx={{width: "60%", pr: "5%"}}
                                 >
-                                    <MenuItem value={"PainKillers"}>PainKillers</MenuItem>
-                                    <MenuItem value={"Tylenol"}>Tylenol</MenuItem>
-                                    <MenuItem value={"Paracetamol"}>Paracetamol</MenuItem>
+                                    <MenuItem value={"PAIN_KILLERS"}>PainKillers</MenuItem>
+                                    <MenuItem value={"TYLENOL"}>Tylenol</MenuItem>
+                                    <MenuItem value={"PARACETAMOL"}>Paracetamol</MenuItem>
                                 </TextField>
 
                                 <TextField
