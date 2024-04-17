@@ -65,21 +65,19 @@ export default function Chatbot() {
     const [userMessage, setUserMessage] = useState('');
 
 
-    async function sendUserMessage(){
-        //if (userMessage) {
-            setChatMessages((prevMessages) => [
-                ...prevMessages,
-                {role: "user", content: userMessage},
-            ]);
-        //}
-        setUserMessage('');
+    async function sendUserMessage() {
+        setChatMessages((prevMessages) => [
+            ...prevMessages,
+            {role: "user", content: userMessage},
+        ]);
+
 
         //Hijacking for Natural Language
         const {start, end} = checkUserMessage(userMessage);
         if (start !== '' && end !== '') {
             const res = await NaturalLanguageDirection(start, end);
             let path = ['Path text error'];
-            if(res !== undefined)
+            if (res !== undefined)
                 path = res;
             setChatMessages((prevMessages) => [
                 ...prevMessages,
@@ -98,7 +96,6 @@ export default function Chatbot() {
     return (
         <Box sx={{
             height: '65vh',
-            zIndex: 3,
             position: 'fixed',
             width: '30%',
             top: '30%',
@@ -106,14 +103,12 @@ export default function Chatbot() {
             padding: '1%',
             boxShadow: 100,
             opacity: showBot ? '0%' : '100%',
+            zIndex: showBot ? -1 : 3,
         }}>
             <Button onClick={() => setShowBot(true)} sx={{
                 position: 'absolute',
                 top: '4%',
-                backgroundColor: 'black',
-                borderRadius: '100%',
-                width: '40px', // Set the width of the button
-                height: '40px', // Set the height of the button
+                left: '83%'
             }}>X</Button>
 
             <Box sx={{
@@ -180,7 +175,9 @@ export default function Chatbot() {
                         label="Type Your Message"
                         variant="standard"
                         style={{width: '70%'}}
-                        onKeyDown={(e) => {if(e.key === 'Enter') sendUserMessage();}}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') sendUserMessage();
+                        }}
                         onChange={(e) => setUserMessage(e.target.value)}
                     />
                     <Button
