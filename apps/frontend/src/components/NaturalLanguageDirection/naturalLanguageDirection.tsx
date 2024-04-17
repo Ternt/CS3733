@@ -1,28 +1,39 @@
 import axios, { AxiosResponse } from "axios";
 
-function findNextNodeWithType(nodeTable, path, index: number){
-    for (let i: number = index; i < path.length - 2; i++) {
-        const currentNodeType = nodeTable.find(nodes => nodes.nodeID === path[i]).nodeType;
+type node = {
+    xcoord: number;
+    ycoord: number;
+    nodeID: string;
+    nodeType: string;
+    longName: string;
+    building?: string;
+    shortName?: string;
+    floor?: string;
+};
+
+function findNextNodeWithType(nodeTable: Array<node>, path: Array<string>, index: number){
+    for (let i: number = index; i < path.length - 1; i++) {
+        const currentNodeType = nodeTable.find(nodes => nodes.nodeID === path[i])!.nodeType;
         if(currentNodeType != 'HALL') {
-            return nodeTable.find(nodes => nodes.nodeID === path[i]).longName;
+            return nodeTable.find(nodes => nodes.nodeID === path[i])!.longName;
         }
     }
-    return nodeTable.find(nodes => nodes.nodeID === path[index]).nodeType;
+    return nodeTable.find(nodes => nodes.nodeID === path[index])!.nodeType;
 }
 
 async function getLanguageDirection(path: Array<string>): Promise<string[]>{
     const response: AxiosResponse = await axios.get("/api/map");
 
-    const nodeTable = response.data.nodes;
+    const nodeTable: Array<node> = response.data.nodes;
     console.log("nodeTable", nodeTable);
-    const nodeList: [] = [];
+    const nodeList: Array<node> = [];
     const directions: string[] = [];
 
     for (let i: number = 0; i < path.length - 2; i++) {
-        const currentNode = nodeTable.find(nodes => nodes.nodeID === path[i]);
+        const currentNode = nodeTable.find(nodes => nodes.nodeID === path[i])!;
         const currentNodeName = currentNode.shortName;
         nodeList.push(currentNode);
-        const nextNode = nodeTable.find(nodes => nodes.nodeID === path[i+1]);
+        const nextNode = nodeTable.find(nodes => nodes.nodeID === path[i+1])!;
 
         if (i === 0) {
             directions.push("You are currently at: " + currentNodeName + " on floor: " + currentNode.floor);
@@ -49,7 +60,7 @@ async function getLanguageDirection(path: Array<string>): Promise<string[]>{
 
 
                 // add filter for node with only 2 neighbours to walk straight??
-                const previousNode = nodeTable.find(nodes => nodes.nodeID === path[i-1]);
+                const previousNode = nodeTable.find(nodes => nodes.nodeID === path[i-1])!;
                 const dxPrev: number = currentNode.xcoord - previousNode.xcoord;
                 const dyPrev: number = currentNode.ycoord - previousNode.ycoord;
 
@@ -78,7 +89,7 @@ async function getLanguageDirection(path: Array<string>): Promise<string[]>{
                     directions.push("Turn left at: " + currentNodeName);
                 }
         }}
-    const endNodeName = nodeTable.find(nodes => nodes.nodeID === path[path.length - 1]).longName;
+    const endNodeName = nodeTable.find(nodes => nodes.nodeID === path[path.length - 1])!.longName;
     directions.push("You are at: " + endNodeName);
     console.log("nodeList", nodeList);
     return directions;
