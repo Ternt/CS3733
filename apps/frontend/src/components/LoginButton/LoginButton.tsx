@@ -78,7 +78,13 @@ export default function LoginButton() {
                         variant="contained"
                         type="button"
                         onClick={() => handleLogout()}
-                        style={{marginTop: "20px"}}
+                        sx={{
+                            color: 'black',
+                            "&:hover": {
+                                background: "#f8cd69",
+                                color: 'black',
+                            },
+                        }}
                     >
                         Logout
                     </Button>
