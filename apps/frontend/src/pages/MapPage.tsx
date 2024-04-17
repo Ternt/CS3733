@@ -27,7 +27,7 @@ export default function MapPage() {
             if (res !== undefined)
                 setNatLangPath(res);
             else
-                setNatLangPath(["Error in path text"]);
+                setNatLangPath(["Select a Path"]);
         }
 
         setPath();
@@ -52,7 +52,7 @@ export default function MapPage() {
             >
                 <Box sx={{
                     width: '90%',
-                    height: '60%',
+                    height: '55%',
                     backgroundColor: 'whitesmoke',
                     borderRadius: '23px',
                     boxShadow: 3,
@@ -121,13 +121,12 @@ export default function MapPage() {
                                 algos.map((a, i) => <MenuItem key={a.api} value={i}>{a.title}</MenuItem>)
                             }
                         </TextField>
-
                     </Box>
                 </Box>
 
                 <Box sx={{
                         width: '90%',
-                        height: '20%',
+                        height: '35%',
                         backgroundColor: 'whitesmoke',
                         borderRadius: '23px',
                         boxShadow: 3,
@@ -136,7 +135,7 @@ export default function MapPage() {
                 }}>
                     <Box
                         sx={{
-                            height: '40%',
+                            height: '30%',
                             width: '100%',
                             display: 'flex',
                             justifyContent: 'center',
@@ -156,22 +155,23 @@ export default function MapPage() {
                         </Typography>
                     </Box>
                     <Box sx={{
-                        height: '30vh',
+                        height: '70%',
                         width: '100%',
-                        mt: '3vh',
-                        backgroundColor: 'white'
+                        backgroundColor: 'white',
+                        borderRadius: '0 0 23px 23px',
+                        overflowY: 'scroll'
                     }}>
 
-                        {
-                            natLangPath.map((d: string) => {
-                                return <Typography sx={{
-                                    color: 'black',
-                                    fontSize: 100
-                                }}>
-                                    {d}
-                                </Typography>;
-                            })
-                        }
+                        {natLangPath.map((d: string, index) => {
+                            return (
+                                <Typography
+                                    sx={{ color: 'black', fontSize: '18px', m: '3%' }}
+                                    key={index}
+                                >
+                                    {index + 1}. {d}
+                                </Typography>
+                            );
+                        })}
                     </Box>
                 </Box>
             </Grid>
