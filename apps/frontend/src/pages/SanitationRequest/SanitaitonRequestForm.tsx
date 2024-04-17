@@ -82,21 +82,12 @@ function SanitationRequestForm() {
     }
 
     function submitForm() {
-        let requestID = -1;
         if (isComplete()) {
             // Log the current state of service and details
             console.log("Submitting Request");
 
-            // Configure requestID to a specific, unique value
-            requestID = Date.now();
-            requestID = parseInt(
-                requestID.toString().substring(8) +
-                parseInt(Math.random() * 1000 + "").toString(),
-            );
-
             // Create a service request object
             const sanitationRequest = {
-                requestID: requestID,
                 type: "SANITATION",
                 employeeName: formInput.name,
                 priority: formInput.priority,
@@ -104,7 +95,7 @@ function SanitationRequestForm() {
                 date: formInput.date,
                 notes: "None",
                 locationID: formInput.location,
-                messTypes: formInput.type,
+                messTypes: formInput.type.map((str) => str.toUpperCase().replace(" ", "_")),
                 messSize: formInput.size,
             };
             console.log(JSON.stringify(sanitationRequest));

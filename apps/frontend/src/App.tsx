@@ -4,7 +4,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
-//import TouchToStart from "./components/TouchToStart/TouchToStart.tsx";
 import NavBar from "./components/Navbar/Navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
 import StoreRequestPage from "./pages/StoreRequestPage/StoreRequestPage.tsx";
@@ -16,7 +15,8 @@ import MapPage from "./pages/MapPage.tsx";
 import {Auth0Provider} from "@auth0/auth0-react";
 import { useNavigate } from 'react-router-dom';
 import Box from "@mui/material/Box";
-
+import AnimatedPath from "./components/Map/AnimatedPath.tsx";
+import Chatbot from "./components/ChatBot/ChatBot.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -77,13 +77,13 @@ function App() {
     },
   ]);
 
-  return (
-    <ThemeProvider theme={CustomTheme}>
-      {" "}
-      {/* Wrap RouterProvider with ThemeProvider */}
-      <RouterProvider router={router} />
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider theme={CustomTheme}>
+            {" "}
+            {/* Wrap RouterProvider with ThemeProvider */}
+            <RouterProvider router={router} />
+        </ThemeProvider>
+    );
 
     function Root() {
         const navigate = useNavigate();
@@ -105,6 +105,7 @@ function App() {
                         <NavBar />
                         <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a",}}></Box>
                         <Outlet />
+                        <Chatbot/>
                     </div>
                 </Auth0Provider>
             </>

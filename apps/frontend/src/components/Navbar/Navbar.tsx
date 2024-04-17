@@ -54,7 +54,7 @@ function ResponsiveAppBar() {
     navigate(path);
     setAnchorElRequests(null);
   };
-    console.log(permissionLevel);
+
   return (
     <AppBar
       position="static"
@@ -90,52 +90,73 @@ function ResponsiveAppBar() {
               src={logo}
               alt={"logo"}
               onClick={() => handleMenuItemClick("")}
-              sx={{width: "3vh", aspectRatio: "294/423", mx: 2, p:"2%"}}
+              sx={{width: "4vh", aspectRatio: "294/423", mx: 1, p:"1%"}}
             ></Box>
           </Link>
-
-              <Button
-                  key={"home"}
-                  onClick={() => handleMenuItemClick("/")}
-                  sx={{
-                      color: "white",
-                      display: "block",
-                      fontSize: 15,
-                      transition: "all 0.2s ease-in-out",
-                      "&:hover": {
-                          textDecoration: "underline",
-                          background: "#012d5a",
-                      },
-                  }}
+            <Button
+              key={"home"}
+              onClick={() => handleMenuItemClick("/")}
+              sx={{
+                color: "white",
+                display: "block",
+                fontSize: 15,
+                transition: "all 0.2s ease-in-out",
+                "&:hover": {
+                  textDecoration: "underline",
+                  background: "#012d5a",
+                },
+              }}
+            >
+              <Typography
+                sx={{fontSize: "0.9rem",}}
               >
-                  <Typography
-                      sx={{fontSize: "1.1rem",}}
-                  >
-                      Home
-                  </Typography>
-              </Button>
+                Home
+              </Typography>
+            </Button>
 
-              <Button
-                  key={"map"}
-                  onClick={() => handleMenuItemClick("/map")}
-                  sx={{
-                      color: "white",
-                      display: "block",
-                      fontSize: 15,
-                      transition: "all 0.2s ease-in-out",
-                      "&:hover": {
-                          textDecoration: "underline",
-                          background: "#012d5a",
-                      },
-                  }}
+            <Button
+              key={"map"}
+              onClick={() => handleMenuItemClick("/map")}
+              sx={{
+                color: "white",
+                display: "block",
+                fontSize: 15,
+                transition: "all 0.2s ease-in-out",
+                "&:hover": {
+                  textDecoration: "underline",
+                  background: "#012d5a",
+                },
+              }}
+            >
+              <Typography
+                sx={{fontSize: "0.9rem"}}
               >
-                  <Typography
-                      sx={{fontSize: "1.1rem"}}
-                  >
-                      Map
-                  </Typography>
-              </Button>
+                Map
+              </Typography>
+            </Button>
 
+            <Button
+              key={"admin"}
+              onClick={() => handleMenuItemClick("/admin")}
+              sx={{
+                color: "white",
+                display: "block",
+                fontSize: 15,
+                transition: "all 0.2s ease-in-out",
+                "&:hover": {
+                  textDecoration: "underline",
+                  background: "#012d5a",
+                },
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: "0.9rem",
+                }}
+              >
+                Admin
+              </Typography>
+            </Button>
 
 
             <Menu
@@ -211,7 +232,7 @@ function ResponsiveAppBar() {
                           >
                               <Typography
                                   sx={{
-                                      fontSize: "1.1rem",
+                                      fontSize: "0.9rem",
                                   }}
                               >
                                   Service Requests
@@ -227,6 +248,58 @@ function ResponsiveAppBar() {
 
                   </>
               )}
+            <Button
+              key={"Request Services"}
+              id="demo-customized-button"
+              aria-controls={openRequests ? "demo-customized-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={openRequests ? "true" : undefined}
+              onClick={handleOnClickRequests}
+              sx={{
+                color: "white",
+                display: "block",
+                fontSize: 15,
+                transition: "all 0.2s ease-in-out",
+                "&:hover": {
+                  textDecoration: "underline",
+                  background: "#012d5a",
+                },
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: "0.9rem",
+                }}
+              >
+                Service Requests
+                <ArrowDropDownIcon sx={{
+                    height: '1rem'
+                }}/>
+              </Typography>
+            </Button>
+            <Menu
+              id="demo-customized-menu"
+              MenuListProps={{
+                "aria-labelledby": "demo-customized-button",
+              }}
+              disableScrollLock={true}
+              anchorEl={anchorElRequests}
+              open={openRequests}
+              onClose={handleCloseRequests}
+              sx={{
+                padding: 0,
+              }}
+            >
+              {services.map((services) => (
+                <MenuItem
+                  key={services.label}
+                  onClick={() => handleClickMenuItemListRequests(services.path)}
+                  disableRipple
+                >
+                  {services.label}
+                </MenuItem>
+              ))}
+            </Menu>
           </Box>
           <SearchBar />
           <Button
