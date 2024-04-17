@@ -84,10 +84,16 @@ export default function AdminDashboard() {
           >
             <Box
             sx={{
-              height:'10vh'
+              height:'8vh'
             }}
             >
-              <Typography variant={"h5"}>Welcome {user?.name}</Typography>
+              <Typography variant={"h4"} sx={{
+                  fontWeight: '500',
+                    textAlign: 'center',
+                  textDecoration: 'underline'
+              }}>
+                  Welcome {user?.name}!
+              </Typography>
             </Box>
             {tabInject}
           </Box>

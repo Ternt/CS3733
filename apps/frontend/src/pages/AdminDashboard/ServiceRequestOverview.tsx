@@ -115,29 +115,36 @@ export default function ServiceRequestOverview(){
                                     key={category}
                                     sx={{
                                         width: ((100.0/reqTypes.length - 1)+"%"),
-                                        minHeight:'85vh',
+                                        minHeight:'80vh',
                                         display:'flex',
                                         flexDirection:'column',
                                         justifyContent:'flex-start',
                                         alignItems:'flex-start',
                                         p: "0.5%",
                                         boxShadow:5,
+                                        borderRadius: '23px',
                                     }}
                                 >
-                                    <Typography
-                                        variant={"h5"}
-                                        sx={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItem: "center",
-                                            px: "5%",
-                                            pt: "4%",
-                                            pb: "2%",
-                                            width:'100%',
-                                            textAlign:'center',
-                                            textDecoration:'underline',
-                                        }}>{category}
-                                    </Typography>
+                                    <Box sx={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItem: "center",
+                                        width:'fill-available',
+                                        px: "5%",
+                                        pt: "4%",
+                                        pb: "2%",
+                                        backgroundColor: '#012d5a',
+                                        borderRadius: '23px 23px 0 0',
+                                    }}>
+                                        <Typography
+                                            variant={"h5"}
+                                            sx={{
+                                                textAlign:'center',
+                                                color: '#f6bd38',
+                                                fontWeight: 500,
+                                            }}>{category}
+                                        </Typography>
+                                    </Box>
                                     <Box
                                         sx={{
                                             display: "flex",
