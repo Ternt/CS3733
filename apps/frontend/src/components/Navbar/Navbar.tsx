@@ -135,28 +135,6 @@ function ResponsiveAppBar() {
               </Typography>
             </Button>
 
-            <Button
-              key={"admin"}
-              onClick={() => handleMenuItemClick("/admin")}
-              sx={{
-                color: "white",
-                display: "block",
-                fontSize: 15,
-                transition: "all 0.2s ease-in-out",
-                "&:hover": {
-                  textDecoration: "underline",
-                  background: "#012d5a",
-                },
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: "0.9rem",
-                }}
-              >
-                Admin
-              </Typography>
-            </Button>
 
 
             <Menu
@@ -203,7 +181,7 @@ function ResponsiveAppBar() {
                           >
                               <Typography
                                   sx={{
-                                      fontSize: "1.1rem",
+                                      fontSize: "0.9rem",
                                   }}
                               >
                                   Admin
@@ -248,35 +226,6 @@ function ResponsiveAppBar() {
 
                   </>
               )}
-            <Button
-              key={"Request Services"}
-              id="demo-customized-button"
-              aria-controls={openRequests ? "demo-customized-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={openRequests ? "true" : undefined}
-              onClick={handleOnClickRequests}
-              sx={{
-                color: "white",
-                display: "block",
-                fontSize: 15,
-                transition: "all 0.2s ease-in-out",
-                "&:hover": {
-                  textDecoration: "underline",
-                  background: "#012d5a",
-                },
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: "0.9rem",
-                }}
-              >
-                Service Requests
-                <ArrowDropDownIcon sx={{
-                    height: '1rem'
-                }}/>
-              </Typography>
-            </Button>
             <Menu
               id="demo-customized-menu"
               MenuListProps={{
