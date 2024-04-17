@@ -91,6 +91,15 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                 </Box>
                             }
 
+                            {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Shipping Type: </Typography>
+                                    <Typography>{serviceData.giftDetail.shippingType.toLowerCase()}</Typography>
+                                </Box>
+                            }
+
                             {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
                                 <></>
                                 :
