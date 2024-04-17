@@ -1,5 +1,5 @@
-import { motion, useAnimation } from 'framer-motion';
-import React, { useEffect } from "react";
+import { motion} from 'framer-motion';
+import React from "react";
 // import {Box} from "@mui/material";
 
 type AnimatedPathProps = {
@@ -7,21 +7,6 @@ type AnimatedPathProps = {
 };
 
 export default function AnimatedPath(props: AnimatedPathProps) {
-    const controls = useAnimation();
-
-    useEffect(() => {
-        const animatePath = async () => {
-            await controls.start({
-                strokeDashoffset: -1000, // Adjust this value for longer lines
-                transition: {
-                    duration: 4,
-                    ease: "linear",
-                    repeat: Infinity,
-                }
-            });
-        };
-        requestAnimationFrame(animatePath);
-    }, [controls]);
 
     return (
         <>
@@ -29,20 +14,33 @@ export default function AnimatedPath(props: AnimatedPathProps) {
             <motion.path
                 d={props.svgPath}
                 strokeWidth={3} // Adjust the stroke width as needed
-                stroke={"gray"} // Adjust the color as needed
+                stroke={"#f6bd38"} // Adjust the color as needed
                 fill="none"
                 strokeLinejoin={"round"}
                 strokeLinecap={"round"}
+                style={{
+                  filter: "drop-shadow(1px 1px 2px #000)"
+                }}
             />
             {/* Animated Path */}
             <motion.path
                 d={props.svgPath}
                 strokeWidth={1}
-                stroke={"black"}
+                stroke={"#012d5a"}
                 fill="none"
-                initial={{ strokeDasharray: "20 10", strokeDashoffset: 1000 }} // Adjust the strokeDasharray for longer lines
-                animate={{ strokeDashoffset: 0 }}
-                transition={{ duration: 4, ease: "linear", repeat: Infinity }}
+                strokeLinecap={"round"}
+                initial={{
+                  strokeDasharray: "3",
+                  strokeDashoffset: 0
+                }} // Adjust the strokeDasharray for longer lines
+                animate={{
+                  strokeDashoffset: 6,
+                }}
+                transition={{
+                  duration: 3,
+                  ease: "linear",
+                  repeat: Infinity
+                }}
             />
         </>
     );
