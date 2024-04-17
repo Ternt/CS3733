@@ -78,72 +78,7 @@ function ResponsiveAppBar() {
                 display: { xs: "none", md: "flex", justifyContent: "flex-start" },
             }}
           >
-              {!isLoading && (
-                  <>
 
-                      {permissionLevel === 2 && (
-
-                          <Button
-                              key={"admin"}
-                              onClick={() => handleMenuItemClick("/admin")}
-                              sx={{
-                                  color: "white",
-                                  display: "block",
-                                  fontSize: 15,
-                                  transition: "all 0.2s ease-in-out",
-                                  "&:hover": {
-                                      textDecoration: "underline",
-                                      background: "#012d5a",
-                                  },
-                              }}
-                          >
-                              <Typography
-                                  sx={{
-                                      fontSize: "1.1rem",
-                                  }}
-                              >
-                                  Admin
-                              </Typography>
-                          </Button>
-                      )}
-
-                      {permissionLevel >= 1 && (
-                          <div><Button
-                              key={"Request Services"}
-                              id="demo-customized-button"
-                              aria-controls={openRequests ? "demo-customized-menu" : undefined}
-                              aria-haspopup="true"
-                              aria-expanded={openRequests ? "true" : undefined}
-                              onClick={handleOnClickRequests}
-                              sx={{
-                                  color: "white",
-                                  display: "block",
-                                  fontSize: 15,
-                                  transition: "all 0.2s ease-in-out",
-                                  "&:hover": {
-                                      textDecoration: "underline",
-                                      background: "#012d5a",
-                                  },
-                              }}
-                          >
-                              <Typography
-                                  sx={{
-                                      fontSize: "1.1rem",
-                                  }}
-                              >
-                                  Service Requests
-                                  <ArrowDropDownIcon sx={{
-                                      height: '1rem'
-                                  }}/>
-                              </Typography>
-                          </Button></div>
-                      )}
-
-
-
-
-                  </>
-              )}
           <Link
             href=""
             underline="none"
@@ -226,6 +161,72 @@ function ResponsiveAppBar() {
                 </MenuItem>
               ))}
             </Menu>
+              {!isLoading && (
+                  <>
+
+                      {permissionLevel === 2 && (
+
+                          <Button
+                              key={"admin"}
+                              onClick={() => handleMenuItemClick("/admin")}
+                              sx={{
+                                  color: "white",
+                                  display: "block",
+                                  fontSize: 15,
+                                  transition: "all 0.2s ease-in-out",
+                                  "&:hover": {
+                                      textDecoration: "underline",
+                                      background: "#012d5a",
+                                  },
+                              }}
+                          >
+                              <Typography
+                                  sx={{
+                                      fontSize: "1.1rem",
+                                  }}
+                              >
+                                  Admin
+                              </Typography>
+                          </Button>
+                      )}
+
+                      {permissionLevel >= 1 && (
+                          <><Button
+                              key={"Request Services"}
+                              id="demo-customized-button"
+                              aria-controls={openRequests ? "demo-customized-menu" : undefined}
+                              aria-haspopup="true"
+                              aria-expanded={openRequests ? "true" : undefined}
+                              onClick={handleOnClickRequests}
+                              sx={{
+                                  color: "white",
+                                  display: "block",
+                                  fontSize: 15,
+                                  transition: "all 0.2s ease-in-out",
+                                  "&:hover": {
+                                      textDecoration: "underline",
+                                      background: "#012d5a",
+                                  },
+                              }}
+                          >
+                              <Typography
+                                  sx={{
+                                      fontSize: "1.1rem",
+                                  }}
+                              >
+                                  Service Requests
+                                  <ArrowDropDownIcon sx={{
+                                      height: '1rem'
+                                  }}/>
+                              </Typography>
+                          </Button></>
+                      )}
+
+
+
+
+                  </>
+              )}
           </Box>
           <SearchBar />
           <Button
