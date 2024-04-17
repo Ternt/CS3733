@@ -97,7 +97,7 @@ export default function ServiceRequestOverview(){
         <>
             <Box
                 sx={{
-                    height: "90vh",
+                    height: "80vh",
                     width:'100%',
                     overflowY:'hidden',
                     p: 1,
@@ -115,7 +115,7 @@ export default function ServiceRequestOverview(){
                                     key={category}
                                     sx={{
                                         width: ((100.0/reqTypes.length - 1)+"%"),
-                                        minHeight:'80vh',
+                                        minHeight:'70vh',
                                         display:'flex',
                                         flexDirection:'column',
                                         justifyContent:'flex-start',
@@ -150,7 +150,7 @@ export default function ServiceRequestOverview(){
                                             display: "flex",
                                             flexDirection: "column",
                                             width: '100%',
-                                            height: '80vh',
+                                            height: '65vh',
                                             gap: "1rem",
                                             overflow: 'scroll',
                                             p: '5%',
