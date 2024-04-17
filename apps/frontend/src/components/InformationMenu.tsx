@@ -63,8 +63,51 @@ export default function InformationMenu(props: InfoMenuProp) {
     return <></>;
   }
 
+  function isComplete(): boolean {
+    return (
+        newNodeData?.nodeID != "" &&
+        newNodeData?.point.x != null &&
+        newNodeData?.point.y != null &&
+        newNodeData.floor != "" &&
+        newNodeData.building != "" &&
+        newNodeData.longName != "" &&
+        newNodeData.shortName != "" &&
+        newNodeData.nodeType != ""
+    );
+  }
+
   function submitForm() {
     props.onChangeNode(newNodeData);
+
+    if(isComplete() && newNodeData !== null) {
+      const editedNode = {
+        nodeID: newNodeData.nodeID,
+        xcoord: newNodeData.point.x,
+        ycoord: newNodeData.point.y,
+        floor: newNodeData.floor,
+        building: newNodeData.building,
+        longName: newNodeData.longName,
+        shortName: newNodeData.shortName,
+        nodeType: newNodeData.nodeType
+      };
+
+      // Send a PUT request to the server
+      fetch("/api/nodes/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedNode),
+      })
+          .then((response) => {
+            console.log(response);
+          })
+
+          .then((data) => console.log(data))
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+    }
   }
 
   return (
@@ -121,21 +164,17 @@ export default function InformationMenu(props: InfoMenuProp) {
             <TextField
               label={"shortName"}
               value={
-                props.nodeData && "shortName" in props.nodeData
-                  ? props.nodeData.shortName
-                  : ""
+                newNodeData.shortName
               }
               sx={adminCardStyleBody}
               onChange={(e) => {
-                setNewNodeData({ ...newNodeData, nodeID: e.target.value });
+                setNewNodeData({ ...newNodeData, shortName: e.target.value });
               }}
             />
             <TextField
               label={"longName"}
               value={
-                props.nodeData && "longName" in props.nodeData
-                  ? props.nodeData.longName
-                  : ""
+                newNodeData.longName
               }
               sx={adminCardStyleBody}
               onChange={(e) => {
@@ -145,9 +184,7 @@ export default function InformationMenu(props: InfoMenuProp) {
             <TextField
               label={"floor"}
               value={
-                props.nodeData && "floor" in props.nodeData
-                  ? props.nodeData.floor
-                  : ""
+                newNodeData.floor
               }
               sx={adminCardStyleBody}
               onChange={(e) => {
@@ -157,9 +194,7 @@ export default function InformationMenu(props: InfoMenuProp) {
             <TextField
               label={"building"}
               value={
-                props.nodeData && "building" in props.nodeData
-                  ? props.nodeData.building
-                  : ""
+                newNodeData.building
               }
               sx={adminCardStyleBody}
               onChange={(e) => {
@@ -169,9 +204,7 @@ export default function InformationMenu(props: InfoMenuProp) {
             <TextField
               label={"nodeType"}
               value={
-                props.nodeData && "nodeType" in props.nodeData
-                  ? props.nodeData.nodeType
-                  : ""
+                newNodeData.nodeType
               }
               sx={adminCardStyleBody}
               onChange={(e) => {
@@ -186,9 +219,7 @@ export default function InformationMenu(props: InfoMenuProp) {
               <TextField
                 label={"x coord"}
                 value={
-                  props.nodeData && "point" in props.nodeData
-                    ? props.nodeData.point.x
-                    : ""
+                  newNodeData.point.x
                 }
                 sx={adminCardStyleBody}
                 onChange={(e) => {
@@ -205,9 +236,7 @@ export default function InformationMenu(props: InfoMenuProp) {
               <TextField
                 label={"y coord"}
                 value={
-                  props.nodeData && "point" in props.nodeData
-                    ? props.nodeData.point.y
-                    : ""
+                  newNodeData.point.y
                 }
                 sx={adminCardStyleBody}
                 onChange={(e) => {
