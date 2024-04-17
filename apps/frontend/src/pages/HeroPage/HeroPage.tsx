@@ -4,10 +4,11 @@ import logo from "../../assets/baby.jpg";
 import { useNavigate } from "react-router-dom";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import OurServices from "./OurServices.tsx";
-
+import { useAuth0 } from "@auth0/auth0-react";
 export default function HeroPage() {
   const navigate = useNavigate();
   const heroPage2Ref = useRef<HTMLDivElement | null>(null);
+    const {isAuthenticated} = useAuth0();
 
   const handleLearnMoreClick = () => {
     if (heroPage2Ref.current) {
@@ -77,7 +78,7 @@ export default function HeroPage() {
               "&:hover": { background: "#f9d070", color: "black" },
             }}
           >
-            {"login"}
+              {isAuthenticated ? "Logout" : "Login"}
           </Button>
           <Button
             key="learnMore"

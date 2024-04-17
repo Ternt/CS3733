@@ -15,11 +15,12 @@ export default function LoginPage() {
         console.log(user);
     }
 
+
     const handleSubmit = () => {
         if (!user) {
             loginWithRedirect({
                 appState: {
-                    returnTo: location.pathname,
+                    returnTo: "/",
                 },
             }).then(() => {
                 // Handle any logic here after loginWithRedirect completes

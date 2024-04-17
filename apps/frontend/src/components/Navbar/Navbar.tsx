@@ -249,7 +249,7 @@ function ResponsiveAppBar() {
               },
             }}
           >
-            {"login"}
+              {isAuthenticated ? "Logout" : "Login"}
           </Button>
         </Toolbar>
       </Container>
