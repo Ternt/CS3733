@@ -11,6 +11,8 @@ type node = {
     floor?: string;
 };
 
+const PIXELS_PER_FOOT = 3;
+
 function findNextNodeWithType(nodeTable: Array<node>, path: Array<string>, index: number){
     for (let i: number = index; i < path.length - 1; i++) {
         const currentNodeType = nodeTable.find(nodes => nodes.nodeID === path[i])!.nodeType;
@@ -25,7 +27,6 @@ async function getLanguageDirection(path: Array<string>): Promise<string[]>{
     const response: AxiosResponse = await axios.get("/api/map");
 
     const nodeTable: Array<node> = response.data.nodes;
-    console.log("nodeTable", nodeTable);
     const nodeList: Array<node> = [];
     const directions: string[] = [];
 
@@ -36,7 +37,7 @@ async function getLanguageDirection(path: Array<string>): Promise<string[]>{
         const nextNode = nodeTable.find(nodes => nodes.nodeID === path[i+1])!;
 
         if (i === 0) {
-            directions.push("You are currently at: " + currentNodeName + " on floor: " + currentNode.floor);
+            directions.push("You are currently at " + currentNodeName + " on floor " + currentNode.floor);
         }
 
         else if (currentNode.floor != nextNode.floor) {
@@ -50,7 +51,8 @@ async function getLanguageDirection(path: Array<string>): Promise<string[]>{
             // "head towards: " find the name of the next node in path that's not a hall
             i++;
             const nextNodeNameWithType = findNextNodeWithType(nodeTable, path, i+1);
-            directions.push(`Head towards: ${nextNodeNameWithType}`);
+            const nn =  nextNodeNameWithType.toUpperCase().indexOf('HALL') === -1 ? "towards "+nextNodeNameWithType : "down the hall";
+            directions.push(`Head ${nn}`);
 
         }
         else {
@@ -67,7 +69,6 @@ async function getLanguageDirection(path: Array<string>): Promise<string[]>{
                 const anglePrev = Math.atan2(dyPrev, dxPrev);
 
                 let directionChange: number = (angle - anglePrev);
-                console.log(directionChange);
 
                 //map angle from 0 to pi
 
@@ -80,26 +81,28 @@ async function getLanguageDirection(path: Array<string>): Promise<string[]>{
 
 
                 if ((Math.abs(directionChange) < Math.PI / 4) || (Math.abs(directionChange - 2*Math.PI) < Math.PI / 4) || (Math.abs(directionChange + 2*Math.PI) < Math.PI / 4)) {
-                    if (directions[directions.length - 1] != "Walk straight") {
-                        directions.push("Walk straight");
+                    if (!directions[directions.length - 1].startsWith('Walk straight')){
+                        const distance = Math.sqrt(dx**2 + dy**2);
+                        directions.push("Walk straight " + Math.round(distance * PIXELS_PER_FOOT) +"ft");
                     }
-                } else if (directionChange > 0) {
-                    directions.push("Turn right at: "+ currentNodeName);
                 } else {
-                    directions.push("Turn left at: " + currentNodeName);
+                  const cn = currentNodeName === undefined ? "" : currentNodeName!;console.log(cn);
+                  const nn =  cn.toUpperCase().indexOf('HALL') === -1 ? (" at "+cn) : "";
+                  if (directionChange > 0) {
+                    directions.push("Turn right" + nn);
+                  } else {
+                    directions.push("Turn left" + nn);
+                  }
                 }
         }}
     const endNodeName = nodeTable.find(nodes => nodes.nodeID === path[path.length - 1])!.longName;
     directions.push("You are at: " + endNodeName);
-    console.log("nodeList", nodeList);
     return directions;
 }
 
 async function fetchPathData(startLocation: string, endLocation:string, searchAlgorithm: string) {
     try {
-        console.log("searchAlgorithm:",searchAlgorithm);
         const response = await axios.get(`/api/pathfind?startNode=${endLocation}&endNode=${startLocation}&algorithm=${searchAlgorithm}`);
-        console.log("path:",response.data.path);
         return response.data.path; // Return the path in array
     } catch (error) {
         return ["no path"]; // Return no path if there's error ?probably doesn't work

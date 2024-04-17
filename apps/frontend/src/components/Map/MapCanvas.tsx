@@ -245,15 +245,15 @@ export default function MapCanvas(props: mapCanvasProps) {
           pathString += "L " + b.x + " " + b.y + ",";
         }
         // check that the selected point is
-        if (pathing.selectedPoint !== null && pathing.path[pathing.path.length - 1].point.z === viewingFloor) {
-          // svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
-          const a = vecToCanvSpace(pathing.path[pathing.path.length - 1].point);
-          const b = vecToCanvSpace(pathing.selectedPoint);
-          if(lastFloor !== pathing.selectedPoint.z){
-            pathString += "M "+a.x+" "+a.y+",";
-          }
-          pathString += "L " + b.x + " " + b.y + ",";
-        }
+        // if (pathing.selectedPoint !== null && pathing.path[pathing.path.length-1].point.z === viewingFloor) {
+        //   // svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
+        //   const a = vecToCanvSpace(pathing.path[pathing.path.length-1].point);
+        //   const b = vecToCanvSpace(pathing.selectedPoint);
+        //   if(lastFloor !== pathing.path[pathing.path.length-1].point.z){
+        //     pathString += "M "+a.x+" "+a.y+",";
+        //   }
+        //   pathString += "L " + b.x + " " + b.y + ",";
+        // }
         setPathStringInject(pathString);
       } else {
         for (const n of renderData.n) {
@@ -394,7 +394,7 @@ export default function MapCanvas(props: mapCanvasProps) {
 
     if (props.pathfinding) {
       axios
-        .get("/api/pathfind?startNode=" + closestNode.nodeID + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
+        .get("/api/pathfind?endNode=" + closestNode.nodeID + "&startNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
         .then((res) => {
           const pathNodes: node[] = [];
           for (const s of res.data.path) {
@@ -482,7 +482,7 @@ export default function MapCanvas(props: mapCanvasProps) {
 
       if (props.pathfinding) {
         axios
-          .get("/api/pathfind?startNode=" + closestNode.nodeID + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
+          .get("/api/pathfind?endNode=" + closestNode.nodeID + "&startNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
           .then((res) => {
             const pathNodes: node[] = [];
             for (const s of res.data.path) {
@@ -565,15 +565,15 @@ export default function MapCanvas(props: mapCanvasProps) {
     if (props.endLocation !== "" && props.endLocation !== undefined) {
       if (
         pathing.path.length > 0 &&
-        pathing.path[0].nodeID === props.startLocation &&
-        pathing.path[pathing.path.length - 1].nodeID === props.endLocation &&
+        pathing.path[pathing.path.length - 1].nodeID === props.startLocation &&
+        pathing.path[0].nodeID === props.endLocation &&
         props.pathfinding === pathing.algo
       )
         return;
       if(props.pathfinding === null)
         return;
       axios
-        .get("/api/pathfind?startNode=" +props.endLocation + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding)
+        .get("/api/pathfind?endNode=" +props.endLocation + "&startNode=" + props.startLocation +"&algorithm=" +props.pathfinding)
         .then((res) => {
           const pathNodes: node[] = [];
           for (const s of res.data.path) {
