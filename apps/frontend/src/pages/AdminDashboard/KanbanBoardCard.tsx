@@ -1,3 +1,4 @@
+import {ChangeEvent, useState} from "react";
 import { ServiceRequest } from "./ServiceRequestOverview";
 import {Paper, Typography} from "@mui/material";
 import {FormControl} from "@mui/material";
@@ -6,15 +7,41 @@ import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 
 type KanbanBoardProp = {
-    serviceRequest: ServiceRequest;
+    serviceRequestData: ServiceRequest;
 };
 
 export default function KanbanBoardCard(prop: KanbanBoardProp){
-    const service = prop.serviceRequest;
+    const [serviceData, setServiceData] = useState<ServiceRequest>(prop.serviceRequestData);
+
+    const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
+        setServiceData({...serviceData, status: event.target.value});
+
+        const newStatus = {
+            requestID: serviceData.requestID,
+            status: event.target.value
+        };
+
+        fetch("/api/service-requests/update", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newStatus),
+        })
+            .then((response) => {
+                console.log(response);
+            })
+
+            .then((data) => console.log(data))
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    };
+
 
     return(
         <Paper
-            key={service.requestID}
+            key={serviceData.requestID}
             sx={{
                 width:'100%',
                 backgroundColor:'#FFFFFF',
@@ -30,9 +57,10 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                     pt: "5%",
                     pb: "2.5%"
                 }}>
-                <Typography variant="h6">{service.location.longName}</Typography>
-                <Typography>{service.location.nodeID}</Typography>
-                <Typography>{service.priority}</Typography>
+                <Typography variant="h6">{serviceData.location.longName}</Typography>
+                <Typography>{serviceData.location.nodeID}</Typography>
+                <Typography>{serviceData.priority}</Typography>
+                <Typography variant="h6">{serviceData.location.longName}</Typography>
             </Box>
             <Box
                 sx={{
@@ -45,10 +73,11 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                             sx={{width: "100%",}}>
                             <TextField
                                 select
-                                value={service.status}
+                                value={serviceData.status}
                                 margin="normal"
                                 inputProps={{MenuProps: {disableScrollLock: true}}}
                                 sx={{marginY: 0, width: "100%"}}
+                                onChange={onChangeAssignment}
                             >
                                 <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
                                 <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>

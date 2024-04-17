@@ -43,11 +43,8 @@ export default function ServiceRequestOverview(){
     useEffect(()=>{
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
             setReqs(res.data);
-            console.log(res.data);
         });
     }, []);
-
-
 
     return(
         <>
@@ -104,7 +101,7 @@ export default function ServiceRequestOverview(){
                                         {
                                             reqs.map((service) => {
                                                 return(
-                                                    ((service.type === category)? <KanbanBoardCard serviceRequest={service}/> : <></>)
+                                                    ((service.type === category)? <KanbanBoardCard serviceRequestData={service}/> : <></>)
                                                 );
                                             })
                                         }
