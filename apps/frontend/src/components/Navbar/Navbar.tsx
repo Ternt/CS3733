@@ -12,9 +12,7 @@ import { Menu, Typography } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import SearchBar from "../SearchBar/searchBar.tsx";
 import {useAuth0} from "@auth0/auth0-react";
-// import User from '../../../../../packages/common/src/User.tsx';
-
-
+import LoginButton from "../LoginButton/LoginButton.tsx";
 
 const services = [
   { label: "Sanitation", path: "/sanitation" },
@@ -251,28 +249,7 @@ function ResponsiveAppBar() {
             </Menu>
           </Box>
           <SearchBar />
-          <Button
-            key={"login"}
-            onClick={() => handleMenuItemClick("/login")}
-            sx={{
-              my: "5vh",
-              height: "6vh",
-              paddingX: "2vw",
-              color: "black",
-              transition: "all 0.2s ease-in-out",
-              fontSize: 15,
-              display: "block",
-              background: "#f6bd38",
-
-              "&:hover": {
-                textDecoration: "underline",
-                background: "#f6bd38",
-                color: "black",
-              },
-            }}
-          >
-              {isAuthenticated ? "Logout" : "Login"}
-          </Button>
+          <LoginButton/>
         </Toolbar>
       </Container>
     </AppBar>
