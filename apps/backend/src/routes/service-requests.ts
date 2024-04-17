@@ -6,7 +6,7 @@ import createServiceRequestBody from "../helper/createServiceRequestBody.ts";
 const router: Router = express.Router();
 
 router.post("/", async function (req: Request, res: Response) {
-    const body = createServiceRequestBody(req.body)
+    const body = createServiceRequestBody(req.body);
     if (body === undefined) {
         res.sendStatus(400);
         return;
@@ -44,7 +44,7 @@ router.post("/update", async function (req: Request, res: Response) {
                 requestID: body.requestID
             },
             data: body
-        })
+        });
     } catch (error) {
         // Log any failures
         console.error(`Unable to update service request ${body}: ${error}`);

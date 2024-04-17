@@ -25,7 +25,7 @@ router.put("/update/", async function (req: Request, res: Response) {
             },
             update: node,
             create: node,
-        })
+        });
     }
     catch (error) {
         console.error(error.message);
@@ -49,7 +49,7 @@ router.delete("/delete/", async function (req: Request, res: Response) {
             where: {
                 nodeID: req.query.nodeID,
             }
-        })
+        });
     }
     catch (error) {
         console.error(error.message);
