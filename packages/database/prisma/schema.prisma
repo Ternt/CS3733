@@ -54,13 +54,14 @@ model EdgeDB {
   startNodeID String
   endNodeID   String
   blocked     Boolean
+  heat        Int     @default(0)
 
   startNode NodeDB @relation(name: "start", fields: [startNodeID], references: [nodeID], onDelete: Cascade)
   endNode   NodeDB @relation(name: "end", fields: [endNodeID], references: [nodeID], onDelete: Cascade)
 
+  @@id(name: "edgeID", [startNodeID, endNodeID])
   @@unique([startNodeID, endNodeID])
   @@unique([endNodeID, startNodeID])
-  @@id(name: "edgeID", [startNodeID, endNodeID])
 }
 
 enum CartItemType {

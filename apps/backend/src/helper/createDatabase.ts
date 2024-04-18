@@ -39,7 +39,8 @@ export async function createDatabase(
         edgeRows.map((row) => ({
             startNodeID: row[0],
             endNodeID: row[1],
-            blocked: false,
+            blocked: (row[2] == "true"),
+            heat: parseInt(row[3])
         })),
     );
 

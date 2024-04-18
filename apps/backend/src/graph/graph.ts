@@ -162,7 +162,7 @@ export class Graph {
     incrementEdge(start: string, end: string) {
         const search = this.edges.get(start);
         if (search == undefined) {
-            console.error("invalid edge");
+            console.error("start node does not exist");
             return;
         }
 
@@ -173,7 +173,7 @@ export class Graph {
             }
         }
 
-        console.error("invalid edge");
+        console.error("edge from ", start, " to ", end, " does not exist");
         return;
     }
 }
