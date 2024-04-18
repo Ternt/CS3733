@@ -14,9 +14,12 @@ import * as fs from "fs";
 import path from "path";
 import { createDatabase } from "./helper/createDatabase.ts";
 import {auth} from "express-oauth2-jwt-bearer";
+import { generateHeatmapData } from "./helper/generateHeatmapData.ts";
 const _ = require('./helper/bigIntFix.ts');
 
 const app: Express = express(); // Set up the backend
+
+generateHeatmapData();
 
 (async () => {
   // this will remove all service requests from the DB
