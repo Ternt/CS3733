@@ -53,7 +53,7 @@ model NodeDB {
 model EdgeDB {
   startNodeID String
   endNodeID   String
-  blocked     Boolean
+  blocked     Boolean @default(false)
   heat        Int     @default(0)
 
   startNode NodeDB @relation(name: "start", fields: [startNodeID], references: [nodeID], onDelete: Cascade)

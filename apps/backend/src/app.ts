@@ -30,7 +30,7 @@ const app: Express = express(); // Set up the backend
   const node_str = fs.readFileSync(nodePath, "utf8");
   const edge_str = fs.readFileSync(edgePath, "utf8");
 
-  await createDatabase(true, node_str, edge_str);
+  await createDatabase(true, node_str, edge_str, true);
 })();
 
 //const fileUpload = require("express-fileupload");
