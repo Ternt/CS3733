@@ -27,7 +27,7 @@ router.put("/update/", async function (req: Request, res: Response) {
                     endNodeID: edge.startNodeID,
                 }
             }
-        })
+        });
         if (reverse != null) {
             const temp = edge.startNodeID;
             edge.startNodeID = edge.endNodeID;
@@ -44,7 +44,7 @@ router.put("/update/", async function (req: Request, res: Response) {
             },
             update: edge,
             create: edge,
-        })
+        });
     }
     catch (error) {
         console.error(error.message);
@@ -74,7 +74,7 @@ router.delete("/delete/", async function (req: Request, res: Response) {
                     endNodeID: endNodeID,
                 }
             }
-        })
+        });
 
         res.sendStatus(200);
         return;
@@ -92,7 +92,7 @@ router.delete("/delete/", async function (req: Request, res: Response) {
                     endNodeID: startNodeID,
                 }
             }
-        })
+        });
     }
     catch {
         console.error(error.message);

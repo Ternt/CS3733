@@ -1,14 +1,18 @@
-import { Box } from "@mui/material";
+import {Box, CircularProgress, Typography} from "@mui/material";
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
-import MenuIcon from "@mui/icons-material/Menu";
-import MapIcon from "@mui/icons-material/Map";
+import ViewKanbanIcon from '@mui/icons-material/ViewKanban';import MapIcon from "@mui/icons-material/Map";
 import TableViewIcon from "@mui/icons-material/TableView";
 import MapCanvas from "../../components/Map/MapCanvas.tsx";
 import { useState } from "react";
 import DisplayCSV from "../TableDisplayPage/displayCSV.tsx";
 import ServiceRequestOverview from "./ServiceRequestOverview.tsx";
+import {useAuth0} from "@auth0/auth0-react";
+import Button from "@mui/material/Button";
+import {useNavigate} from "react-router-dom";
 
 export default function AdminDashboard() {
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(0);
   let tabInject = <></>;
 
@@ -18,8 +22,8 @@ export default function AdminDashboard() {
     tabInject = (
       <MapCanvas
         defaultFloor={1}
-        pathfinding={false}
-        startLocation={"CCONF001L1"}
+        pathfinding={null}
+        startLocation={""}
         endLocation={""}
       />
     );
@@ -32,37 +36,67 @@ export default function AdminDashboard() {
     console.log(i);
   }
 
-  return (
-    <>
-      <Box
-        sx={{
-          width: "100vw",
-          height: "80vh",
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "nowrap",
-        }}
-      >
-        <SidebarMenu
-          value={0}
-          tabs={["Menu", "Map", "Analytics"]}
-          onSelect={(i) => {
-            handleSelect(i);
-          }}
-        >
-          <MenuIcon />
-          <MapIcon />
-          <TableViewIcon />
-        </SidebarMenu>
+  if(isLoading){
+    return (
+      <Box sx={{width:'100%', height:'90vh',display:'flex',justifyContent:'center',alignItems:'center'}}>
+        <CircularProgress />
+      </Box>
+    );
+  }else if(!isAuthenticated){
+    return (
+      <Box sx={{gap:1,width:'100%', height:'90vh',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+        <Typography variant={"h1"}>403</Typography>
+        <Typography variant={"h5"}>Access Denied</Typography>
+        <Button
+          variant={"contained"}
+          onClick={()=>navigate("/")}
+        >Return Home</Button>
+      </Box>
+    );
+  }else {
+    return (
+      <>
         <Box
           sx={{
+            width: "100vw",
             height: "80vh",
-            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "nowrap",
           }}
         >
-          {tabInject}
+          <SidebarMenu
+            value={0}
+            tabs={["Menu", "Map", "Analytics"]}
+            onSelect={(i) => {
+              handleSelect(i);
+            }}
+          >
+            <ViewKanbanIcon/>
+            <MapIcon/>
+            <TableViewIcon/>
+          </SidebarMenu>
+          <Box
+            sx={{
+              height: "80vh",
+              width: "100%",
+            }}
+          >
+            <Box
+            sx={{
+              height:'8vh'
+            }}
+            >
+              <Typography variant={"h6"} sx={{
+                  textAlign: 'center',
+              }}>
+                  Welcome {user?.name}!
+              </Typography>
+            </Box>
+            {tabInject}
+          </Box>
         </Box>
-      </Box>
-    </>
-  );
+      </>
+    );
+  }
 }

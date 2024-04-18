@@ -1,14 +1,22 @@
 import React, {ReactNode, useEffect, useRef, useState} from "react";
 
-import { Box } from "@mui/material";
+import {Box, IconButton, Snackbar} from "@mui/material";
 import { edge, node, vec2 } from "../../helpers/typestuff.ts";
 import axios, { AxiosResponse } from "axios";
 import { graphHelper, pointHelper } from "../../helpers/clickCorrectionMath.ts";
 import MapControls from "./MapControls.tsx";
 import InformationMenu from "../InformationMenu.tsx";
-import {MAPS, ZOOM, FLOOR_NAME_TO_INDEX, getMapData, MAP_BASE} from "../../helpers/MapHelper.ts";
+import {
+  MAPS,
+  ZOOM,
+  FLOOR_NAME_TO_INDEX,
+  getMapData,
+  MAP_BASE,
+  FLOOR_IDS
+} from "../../helpers/MapHelper.ts";
 import {clamp, distance} from "../../helpers/MathHelp.ts";
 import AnimatedPath from "./AnimatedPath.tsx";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 
@@ -64,6 +72,7 @@ export default function MapCanvas(props: mapCanvasProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [svgInject, setSvgInject] = useState<ReactNode[]>([]);
   const [pathStringInject, setPathStringInject] = useState("");
+  const [notification, setNotification] = useState('');
   const svgElementInjector = (
     <svg
       width="100%"
@@ -80,7 +89,8 @@ export default function MapCanvas(props: mapCanvasProps) {
       <g
         transform={"translate("+cameraControl.pan.x+" "+cameraControl.pan.y+") scale("+(1/cameraControl.zoom)+" "+(1/cameraControl.zoom)+")"}
       >
-        {(props.pathfinding === null)?(svgInject): <AnimatedPath svgPath={pathStringInject} />}
+        <AnimatedPath svgPath={pathStringInject} />
+        {svgInject}
       </g>
     </svg>
   );
@@ -96,6 +106,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     right:0
   });
 
+  // Init the SVG
   useEffect(() => {
 
     if(svgRef.current){
@@ -111,7 +122,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     }
   }, []);
 
-
+  // rendering
   useEffect(() => {
     setRenderData({
       n: nodes.filter((n: node) => n.point.z === props.defaultFloor),
@@ -153,7 +164,6 @@ export default function MapCanvas(props: mapCanvasProps) {
           fill={color}
         />;
       }
-
       function drawLine(a: vec2, b: vec2, color: string) {
         if (a.z !== viewingFloor) return;
         a = vecToCanvSpace(a);
@@ -174,26 +184,76 @@ export default function MapCanvas(props: mapCanvasProps) {
       const svgElements = [];
       if (props.pathfinding) {
         if (
-          pathing.selectedPoint === null &&
-          (props.endLocation === undefined || props.endLocation === "")
+          (pathing.selectedPoint === null &&
+          (props.endLocation === undefined || props.endLocation === "")) ||
+          (!pathing.path ||
+          pathing.path.length < 1)
         )
           return;
+
         let pathString = "";
+        let lastFloor = -1;
+        const tryAddIcon = (a:vec2, isDest:boolean)=>{
+          if(lastFloor !== a.z){
+            a = vecToCanvSpace(a);
+            const PIN = "M7 17.5C4.65 15.7667 2.89583 14.0833 1.7375 12.45C0.579167 10.8167 0 9.21667 0 7.65C0 6.46667 0.2125 5.42917 0.6375 4.5375C1.0625 3.64583 1.60833 2.9 2.275 2.3C2.94167 1.7 3.69167 1.25 4.525 0.95C5.35833 0.65 6.18333 0.5 7 0.5C7.81667 0.5 8.64167 0.65 9.475 0.95C10.3083 1.25 11.0583 1.7 11.725 2.3C12.3917 2.9 12.9375 3.64583 13.3625 4.5375C13.7875 5.42917 14 6.46667 14 7.65C14 9.21667 13.4208 10.8167 12.2625 12.45C11.1042 14.0833 9.35 15.7667 7 17.5Z";
+            if(a.z === viewingFloor) {
+              const wid = 7;
+              svgElements.push(
+              <svg
+                width="14"
+                height="18"
+                viewBox="-1 -1 15 19"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                x={a.x - 1 - wid}
+                y={a.y - 1 - wid * 2}
+              >
+                <path
+                  d={PIN}
+                  fill={"#012d5a"}
+                  style={{
+                    filter: "drop-shadow(10px 20px 30px #000)"
+                  }}
+                />
+                <text
+                  fill={"#f6bd38"}
+                  y={wid + 2.5}
+                  x={wid/2 - .4}
+                  style={{
+                    fontSize:wid+"px",
+                    fontWeight:800,
+                    fontFamily: 'Open Sans',
+                  }}
+                >
+                  {(!isDest)?FLOOR_IDS[lastFloor]:<>&nbsp;●</>}
+                </text>
+              </svg>
+            );
+            }
+            lastFloor = a.z;
+            pathString += "M " + a.x + " " + a.y + ",";
+          }
+        };
         for (let i = 0; i < pathing.path.length - 1; i++) {
           // svgElements.push(drawLine(pathing.path[i].point, pathing.path[i + 1].point, "black"));
-          if (pathing.path[i].point.z !== viewingFloor) continue;
           const a = vecToCanvSpace(pathing.path[i].point);
           const b = vecToCanvSpace(pathing.path[i+1].point);
-          pathString += "M "+a.x+" "+a.y+", L "+b.x+" "+b.y+",";
+          tryAddIcon(pathing.path[i].point, i===0);
+
+          if (a.z !== viewingFloor) continue;
+          pathString += "L " + b.x + " " + b.y + ",";
         }
         // check that the selected point is
-        if (pathing.selectedPoint !== null && pathing.path[pathing.path.length - 1].point.z === viewingFloor) {
-          // svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
-          const a = vecToCanvSpace(pathing.path[pathing.path.length - 1].point);
-          const b = vecToCanvSpace(pathing.selectedPoint);
-          pathString += "M " + a.x + " " + a.y + ", L " + b.x + " " + b.y + ",";
-        }
-        console.log(pathString);
+        // if (pathing.selectedPoint !== null && pathing.path[pathing.path.length-1].point.z === viewingFloor) {
+        //   // svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
+        //   const a = vecToCanvSpace(pathing.path[pathing.path.length-1].point);
+        //   const b = vecToCanvSpace(pathing.selectedPoint);
+        //   if(lastFloor !== pathing.path[pathing.path.length-1].point.z){
+        //     pathString += "M "+a.x+" "+a.y+",";
+        //   }
+        //   pathString += "L " + b.x + " " + b.y + ",";
+        // }
         setPathStringInject(pathString);
       } else {
         for (const n of renderData.n) {
@@ -209,197 +269,194 @@ export default function MapCanvas(props: mapCanvasProps) {
     canvasDraw();
   }, [mouseData.down, mouseData.downPos.x, mouseData.downPos.y, mouseData.pos.x, mouseData.pos.y, pathing.nearestNode?.nodeID, pathing.path, pathing.selectedPoint, props.pathfinding, renderData.e, renderData.n, viewingFloor, props.endLocation, draggingNode, X_MULT, Y_MULT]);
 
-  // wheel
+  // event handles
   useEffect(() => {
-    window.addEventListener("wheel", handleZoom);
-
-    function handleZoom(e: WheelEvent) {
-      const velocity = Math.sign(e.deltaY);
-      const z = clamp(cameraControl.zoom + ZOOM.SPEED * velocity, ZOOM.MIN, ZOOM.MAX,);
-
-      const Qx = mouseData.pos.x - ((mouseData.pos.x - cameraControl.pan.x) / (svgRect.width / cameraControl.zoom)) * (svgRect.width / z);
-      const Qy = mouseData.pos.y - ((mouseData.pos.y - cameraControl.pan.y) / (svgRect.height / cameraControl.zoom)) * (svgRect.height / z);
-
-      setCameraControl({
-        ...cameraControl,
-        zoom: z,
-        zoomDelta: velocity,
-        pan: {
-          x: Qx,
-          y: Qy,
-        },
-      });
-    }
-
+    const el = svgRef.current!;
+    el.addEventListener("wheel", handleZoom);
+    el.addEventListener("mousemove",handleMouseMove);
+    el.addEventListener("mousedown", handleMouseDown);
+    el.addEventListener("mouseup", handleMouseUp);
+    //el.addEventListener("dblclick", handleDblclick);
     return () => {
-      window.removeEventListener("wheel", handleZoom);
+      el.removeEventListener("wheel", handleZoom);
+      el.removeEventListener("mousemove",handleMouseMove);
+      el.removeEventListener("mousedown", handleMouseDown);
+      el.removeEventListener("mouseup", handleMouseUp);
+      //el.removeEventListener("dblclick", handleDblclick);
     };
-  }, [cameraControl, mouseData.pos.x, mouseData.pos.y, svgRect.height, svgRect.width]);
+  }, [handleDblclick, handleMouseDown, handleMouseMove, handleMouseUp, handleZoom]);
 
-  //mousemove
-  useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  function handleZoom(e: WheelEvent) {
+    const velocity = Math.sign(e.deltaY);
+    const z = clamp(cameraControl.zoom + ZOOM.SPEED * velocity, ZOOM.MIN, ZOOM.MAX,);
 
-    function handleMouseMove(e: MouseEvent) {
+    const Qx = mouseData.pos.x - ((mouseData.pos.x - cameraControl.pan.x) / (svgRect.width / cameraControl.zoom)) * (svgRect.width / z);
+    const Qy = mouseData.pos.y - ((mouseData.pos.y - cameraControl.pan.y) / (svgRect.height / cameraControl.zoom)) * (svgRect.height / z);
 
-      const x = e.clientX - svgRect.left;
-      const y = e.clientY - svgRect.top;
-      setMouseData({
-        ...mouseData,
-        pos: {
-          x: x,
-          y: y,
-        },
-      });
-      if (mouseData.down) {
-        const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
-        const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
+    setCameraControl({
+      ...cameraControl,
+      zoom: z,
+      zoomDelta: velocity,
+      pan: {
+        x: Qx,
+        y: Qy,
+      },
+    });
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  function handleMouseMove(e: MouseEvent) {
 
-        if (draggingNode === null) {
-          const dx = x - mouseData.downPos.x;
-          const dy = y - mouseData.downPos.y;
-          setCameraControl({
-            ...cameraControl,
-            pan: {
-              x: cameraControl.panAnchor.x + dx,
-              y: cameraControl.panAnchor.y + dy,
-            },
-          });
-        } else {
-          draggingNode.point = {x: x2, y: y2, z: draggingNode.point.z};
-        }
-      }
-    }
+    const x = e.clientX - svgRect.left;
+    const y = e.clientY - svgRect.top;
+    setMouseData({
+      ...mouseData,
+      pos: {
+        x: x,
+        y: y,
+      },
+    });
+    if (mouseData.down) {
+      const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
+      const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
 
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [X_MULT, Y_MULT, cameraControl, draggingNode, mouseData, svgRect.left, svgRect.top]);
-
-  //mousedown
-  useEffect(() => {
-    window.addEventListener("mousedown", handleMouseDown);
-
-    function handleMouseDown(e: MouseEvent) {
-      const x = e.clientX - svgRect.left;
-      const y = e.clientY - svgRect.top;
-      setMouseData({
-        ...mouseData,
-        pos: {x: x, y: y},
-        down: true,
-        downPos: {x: x, y: y},
-      });
-      setCameraControl({
-        ...cameraControl,
-        panAnchor: cameraControl.pan,
-      });
-
-      if (!props.pathfinding) {
-        const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
-        const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
-
-        // Move point to nearest edge
-        if (nodes === null) return;
-        const closestNode = pointHelper({
-          pos: {x: x2, y: y2, z: viewingFloor},
-          nodes: nodes,
-          floor: viewingFloor,
-          distance: NODE_SIZE / cameraControl.zoom,
+      if (draggingNode === null) {
+        const dx = x - mouseData.downPos.x;
+        const dy = y - mouseData.downPos.y;
+        setCameraControl({
+          ...cameraControl,
+          pan: {
+            x: cameraControl.panAnchor.x + dx,
+            y: cameraControl.panAnchor.y + dy,
+          },
         });
-        setDraggingNode(closestNode);
+      } else {
+        draggingNode.point = {x: x2, y: y2, z: draggingNode.point.z};
       }
     }
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  function handleMouseDown(e: MouseEvent) {
+    const x = e.clientX - svgRect.left;
+    const y = e.clientY - svgRect.top;
+    setMouseData({
+      ...mouseData,
+      pos: {x: x, y: y},
+      down: true,
+      downPos: {x: x, y: y},
+    });
+    setCameraControl({
+      ...cameraControl,
+      panAnchor: cameraControl.pan,
+    });
 
-    return () => {
-      window.removeEventListener("mousedown", handleMouseDown);
-    };
-  }, [X_MULT, Y_MULT, cameraControl, edges, mouseData, nodes, pathing, props.pathfinding, props.startLocation, svgRect.left, svgRect.top, viewingFloor]);
-
-  //dblclick
-  useEffect(() => {
-    window.addEventListener("dblclick", handleDblclick);
-
-    function handleDblclick(e: MouseEvent) {
-      const x = e.clientX - svgRect.left;
-      const y = e.clientY - svgRect.top;
-
+    if (!props.pathfinding) {
       const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
       const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
 
       // Move point to nearest edge
       if (nodes === null) return;
-      const graphResponse = graphHelper({
+      const closestNode = pointHelper({
         pos: {x: x2, y: y2, z: viewingFloor},
         nodes: nodes,
-        edges: edges,
         floor: viewingFloor,
+        distance: NODE_SIZE / cameraControl.zoom,
       });
-      if(graphResponse === null) return;
-      const coords = graphResponse.point;
-      const closestEdge = graphResponse.edge;
-      if (coords === null || closestEdge === null) return;
-      let closestNode = closestEdge!.startNode;
-      if(distance(closestEdge!.startNode.point, coords) > distance(closestEdge!.endNode.point, coords))
-        closestNode = closestEdge!.endNode;
+      setDraggingNode(closestNode);
+    }
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  function handleDblclick(e: MouseEvent) {
+    const x = e.clientX - svgRect.left;
+    const y = e.clientY - svgRect.top;
+    const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
+    const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
+    if(props.startLocation === '' && props.pathfinding){
+      setNotification("Select a start location");
+      return;
+    }
+    // Move point to nearest edge
+    if (nodes === null) return;
+    const graphResponse = graphHelper({
+      pos: {x: x2, y: y2, z: viewingFloor},
+      nodes: nodes,
+      edges: edges,
+      floor: viewingFloor,
+    });
+    if(graphResponse === null) return;
+    const coords = graphResponse.point;
+    const closestEdge = graphResponse.edge;
+    if (coords === null || closestEdge === null) return;
+    let closestNode = closestEdge!.startNode;
+    if(distance(closestEdge!.startNode.point, coords) > distance(closestEdge!.endNode.point, coords))
+      closestNode = closestEdge!.endNode;
 
-      if (props.pathfinding) {
-        axios
-          .get("/api/pathfind?startNode=" + closestNode.nodeID + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
-          .then((res) => {
-            const pathNodes: node[] = [];
-            for (const s of res.data.path) {
-              const n = nodes.find((no: node) => {
-                return no.nodeID === s;
-              });
-              if (n === undefined) continue;
-              pathNodes.push(n);
-            }
-
-            if (pathNodes === undefined || pathNodes.length === 0) {
-              console.error("no path");
-              return;
-            }
-
-            if(pathNodes.length > 2){
-              if(pathNodes[pathNodes.length-2].nodeID === closestEdge.startNode.nodeID && pathNodes[pathNodes.length-1].nodeID === closestEdge.endNode.nodeID){
-                pathNodes.pop();
-              }
-              else if(pathNodes[pathNodes.length-2].nodeID === closestEdge.endNode.nodeID && pathNodes[pathNodes.length-1].nodeID === closestEdge.startNode.nodeID){
-                pathNodes.pop();
-              }
-            }
-
-            setPathing({
-              ...pathing,
-              path: pathNodes,
-              selectedPoint: coords,
-              algo: props.pathfinding!
+    if (props.pathfinding) {
+      axios
+        .get("/api/pathfind?endNode=" + closestNode.nodeID + "&startNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
+        .then((res) => {
+          const pathNodes: node[] = [];
+          for (const s of res.data.path) {
+            const n = nodes.find((no: node) => {
+              return no.nodeID === s;
             });
-            if (props.onDeselectEndLocation !== undefined)
-              props.onDeselectEndLocation();
+            if (n === undefined) continue;
+            pathNodes.push(n);
+          }
+
+          if (pathNodes === undefined || pathNodes.length === 0) {
+            console.error("no path");
+            return;
+          }
+
+          if(pathNodes.length > 2){
+            if(pathNodes[pathNodes.length-2].nodeID === closestEdge.startNode.nodeID && pathNodes[pathNodes.length-1].nodeID === closestEdge.endNode.nodeID){
+              pathNodes.pop();
+            }
+            else if(pathNodes[pathNodes.length-2].nodeID === closestEdge.endNode.nodeID && pathNodes[pathNodes.length-1].nodeID === closestEdge.startNode.nodeID){
+              pathNodes.pop();
+            }
+          }
+
+          setPathing({
+            ...pathing,
+            path: pathNodes,
+            selectedPoint: coords,
+            algo: props.pathfinding!
           });
+          if (props.onDeselectEndLocation !== undefined)
+            props.onDeselectEndLocation();
+        });
+    } else {
+      if (pathing.nearestNode?.nodeID === closestNode.nodeID) {
+        setPathing({
+          ...pathing,
+          selectedPoint: coords,
+          nearestNode: null,
+        });
       } else {
-        if (pathing.nearestNode?.nodeID === closestNode.nodeID) {
-          setPathing({
-            ...pathing,
-            selectedPoint: coords,
-            nearestNode: null,
-          });
-        } else {
-          setPathing({
-            ...pathing,
-            selectedPoint: coords,
-            nearestNode: closestNode,
-          });
-        }
+        setPathing({
+          ...pathing,
+          selectedPoint: coords,
+          nearestNode: closestNode,
+        });
       }
     }
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  function handleMouseUp(e: MouseEvent) {
+    // check if the mouse down pos and mouse up pos are the same, if so call dbl
 
-    return () => {
-      window.removeEventListener("dblclick", handleDblclick);
-    };
-  }, [X_MULT, Y_MULT, cameraControl, edges, mouseData, nodes, pathing, props, props.pathfinding, props.startLocation, svgRect.left, svgRect.top, viewingFloor]);
+    const dp = mouseData.downPos;
+    const up = mouseData.pos;
+    if(dp.x === up.x && dp.y === up.y){
+      handleDblclick(e);
+    }
 
+    setMouseData({...mouseData, down: false});
+    setDraggingNode(null);
+    setDraggingNode(null);
+  }
 
   useEffect(()=>{
     if(props.pathfinding !== null && props.pathfinding !== pathing.algo && pathing.selectedPoint !== null){
@@ -424,7 +481,7 @@ export default function MapCanvas(props: mapCanvasProps) {
 
       if (props.pathfinding) {
         axios
-          .get("/api/pathfind?startNode=" + closestNode.nodeID + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
+          .get("/api/pathfind?endNode=" + closestNode.nodeID + "&startNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
           .then((res) => {
             const pathNodes: node[] = [];
             for (const s of res.data.path) {
@@ -459,22 +516,6 @@ export default function MapCanvas(props: mapCanvasProps) {
       }
     }
   }, [edges, nodes, pathing, pathing.algo, props.pathfinding, props.startLocation, viewingFloor]);
-
-
-  //mouseup
-  useEffect(() => {
-    window.addEventListener("mouseup", handleMouseUp);
-
-    function handleMouseUp() {
-      setMouseData({...mouseData, down: false});
-      setDraggingNode(null);
-      setDraggingNode(null);
-    }
-
-    return () => {
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [mouseData]);
 
   // Init data
   useEffect(() => {
@@ -518,19 +559,20 @@ export default function MapCanvas(props: mapCanvasProps) {
     });
   }, []);
 
+  // Update pathing if selection dropdown changes
   useEffect(() => {
     if (props.endLocation !== "" && props.endLocation !== undefined) {
       if (
         pathing.path.length > 0 &&
-        pathing.path[0].nodeID === props.startLocation &&
-        pathing.path[pathing.path.length - 1].nodeID === props.endLocation &&
+        pathing.path[pathing.path.length - 1].nodeID === props.startLocation &&
+        pathing.path[0].nodeID === props.endLocation &&
         props.pathfinding === pathing.algo
       )
         return;
       if(props.pathfinding === null)
         return;
       axios
-        .get("/api/pathfind?startNode=" +props.endLocation + "&endNode=" + props.startLocation +"&algorithm=" +props.pathfinding)
+        .get("/api/pathfind?endNode=" +props.endLocation + "&startNode=" + props.startLocation +"&algorithm=" +props.pathfinding)
         .then((res) => {
           const pathNodes: node[] = [];
           for (const s of res.data.path) {
@@ -556,70 +598,94 @@ export default function MapCanvas(props: mapCanvasProps) {
   }, [pathing, nodes, props.endLocation, props.startLocation, props.pathfinding]);
 
   return (
-    <Box
-      sx={{
-        overflow: "hidden",
-        height: "90vh",
-      }}
-    >
+    <>
       <Box
         sx={{
-          height: "100%",
-          width: "100%",
           overflow: "hidden",
+          height: "90vh",
         }}
       >
-        {svgElementInjector}
-      </Box>
-
-      {!props.pathfinding && pathing.nearestNode !== null && (
-        <InformationMenu
-          nodeData={pathing.nearestNode}
-          onClose={() => {
-            setPathing({...pathing, nearestNode: null});
+        <Box
+          sx={{
+            height: "100%",
+            width: "100%",
+            overflow: "hidden",
           }}
-          onChangeNode={(node) => {
-            setPathing({
-              ...pathing,
-              nearestNode: node,
+        >
+          {svgElementInjector}
+        </Box>
+
+        {!props.pathfinding && pathing.nearestNode !== null && (
+          <InformationMenu
+            nodeData={pathing.nearestNode}
+            onClose={() => {
+              setPathing({...pathing, nearestNode: null});
+            }}
+            onChangeNode={(node) => {
+              setPathing({
+                ...pathing,
+                nearestNode: node,
+              });
+            }}
+          />
+        )}
+        <MapControls
+          floor={viewingFloor}
+          zoom={cameraControl.zoom}
+          zoomSpeed={ZOOM.SPEED * 3}
+          onSetFloorIndex={(floorIndex: number) => {
+            handleSetViewingFloor(floorIndex);
+          }}
+          onSetZoom={(z: number) => {
+            const zc = clamp(z, ZOOM.MIN, ZOOM.MAX,);
+            const mx = (svgRect.width / 2) ;
+            const my = (svgRect.height / 2);
+            const Qx = mx - ((mx - cameraControl.pan.x) / (svgRect.width / cameraControl.zoom)) * (svgRect.width / zc);
+            const Qy = my - ((my - cameraControl.pan.y) / (svgRect.height / cameraControl.zoom)) * (svgRect.height / zc);
+
+            setCameraControl({
+              ...cameraControl,
+              zoom: zc,
+              pan: {
+                x: Qx,
+                y: Qy,
+              },
+            });
+          }}
+          onResetMap={() => {
+            setCameraControl({
+              ...cameraControl,
+              zoom: 1,
+              pan: {
+                x: 0,
+                y: 0,
+              },
             });
           }}
         />
-      )}
-      <MapControls
-        floor={viewingFloor}
-        zoom={cameraControl.zoom}
-        zoomSpeed={ZOOM.SPEED * 3}
-        onSetFloorIndex={(floorIndex: number) => {
-          handleSetViewingFloor(floorIndex);
+      </Box>
+      <Snackbar
+        anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
+        open={notification !== ''}
+        onClose={()=>{
+          setNotification('');
         }}
-        onSetZoom={(z: number) => {
-          const zc = clamp(z, ZOOM.MIN, ZOOM.MAX,);
-          const mx = (svgRect.width / 2) ;
-          const my = (svgRect.height / 2);
-          const Qx = mx - ((mx - cameraControl.pan.x) / (svgRect.width / cameraControl.zoom)) * (svgRect.width / zc);
-          const Qy = my - ((my - cameraControl.pan.y) / (svgRect.height / cameraControl.zoom)) * (svgRect.height / zc);
-
-          setCameraControl({
-            ...cameraControl,
-            zoom: zc,
-            pan: {
-              x: Qx,
-              y: Qy,
-            },
-          });
-        }}
-        onResetMap={() => {
-          setCameraControl({
-            ...cameraControl,
-            zoom: 1,
-            pan: {
-              x: 0,
-              y: 0,
-            },
-          });
-        }}
+        autoHideDuration={5000}
+        message={notification}
+        key={"Notif"}
+        action={
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            sx={{ p: 0.5 }}
+            onClick={()=>{
+              setNotification('');
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
       />
-    </Box>
+    </>
   );
 }

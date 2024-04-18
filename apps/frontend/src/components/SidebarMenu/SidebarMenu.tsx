@@ -18,6 +18,7 @@ export default function SidebarMenu(props: SidebarMenuProps) {
         sx={{
           width: "fit-content",
           height: "fill-available",
+
         }}
       >
         <Box>

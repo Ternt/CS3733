@@ -1,10 +1,11 @@
-import React, {useState} from "react";
-import {Box, SpeedDial, SpeedDialAction, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {Box, IconButton, Snackbar, SpeedDial, SpeedDialAction, Typography} from "@mui/material";
 //import PinDropIcon from "@mui/icons-material/PinDrop";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
 import {FLOOR_IDS, FLOOR_NAMES} from "../../helpers/MapHelper.ts";
+import CloseIcon from '@mui/icons-material/Close';
 
 type MapControlProps = {
   floor: number;
@@ -18,6 +19,7 @@ type MapControlProps = {
 export default function MapControls(props: MapControlProps) {
   const [floorSelectorOpen, setFloorSelectorOpen] = useState(false);
   const [timeOfLastToggle, setTimeOfLastToggle] = useState(Date.now());
+  const [notification, setNotification] = useState('');
 
   const COOLDOWN = 600;
 
@@ -27,6 +29,10 @@ export default function MapControls(props: MapControlProps) {
       setFloorSelectorOpen(!floorSelectorOpen);
     }
   }
+
+  useEffect(() => {
+    setNotification("Viewing "+ FLOOR_NAMES[props.floor]);
+  }, [props.floor]);
 
   return (
     <Box
@@ -42,7 +48,7 @@ export default function MapControls(props: MapControlProps) {
       <SpeedDial
         ariaLabel="Map controls"
         icon={<Typography variant={"subtitle1"}> {FLOOR_IDS[props.floor]}</Typography>}
-        open={floorSelectorOpen}
+        open={true}
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
@@ -94,6 +100,28 @@ export default function MapControls(props: MapControlProps) {
           e.preventDefault();
           props.onResetMap();
         }}
+      />
+      <Snackbar
+        anchorOrigin={{ vertical:'bottom', horizontal:'left' }}
+        open={notification !== ''}
+        onClose={()=>{
+          setNotification('');
+        }}
+        autoHideDuration={5000}
+        message={notification}
+        key={"Notif"}
+        action={
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            sx={{ p: 0.5 }}
+            onClick={()=>{
+              setNotification('');
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
       />
     </Box>
   );

@@ -364,6 +364,7 @@ function SanitationRequestForm() {
                         </FormControl>
                     </form>
                 </Box>
+              <Typography variant={"caption"}>Made by Yuhan and Warwick</Typography>
             </Box>
 
             <Box sx={{mt: '3%'}}>

@@ -6,6 +6,7 @@ import React from "react";
 import {useNavigate, useLocation} from "react-router-dom";
 import Info from "../CheckoutPage/MUI Checkout/Info.tsx";
 import axios, {AxiosResponse} from "axios";
+import {Typography} from "@mui/material";
 
 export type Item = {
     id: string;
@@ -52,7 +53,7 @@ function StoreRequestPage() {
     }
 
     const handleSubmit = () => {
-        navigate("/gift-checkout", {state: {cart}});
+        navigate( pageType==="FLOWER"?"/flower-checkout":"/gift-checkout", {state: {cart}});
     };
 
     return (
@@ -120,6 +121,8 @@ function StoreRequestPage() {
                                  Submit
                              </Button>
                         </Box>
+                      <Typography variant={"caption"}>Made by {pageType==="FLOWER"?"Rayyan and Anton":"Brett and Alex"}</Typography>
+
                     </Box>
                 </Box>
             </Box>
@@ -159,7 +162,6 @@ function StoreRequestPage() {
                 </Box>
             </Box>
         </Box>
-
     );
 }
 

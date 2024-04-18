@@ -37,6 +37,7 @@ const MapDataDisplay: React.FC = () => {
   const [pageN, setPageN] = useState(0);
   const [pageE, setPageE] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [tab, setTab] = useState(0);
   const handleChangePageN = (event: unknown, newPage: number) => {
     setPageN(newPage);
   };
@@ -77,15 +78,46 @@ const MapDataDisplay: React.FC = () => {
         m: 4,
       }}
     >
-      <Paper>
+      <Box
+        sx={{
+          height:'10vh',
+          width:'100%',
+          display:'flex',
+          flexDirection:'row',
+          alignItems:'flex-end',
+          justifyContent:'flex-start',
+          gap:1,
+        }}
+      >
+        {["Nodes","Edges"].map((v, i)=><Box
+          onClick={() => {
+            setTab(i);
+          }}
+          sx={{
+            height: '90%',
+            p:3,
+            border:'1px solid black',
+            borderBottom:'none',
+            bgcolor: (tab === i ? "#fff" : "#eee"),
+            boxShadow: (tab === i ? 5 : 0),
+            mb: (tab === i ? -1 : 0),
+            '&:hover':{
+              bgcolor:"#fff",
+            },
+          }}
+        >
+          {v}
+        </Box>)}
+      </Box>
+      {tab === 0 && <Paper>
         <Toolbar
           sx={{
-            pl: { sm: 2 },
-            pr: { xs: 1, sm: 1 },
+            pl: {sm: 2},
+            pr: {xs: 1, sm: 1},
           }}
         >
           <Typography
-            sx={{ flex: "1 1 100%" }}
+            sx={{flex: "1 1 100%"}}
             variant="h6"
             id="tableTitle"
             component="div"
@@ -94,7 +126,7 @@ const MapDataDisplay: React.FC = () => {
           </Typography>
         </Toolbar>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="Node Table">
+          <Table sx={{minWidth: 650}} aria-label="Node Table">
             <TableHead>
               <TableRow>
                 <TableCell align="left">NodeID</TableCell>
@@ -122,7 +154,7 @@ const MapDataDisplay: React.FC = () => {
                   return (
                     <TableRow
                       key={request.nodeID}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                      sx={{"&:last-child td, &:last-child th": {border: 0}}}
                     >
                       <TableCell component="th" scope="row">
                         {request.nodeID}
@@ -148,8 +180,8 @@ const MapDataDisplay: React.FC = () => {
           page={pageN}
           onPageChange={handleChangePageN}
         />
-      </Paper>
-      <Paper>
+      </Paper>}
+      { tab === 1 && <Paper>
         <Toolbar
           sx={{
             pl: { sm: 2 },
@@ -213,7 +245,7 @@ const MapDataDisplay: React.FC = () => {
           onPageChange={handleChangePageE}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Paper>
+      </Paper>}
     </Box>
   );
 };
