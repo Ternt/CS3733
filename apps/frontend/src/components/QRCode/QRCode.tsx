@@ -1,11 +1,13 @@
 import QRCode from 'qrcode';
 
-export function GenerateQRCode(instructions: string) {
+export function GenerateQRCode(instructions: string): string {
+    let QRCodeString = "";
     QRCode.toDataURL(instructions, function (err, url) {
         if (err) {
-            console.error(err);
-        } else {
-            console.log(url);
+           return err;
         }
+
+        QRCodeString =  url;
     });
+    return QRCodeString;
 }

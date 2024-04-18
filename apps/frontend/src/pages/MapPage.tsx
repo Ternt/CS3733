@@ -7,6 +7,7 @@ import NaturalLanguageDirection from "../components/NaturalLanguageDirection/nat
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import {GenerateQRCode} from "../components/QRCode/QRCode.tsx";
+import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
 
 export default function MapPage() {
     useEffect(() => {
@@ -36,7 +37,7 @@ export default function MapPage() {
         setPath();
     }, [startLocation, endLocation, searchAlgorithm]);
 
-    const TTS:string = natLangPath.join(";\n");
+    const NaturalLangPath:string = natLangPath.join(";\n");
 
 
     return (
@@ -135,7 +136,7 @@ export default function MapPage() {
                         justifyContent: 'center',
                         gap: '16px'
                     }}>
-                        <Button onClick={() => speak(TTS)} sx={{
+                        <Button onClick={() => speak(NaturalLangPath)} sx={{
                             backgroundColor: '#012d5a',
                             color: 'white',
                             height: '100%',
@@ -149,20 +150,7 @@ export default function MapPage() {
                         }}>
                             Text To Speech
                         </Button>
-                        <Button onClick={() => GenerateQRCode(TTS)} sx={{
-                            backgroundColor: '#012d5a',
-                            color: 'white',
-                            height: '100%',
-                            width: '50%',
-                            display: 'flex',
-                            alignSelf: 'center',
-
-                            "&:hover": {
-                                background: "#1a426a",
-                            },
-                        }}>
-                            QR Code
-                        </Button>
+                        <QRCodePopUp QRCodeLink={GenerateQRCode(NaturalLangPath)}/>
                     </Box>
                 </Box>
             </Grid>
