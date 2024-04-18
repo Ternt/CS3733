@@ -2,26 +2,25 @@
 // @ts-nocheck
 
 import express, { Router, Request, Response } from "express";
-import {Prisma, PrismaClient} from "database";
+import { Prisma } from "database";
+import PrismaClient from "../bin/database-connection.ts";
 import { exportEdgeDBToCSV } from "../helper/manageDatabases";
 import path from "path";
 
 const router: Router = express.Router();
 
 router.get("/download/", async function (req: Request, res: Response) {
-  const prisma = new PrismaClient();
-  await exportEdgeDBToCSV(prisma, "../../map/temp/edgesDownload.csv");
+  await exportEdgeDBToCSV("../../map/temp/edgesDownload.csv");
   res.download(path.join(__dirname, "../../map/temp/edgesDownload.csv"));
 });
 
 router.put("/update/", async function (req: Request, res: Response) {
-    const prisma = new PrismaClient();
     const edge: Prisma.EdgeDBCreateInput = req.body;
 
     try {
         // check if edge in the reverse direction exists
         // if so flip start/end to match it
-        const reverse = await prisma.edgeDB.findUnique({
+        const reverse = await PrismaClient.edgeDB.findUnique({
             where: {
                 edgeID: {
                     startNodeID: edge.endNodeID,
@@ -36,7 +35,7 @@ router.put("/update/", async function (req: Request, res: Response) {
         }
 
         // try to add/update edge in the database
-        await prisma.edgeDB.upsert({
+        await PrismaClient.edgeDB.upsert({
             where: {
                 edgeID: {
                     startNodeID: edge.startNodeID,
@@ -57,8 +56,6 @@ router.put("/update/", async function (req: Request, res: Response) {
 });
 
 router.delete("/delete/", async function (req: Request, res: Response) {
-    const prisma = new PrismaClient();
-
     const startNodeID = req.query.startNodeID;
     const endNodeID = req.query.endNodeID;
     if (startNodeID === undefined || endNodeID === undefined) {
@@ -70,7 +67,7 @@ router.delete("/delete/", async function (req: Request, res: Response) {
     // try to delete original start/end ordering
     let error = undefined;
     try {
-        await prisma.edgeDB.delete({
+        await PrismaClient.edgeDB.delete({
             where: {
                 edgeID: {
                     startNodeID: startNodeID,
@@ -88,7 +85,7 @@ router.delete("/delete/", async function (req: Request, res: Response) {
 
     // try to delete reverse start/end ordering
     try {
-        await prisma.edgeDB.delete({
+        await PrismaClient.edgeDB.delete({
             where: {
                 edgeID: {
                     startNodeID: endNodeID,
