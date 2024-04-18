@@ -66,7 +66,7 @@ export default function HeroPage() {
                 >
                     <Button
                         key="Map"
-                        onClick={() => handleMenuItemClick("/map")}
+                        onClick={() => {handleMenuItemClick("/map");}}
                         sx={{
                             width: "40%",
                             px: '2rem',

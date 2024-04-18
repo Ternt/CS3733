@@ -6,6 +6,7 @@ import MapCanvas from "../components/Map/MapCanvas.tsx";
 import NaturalLanguageDirection from "../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
+import {GenerateQRCode} from "../components/QRCode/QRCode.tsx";
 
 export default function MapPage() {
     useEffect(() => {
@@ -35,7 +36,7 @@ export default function MapPage() {
         setPath();
     }, [startLocation, endLocation, searchAlgorithm]);
 
-    const TTS:string = natLangPath.join("; ");
+    const TTS:string = natLangPath.join(";\n");
 
 
     return (
@@ -128,20 +129,41 @@ export default function MapPage() {
                             );
                         })}
                     </Box>
-                    <Button onClick={() => speak(TTS)} sx={{
-                        backgroundColor: '#012d5a',
-                        color: 'white',
-                        height: '10%',
-                        width: '75%',
-                        display: 'flex',
-                        alignSelf: 'center',
 
-                        "&:hover": {
-                            background: "#1a426a",
-                        },
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        gap: '16px'
                     }}>
-                        Text To Speech
-                    </Button>
+                        <Button onClick={() => speak(TTS)} sx={{
+                            backgroundColor: '#012d5a',
+                            color: 'white',
+                            height: '100%',
+                            width: '50%',
+                            display: 'flex',
+                            alignSelf: 'center',
+
+                            "&:hover": {
+                                background: "#1a426a",
+                            },
+                        }}>
+                            Text To Speech
+                        </Button>
+                        <Button onClick={() => GenerateQRCode(TTS)} sx={{
+                            backgroundColor: '#012d5a',
+                            color: 'white',
+                            height: '100%',
+                            width: '50%',
+                            display: 'flex',
+                            alignSelf: 'center',
+
+                            "&:hover": {
+                                background: "#1a426a",
+                            },
+                        }}>
+                            QR Code
+                        </Button>
+                    </Box>
                 </Box>
             </Grid>
 
