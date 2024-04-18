@@ -121,8 +121,7 @@ export default function ServiceRequestOverview(){
                                         justifyContent:'flex-start',
                                         alignItems:'flex-start',
                                         p: "0.5%",
-                                        boxShadow:5,
-                                        borderRadius: '23px',
+                                        backgroundColor: '#F1F1F1',
                                     }}
                                 >
                                     <Box sx={{
@@ -134,7 +133,6 @@ export default function ServiceRequestOverview(){
                                         pt: "4%",
                                         pb: "2%",
                                         backgroundColor: '#012d5a',
-                                        borderRadius: '23px 23px 0 0',
                                     }}>
                                         <Typography
                                             variant={"h5"}
