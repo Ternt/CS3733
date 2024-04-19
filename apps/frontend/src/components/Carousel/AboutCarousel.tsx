@@ -48,27 +48,66 @@ function CarouselComponent({ items, interval = 3000 }: CarouselProps) {
     }, [resetTimer]);
 
     return (
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%', pt: 4 }}>
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+                width: '100%',
+                pt: 4
+        }}>
             <IconButton onClick={handlePrev} sx={{ mx: 1 }}>
                 <ArrowBackIosIcon />
             </IconButton>
-            <Card sx={{ flexGrow: 1, maxWidth: '100%', display: 'flex', flexDirection: 'column', backgroundColor: 'transparent', boxShadow: 'none' }}>
+            <Card
+                sx={{
+                    flexGrow: 1,
+                    maxWidth: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    backgroundColor: 'transparent',
+                    boxShadow: 'none'
+            }}>
                 <CardMedia
                     component="img"
-                    sx={{ height: 'auto', maxHeight: '50vh', width: '100%', objectFit: 'contain', borderRadius: '16px' }}  // Added borderRadius property
+                    sx={{
+                        height: 'auto',
+                        maxHeight: '50vh',
+                        width: '100%',
+                        objectFit: 'contain',
+                        borderRadius: '16px'
+                }}
                     image={items[activeIndex].img}
                     alt={items[activeIndex].title}
                 />
-                <CardContent sx={{ flexGrow: 0, backgroundColor: 'transparent' }}>
-                    <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'center' }}>
+                <CardContent
+                    sx={{
+                        flexGrow: 0,
+                        backgroundColor: 'transparent'
+                }}>
+                    <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        sx={{
+                            textAlign: 'center'
+                    }}>
                         {items[activeIndex].title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+                    <Typography
+                        variant="body2"
+                        sx={{ textAlign: 'center'
+                    }}>
                         {items[activeIndex].description}
                     </Typography>
                 </CardContent>
             </Card>
-            <IconButton onClick={handleNext} sx={{ mx: 1 }}>
+            <IconButton
+                onClick={handleNext}
+                sx={{
+                    mx: 1
+            }}>
                 <ArrowForwardIosIcon />
             </IconButton>
         </Box>

@@ -16,7 +16,12 @@ function AboutPage() {
                     textAlign: 'center'
             }}
             >
-                <Typography fontSize={"md"} variant={"h1"}>Meet the Team</Typography>
+                <Typography
+                    fontSize={"md"}
+                    variant={"h1"}
+                >
+                    Meet the Team
+                </Typography>
             </Box>
             <Box
                 bgcolor={"#e4e4e4"}
@@ -42,8 +47,89 @@ function AboutPage() {
                 ]} />
 
             </Box>
-            <Box>
+            <Box
+                bgcolor={"#012d5a"}
+                minWidth={"100vw"}
+                minHeight={"50vh"}
+                p={10}
+                sx={{
+                    justifyContent: 'center',
+                    textAlign: 'center'
+                }}
+            >
+                <Typography
+                    pb={5}
+                    color={"white"}
+                    variant="h5"
+                >
+                    WPI Computer Science Department,<br />
+                    CS3733-D24 Software Engineering<br />
+                </Typography>
+                <Box
+                    px={40}
+                    sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: '100%'
 
+                }}>
+                    <Typography
+                        color={"white"}
+                        variant="h5"
+                    >
+                        Professor
+                    </Typography>
+                    <Box sx={{
+                        flexGrow: 1,
+                        borderBottom: '1px dotted white',
+                        margin: '0 16px'
+                    }} />
+                    <Typography
+                        color={"white"}
+                        variant="h5"
+                    >
+                        Wilson Wong
+                    </Typography>
+                </Box>
+                <Box
+                    p={10}
+                    px={40}
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        width: '100%'
+
+                    }}>
+                    <Typography
+                        color={"white"}
+                        variant="h5"
+                    >
+                        Team Leader
+                    </Typography>
+                    <Box sx={{
+                        flexGrow: 1,
+                        borderBottom: '1px dotted white',
+                        margin: '0 16px'
+                    }} />
+                    <Typography color={"white"} variant="h5">Ari</Typography>
+                </Box>
+                <Typography
+                    pb={5}
+                    color={"white"}
+                    variant="h4"
+                >
+                    Also a special thank you to Brigham and Women’s Hospital and their representative, Andrew Shinn<br />
+                </Typography>
+                <Typography
+                    pb={5}
+                    color={"white"}
+                    variant="body2"
+                    sx={{
+                        textDecoration: "underline"
+                    }}
+                >
+                    The Brigham & Women’s Hospital maps and data used in this application are copyrighted and provided for the sole use of educational purposes.<br />
+                </Typography>
             </Box>
 
         </Box>
