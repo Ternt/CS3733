@@ -165,7 +165,7 @@ function AboutPage() {
                         </Box>
                         <Typography
                             pb={5}
-                            color={"white"}
+                            color={"#f6bd38"}
                             variant="h4"
                         >
                             Also a special thank you to Brigham and Women’s Hospital and their representative, Andrew Shinn<br />
