@@ -73,197 +73,197 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
             }}
         >
             <Container maxWidth="xl" sx={{maxHeight: "100%"}}>
-                <Toolbar disableGutters sx={{height: "10vh"}}>
+              <Toolbar disableGutters sx={{height: "10vh"}}>
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    maxHeight: "10vh",
+                    display: {xs: "none", md: "flex", justifyContent: "flex-start"},
+                  }}
+                >
+
+                  <Link
+                    href=""
+                    underline="none"
+                    sx={{}}
+                  >
                     <Box
-                        sx={{
-                            flexGrow: 1,
-                            maxHeight: "10vh",
-                            display: {xs: "none", md: "flex", justifyContent: "flex-start"},
-                        }}
+                      component="img"
+                      className={"logo"}
+                      src={logo}
+                      alt={"logo"}
+                      onClick={() => handleMenuItemClick("")}
+                      sx={{width: "4vh", aspectRatio: "294/423", mx: 1, p: "1%"}}
+                    ></Box>
+                  </Link>
+                  <Button
+                    key={"home"}
+                    onClick={() => handleMenuItemClick("/")}
+                    sx={{
+                      color: "white",
+                      display: "block",
+                      fontSize: 15,
+                      transition: "all 0.2s ease-in-out",
+                      "&:hover": {
+                        textDecoration: "underline",
+                        background: "#012d5a",
+                      },
+                    }}
+                  >
+                    <Typography
+                      sx={{fontSize: "0.9rem",}}
                     >
+                      Home
+                    </Typography>
+                  </Button>
 
-                        <Link
-                            href=""
-                            underline="none"
-                            sx={{}}
-                        >
-                            <Box
-                                component="img"
-                                className={"logo"}
-                                src={logo}
-                                alt={"logo"}
-                                onClick={() => handleMenuItemClick("")}
-                                sx={{width: "4vh", aspectRatio: "294/423", mx: 1, p: "1%"}}
-                            ></Box>
-                        </Link>
+                  <Button
+                    key={"map"}
+                    onClick={() => handleMenuItemClick("/map")}
+                    sx={{
+                      color: "white",
+                      display: "block",
+                      fontSize: 15,
+                      transition: "all 0.2s ease-in-out",
+                      "&:hover": {
+                        textDecoration: "underline",
+                        background: "#012d5a",
+                      },
+                    }}
+                  >
+                    <Typography
+                      sx={{fontSize: "0.9rem"}}
+                    >
+                      Map
+                    </Typography>
+                  </Button>
+
+
+                  <Menu
+                    id="demo-customized-menu"
+                    MenuListProps={{
+                      "aria-labelledby": "demo-customized-button",
+                    }}
+                    disableScrollLock={true}
+                    anchorEl={anchorElRequests}
+                    open={openRequests}
+                    onClose={handleCloseRequests}
+                    sx={{
+                      padding: 0,
+                    }}
+                  >
+                    {services.map((services) => (
+                      <MenuItem
+                        key={services.label}
+                        onClick={() => handleClickMenuItemListRequests(services.path)}
+                        disableRipple
+                      >
+                        {services.label}
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                  {!isLoading && (
+                    <>
+
+                      {permissionLevel === 2 && (
+
                         <Button
-                            key={"home"}
-                            onClick={() => handleMenuItemClick("/")}
-                            sx={{
-                                color: "white",
-                                display: "block",
-                                fontSize: 15,
-                                transition: "all 0.2s ease-in-out",
-                                "&:hover": {
-                                    textDecoration: "underline",
-                                    background: "#012d5a",
-                                },
-                            }}
+                          key={"admin"}
+                          onClick={() => handleMenuItemClick("/admin")}
+                          sx={{
+                            color: "white",
+                            display: "block",
+                            fontSize: 15,
+                            transition: "all 0.2s ease-in-out",
+                            "&:hover": {
+                              textDecoration: "underline",
+                              background: "#012d5a",
+                            },
+                          }}
                         >
-                            <Typography
-                                sx={{fontSize: "0.9rem",}}
-                            >
-                                Home
-                            </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: "0.9rem",
+                            }}
+                          >
+                            Admin
+                          </Typography>
                         </Button>
+                      )}
 
-                        <Button
-                            key={"map"}
-                            onClick={() => handleMenuItemClick("/map")}
-                            sx={{
-                                color: "white",
-                                display: "block",
-                                fontSize: 15,
-                                transition: "all 0.2s ease-in-out",
-                                "&:hover": {
-                                    textDecoration: "underline",
-                                    background: "#012d5a",
-                                },
-                            }}
+                      {permissionLevel >= 1 && (
+                        <><Button
+                          key={"Request Services"}
+                          id="demo-customized-button"
+                          aria-controls={openRequests ? "demo-customized-menu" : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={openRequests ? "true" : undefined}
+                          onClick={handleOnClickRequests}
+                          sx={{
+                            color: "white",
+                            display: "block",
+                            fontSize: 15,
+                            transition: "all 0.2s ease-in-out",
+                            "&:hover": {
+                              textDecoration: "underline",
+                              background: "#012d5a",
+                            },
+                          }}
                         >
-                            <Typography
-                                sx={{fontSize: "0.9rem"}}
-                            >
-                                Map
-                            </Typography>
-                        </Button>
-
-
-                        <Menu
-                            id="demo-customized-menu"
-                            MenuListProps={{
-                                "aria-labelledby": "demo-customized-button",
-                            }}
-                            disableScrollLock={true}
-                            anchorEl={anchorElRequests}
-                            open={openRequests}
-                            onClose={handleCloseRequests}
+                          <Typography
                             sx={{
-                                padding: 0,
+                              fontSize: "0.9rem",
                             }}
-                        >
-                            {services.map((services) => (
-                                <MenuItem
-                                    key={services.label}
-                                    onClick={() => handleClickMenuItemListRequests(services.path)}
-                                    disableRipple
-                                >
-                                    {services.label}
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                        {!isLoading && (
-                            <>
-
-                                {permissionLevel === 2 && (
-
-                                    <Button
-                                        key={"admin"}
-                                        onClick={() => handleMenuItemClick("/admin")}
-                                        sx={{
-                                            color: "white",
-                                            display: "block",
-                                            fontSize: 15,
-                                            transition: "all 0.2s ease-in-out",
-                                            "&:hover": {
-                                                textDecoration: "underline",
-                                                background: "#012d5a",
-                                            },
-                                        }}
-                                    >
-                                        <Typography
-                                            sx={{
-                                                fontSize: "0.9rem",
-                                            }}
-                                        >
-                                            Admin
-                                        </Typography>
-                                    </Button>
-                                )}
-
-                                {permissionLevel >= 1 && (
-                                    <><Button
-                                        key={"Request Services"}
-                                        id="demo-customized-button"
-                                        aria-controls={openRequests ? "demo-customized-menu" : undefined}
-                                        aria-haspopup="true"
-                                        aria-expanded={openRequests ? "true" : undefined}
-                                        onClick={handleOnClickRequests}
-                                        sx={{
-                                            color: "white",
-                                            display: "block",
-                                            fontSize: 15,
-                                            transition: "all 0.2s ease-in-out",
-                                            "&:hover": {
-                                                textDecoration: "underline",
-                                                background: "#012d5a",
-                                            },
-                                        }}
-                                    >
-                                        <Typography
-                                            sx={{
-                                                fontSize: "0.9rem",
-                                            }}
-                                        >
-                                            Service Requests
-                                            <ArrowDropDownIcon sx={{
-                                                height: '1rem'
-                                            }}/>
-                                        </Typography>
-                                    </Button></>
-                                )}
-                            </>
-                        )}
-                        <Menu
-                            id="demo-customized-menu"
-                            MenuListProps={{
-                                "aria-labelledby": "demo-customized-button",
-                            }}
-                            disableScrollLock={true}
-                            anchorEl={anchorElRequests}
-                            open={openRequests}
-                            onClose={handleCloseRequests}
-                            sx={{
-                                padding: 0,
-                            }}
-                        >
-                            {services.map((services) => (
-                                <MenuItem
-                                    key={services.label}
-                                    onClick={() => handleClickMenuItemListRequests(services.path)}
-                                    disableRipple
-                                >
-                                    {services.label}
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
-                    <LiveHelpIcon
-                        sx={{
-                            fontSize: '2.4rem',
-                            color: (props.chatbotOpen ? "#f6bd38" : 'white'),
-                            '&:hover': {
-                                opacity: 0.9,
-                                cursor: 'pointer'
-                            }
-                        }}
-                        onClick={() => {
-                            props.toggleChatbot();
-                        }}
-                    />
-                    <SearchBar/>
-                    <LoginButton/>
-                </Toolbar>
+                          >
+                            Service Requests
+                            <ArrowDropDownIcon sx={{
+                              height: '1rem'
+                            }}/>
+                          </Typography>
+                        </Button></>
+                      )}
+                    </>
+                  )}
+                  <Menu
+                    id="demo-customized-menu"
+                    MenuListProps={{
+                      "aria-labelledby": "demo-customized-button",
+                    }}
+                    disableScrollLock={true}
+                    anchorEl={anchorElRequests}
+                    open={openRequests}
+                    onClose={handleCloseRequests}
+                    sx={{
+                      padding: 0,
+                    }}
+                  >
+                    {services.map((services) => (
+                      <MenuItem
+                        key={services.label}
+                        onClick={() => handleClickMenuItemListRequests(services.path)}
+                        disableRipple
+                      >
+                        {services.label}
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </Box>
+                <LiveHelpIcon
+                  sx={{
+                    fontSize: '2.4rem',
+                    color: (props.chatbotOpen ? "#f6bd38" : 'white'),
+                    '&:hover': {
+                      opacity: 0.9,
+                      cursor: 'pointer'
+                    }
+                  }}
+                  onClick={() => {
+                    props.toggleChatbot();
+                  }}
+                />
+                <SearchBar/>
+                <LoginButton/>
+              </Toolbar>
             </Container>
         </AppBar>
     );

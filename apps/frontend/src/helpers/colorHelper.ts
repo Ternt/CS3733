@@ -1,36 +1,35 @@
-
-const hexToRgba = (colour:string, alpha = 1) => {
-  const [r, g, b] = colour.match(/\w\w/g)!.map(x => parseInt(x, 16));
-  return `rgba(${r},${g},${b},${alpha})`;
+const gradient = {
+  0:[230, 40, 50],
+  50:[255, 190, 0],
+  100:[50, 220, 60],
 };
 
-const rbgToRgba = (colour:string, alpha = 1) => {
-  const [r, g, b] = colour.replace(/[^\d,]/g, '').split(',');
-  return `rgba(${r},${g},${b},${alpha})`;
-};
+export function evaluateHeatGradient(t:number){
 
-const deconstructRgba = (rgba:string) => {
-  return rgba.replace(/[^\d,]/g, '').split(',').map(x => parseInt(x));
-};
+  const i1 = (t>.5)?0:50;
+  const i2 = (t>.5)?50:100;
 
-const formatRbga = (colour:{r:number, g:number,b:number,a:number}) => {
-  return `rgba(${colour.r},${colour.g},${colour.b},${colour.a})`;
-};
+  //Get the two closest colors
+  const firstcolor = gradient[i1];
+  const secondcolor = gradient[i2];
 
-const interpolateColour = (colourA:string, colourB:string, progress:number) => {
-  const [r1, g1, b1, a1] = deconstructRgba(hexToRgba(colourA));
-  const [r2, g2, b2, a2] = deconstructRgba(hexToRgba(colourB));
-  return formatRbga({
-    r: Math.round((r1 + r2) * progress),
-    g: Math.round((g1 + g2) * progress),
-    b: Math.round((b1 + b2) * progress),
-    a: Math.round((a1 + a2) * progress)
-  });
-};
+  //Calculate ratio between the two closest colors
+  const firstcolor_x = (i1/100);
+  const secondcolor_x = (i2/100)-firstcolor_x;
+  const ratio = t/secondcolor_x;
 
-export {
-  interpolateColour,
-  hexToRgba,
-  rbgToRgba,
-  deconstructRgba
-};
+  //Get the color with pickHex(thx, less.js's mix function!)
+  const result = pickHex( secondcolor,firstcolor, ratio );
+
+  return 'rgb('+result.join()+')';
+
+}
+
+function pickHex(color1:number[], color2:number[], weight:number) {
+  const w = weight * 2 - 1;
+  const w1 = (w+1) / 2;
+  const w2 = 1 - w1;
+  return [Math.round(color1[0] * w1 + color2[0] * w2),
+    Math.round(color1[1] * w1 + color2[1] * w2),
+    Math.round(color1[2] * w1 + color2[2] * w2)];
+}

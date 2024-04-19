@@ -17,8 +17,7 @@ import {
 import {clamp, distance} from "../../helpers/MathHelp.ts";
 import AnimatedPath from "./AnimatedPath.tsx";
 import CloseIcon from "@mui/icons-material/Close";
-import {interpolateColour} from "../../helpers/colorHelper.ts";
-
+import {evaluateHeatGradient} from "../../helpers/colorHelper.ts";
 
 
 const NODE_SIZE = 3.1;
@@ -268,7 +267,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         }
         for (const e of renderData.e) {
           const heat = (e.heat - min) / (max - min);
-          const color = interpolateColour("#00ff00","#ff0000",heat);
+          const color = evaluateHeatGradient(heat);
           svgElements.push(drawLine(e.startNode.point, e.endNode.point, color));
         }
       }
