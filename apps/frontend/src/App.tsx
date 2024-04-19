@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import Box from "@mui/material/Box";
 import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
+import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -28,6 +29,10 @@ function App() {
         {
           path: "",
           element: <HeroPage />,
+        },
+        {
+            path: "*",
+          element: <ErrorPage />
         },
         {
           path: "/map",
