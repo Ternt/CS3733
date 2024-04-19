@@ -1,16 +1,16 @@
 import { splitLines } from "../routes/map.ts";
-import { PrismaClient } from "database";
 import { cartItems } from "./initialData/cartItems.ts";
 import { employees } from "./initialData/employees.ts";
 import { serviceRequests } from "./initialData/serviceRequests.ts";
+import PrismaClient from "../bin/database-connection.ts";
+
 
 export async function createDatabase(
     header: boolean,
     node_str: string,
     edge_str: string,
+    initial: boolean
 ) {
-    const prisma = new PrismaClient();
-
     const nodeLines = splitLines(node_str).filter((line) => /\S/.test(line));
     if (header) {
         nodeLines.shift();
@@ -40,52 +40,52 @@ export async function createDatabase(
         edgeRows.map((row) => ({
             startNodeID: row[0],
             endNodeID: row[1],
-            blocked: false,
+            blocked: (row[2] == "true"),
+            heat: parseInt(row[3]) || 0
         })),
     );
 
     const insertNodeQueries = nodeData.map((row) => {
-        return prisma.nodeDB.create({data: row});
+        return PrismaClient.nodeDB.create({data: row});
     });
 
     const insertEdgeQueries = edgeData.map((row) => {
-        return prisma.edgeDB.create({data: row});
+        return PrismaClient.edgeDB.create({data: row});
     });
 
     // add nodes and edges to database
-    await prisma.$transaction([
-        prisma.$executeRaw`DELETE FROM "EdgeDB";`,
-        prisma.$executeRaw`DELETE FROM "NodeDB";`,
+    await PrismaClient.$transaction([
+        PrismaClient.$executeRaw`DELETE FROM "EdgeDB";`,
+        PrismaClient.$executeRaw`DELETE FROM "NodeDB";`,
         ...insertNodeQueries,
         ...insertEdgeQueries,
     ]);
 
     // add cart items
-    await createCartItems();
-    await createEmployees();
-    await createServiceRequests();
+    if (initial) {
+        await createCartItems();
+        await createEmployees();
+        await createServiceRequests();
+    }
 }
 
 async function createCartItems() {
-    const prisma = new PrismaClient();
-    await prisma.$transaction([
-        prisma.cartItem.deleteMany(),
-        prisma.cartItem.createMany({data: cartItems})
+    await PrismaClient.$transaction([
+        PrismaClient.cartItem.deleteMany(),
+        PrismaClient.cartItem.createMany({data: cartItems})
     ]);
 }
 
 async function createEmployees() {
-    const prisma = new PrismaClient();
-    await prisma.$transaction([
-        prisma.employee.deleteMany(),
-        prisma.employee.createMany({data: employees})
+    await PrismaClient.$transaction([
+        PrismaClient.employee.deleteMany(),
+        PrismaClient.employee.createMany({data: employees})
     ]);
 }
 
 async function createServiceRequests() {
-    const prisma = new PrismaClient();
-    await prisma.serviceRequest.deleteMany()
+    await PrismaClient.serviceRequest.deleteMany();
     for (let data of serviceRequests) {
-        await prisma.serviceRequest.create({data: data});
+        await PrismaClient.serviceRequest.create({data: data});
     }
 }
