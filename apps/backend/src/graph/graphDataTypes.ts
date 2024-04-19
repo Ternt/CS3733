@@ -70,11 +70,13 @@ export class Edge {
     start: GraphNode;
     end: GraphNode;
     blocked: boolean;
+    count: number;
 
     constructor(start: GraphNode, end: GraphNode) {
         this.start = start;
         this.end = end;
         this.blocked = false;
+        this.count = 0;
     }
 
     public distance(): number {

@@ -1,25 +1,35 @@
 import OpenAI from "openai";
 import {useState} from "react";
 import Button from "@mui/material/Button";
-import {KEY} from "./key/private.ts";
 import {Box, TextField, Typography} from "@mui/material";
 import NaturalLanguageDirection from "../NaturalLanguageDirection/naturalLanguageDirection.tsx";
+import axios from "axios";
 
-const openai = new OpenAI({apiKey: KEY, dangerouslyAllowBrowser: true});
+const openai = new OpenAI({apiKey:'', dangerouslyAllowBrowser: true});
 const seed: string = "You are an AI Chatbot for my mock brigham and women's hospital";
-
-//Seeding ChatGPT
-const seedMessage = await openai.chat.completions.create({
-    messages: [{role: "system", content: seed!}],
-    model: "gpt-3.5-turbo",
-});
-console.log(seedMessage);
 
 async function sendToChatGPT(
     userMessage: string,
     chatMessages: { role: string; content: string }[]
 ): Promise<{ chatMessages: { role: string; content: string }[]; error: string | null }> {
     try {
+        if(openai.apiKey === ''){
+          const keyX = await axios.get("https://matthagger.me/apps/softeng/key.json");
+          if(keyX.status !== 200){
+            return {chatMessages, error: "Sorry, could not get the API key."};
+          }
+          console.log(keyX.data);
+          openai.apiKey = keyX.data.key;
+
+          //Seeding ChatGPT
+          const seedMessage = await openai.chat.completions.create({
+            messages: [{role: "system", content: seed!}],
+            model: "gpt-3.5-turbo",
+          });
+          console.log(seedMessage);
+        }
+
+
         const response = await openai.chat.completions.create({
             messages: [{role: "user", content: userMessage}],
             model: "gpt-3.5-turbo",

@@ -1,14 +1,13 @@
-import {PrismaClient} from "database";
 import * as fs from "fs";
 import path from "path";
+import PrismaClient from "../bin/database-connection.ts";
 
 // Export to CSV file
 export async function exportNodeDBToCSV(
-  prisma: PrismaClient,
   filename: string,
 ) {
   try {
-    const data = await prisma.nodeDB.findMany();
+    const data = await PrismaClient.nodeDB.findMany();
 
     if (data.length === 0) {
       console.error("No data found to export.");
@@ -42,11 +41,10 @@ export async function exportNodeDBToCSV(
 }
 
 export async function exportEdgeDBToCSV(
-  prisma: PrismaClient,
   filename: string,
 ) {
   try {
-    const data = await prisma.edgeDB.findMany();
+    const data = await PrismaClient.edgeDB.findMany();
 
     if (data.length === 0) {
       console.error("No data found to export.");
