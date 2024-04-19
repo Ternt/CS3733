@@ -1,6 +1,6 @@
 import {ChangeEvent, useState} from "react";
-import {AssignedEmployee, ServiceRequest} from "../../helpers/typestuff.ts";
-import {Autocomplete, Card, Collapse, FormControl, TextField, Typography} from "@mui/material";
+import {ServiceRequest} from "../../helpers/typestuff.ts";
+import {Card, Collapse, FormControl, TextField, Typography} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
@@ -8,62 +8,23 @@ import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
 import * as React from "react";
 import InformationField from "./InformationField.tsx";
+import EmployeeAutoComplete, {EmployeeAutocompleteOption} from "../../components/EmployeeAutoComplete.tsx";
 
 type KanbanBoardProp = {
     serviceRequestData: ServiceRequest;
-    employeeList: AssignedEmployee[];
-};
-
-type employeeOptionType = {
-    label: string;
-    id: number;
+    employeeList: EmployeeAutocompleteOption[];
 };
 
 export default function KanbanBoardCard(prop: KanbanBoardProp){
     const [serviceData, setServiceData] = useState<ServiceRequest>(prop.serviceRequestData);
     const [expanded, setExpanded] = useState<boolean>(false);
 
-    const employeeDropdownOptions: employeeOptionType[] = [];
-    prop.employeeList.filter((x) => x !== null || undefined).forEach((employee)=> {
-        employeeDropdownOptions.push({
-            label: employee.firstName + " " + employee.lastName,
-            id: employee.id,
-        });
-    });
-
-    function updateEmployeeRequests(newEmployee: AssignedEmployee){
-        const newEmployeeService = {
-            employeeID: newEmployee?.id,
-            requestID: serviceData.requestID
-        };
-
-        fetch("/api/employees/assign", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newEmployeeService),
-        })
-            .then((response) => {
-                console.log(response);
-            })
-
-            .then((data) => console.log(data))
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-    }
 
     function updateAssignmentStatus(newStatus: string){
         const updatedStatus = {
             requestID: serviceData.requestID,
             status: newStatus
         };
-
-        // const updatedEmployee = {
-        //     requestID: serviceData.requestID,
-        //     assignedEmployeeID: serviceData.assignedEmployee?.id,
-        // };
 
         fetch("/api/service-requests/update", {
             method: "POST",
@@ -80,61 +41,9 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
             .catch((error) => {
                 console.error("Error:", error);
             });
-
-        // fetch("/api/service-requests/update", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(updatedEmployee),
-        // })
-        //     .then((response) => {
-        //         console.log(response);
-        //     })
-        //
-        //     .then((data) => console.log(data))
-        //     .catch((error) => {
-        //         console.error("Error:", error);
-        //     });
     }
 
-    const onChangeEmployee = (event: React.SyntheticEvent, newValue: employeeOptionType | null) => {
-        let statusChanged = false;
 
-        function changeStatus(employee: employeeOptionType | null, currentStatus: string): string{
-            if(currentStatus === "UNASSIGNED"){
-                statusChanged = true;
-                return "ASSIGNED";
-            }else if(employee === null){
-                statusChanged = true;
-                return "UNASSIGNED";
-            }else{
-                return currentStatus;
-            }
-        }
-
-        if (newValue && typeof newValue === "object") {
-            const name = newValue.label.split(" ");
-            const newEmployee = {
-                firstName: name[0],
-                lastName: name[1],
-                id: newValue.id,
-                assignedRequests: [],
-            };
-
-            setServiceData(
-                {
-                    ...serviceData,
-                    assignedEmployee: newEmployee,
-                    status: changeStatus(newValue, serviceData.status),
-                });
-            updateEmployeeRequests(newEmployee);
-        }
-
-        if(statusChanged){
-            updateAssignmentStatus("ASSIGNED");
-        }
-    };
 
     const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
         setServiceData({...serviceData, status: event.target.value});
@@ -212,7 +121,7 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                             <Box sx={{
                                 display: 'flex',
                                 flexDirection: 'row',
-                                pt: 3
+                                pt: 3,
                             }}>
                                 <FormControl
                                     sx={{width: "100%", display: "flex", flexDirection: "column"}}>
@@ -221,7 +130,7 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                         value={serviceData.status}
                                         margin="normal"
                                         inputProps={{MenuProps: {disableScrollLock: true}}}
-                                        sx={{marginY: 0, width: '100%'}}
+                                        sx={{marginY: 0, width: '100%', p: 1}}
                                         onChange={onChangeAssignment}
                                     >
                                         <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
@@ -229,27 +138,9 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                         <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
                                         <MenuItem value={"CLOSED"}>Closed</MenuItem>
                                     </TextField>
-                                    <Box sx={{width: "100%"}}>
-                                        <Autocomplete
-                                            fullWidth
-                                            options={employeeDropdownOptions}
-                                            isOptionEqualToValue={(option, value) => option.id === value.id}
-                                            renderInput=
-                                                {(params) =>
-                                                    <TextField
-                                                        {...params}
-                                                        label={(serviceData.assignedEmployee === null)?
-                                                            "Employee"
-                                                            :
-                                                            (serviceData.assignedEmployee?.firstName + " " + serviceData.assignedEmployee?.lastName)}
-                                                    />}
-                                            onChange={onChangeEmployee}
-                                        />
+                                    <Box sx={{width: "100%", p: 1}}>
+                                        <EmployeeAutoComplete serviceRequestData={serviceData} employeeList={prop.employeeList}></EmployeeAutoComplete>
                                     </Box>
-                                    {/*<Box sx={{width: "20%"}}>*/}
-                                    {/*    <Button variant="contained" endIcon={<PersonIcon />}>*/}
-                                    {/*    </Button>*/}
-                                    {/*</Box>*/}
                                 </FormControl>
                             </Box>
                         </CardContent>
