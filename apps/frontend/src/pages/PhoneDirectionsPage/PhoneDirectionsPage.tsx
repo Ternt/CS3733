@@ -10,7 +10,6 @@ import NaturalLanguageDirection from "../../components/NaturalLanguageDirection/
 const PhoneDirectionsPage: React.FC = () => {
     const [natLangPath, setNatLangPath] = useState<string[]>([]);
     const [searchParams] = useSearchParams();
-
     const startLocation = searchParams.get('startLocation') || 'ACONF00102';
     const endLocation = searchParams.get('endLocation') || 'ACONF00103';
     const algo = searchParams.get('algo') || '0';
@@ -18,7 +17,7 @@ const PhoneDirectionsPage: React.FC = () => {
 
     if (isNaN(numericSearchAlgorithm)) {
         console.error('Invalid search algorithm number provided, setting to default.');
-        numericSearchAlgorithm = 0; // Default value
+        numericSearchAlgorithm = 0; // default
     }
 
     useEffect(() => {
@@ -32,7 +31,7 @@ const PhoneDirectionsPage: React.FC = () => {
         }
 
         setPath();
-    }, [startLocation, endLocation, numericSearchAlgorithm]); // Dependency array to re-run this effect if any of these values change
+    }, [startLocation, endLocation, numericSearchAlgorithm]);
 
     return (
         <List dense>
