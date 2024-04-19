@@ -1,4 +1,5 @@
-import {Box} from "@mui/material";
+import {Box, Button, Card, Typography} from "@mui/material";
+import React from "react";
 
 export default function ErrorPage() {
 
@@ -13,16 +14,14 @@ export default function ErrorPage() {
                 height: "90vh",
             }}>
                 <Box sx={{
-                    backgroundColor: "red",
                     height: "75vh",
                     width: "50vw",
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "space-evenly",
+                    justifyContent: "center",
                     alignItems: "center",
                 }}>
                     <Box sx={{
-                        backgroundColor: "orange",
                         height: "75%",
                         width: "80%",
                         display: "flex",
@@ -30,46 +29,91 @@ export default function ErrorPage() {
                         justifyContent: "center",
                         alignItems: "center",
                     }}>
-                        <h1>Uh Oh!</h1>
-                        <h4>Looks like the page you're looking for doesn't exist</h4>
+                        <Typography
+                            sx={{
+                                fontFamily: "Open Sans",
+                                fontSize: "6rem",
+                                textAlign: "center",
+                                fontWeight: 600,
+                                color: "#012d5a",
+                                p: '1rem',
+                                pb: 0,
+                            }}
+                        >
+                            Uh Oh!
+                        </Typography>
+                        <Typography
+                            sx={{
+                                fontFamily: "Open Sans",
+                                fontSize: "2rem",
+                                textAlign: "center",
+                                fontWeight: 250,
+                                color: "#2f2f2f",
+                                p: '1rem',
+                                pt: 0,
+                            }}
+                        >
+                            Looks like the page you're looking for doesn't exist
+                        </Typography>
                     </Box>
                     <Box sx={{
-                        backgroundColor: "gray",
                         height: "20%",
                         width: "70%",
                         display: "flex",
-                        flexDirection: "column",
+                        flexDirection: "row",
                         justifyContent: "center",
                         alignItems: "center",
                     }}>
-                        <p>Try searching for what you're looking for:</p>
-                        <p>Or return to the homepage</p>
+                        <Typography
+                            sx={{
+                                fontFamily: "Open Sans",
+                                fontSize: "1rem",
+                                textAlign: "center",
+                                fontWeight: 500,
+                                color: "#2f2f2f",
+                                p: '1rem',
+                            }}
+                        >
+                            Try searching for the page:
+                        </Typography>
+                        <Button>Filler Button</Button>
                     </Box>
                 </Box>
 
-                <Box sx={{
-                    backgroundColor: "blue",
+                <Card sx={{
                     height: "50vh",
                     width: "40vw",
+                    p: "1rem",
                 }}>
                     <Box sx={{
-                        backgroundColor: "orange",
                         height: "20%",
                         width: "100%",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
                     }}>
-                        <h3>Looking for directions?</h3>
+                        <Typography
+                            sx={{
+                                fontFamily: "Open Sans",
+                                fontSize: "2rem",
+                                textAlign: "center",
+                                fontWeight: 1000,
+                                color: "#012d5a",
+                                p: '1rem',
+                            }}
+                        >
+                            Looking For Directions?
+                        </Typography>
                     </Box>
                     <Box sx={{
-                        backgroundColor: "green",
                         height: "80%",
                         width: "100%",
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "space-evenly",
                         alignItems: "center",
+                        border: "solid 5px #012d5a",
+                        borderRadius: "10px",
                     }}>
                         <Box sx={{
                             backgroundColor: "gray",
@@ -82,17 +126,27 @@ export default function ErrorPage() {
                             <h2>Map Image Here</h2>
                         </Box>
                         <Box sx={{
-                            backgroundColor: "red",
                             height: "15%",
                             width: "65%",
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
                         }}>
-                            <h3>Try our map!</h3>
+                            <Typography
+                                sx={{
+                                    fontFamily: "Open Sans",
+                                    fontSize: "2rem",
+                                    textAlign: "center",
+                                    fontWeight: 675,
+                                    color: "#012d5a",
+                                    p: '1rem',
+                                }}
+                            >
+                                Try our map!
+                            </Typography>
                         </Box>
                     </Box>
-                </Box>
+                </Card>
             </Box>
         </>
     );
