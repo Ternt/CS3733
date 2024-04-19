@@ -19,10 +19,7 @@ import AnimatedPath from "./AnimatedPath.tsx";
 import CloseIcon from "@mui/icons-material/Close";
 import {evaluateHeatGradient} from "../../helpers/colorHelper.ts";
 
-
 const NODE_SIZE = 3.1;
-
-
 
 type mapCanvasProps = {
   defaultFloor: number;
@@ -31,7 +28,6 @@ type mapCanvasProps = {
   endLocation: string;
   onDeselectEndLocation?: () => void;
 };
-
 
 export default function MapCanvas(props: mapCanvasProps) {
 
@@ -432,6 +428,15 @@ export default function MapCanvas(props: mapCanvasProps) {
             selectedPoint: coords,
             algo: props.pathfinding!
           });
+          setViewingFloor(FLOOR_NAME_TO_INDEX(pathNodes[pathNodes.length - 1].floor!));
+          setCameraControl({
+            ...cameraControl,
+            zoom: 1,
+            pan: {
+              x: 0,
+              y: 0,
+            },
+          });
           if (props.onDeselectEndLocation !== undefined)
             props.onDeselectEndLocation();
         });
@@ -513,7 +518,15 @@ export default function MapCanvas(props: mapCanvasProps) {
                 pathNodes.pop();
               }
             }
-
+            setViewingFloor(FLOOR_NAME_TO_INDEX(pathNodes[pathNodes.length - 1].floor!));
+            setCameraControl({
+              ...cameraControl,
+              zoom: 1,
+              pan: {
+                x: 0,
+                y: 0,
+              },
+            });
             setPathing({
               ...pathing,
               path: pathNodes,
@@ -523,7 +536,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           });
       }
     }
-  }, [edges, nodes, pathing, pathing.algo, props.pathfinding, props.startLocation, viewingFloor]);
+  }, [cameraControl, edges, nodes, pathing, pathing.algo, props.pathfinding, props.startLocation, viewingFloor]);
 
   // Init data
   useEffect(() => {
@@ -601,9 +614,18 @@ export default function MapCanvas(props: mapCanvasProps) {
             selectedPoint: null,
             algo: props.pathfinding!
           });
+          setViewingFloor(FLOOR_NAME_TO_INDEX(pathNodes[pathNodes.length - 1].floor!));
+          setCameraControl({
+            ...cameraControl,
+            zoom: 1,
+            pan: {
+              x: 0,
+              y: 0,
+            },
+          });
         });
     }
-  }, [pathing, nodes, props.endLocation, props.startLocation, props.pathfinding]);
+  }, [pathing, nodes, props.endLocation, props.startLocation, props.pathfinding, cameraControl]);
 
   return (
     <>
