@@ -62,7 +62,7 @@ router.post("/upload", async function (req: Request, res: Response) {
   }
 
   try {
-    createDatabase(header, node_str, edge_str);
+    createDatabase(header, node_str, edge_str, false);
   } catch (error) {
     console.log("node file upload failed");
     res.sendStatus(406);
