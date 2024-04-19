@@ -175,14 +175,14 @@ export default function MapPage() {
                               <Accordion
                                 key={"direct"+index}
                                 defaultExpanded={index===0}
+
                               >
                                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                                   <Typography>
                                     {FLOOR_NAMES[d.floor]}
                                   </Typography>
                                 </AccordionSummary>
-                                <AccordionDetails
-                                >
+                                <AccordionDetails>
                                   {d.messages.map((m,i)=>{
                                       return(
                                         <Box
