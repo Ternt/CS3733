@@ -6,6 +6,7 @@ import QRCode from "qrcode";
 type QRCodePopUpProp = {
     startNode: string;
     endNode: string;
+    algo: number;
 };
 
 export default function QRCodePopUp(props: QRCodePopUpProp) {
@@ -17,7 +18,7 @@ export default function QRCodePopUp(props: QRCodePopUpProp) {
 
     const [imgSource, setImgSource] = useState("");
 
-    QRCode.toDataURL('/directions?startLocation=' + props.startNode + "&endLocation=" + props.endNode, function (err, url) {
+    QRCode.toDataURL('/directions?startLocation=' + props.startNode + "&endLocation=" + props.endNode + "&algo=" + props.algo, function (err, url) {
         if (err) {
             return err;
         }

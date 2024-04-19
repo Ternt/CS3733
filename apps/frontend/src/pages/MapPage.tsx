@@ -6,7 +6,6 @@ import MapCanvas from "../components/Map/MapCanvas.tsx";
 import NaturalLanguageDirection from "../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
-import {GenerateQRCode} from "../components/QRCode/QRCode.tsx";
 import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
 
 export default function MapPage() {
@@ -38,6 +37,12 @@ export default function MapPage() {
     }, [startLocation, endLocation, searchAlgorithm]);
 
     const NaturalLangPath:string = natLangPath.join(";\n");
+
+    const qrCodeProps = {
+        startNode: startLocation,
+        endNode: endLocation,
+        algo: searchAlgorithm,
+    };
 
 
     return (
@@ -150,7 +155,7 @@ export default function MapPage() {
                         }}>
                             Text To Speech
                         </Button>
-                        <QRCodePopUp QRCodeLink={GenerateQRCode(NaturalLangPath)}/>
+                        <QRCodePopUp {...qrCodeProps}/>
                     </Box>
                 </Box>
             </Grid>
