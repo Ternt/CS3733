@@ -6,35 +6,70 @@ import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
+import * as React from "react";
 
 type KanbanBoardProp = {
     serviceRequestData: ServiceRequest;
     employeeList: AssignedEmployee[];
 };
 
+type employeeOptionType = {
+    label: string;
+    id: number;
+};
+
 export default function KanbanBoardCard(prop: KanbanBoardProp){
     const [serviceData, setServiceData] = useState<ServiceRequest>(prop.serviceRequestData);
     const [expanded, setExpanded] = useState<boolean>(false);
 
-    const options:string[] = [];
-    prop.employeeList.forEach((employee)=> {
-        options.push(employee.firstName + " " + employee.lastName);
+    const employeeDropdownOptions: employeeOptionType[] = [];
+    prop.employeeList.filter((x) => x !== null || undefined).forEach((employee)=> {
+        employeeDropdownOptions.push({
+            label: employee.firstName + " " + employee.lastName,
+            id: employee.id,
+        });
     });
 
-    const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
-        setServiceData({...serviceData, status: event.target.value});
-
-        const newStatus = {
-            requestID: serviceData.requestID,
-            status: event.target.value
+    function updateEmployeeRequests(newEmployee: AssignedEmployee){
+        const newEmployeeService = {
+            employeeID: newEmployee?.id,
+            requestID: serviceData.requestID
         };
+
+        fetch("/api/employees/assign", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newEmployeeService),
+        })
+            .then((response) => {
+                console.log(response);
+            })
+
+            .then((data) => console.log(data))
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
+
+    function updateAssignmentStatus(newStatus: string){
+        const updatedStatus = {
+            requestID: serviceData.requestID,
+            status: newStatus
+        };
+
+        // const updatedEmployee = {
+        //     requestID: serviceData.requestID,
+        //     assignedEmployeeID: serviceData.assignedEmployee?.id,
+        // };
 
         fetch("/api/service-requests/update", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(newStatus),
+            body: JSON.stringify(updatedStatus),
         })
             .then((response) => {
                 console.log(response);
@@ -45,30 +80,65 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                 console.error("Error:", error);
             });
 
-        if (event.target.value !== "UNASSIGNED"){
-            const newEmployeeService = {
-                employeeID: serviceData.assignedEmployee?.id,
-                requestID: serviceData.requestID
+        // fetch("/api/service-requests/update", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(updatedEmployee),
+        // })
+        //     .then((response) => {
+        //         console.log(response);
+        //     })
+        //
+        //     .then((data) => console.log(data))
+        //     .catch((error) => {
+        //         console.error("Error:", error);
+        //     });
+    }
+
+    const onChangeEmployee = (event: React.SyntheticEvent, newValue: employeeOptionType | null) => {
+        let statusChanged = false;
+
+        function changeStatus(employee: employeeOptionType | null, currentStatus: string): string{
+            if(currentStatus === "UNASSIGNED"){
+                statusChanged = true;
+                return "ASSIGNED";
+            }else if(employee === null){
+                statusChanged = true;
+                return "UNASSIGNED";
+            }else{
+                return currentStatus;
+            }
+        }
+
+        if (newValue && typeof newValue === "object") {
+            const name = newValue.label.split(" ");
+            const newEmployee = {
+                firstName: name[0],
+                lastName: name[1],
+                id: newValue.id,
+                assignedRequests: [],
             };
 
-            fetch("/api/employees/assign", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newEmployeeService),
-            })
-                .then((response) => {
-                    console.log(response);
-                })
-
-                .then((data) => console.log(data))
-                .catch((error) => {
-                    console.error("Error:", error);
+            setServiceData(
+                {
+                    ...serviceData,
+                    assignedEmployee: newEmployee,
+                    status: changeStatus(newValue, serviceData.status),
                 });
+            updateEmployeeRequests(newEmployee);
+        }
+
+        if(statusChanged){
+            updateAssignmentStatus("ASSIGNED");
         }
     };
 
+    const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
+        setServiceData({...serviceData, status: event.target.value});
+        updateAssignmentStatus(event.target.value);
+    };
 
     return(
         <Box
@@ -107,84 +177,84 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                             {/*    })*/}
                             {/*}*/}
 
-                            {/*<Box sx={{display: 'flex', flexDirection: 'row'}}>*/}
-                            {/*    <Typography sx={{width: '50%'}}>Priority: </Typography>*/}
-                            {/*    <Typography>{serviceData.priority.toLowerCase()}</Typography>*/}
-                            {/*</Box>*/}
-                            {/*{(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?*/}
-                            {/*    <></>*/}
-                            {/*    :*/}
-                            {/*    <Box sx={{display: 'flex', flexDirection: 'row'}}>*/}
-                            {/*        <Typography sx={{width: '50%'}}>Sender: </Typography>*/}
-                            {/*        <Typography>{serviceData.giftDetail.senderName}</Typography>*/}
-                            {/*    </Box>*/}
+                            <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                <Typography sx={{width: '50%'}}>Priority: </Typography>
+                                <Typography>{serviceData.priority.toLowerCase()}</Typography>
+                            </Box>
+                            {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Sender: </Typography>
+                                    <Typography>{serviceData.giftDetail.senderName}</Typography>
+                                </Box>
 
-                            {/*}*/}
+                            }
 
-                            {/*{(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?*/}
-                            {/*    <></>*/}
-                            {/*    :*/}
-                            {/*    <Box sx={{display: 'flex', flexDirection: 'row'}}>*/}
-                            {/*        <Typography sx={{width: '50%'}}>Recipient: </Typography>*/}
-                            {/*        <Typography>{serviceData.giftDetail.recipientName}</Typography>*/}
-                            {/*    </Box>*/}
-                            {/*}*/}
+                            {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Recipient: </Typography>
+                                    <Typography>{serviceData.giftDetail.recipientName}</Typography>
+                                </Box>
+                            }
 
-                            {/*{(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?*/}
-                            {/*    <></>*/}
-                            {/*    :*/}
-                            {/*    <Box sx={{display: 'flex', flexDirection: 'row'}}>*/}
-                            {/*        <Typography sx={{width: '50%'}}>Shipping Type: </Typography>*/}
-                            {/*        <Typography>{serviceData.giftDetail.shippingType.toLowerCase()}</Typography>*/}
-                            {/*    </Box>*/}
-                            {/*}*/}
+                            {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Shipping Type: </Typography>
+                                    <Typography>{serviceData.giftDetail.shippingType.toLowerCase()}</Typography>
+                                </Box>
+                            }
 
-                            {/*{(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?*/}
-                            {/*    <></>*/}
-                            {/*    :*/}
-                            {/*    <Box sx={{display: 'flex', flexDirection: 'row'}}>*/}
-                            {/*        <Typography sx={{width: '50%'}}>Patient Name: </Typography>*/}
-                            {/*        <Typography>{serviceData.medicineDetail.patientName}</Typography>*/}
-                            {/*    </Box>*/}
-                            {/*}*/}
+                            {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Patient Name: </Typography>
+                                    <Typography>{serviceData.medicineDetail.patientName}</Typography>
+                                </Box>
+                            }
 
-                            {/*{(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?*/}
-                            {/*    <></>*/}
-                            {/*    :*/}
-                            {/*    <Box sx={{display: 'flex', flexDirection: 'row'}}>*/}
-                            {/*        <Typography sx={{width: '50%'}}>Physician Name: </Typography>*/}
-                            {/*        <Typography>{serviceData.medicineDetail.primaryPhysicianName}</Typography>*/}
-                            {/*    </Box>*/}
-                            {/*}*/}
+                            {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Physician Name: </Typography>
+                                    <Typography>{serviceData.medicineDetail.primaryPhysicianName}</Typography>
+                                </Box>
+                            }
 
-                            {/*{(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?*/}
-                            {/*    <></>*/}
-                            {/*    :*/}
-                            {/*    <Box sx={{display: 'flex', flexDirection: 'row'}}>*/}
-                            {/*        <Typography sx={{width: '50%'}}>Medicine: </Typography>*/}
-                            {/*        <Typography>{serviceData.medicineDetail.medicine.toLowerCase().replace("_", " ")}</Typography>*/}
-                            {/*    </Box>*/}
-                            {/*}*/}
+                            {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Medicine: </Typography>
+                                    <Typography>{serviceData.medicineDetail.medicine.toLowerCase().replace("_", " ")}</Typography>
+                                </Box>
+                            }
 
-                            {/*{(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?*/}
-                            {/*    <></>*/}
-                            {/*    :*/}
-                            {/*    <Box sx={{display: 'flex', flexDirection: 'row'}}>*/}
-                            {/*        <Typography sx={{width: '50%'}}>Date: </Typography>*/}
-                            {/*        <Typography>{serviceData.sanitationDetail.date}</Typography>*/}
-                            {/*    </Box>*/}
-                            {/*}*/}
+                            {(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?
+                                <></>
+                                :
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '50%'}}>Date: </Typography>
+                                    <Typography>{serviceData.sanitationDetail.date}</Typography>
+                                </Box>
+                            }
 
-                            {/*{(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?"":(*/}
-                            {/*    serviceData.sanitationDetail.messTypes.map((messtype)=>{*/}
-                            {/*        return(*/}
-                            {/*            <Box key={messtype.messType} sx={{display: 'flex', flexDirection: 'row'}}>*/}
-                            {/*                <Typography sx={{width: '50%'}}>Mess Type: </Typography>*/}
-                            {/*                <Typography>{messtype.messType.toLowerCase().replace("_", " ")}</Typography>*/}
-                            {/*            </Box>*/}
-                            {/*        );*/}
-                            {/*    })*/}
-                            {/*)}*/}
+                            {(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?"":(
+                                serviceData.sanitationDetail.messTypes.map((messtype)=>{
+                                    return(
+                                        <Box key={messtype.messType} sx={{display: 'flex', flexDirection: 'row'}}>
+                                            <Typography sx={{width: '50%'}}>Mess Type: </Typography>
+                                            <Typography>{messtype.messType.toLowerCase().replace("_", " ")}</Typography>
+                                        </Box>
+                                    );
+                                })
+                            )}
                             <Box sx={{
                                 display: 'flex',
                                 flexDirection: 'row',
@@ -194,7 +264,7 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                 {/*    <></> : <Typography>{serviceData.assignedEmployee.firstName + " " + serviceData.assignedEmployee.lastName}</Typography>*/}
                                 {/*}*/}
                                 <FormControl
-                                    sx={{width: "100%", display: "flex", flexDirection: "row"}}>
+                                    sx={{width: "100%", display: "flex", flexDirection: "column"}}>
                                     <TextField
                                         select
                                         value={serviceData.status}
@@ -208,16 +278,21 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                         <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
                                         <MenuItem value={"CLOSED"}>Closed</MenuItem>
                                     </TextField>
-                                    <Box sx={{width: "20%"}}>
+                                    <Box sx={{width: "100%"}}>
                                         <Autocomplete
                                             fullWidth
-                                            options={options}
-                                            renderInput={(params) => <TextField {...params} label="Employee"/>}
-                                            onChange={(event, newValue) => {
-                                                if (newValue && typeof newValue === "string") {
-                                                    setServiceData({...serviceData, assignedEmployee: newValue, status: "ASSIGNED"});
-                                                }
-                                            }}
+                                            options={employeeDropdownOptions}
+                                            isOptionEqualToValue={(option, value) => option.id === value.id}
+                                            renderInput=
+                                                {(params) =>
+                                                    <TextField
+                                                        {...params}
+                                                        label={(serviceData.assignedEmployee === null)?
+                                                            "Employee"
+                                                            :
+                                                            (serviceData.assignedEmployee.firstName + " " + serviceData.assignedEmployee.lastName)}
+                                                    />}
+                                            onChange={onChangeEmployee}
                                         />
                                     </Box>
                                     {/*<Box sx={{width: "20%"}}>*/}
