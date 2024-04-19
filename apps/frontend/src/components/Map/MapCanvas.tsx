@@ -18,10 +18,7 @@ import {clamp, distance} from "../../helpers/MathHelp.ts";
 import AnimatedPath from "./AnimatedPath.tsx";
 import CloseIcon from "@mui/icons-material/Close";
 
-
-
 const NODE_SIZE = 3.1;
-
 
 
 type mapCanvasProps = {
@@ -360,7 +357,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         pos: {x: x2, y: y2, z: viewingFloor},
         nodes: nodes,
         floor: viewingFloor,
-        distance: NODE_SIZE / cameraControl.zoom,
+        distance: 15
       });
       setDraggingNode(closestNode);
     }
