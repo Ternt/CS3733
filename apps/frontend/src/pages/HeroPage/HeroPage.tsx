@@ -4,8 +4,7 @@ import logo from "../../assets/baby.jpg";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import OurServices from "./OurServices.tsx";
 import {useNavigate} from "react-router-dom";
-
-import {FormattedMessage} from 'react-intl';
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 export default function HeroPage() {
     const heroPage2Ref = useRef<HTMLDivElement | null>(null);
@@ -55,7 +54,7 @@ export default function HeroPage() {
                         p: '1rem',
                     }}
                 >
-                    Find Your Way
+                    {TranslateTo("heroP.findway")}
                 </Typography>
                 <Box
                     sx={{
@@ -70,7 +69,7 @@ export default function HeroPage() {
                         key="Map"
                         onClick={() => handleMenuItemClick("/map")}
                         sx={{
-                            width: "40%",
+                            minWidth: "15rem",
                             px: '2rem',
                             color: "black",
                             transition: "all 0.2s ease-in-out",
@@ -90,7 +89,7 @@ export default function HeroPage() {
                         key="learnMore"
                         onClick={handleLearnMoreClick}
                         sx={{
-                            width: "40%",
+                            minWidth: "15rem",
                             px: '2rem',
                             py: '1rem',
                             color: "white",

@@ -1,19 +1,41 @@
-import EN from "../assets/Languages/EN.json";
+import en from "../assets/Languages/EN.json";
+import sp from "../assets/Languages/SP.json";
+import {useContext} from "react";
+import {LanguageContext} from "../App.tsx";
 
 
-function translateText(lang, key) {
-    return "translated";
-}
+export default function TranslateTo(key: string){
 
-function parseString(translatedText: string){
-    return "parsedSTR";
-}
+    const lang = useContext(LanguageContext);
 
-export default function translateTo(key: string){
+    let langDictionary: JSON = JSON.parse("{}");
 
-    var langDictionary = EN;
+    switch(lang) {
 
-    if(langDictionary.hasOwnProperty(key)){
-        return langDictionary.
+        case("en"):
+        {
+            langDictionary = JSON.parse(JSON.stringify(en));
+            break;
+        }
+        case("sp"):
+        {
+            langDictionary = JSON.parse(JSON.stringify(sp));
+            break;
+        }
+
     }
+
+
+    function getKey(json: object, key:string){
+        for(const k in json){
+            if(k === key)
+            { //@ts-expect-error JSON lang does not have a translation for that key.
+                return json[k];
+            }
+        }
+        return Error("Error: No translation Found");
+    }
+
+    return getKey(langDictionary, key);
+
 }
