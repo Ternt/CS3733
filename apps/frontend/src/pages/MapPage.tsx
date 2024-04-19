@@ -20,7 +20,7 @@ export default function MapPage() {
     const [startLocation, setStartLocation] = useState("");
     const [endLocation, setEndLocation] = useState("");
     const [searchAlgorithm, setSearchAlgorithm] = useState(0);
-    const [natLangPath, setNatLangPath] = useState<string[]>([]);
+    const [natLangPath, setNatLangPath] = useState<{message:string, floor:number}[]>([]);
 
     useEffect(() => {
         async function setPath() {
