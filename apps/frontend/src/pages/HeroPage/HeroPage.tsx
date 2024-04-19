@@ -5,6 +5,8 @@ import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrow
 import OurServices from "./OurServices.tsx";
 import {useNavigate} from "react-router-dom";
 
+import {FormattedMessage} from 'react-intl';
+
 export default function HeroPage() {
     const heroPage2Ref = useRef<HTMLDivElement | null>(null);
 
