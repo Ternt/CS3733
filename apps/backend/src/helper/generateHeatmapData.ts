@@ -8,19 +8,23 @@ export async function generateHeatmapData() {
     await graph.loadNodesFromDB();
     await graph.loadEdgesFromDB();
 
-    for (const node of [...graph.nodes].filter((node) => node[1].type != NodeType.HALL)) {
-        const came_from = graph.strategy.runSearch(graph, node[0], "n/a");
-        const include = new Set<string>;
-        for (const edge of came_from) {
-            include.add(edge[1]);
-            if (graph.nodes.get(edge[0])?.type !== NodeType.HALL) {
-                include.add(edge[0]);
-            }
-        }
+    const nodesWithoutHalls = [...graph.nodes].filter((node) => node[1].type != NodeType.HALL);
 
-        for (const edge of came_from) {
-            if (edge[0] !== "" && edge[1] !== "" && include.has(edge[0])) {
-                graph.incrementEdge(edge[0], edge[1]);
+    for (const node of nodesWithoutHalls) {
+        const came_from = graph.strategy.runSearch(graph, node[0], "n/a");
+
+        for (const end of nodesWithoutHalls) {
+            if (end[0] === node[0]) {
+                continue;
+            }
+
+            let current: string = end[0];
+            let previous: string = came_from.get(current)!;
+
+            while (previous !== "") {
+                graph.incrementEdge(current, previous);
+                current = previous;
+                previous = came_from.get(current)!;
             }
         }
     }
