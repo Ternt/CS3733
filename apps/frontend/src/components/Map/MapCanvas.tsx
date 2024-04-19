@@ -17,6 +17,7 @@ import {
 import {clamp, distance} from "../../helpers/MathHelp.ts";
 import AnimatedPath from "./AnimatedPath.tsx";
 import CloseIcon from "@mui/icons-material/Close";
+import {interpolateColour} from "../../helpers/colorHelper.ts";
 
 
 
@@ -259,8 +260,16 @@ export default function MapCanvas(props: mapCanvasProps) {
         for (const n of renderData.n) {
           svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID ? "red" : "blue")));
         }
+        let min = 0, max = 0;
         for (const e of renderData.e) {
-          svgElements.push(drawLine(e.startNode.point, e.endNode.point, "blue"));
+          const h = e.heat;
+          if(h < min)min=h;
+          if(h > max)max=h;
+        }
+        for (const e of renderData.e) {
+          const heat = (e.heat - min) / (max - min);
+          const color = interpolateColour("#00ff00","#ff0000",heat);
+          svgElements.push(drawLine(e.startNode.point, e.endNode.point, color));
         }
       }
       setSvgInject(svgElements);
@@ -550,7 +559,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           return n.nodeID === r["endNodeID"];
         });
         if (end === undefined) continue;
-        const e: edge = {startNode: start, endNode: end};
+        const e: edge = {startNode: start, endNode: end, heat:r.heat};
         es.push(e);
       }
 
