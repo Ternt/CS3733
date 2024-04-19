@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import Box from "@mui/material/Box";
 import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
+import AboutPage from "./pages/AboutPage/AboutPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -80,7 +81,11 @@ function App() {
         {
           path: "/flower-order-confirmation",
           element: <ShopConfirmationPage returnPath="/flower-request"/>
-        }
+        },
+          {
+              path: "/about-page",
+              element: <AboutPage />
+          }
       ],
     },
   ]);
