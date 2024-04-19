@@ -1,95 +1,27 @@
-import {Box, Typography} from "@mui/material";
+import {Box} from "@mui/material";
+import {Typography} from "@mui/material";
 import {useEffect, useState} from "react";
-import {RequestInspectionDialogue} from "./RequestInspectionDialogue.tsx";
 import axios, {AxiosResponse} from "axios";
 import KanbanBoardCard from "./KanbanBoardCard.tsx";
-// import AddIcon from '@mui/icons-material/Add';
-// import Button from "@mui/material/Button";
-
-export type RequestCard = {
-    type:string;
-}
-
-export type AssignedEmployee = {
-    id: number;
-    firstName: string;
-    lastName: string;
-    assignedRequests: ServiceRequest[];
-}
-
-export type Node = {
-    nodeID: string;
-    xcoord: number;
-    ycoord: number;
-    building: string;
-    floor: string;
-    longName: string;
-    shortName: string;
-    nodeType: string;
-}
-
-export type GiftRequest = {
-    requestID: number;
-    senderName: string;
-    recipientName: string;
-    shippingType: string;
-    cardNumber: number;
-    cardCVV: number;
-    cardHolderName: string;
-    cardExpirationDate: string;
-}
-
-export type MedicineRequest = {
-    requestID: number;
-    patientName: string;
-    primaryPhysicianName: string;
-    medicine: string;
-    dosage: number;
-    form: string;
-    date: string;
-}
-
-export type SanitationRequestMessTypes = {
-    messType: string;
-}
-
-export type SanitationRequest = {
-    requestID: number;
-    employeeName: string;
-    messTypes: SanitationRequestMessTypes[];
-    date: string;
-}
-
-export type MaintenanceRequest = {
-    requestID: number;
-    maintenanceType: string;
-    workersNeeded: number;
-}
-
-export type ServiceRequest = {
-    requestID: number,
-    priority: string,
-    status: string,
-    type: string,
-    location: Node,
-    assignedEmployee?: AssignedEmployee,
-    giftDetail? : GiftRequest,
-    maintenanceDetail?: MaintenanceRequest,
-    sanitationDetail?: SanitationRequest,
-    medicineDetail?: MedicineRequest,
-    notes?: string,
-}
+import {AssignedEmployee, ServiceRequest} from "../../helpers/typestuff.ts";
+// import {RequestInspectionDialogue} from "./RequestInspectionDialogue.tsx";
 
 export default function ServiceRequestOverview(){
 
-    const [selectedCard, setSelectedCard] = useState<RequestCard | null>(null);
+    // const [selectedCard, setSelectedCard] = useState<RequestCard | null>(null);
     const [reqs, setReqs] = useState<ServiceRequest[]>([]);
+    const [employeeList, setEmployeeList] = useState<AssignedEmployee[]>([]);
     const reqTypes = ["MEDICINE", "SANITATION", "GIFT", "MAINTENANCE"];
 
     useEffect(()=>{
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
-            setReqs(res.data);
-            console.log(res.data);
+            setReqs(res.data.reverse());
+        });
+        axios.get('/api/employees').then((res: AxiosResponse) => {
+            if(res.status !== 200){
+                console.error("die");
+            }
+            setEmployeeList(res.data);
         });
     }, []);
 
@@ -105,7 +37,7 @@ export default function ServiceRequestOverview(){
                     flexDirection:'row',
                     justifyContent:'space-evenly',
                     alignItems:'flex-start',
-                    backgroundColor: '#fff',
+                    backgroundColor: '#FFFFFF',
                 }}
             >
                     {
@@ -154,11 +86,9 @@ export default function ServiceRequestOverview(){
                                             p: '5%',
                                         }}>
                                         {
-                                            reqs.map((service) => {
+                                            reqs.filter(x=> x.type === category).map((service) => {
                                                 return(
-                                                    service.type === category ?
-                                                      <KanbanBoardCard serviceRequestData={service}/> :
-                                                      <></>
+                                                    <KanbanBoardCard key={service.requestID} serviceRequestData={service} employeeList={employeeList} />
                                                 );
                                             })
                                         }
@@ -167,12 +97,12 @@ export default function ServiceRequestOverview(){
                             );})
                     }
             </Box>
-            <RequestInspectionDialogue
-                selectedRequest={selectedCard}
-                onCloseDialogue={()=>{
-                    setSelectedCard(null);
-                }}
-            />
+            {/*<RequestInspectionDialogue*/}
+            {/*    selectedRequest={selectedCard}*/}
+            {/*    onCloseDialogue={()=>{*/}
+            {/*        setSelectedCard(null);*/}
+            {/*    }}*/}
+            {/*/>*/}
         </>
     );
 }
