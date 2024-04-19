@@ -162,7 +162,7 @@ export class Graph {
     incrementEdge(start: string, end: string) {
         const search = this.edges.get(start);
         if (search == undefined) {
-            console.error("start node does not exist");
+            console.error("start", start, "node does not exist");
             return;
         }
 
