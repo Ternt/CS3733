@@ -83,7 +83,7 @@ function App() {
                     element: <ShopConfirmationPage returnPath="/flower-request"/>
                 },
                 {
-                    path: "/directions?startLocation=:startLocation&endLocation=:endLocation&algo=:algo",
+                    path: "directions",
                     element: <PhoneDirectionsPage/>
                 }
             ],
