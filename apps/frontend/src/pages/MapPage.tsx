@@ -5,7 +5,11 @@ import LocationDropdown from "../components/LocationDropdown.tsx";
 import MapCanvas from "../components/Map/MapCanvas.tsx";
 import NaturalLanguageDirection from "../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
 import MenuItem from "@mui/material/MenuItem";
-
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
+import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
+import Button from "@mui/material/Button";
 export default function MapPage() {
     useEffect(() => {
         document.title = "Map";
@@ -50,14 +54,14 @@ export default function MapPage() {
                 <Box
                   sx={{
                     width: '95%',
-                    height: 'calc(90vh - 1.25%)',
+                    height: 'calc(90vh - 2.5%)',
                     borderRadius: '2rem',
                     boxShadow: 5,
                     p:2,
                     m:'2.5%',
                     display:'flex',
                     flexDirection:'column',
-                    gap:1.2,
+                    gap:1.5,
                 }}
                 >
                     <Typography
@@ -67,14 +71,49 @@ export default function MapPage() {
                     >
                         NAVIGATION MENU
                     </Typography>
-                    <LocationDropdown
-                        onChange={(v: string) => {
-                            setStartLocation(v);
-                        }}
-                        value={startLocation}
-                        filterTypes={["HALL"]}
-                        label={"Start "}
-                    />
+                    <Box
+                      sx={{
+                        display:'flex',
+                        flexDirection:'row',
+                        flexWrap:'nowrap',
+                        alignItems:'center',
+                        gap:'.25rem'
+                      }}
+                    >
+                      <MyLocationIcon/>
+                      <LocationDropdown
+                          onChange={(v: string) => {
+                              setStartLocation(v);
+                          }}
+                          value={startLocation}
+                          filterTypes={["HALL"]}
+                          label={"Start "}
+                      />
+                    </Box>
+                    <Button
+                      onClick={()=>{
+                        const s = startLocation;
+                        const e = endLocation;
+                        setStartLocation(e);
+                        setEndLocation(s);
+                      }}
+                      sx={{
+                        borderRadius:'100px',
+                        height:'2rem',
+                      }}
+                    >
+                      <SwapVertIcon/>
+                    </Button>
+                  <Box
+                    sx={{
+                      display:'flex',
+                      flexDirection:'row',
+                      flexWrap:'nowrap',
+                      alignItems:'center',
+                      gap:'.25rem'
+                    }}
+                  >
+                    <PinDropOutlinedIcon/>
                     <LocationDropdown
                         onChange={(v: string) => {
                             setEndLocation(v);
@@ -83,6 +122,17 @@ export default function MapPage() {
                         filterTypes={["HALL"]}
                         label={"End "}
                     />
+                  </Box>
+                  <Box
+                    sx={{
+                      display:'flex',
+                      flexDirection:'row',
+                      flexWrap:'nowrap',
+                      alignItems:'center',
+                      gap:'.25rem'
+                    }}
+                  >
+                    <RouteOutlinedIcon />
                     <TextField
                         select
                         onChange={(e) => {
@@ -93,12 +143,13 @@ export default function MapPage() {
                         }}
                         value={searchAlgorithm}
                         label={"Algorithm "}
-                        helperText={algos[searchAlgorithm].helper}
+                        //helperText={algos[searchAlgorithm].helper}
                     >
                         {
                             algos.map((a, i) => <MenuItem key={a.api} value={i}>{a.title}</MenuItem>)
                         }
                     </TextField>
+                  </Box>
                     <Box sx={{
                       width: '100%',
                       backgroundColor: 'white',
