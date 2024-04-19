@@ -7,6 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
 import * as React from "react";
+import InformationField from "./InformationField.tsx";
 
 type KanbanBoardProp = {
     serviceRequestData: ServiceRequest;
@@ -181,69 +182,22 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                 <Typography sx={{width: '50%'}}>Priority: </Typography>
                                 <Typography>{serviceData.priority.toLowerCase()}</Typography>
                             </Box>
-                            {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Sender: </Typography>
-                                    <Typography>{serviceData.giftDetail.senderName}</Typography>
-                                </Box>
 
-                            }
+                            <InformationField label={"Sender"} data={serviceData.giftDetail?.senderName}></InformationField>
 
-                            {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Recipient: </Typography>
-                                    <Typography>{serviceData.giftDetail.recipientName}</Typography>
-                                </Box>
-                            }
+                            <InformationField label={"Recipient"} data={serviceData.giftDetail?.recipientName}></InformationField>
 
-                            {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Shipping Type: </Typography>
-                                    <Typography>{serviceData.giftDetail.shippingType.toLowerCase()}</Typography>
-                                </Box>
-                            }
+                            <InformationField label={"Shipping Type"} data={serviceData.giftDetail?.shippingType.toLowerCase()}></InformationField>
 
-                            {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Patient Name: </Typography>
-                                    <Typography>{serviceData.medicineDetail.patientName}</Typography>
-                                </Box>
-                            }
+                            <InformationField label={"Patient Name"} data={serviceData.medicineDetail?.patientName}></InformationField>
 
-                            {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Physician Name: </Typography>
-                                    <Typography>{serviceData.medicineDetail.primaryPhysicianName}</Typography>
-                                </Box>
-                            }
+                            <InformationField label={"Physician Name"} data={serviceData.medicineDetail?.primaryPhysicianName}></InformationField>
 
-                            {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Medicine: </Typography>
-                                    <Typography>{serviceData.medicineDetail.medicine.toLowerCase().replace("_", " ")}</Typography>
-                                </Box>
-                            }
+                            <InformationField label={"Medicine"} data={serviceData.medicineDetail?.medicine.toLowerCase().replace("_", " ")}></InformationField>
 
-                            {(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Date: </Typography>
-                                    <Typography>{serviceData.sanitationDetail.date}</Typography>
-                                </Box>
-                            }
+                            <InformationField label={"Date"} data={serviceData.sanitationDetail?.date}></InformationField>
+
+                            <InformationField label={"Date"} data={serviceData.sanitationDetail?.date}></InformationField>
 
                             {(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?"":(
                                 serviceData.sanitationDetail.messTypes.map((messtype)=>{
@@ -260,9 +214,6 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                 flexDirection: 'row',
                                 pt: 3
                             }}>
-                                {/*{(serviceData.assignedEmployee === undefined || serviceData.assignedEmployee === null)?*/}
-                                {/*    <></> : <Typography>{serviceData.assignedEmployee.firstName + " " + serviceData.assignedEmployee.lastName}</Typography>*/}
-                                {/*}*/}
                                 <FormControl
                                     sx={{width: "100%", display: "flex", flexDirection: "column"}}>
                                     <TextField
