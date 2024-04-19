@@ -290,7 +290,7 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                                         label={(serviceData.assignedEmployee === null)?
                                                             "Employee"
                                                             :
-                                                            (serviceData.assignedEmployee.firstName + " " + serviceData.assignedEmployee.lastName)}
+                                                            (serviceData.assignedEmployee?.firstName + " " + serviceData.assignedEmployee?.lastName)}
                                                     />}
                                             onChange={onChangeEmployee}
                                         />
