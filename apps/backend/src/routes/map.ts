@@ -1,5 +1,5 @@
 import express, { Router, Request, Response } from "express";
-import { PrismaClient } from "database";
+import PrismaClient from "../bin/database-connection.ts";
 import { createDatabase } from "../helper/createDatabase.ts";
 
 export function splitLines(t: string): string[] {
@@ -10,9 +10,8 @@ const router: Router = express.Router();
 
 //Return all map edges and nodes
 router.get("/", async function (req: Request, res: Response) {
-  const prisma = new PrismaClient();
-  const nodes = await prisma.nodeDB.findMany();
-  const edges = await prisma.edgeDB.findMany();
+  const nodes = await PrismaClient.nodeDB.findMany();
+  const edges = await PrismaClient.edgeDB.findMany();
 
   if (nodes == null) {
     console.error("Node Retrieval Failed");
@@ -63,7 +62,7 @@ router.post("/upload", async function (req: Request, res: Response) {
   }
 
   try {
-    createDatabase(header, node_str, edge_str);
+    createDatabase(header, node_str, edge_str, false);
   } catch (error) {
     console.log("node file upload failed");
     res.sendStatus(406);
