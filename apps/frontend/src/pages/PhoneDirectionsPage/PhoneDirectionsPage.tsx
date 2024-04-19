@@ -1,21 +1,24 @@
-import { useParams } from 'react-router-dom';
-import NaturalLanguageDirection from "../../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
-import {useState, useEffect} from "react";
-
+import { useState, useEffect } from "react";
+import { useSearchParams } from 'react-router-dom';
 import {
     List,
     ListItem,
     ListItemText,
 } from "@mui/material";
+import NaturalLanguageDirection from "../../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
 
 const PhoneDirectionsPage: React.FC = () => {
     const [natLangPath, setNatLangPath] = useState<string[]>([]);
-    const { startLocation = 'ACONF00102', endLocation = 'ACONF00103', searchAlgorithm = '0' } = useParams<{ startLocation?: string; endLocation?: string; searchAlgorithm?: string }>();
-    let numericSearchAlgorithm = parseInt(searchAlgorithm, 10);
+    const [searchParams] = useSearchParams();
+
+    const startLocation = searchParams.get('startLocation') || 'ACONF00102';
+    const endLocation = searchParams.get('endLocation') || 'ACONF00103';
+    const algo = searchParams.get('algo') || '0';
+    let numericSearchAlgorithm = parseInt(algo, 10);
 
     if (isNaN(numericSearchAlgorithm)) {
         console.error('Invalid search algorithm number provided, setting to default.');
-        numericSearchAlgorithm = 0;
+        numericSearchAlgorithm = 0; // Default value
     }
 
     useEffect(() => {
@@ -24,12 +27,12 @@ const PhoneDirectionsPage: React.FC = () => {
             if (res !== undefined) {
                 setNatLangPath(res);
             } else {
-                setNatLangPath(["Select a Path"]);
+                setNatLangPath(["Select a Path"]); // Default path if fetch fails or returns undefined
             }
         }
 
         setPath();
-    }, [startLocation, endLocation, numericSearchAlgorithm]);
+    }, [startLocation, endLocation, numericSearchAlgorithm]); // Dependency array to re-run this effect if any of these values change
 
     return (
         <List dense>
