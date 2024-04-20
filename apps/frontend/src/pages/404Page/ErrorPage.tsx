@@ -1,10 +1,9 @@
-import {Box, Button, Card, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import SearchBar from "../../components/SearchBar/searchBar.tsx";
+import DirectionsCard from "./DirectionsCard.tsx";
 
 export default function ErrorPage() {
-  const navigate = useNavigate();
-
     return (
         <>
             <Box sx={{
@@ -37,7 +36,7 @@ export default function ErrorPage() {
                                 fontSize: "6rem",
                                 textAlign: "center",
                                 fontWeight: 600,
-                                color: "#012d5a",
+                                color: "secondary.main",
                                 p: '1rem',
                                 pb: 0,
                             }}
@@ -60,7 +59,7 @@ export default function ErrorPage() {
                     </Box>
                     <Box sx={{
                         height: "20%",
-                        width: "70%",
+                        width: "90%",
                         display: "flex",
                         flexDirection: "row",
                         justifyContent: "center",
@@ -78,84 +77,12 @@ export default function ErrorPage() {
                         >
                             Try searching for the page:
                         </Typography>
-                        <Button>Filler Button</Button>
+                      <SearchBar border="3px solid" borderColor="secondary.main" borderRadius="5px"/>
                     </Box>
                 </Box>
 
-                <Card variant="outlined"
-                    onClick={() => navigate("/map")}
-                    sx={{
-                    height: "50vh",
-                    width: "40vw",
-                    p: "1rem",
-                    backgroundColor: "#f1f1f1",
-                      "&:hover": {
-                        cursor: "pointer",
-                        boxShadow: 4,
-                      }
-                }}>
-                    <Box sx={{
-                        height: "20%",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}>
-                        <Typography
-                            sx={{
-                                fontFamily: "Open Sans",
-                                fontSize: "2rem",
-                                textAlign: "center",
-                                fontWeight: 1000,
-                                color: "#012d5a",
-                                p: '1rem',
-                            }}
-                        >
-                            Looking For Directions?
-                        </Typography>
-                    </Box>
-                    <Box sx={{
-                        height: "80%",
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-evenly",
-                        alignItems: "center",
-                        border: "solid 5px #012d5a",
-                        borderRadius: "10px",
-                    }}>
-                        <Box sx={{
-                            backgroundColor: "gray",
-                            height: "70%",
-                            width: "75%",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}>
-                            <h2>Map Image Here</h2>
-                        </Box>
-                        <Box sx={{
-                            height: "15%",
-                            width: "65%",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}>
-                            <Typography
-                                sx={{
-                                    fontFamily: "Open Sans",
-                                    fontSize: "2rem",
-                                    textAlign: "center",
-                                    fontWeight: 675,
-                                    color: "#012d5a",
-                                    p: '1rem',
-                                }}
-                            >
-                                Try our map!
-                            </Typography>
-                        </Box>
-                    </Box>
-                </Card>
+                <DirectionsCard />
+
             </Box>
         </>
     );
