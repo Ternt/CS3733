@@ -37,7 +37,6 @@ export default function ServiceRequestOverview(){
     }, []);
 
     function onChange(value: EmployeeAutocompleteOption){
-        console.log(value);
         setFilteredRequests(serviceRequests.filter((request) => request.assignedEmployee?.id === value.id));
     }
 
