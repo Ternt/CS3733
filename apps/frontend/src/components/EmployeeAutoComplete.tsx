@@ -11,6 +11,7 @@ type EmployeeAutoCompleteProp = {
     employeeList: EmployeeAutocompleteOption[];
     onChange:  (value: EmployeeAutocompleteOption) => void;
     onClear?: () => void;
+    disableClearable?: boolean;
 };
 
 
@@ -18,6 +19,7 @@ export default function EmployeeAutoComplete(prop: EmployeeAutoCompleteProp){
 
     return(
         <Autocomplete
+            disableClearable={prop.disableClearable}
             fullWidth
             options={prop.employeeList}
             renderInput={(params)=><TextField{...params} label={prop.label}/>}

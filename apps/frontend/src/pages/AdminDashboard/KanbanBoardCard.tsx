@@ -197,6 +197,7 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                                 (serviceData.assignedEmployee && typeof serviceData.assignedEmployee === "object")?
                                                     serviceData.assignedEmployee?.firstName:"Employee"
                                             }
+                                            disableClearable={true}
                                             employeeList={prop.employeeList}></EmployeeAutoComplete>
                                     </Box>
                                 </FormControl>

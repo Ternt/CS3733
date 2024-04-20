@@ -53,7 +53,10 @@ export default function ServiceRequestOverview(){
                         onChange={(label: EmployeeAutocompleteOption) => {
                             onChange(label);
                         }}
-                        label={"Filter..."} employeeList={employeeList}></EmployeeAutoComplete>
+                        label={"Filter..."} employeeList={employeeList}
+                        disableClearable={false}
+                    >
+                    </EmployeeAutoComplete>
                 </Box>
                 <Box
                     sx={{
