@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
+import {Button, Fade} from '@mui/material';
 import Box from "@mui/material/Box";
 import QRCode from "qrcode";
 
@@ -49,23 +49,37 @@ export default function QRCodePopUp(props: QRCodePopUpProp) {
             >
                 QR Code
             </Button>
-            {showQRCode && (
+            <Fade in={showQRCode}>
                 <Box
-                    component="img"
-                    className={"logo"}
-                    src={imgSource}
-                    alt={"QR Code"}
+                    onClick={toggleQRCode}
                     sx={{
-                        height: "50vh",
-                        width: "50vh",
-                        mx: 1,
-                        p: "1%",
-                        position: 'absolute',
-                        top: '30%',
-                        left: '40%',
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        bgcolor: '#000000CC',
+                        zIndex: 1000,
                     }}
+                >
+                    <Box
+                        component="img"
+                        className={"logo"}
+                        src={imgSource}
+                        alt={"QR Code"}
+                        sx={{
+                            height: "50vh",
+                            width: "50vh",
+                            mx: 1,
+                            p: "1%",
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: "translate(-50%, -50%)"
+                        }}
                 ></Box>
-            )}
+                </Box>
+            </Fade>
         </Box>
     );
 };
