@@ -7,27 +7,27 @@ export type EmployeeAutocompleteOption = {
 };
 
 type EmployeeAutoCompleteProp = {
-    onChange:  (value: EmployeeAutocompleteOption) => void;
     label: string;
     employeeList: EmployeeAutocompleteOption[];
+    onChange:  (value: EmployeeAutocompleteOption) => void;
+    onClear?: () => void;
 };
 
 
 export default function EmployeeAutoComplete(prop: EmployeeAutoCompleteProp){
-
-    function onInputChange(event){
-        console.log(event);
-    }
 
     return(
         <Autocomplete
             fullWidth
             options={prop.employeeList}
             renderInput={(params)=><TextField{...params} label={prop.label}/>}
-            onInputChange={(event) => onInputChange(event)}
-            onChange={(e, newValue) => {
-                if (newValue && typeof newValue === "object") {
-                    prop.onChange(newValue);
+            onChange={(e, newLabel, value) => {
+                if (value === "selectOption" && newLabel && typeof newLabel === "object") {
+                    prop.onChange(newLabel);
+                }
+
+                if(value === "clear" && prop.onClear){
+                    prop.onClear();
                 }
             }}
         >

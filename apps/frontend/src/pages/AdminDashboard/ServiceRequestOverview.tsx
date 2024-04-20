@@ -41,13 +41,18 @@ export default function ServiceRequestOverview(){
         setFilteredRequests(serviceRequests.filter((request) => request.assignedEmployee?.id === value.id));
     }
 
+    function onClear(){
+        setFilteredRequests(serviceRequests);
+    }
+
     return(
         <>
             <Box>
                 <Box sx={{p: 1, backgroundColor: '#FFFFFF'}}>
                     <EmployeeAutoComplete
-                        onChange={(v: EmployeeAutocompleteOption) => {
-                            onChange(v);
+                        onClear={onClear}
+                        onChange={(label: EmployeeAutocompleteOption) => {
+                            onChange(label);
                         }}
                         label={"Filter..."} employeeList={employeeList}></EmployeeAutoComplete>
                 </Box>

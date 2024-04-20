@@ -191,7 +191,8 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                     <Box sx={{width: "100%", p: 1}}>
                                         <EmployeeAutoComplete
                                             onChange={(v: EmployeeAutocompleteOption)=>{
-                                                onChangeEmployee(v);}}
+                                                onChangeEmployee(v);
+                                            }}
                                             label={
                                                 (serviceData.assignedEmployee && typeof serviceData.assignedEmployee === "object")?
                                                     serviceData.assignedEmployee?.firstName:"Employee"
