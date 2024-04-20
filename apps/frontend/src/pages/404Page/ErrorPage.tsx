@@ -1,6 +1,5 @@
 import {Box, Typography} from "@mui/material";
 import React from "react";
-import SearchBar from "../../components/SearchBar/searchBar.tsx";
 import DirectionsCard from "./DirectionsCard.tsx";
 
 export default function ErrorPage() {
@@ -30,6 +29,16 @@ export default function ErrorPage() {
                         justifyContent: "center",
                         alignItems: "center",
                     }}>
+                      <img src="https://pngimg.com/uploads/stethoscope/stethoscope_PNG6.png"
+                           alt="Stethoscope included for stylistic purposes"
+                        style={{
+                          position: "absolute",
+                          zIndex: "-1",
+                          opacity: "10%",
+                          height: "100%",
+                          translate: "-15vw",
+                          transform: "scaleX(-1)"
+                        }}/>
                         <Typography
                             sx={{
                                 fontFamily: "Open Sans",
@@ -65,19 +74,7 @@ export default function ErrorPage() {
                         justifyContent: "center",
                         alignItems: "center",
                     }}>
-                        <Typography
-                            sx={{
-                                fontFamily: "Open Sans",
-                                fontSize: "1rem",
-                                textAlign: "center",
-                                fontWeight: 500,
-                                color: "#2f2f2f",
-                                p: '1rem',
-                            }}
-                        >
-                            Try searching for the page:
-                        </Typography>
-                      <SearchBar border="3px solid" borderColor="secondary.main" borderRadius="5px"/>
+
                     </Box>
                 </Box>
 
