@@ -2,15 +2,16 @@ import Box from "@mui/material/Box";
 import * as React from "react";
 //import Tabs from "@mui/material/Tabs";
 //import Tab from "@mui/material/Tab";
-import { FormControl, TextField } from "@mui/material";
+import {Chip, FormControl, TextField, Typography} from "@mui/material";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
-import { node } from "../helpers/typestuff.ts";
+import {edge, node} from "../helpers/typestuff.ts";
 
 type InfoMenuProp = {
   nodeData: node | null;
   onClose: () => void;
   onChangeNode: (node: node | null) => void;
+  edges: edge[];
 };
 
 export default function InformationMenu(props: InfoMenuProp) {
@@ -18,7 +19,6 @@ export default function InformationMenu(props: InfoMenuProp) {
 
   const [newNodeData, setNewNodeData] = useState<node | null>(props.nodeData);
   useEffect(() => {
-    console.log(props.nodeData);
     setNewNodeData(props.nodeData);
   }, [props.nodeData]);
 
@@ -134,15 +134,33 @@ export default function InformationMenu(props: InfoMenuProp) {
               bgcolor:'white'
             }}
           >
-            <TextField
-              label={"Node ID"}
-              value={newNodeData.nodeID}
-              sx={adminCardStyleBody}
-              onChange={(e) => {
-                console.log(e.target.value);
-                setNewNodeData({ ...newNodeData, nodeID: e.target.value });
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection:'row',
+                gap:1
               }}
-            />
+            >
+              <TextField
+                label={"Node ID"}
+                value={newNodeData.nodeID}
+                sx={adminCardStyleBody}
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  setNewNodeData({ ...newNodeData, nodeID: e.target.value });
+                }}
+              />
+              <TextField
+                label={"Floor"}
+                value={
+                  newNodeData.floor
+                }
+                sx={adminCardStyleBody}
+                onChange={(e) => {
+                  setNewNodeData({ ...newNodeData, floor: e.target.value });
+                }}
+              />
+            </Box>
             <TextField
               label={"Short Name"}
               value={
@@ -163,36 +181,34 @@ export default function InformationMenu(props: InfoMenuProp) {
                 setNewNodeData({ ...newNodeData, longName: e.target.value });
               }}
             />
-            <TextField
-              label={"Floor"}
-              value={
-                newNodeData.floor
-              }
-              sx={adminCardStyleBody}
-              onChange={(e) => {
-                setNewNodeData({ ...newNodeData, floor: e.target.value });
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection:'row',
+                gap:1
               }}
-            />
-            <TextField
-              label={"Building"}
-              value={
-                newNodeData.building
-              }
-              sx={adminCardStyleBody}
-              onChange={(e) => {
-                setNewNodeData({ ...newNodeData, building: e.target.value });
-              }}
-            />
-            <TextField
-              label={"Node Type"}
-              value={
-                newNodeData.nodeType
-              }
-              sx={adminCardStyleBody}
-              onChange={(e) => {
-                setNewNodeData({ ...newNodeData, nodeType: e.target.value });
-              }}
-            />
+            >
+              <TextField
+                label={"Building"}
+                value={
+                  newNodeData.building
+                }
+                sx={adminCardStyleBody}
+                onChange={(e) => {
+                  setNewNodeData({ ...newNodeData, building: e.target.value });
+                }}
+              />
+              <TextField
+                label={"Node Type"}
+                value={
+                  newNodeData.nodeType
+                }
+                sx={adminCardStyleBody}
+                onChange={(e) => {
+                  setNewNodeData({ ...newNodeData, nodeType: e.target.value });
+                }}
+              />
+            </Box>
             <Box
               sx={{
                 display: "flex",
@@ -234,6 +250,36 @@ export default function InformationMenu(props: InfoMenuProp) {
                   });
                 }}
               />
+            </Box>
+            <Box
+              sx={{
+                display:'flex',
+                flexWrap:'wrap',
+                gap:1
+              }}
+            >
+              <Typography variant={'caption'} sx={{display:'block', width:'100%'}}>Neighbors</Typography>
+              {
+                // filter all edges that have this as a node, display the other node as the neighbors
+                // add neighbor button that brings up a text popup to add the selection
+                props.edges.filter((x)=>{
+                  if(props.nodeData === null)return false;
+                  if(x.startNode.nodeID === props.nodeData?.nodeID || x.endNode.nodeID === props.nodeData?.nodeID)return true;
+                }).map((x)=>{
+                  if(x.startNode.nodeID === props.nodeData?.nodeID)
+                    return (<Chip label={x.endNode.nodeID} variant="outlined" onDelete={()=>{
+                      return true;
+                    }} />);
+                  if(x.endNode.nodeID === props.nodeData?.nodeID)
+                    return (<Chip label={x.startNode.nodeID} variant="outlined" onDelete={()=>{
+                      return true;
+                    }} />);
+                  return (<></>);
+                })
+              }
+              <Chip label={"+"} variant="outlined" onClick={()=>{
+                return true;
+              }} />
             </Box>
             <Button
               type="button"
