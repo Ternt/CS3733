@@ -1,7 +1,9 @@
 import {Box, Button, Card, Typography} from "@mui/material";
 import React from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function ErrorPage() {
+  const navigate = useNavigate();
 
     return (
         <>
@@ -80,10 +82,17 @@ export default function ErrorPage() {
                     </Box>
                 </Box>
 
-                <Card sx={{
+                <Card variant="outlined"
+                    onClick={() => navigate("/map")}
+                    sx={{
                     height: "50vh",
                     width: "40vw",
                     p: "1rem",
+                    backgroundColor: "#f1f1f1",
+                      "&:hover": {
+                        cursor: "pointer",
+                        boxShadow: 4,
+                      }
                 }}>
                     <Box sx={{
                         height: "20%",
