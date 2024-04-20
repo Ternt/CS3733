@@ -6,6 +6,7 @@ import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
 import {FLOOR_IDS, FLOOR_NAMES} from "../../helpers/MapHelper.ts";
 import CloseIcon from '@mui/icons-material/Close';
+import {LayoutGroup} from "framer-motion";
 
 type MapControlProps = {
   floor: number;
@@ -45,84 +46,86 @@ export default function MapControls(props: MapControlProps) {
         flexWrap: "nowrap",
       }}
     >
-      <SpeedDial
-        ariaLabel="Map controls"
-        icon={<Typography variant={"subtitle1"}> {FLOOR_IDS[props.floor]}</Typography>}
-        open={true}
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          toggleFloorSelector();
-        }}
-        onMouseEnter={() => {
-          toggleFloorSelector();
-        }}
-        onMouseLeave={() => {
-          setFloorSelectorOpen(false);
-        }}
-      >
-        {FLOOR_IDS.map((floor, index) => {
-          return (
-            <SpeedDialAction
-              key={floor}
-              icon={floor}
-              tooltipTitle={FLOOR_NAMES[index]}
+      <LayoutGroup>
+        <SpeedDial
+          ariaLabel="Map controls"
+          icon={<Typography variant={"subtitle1"}> {FLOOR_IDS[props.floor]}</Typography>}
+          open={true}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            toggleFloorSelector();
+          }}
+          onMouseEnter={() => {
+            toggleFloorSelector();
+          }}
+          onMouseLeave={() => {
+            setFloorSelectorOpen(false);
+          }}
+        >
+          {FLOOR_IDS.map((floor, index) => {
+            return (
+              <SpeedDialAction
+                key={floor}
+                icon={floor}
+                tooltipTitle={FLOOR_NAMES[index]}
+                onClick={() => {
+                  props.onSetFloorIndex(index);
+                }}
+              />
+            );
+          })}
+        </SpeedDial>
+        <SpeedDial
+          ariaLabel="Map controls"
+          icon={<ZoomInIcon/>}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            props.onSetZoom(props.zoom - props.zoomSpeed);
+          }}
+        />
+        <SpeedDial
+          ariaLabel="Map controls"
+          icon={<ZoomOutIcon/>}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            props.onSetZoom(props.zoom + props.zoomSpeed);
+          }}
+        />
+        <SpeedDial
+          ariaLabel="Map controls"
+          icon={<CenterFocusWeakIcon/>}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            props.onResetMap();
+          }}
+        />
+        <Snackbar
+          anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+          open={notification !== ''}
+          onClose={() => {
+            setNotification('');
+          }}
+          autoHideDuration={5000}
+          message={notification}
+          key={"Notif"}
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              sx={{p: 0.5}}
               onClick={() => {
-                props.onSetFloorIndex(index);
+                setNotification('');
               }}
-            />
-          );
-        })}
-      </SpeedDial>
-      <SpeedDial
-        ariaLabel="Map controls"
-        icon={<ZoomInIcon />}
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          props.onSetZoom(props.zoom - props.zoomSpeed);
-        }}
-      />
-      <SpeedDial
-        ariaLabel="Map controls"
-        icon={<ZoomOutIcon />}
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          props.onSetZoom(props.zoom + props.zoomSpeed);
-        }}
-      />
-      <SpeedDial
-        ariaLabel="Map controls"
-        icon={<CenterFocusWeakIcon />}
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          props.onResetMap();
-        }}
-      />
-      <Snackbar
-        anchorOrigin={{ vertical:'bottom', horizontal:'left' }}
-        open={notification !== ''}
-        onClose={()=>{
-          setNotification('');
-        }}
-        autoHideDuration={5000}
-        message={notification}
-        key={"Notif"}
-        action={
-          <IconButton
-            aria-label="close"
-            color="inherit"
-            sx={{ p: 0.5 }}
-            onClick={()=>{
-              setNotification('');
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        }
-      />
+            >
+              <CloseIcon/>
+            </IconButton>
+          }
+        />
+      </LayoutGroup>
     </Box>
   );
 }
