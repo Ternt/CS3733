@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios, { AxiosResponse } from "axios";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import {
   Box,
   Paper,
@@ -30,6 +32,94 @@ type edge = {
   endNodeID: string;
   blocked: boolean;
 };
+
+export function UploadButton() {
+    return (
+        <Button variant="contained" color="primary" component="span">
+            Upload
+        </Button>
+    );
+}
+
+export function UploadForm() {
+    return (
+        <form>
+            <TextField type="file" />
+            <Button variant="contained" color="primary" component="span">
+                Upload
+            </Button>
+        </form>
+    );
+}
+
+ const InputCSV: React.FC = () => {
+    const [nodeFile, setNodeFile] = useState<File | null>(null);
+    const [edgeFile, setEdgeFile] = useState<File | null>(null);
+
+    const handleNodeFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setNodeFile(event.target.files ? event.target.files[0] : null);
+    };
+
+    const handleEdgeFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEdgeFile(event.target.files ? event.target.files[0] : null);
+    };
+
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        if (nodeFile && edgeFile) {
+            const formData = new FormData();
+            formData.append('nodes', nodeFile);
+            formData.append('edges', edgeFile);
+
+            try {
+                const response = await axios.post('/api/map/upload', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            console.log('Both files are required');
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <TextField
+                type="file"
+                InputProps={{
+                    inputProps: {
+                        accept: '.csv'
+                    }
+                }}
+                onChange={handleNodeFileChange}
+            />
+            <TextField
+                type="file"
+                InputProps={{
+                    inputProps: {
+                        accept: '.csv'
+                    }
+                }}
+                onChange={handleEdgeFileChange}
+            />
+            <Button variant="contained" color="primary" type="submit">
+                Upload
+            </Button>
+        </form>
+    );
+};
+
+
+// const DownloadCSV: React .FC = () => {
+//
+//
+// }
+
 
 const MapDataDisplay: React.FC = () => {
   const [nodeTable, setNodeTable] = useState<node[]>([]);
@@ -78,7 +168,8 @@ const MapDataDisplay: React.FC = () => {
         m: 4,
       }}
     >
-      <Box
+
+        <Box
         sx={{
           height:'10vh',
           width:'100%',
@@ -109,6 +200,7 @@ const MapDataDisplay: React.FC = () => {
           {v}
         </Box>)}
       </Box>
+
       {tab === 0 && <Paper>
         <Toolbar
           sx={{
@@ -246,7 +338,10 @@ const MapDataDisplay: React.FC = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>}
+        <InputCSV />
+
     </Box>
+
   );
 };
 
