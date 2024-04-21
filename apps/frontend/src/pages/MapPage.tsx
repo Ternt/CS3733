@@ -1,16 +1,42 @@
 import {useEffect, useState} from "react";
+import {Accordion, AccordionDetails, AccordionSummary, Box, Grid, TextField, Typography} from "@mui/material";
 import {speak} from "../components/TextToSpeech/TextToSpeech.tsx";
-import {Grid, Box, Typography, TextField} from "@mui/material";
 import LocationDropdown from "../components/LocationDropdown.tsx";
 import MapCanvas from "../components/Map/MapCanvas.tsx";
-import NaturalLanguageDirection from "../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
+import NaturalLanguageDirection, {
+  directionTypes
+} from "../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
 import MenuItem from "@mui/material/MenuItem";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {FLOOR_NAMES} from "../helpers/MapHelper.ts";
+
+import TurnLeftIcon from '@mui/icons-material/TurnLeft';
+import TurnRightIcon from '@mui/icons-material/TurnRight';
+import StraightIcon from '@mui/icons-material/Straight';
+import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import ElevatorOutlinedIcon from '@mui/icons-material/ElevatorOutlined';
+import StairsOutlinedIcon from '@mui/icons-material/StairsOutlined';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
 import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
 import Button from "@mui/material/Button";
 import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
+
+export function getIconFromDirectionType(t:directionTypes){
+  switch(t){
+    case directionTypes.STRAIGHT: return <StraightIcon/>;
+    case directionTypes.LEFT: return <TurnLeftIcon/>;
+    case directionTypes.RIGHT: return <TurnRightIcon/>;
+    case directionTypes.START: return <MyLocationIcon/>;
+    case directionTypes.END: return <PinDropOutlinedIcon/>;
+    case directionTypes.HELP: return <HelpOutlineOutlinedIcon/>;
+    case directionTypes.ELEVATOR: return <ElevatorOutlinedIcon/>;
+    case directionTypes.STAIRS: return <StairsOutlinedIcon/>;
+  }
+}
 
 export default function MapPage() {
     useEffect(() => {
@@ -26,15 +52,28 @@ export default function MapPage() {
     const [startLocation, setStartLocation] = useState("");
     const [endLocation, setEndLocation] = useState("");
     const [searchAlgorithm, setSearchAlgorithm] = useState(0);
-    const [natLangPath, setNatLangPath] = useState<string[]>([]);
+    const [natLangPath, setNatLangPath] = useState<{ messages:{a:string, t:directionTypes}[], floor:number }[]>([]);
 
     useEffect(() => {
         async function setPath() {
             const res = await NaturalLanguageDirection(startLocation, endLocation, searchAlgorithm);
-            if (res !== undefined)
-                setNatLangPath(res);
+            if (res !== undefined){
+              const m: { messages:{a:string, t:directionTypes}[], floor:number }[] = [];
+              let cf = -1;
+              for(const d of res){
+                if(d.floor !== cf){
+                  cf = d.floor;
+                  m.push({
+                    messages:[],
+                    floor:cf,
+                  });
+                }
+                m[m.length-1].messages.push({a:d.message, t:d.type});
+              }
+              setNatLangPath(m);
+            }
             else
-                setNatLangPath(["Select a Path"]);
+                setNatLangPath([{messages:[{a:"Select a Path",t:directionTypes.HELP}],floor:-1}]);
         }
 
         setPath();
@@ -175,15 +214,62 @@ export default function MapPage() {
                       borderTop:' 1px solid black',
                       pb:'5rem',
                     }}>
-
-                        {natLangPath.map((d: string, index) => {
-                            return (
+                        {natLangPath.map((d, index) => {
+                          if(d.floor === -1){
+                            return(
+                              <Box
+                                sx={{
+                                  width: '100%',
+                                  display:'flex',
+                                  flexDirection:'row',
+                                  flexWrap:'nowrap',
+                                  gap: 1
+                                }}
+                              >
+                                {getIconFromDirectionType(directionTypes.HELP)}
                                 <Typography
-                                    key={index}
-                                    variant={"subtitle2"}
+                                  key={"dir-1in"+index}
                                 >
-                                    {index + 1}. {d}
+                                  Select a start and end location
                                 </Typography>
+                              </Box>
+                            );
+                          }
+                            return (
+                              <Accordion
+                                key={"direct"+index}
+                                defaultExpanded={index===0}
+
+                              >
+                                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                  <Typography>
+                                    {FLOOR_NAMES[d.floor]}
+                                  </Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                  {d.messages.map((m,i)=>{
+                                      return(
+                                        <Box
+                                          sx={{
+                                            py:1,
+                                            width: '100%',
+                                            display:'flex',
+                                            flexDirection:'row',
+                                            flexWrap:'nowrap',
+                                            gap: 1
+                                            }}
+                                        >
+                                        {getIconFromDirectionType(m.t)}
+                                        <Typography
+                                          key={"dir"+i+"in"+index}
+                                        >
+                                          {m.a}
+                                        </Typography>
+                                        </Box>
+                                        );
+                                    })}
+                                </AccordionDetails>
+                              </Accordion>
                             );
                         })}
                     </Box>
