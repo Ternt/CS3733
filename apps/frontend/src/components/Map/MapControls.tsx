@@ -104,7 +104,7 @@ export default function MapControls(props: MapControlProps) {
           }}
         />
         <Snackbar
-          anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+          anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
           open={notification !== ''}
           onClose={() => {
             setNotification('');
