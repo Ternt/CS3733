@@ -18,6 +18,7 @@ import Box from "@mui/material/Box";
 // import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
+import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 
 function App() {
     const router = createBrowserRouter([
@@ -26,6 +27,10 @@ function App() {
             errorElement: <div/>,
             element: <Root/>,
             children: [
+                {
+                    path: "*",
+                    element: <ErrorPage />
+                },
                 {
                     path: "",
                     element: <HeroPage/>,
@@ -89,6 +94,7 @@ function App() {
             ],
         },
     ]);
+
 
     return (
         <ThemeProvider theme={CustomTheme}>
