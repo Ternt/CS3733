@@ -3,16 +3,15 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import logo from "../../assets/Brigham_and_Womens_Hospital_Logo_White.png";
 import {useNavigate} from "react-router-dom";
-import {Typography} from "@mui/material";
 import SearchBar from "../SearchBar/searchBar.tsx";
 import {useAuth0} from "@auth0/auth0-react";
 import LoginButton from "../LoginButton/LoginButton.tsx";
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import DropDownMenu from "../DropDownMenu.tsx";
+import NavbarItem from "./NavbarItem.tsx";
 
 const services = [
     {label: "Sanitation", path: "/sanitation"},
@@ -26,7 +25,7 @@ type ResponsiveAppBarProps = {
     toggleChatbot: () => void;
 }
 
-function ResponsiveAppBar(props: ResponsiveAppBarProps) {
+export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
     const navigate = useNavigate();
     const {user, isAuthenticated, isLoading} = useAuth0();
     const handleMenuItemClick = (path: string) => {
@@ -79,70 +78,12 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                                 sx={{width: "4vh", aspectRatio: "294/423", mx: 1, p: "1%"}}
                             ></Box>
                         </Link>
-                        <Button
-                            key={"home"}
-                            onClick={() => handleMenuItemClick("/")}
-                            sx={{
-                                color: "white",
-                                display: "block",
-                                fontSize: 15,
-                                transition: "all 0.2s ease-in-out",
-                                "&:hover": {
-                                    textDecoration: "underline",
-                                    background: "#012d5a",
-                                },
-                            }}
-                        >
-                            <Typography
-                                sx={{fontSize: "0.9rem",}}
-                            >
-                                Home
-                            </Typography>
-                        </Button>
-
-                        <Button
-                            key={"map"}
-                            onClick={() => handleMenuItemClick("/map")}
-                            sx={{
-                                color: "white",
-                                display: "block",
-                                fontSize: 15,
-                                transition: "all 0.2s ease-in-out",
-                                "&:hover": {
-                                    textDecoration: "underline",
-                                    background: "#012d5a",
-                                },
-                            }}
-                        >
-                            <Typography
-                                sx={{fontSize: "0.9rem"}}
-                            >
-                                Map
-                            </Typography>
-                        </Button>
-
-                        {!isLoading && (
+                        <NavbarItem title={"Home"} link={"/"}/>
+                        <NavbarItem title={"Map"} link={"/map"}/>
+                      {!isLoading && (
                             <>{permissionLevel === 2 && (
-                                    <Button
-                                        key={"admin"}
-                                        onClick={() => handleMenuItemClick("/admin")}
-                                        sx={{
-                                            color: "white",
-                                            display: "block",
-                                            fontSize: 15,
-                                            transition: "all 0.2s ease-in-out",
-                                            "&:hover": {
-                                                textDecoration: "underline",
-                                                background: "#012d5a",
-                                            },
-                                        }}
-                                    >
-                                        <Typography sx={{fontSize: "0.9rem"}}>
-                                            Admin
-                                        </Typography>
-                                    </Button>
-                                )}
-
+                              <NavbarItem title={"Admin"} link={"/admin"}/>
+                            )}
                                 {permissionLevel >= 1 && (
                                     <DropDownMenu label={"SERVICE REQUESTS"} menuData={services}></DropDownMenu>
                                 )}
@@ -169,5 +110,3 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
         </AppBar>
     );
 }
-
-export default ResponsiveAppBar;

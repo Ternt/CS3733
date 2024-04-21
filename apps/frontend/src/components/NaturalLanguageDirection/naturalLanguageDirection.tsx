@@ -11,7 +11,7 @@ type node = {
     floor?: string;
 };
 
-const PIXELS_PER_FOOT = 3;
+export const PIXELS_PER_FOOT = 3;
 
 function findNextNodeWithType(nodeTable: Array<node>, path: Array<string>, index: number){
     for (let i: number = index; i < path.length - 1; i++) {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {Button, Fade} from '@mui/material';
+import {Button, Fade, IconButton, Snackbar} from '@mui/material';
 import Box from "@mui/material/Box";
 import QRCode from "qrcode";
+import CloseIcon from "@mui/icons-material/Close";
 
 type QRCodePopUpProp = {
     startNode: string;
@@ -12,13 +13,13 @@ type QRCodePopUpProp = {
 export default function QRCodePopUp(props: QRCodePopUpProp) {
     const [showQRCode, setShowQRCode] = useState(false);
     const [imgSource, setImgSource] = useState("");
-    const toggleQRCode = () => {
-        setShowQRCode(!showQRCode);
-    };
+    const [notification, setNotification] = useState('');
+
 
     useEffect(() => {
       const url = `https://ec2-18-217-227-54.us-east-2.compute.amazonaws.com/directions?startLocation=${props.startNode}&endLocation=${props.endNode}&algo=${props.algo}`;
         const generateQRCode = () => {
+            console.log(url);
             QRCode.toDataURL(url, (err, url) => {
                 if (!err) {
                     setImgSource(url);
@@ -34,7 +35,17 @@ export default function QRCodePopUp(props: QRCodePopUpProp) {
             width: '50%',
         }}>
             <Button
-                onClick={toggleQRCode}
+                onClick={()=>{
+                   if(props.startNode === ''){
+                     setNotification('Select a start location');
+                     return;
+                   }
+                   if(props.endNode === ''){
+                     setNotification('Select an end location');
+                     return;
+                   }
+                   setShowQRCode(true);
+                }}
                 sx={{
                     backgroundColor: '#012d5a',
                     color: 'white',
@@ -51,7 +62,9 @@ export default function QRCodePopUp(props: QRCodePopUpProp) {
             </Button>
             <Fade in={showQRCode}>
                 <Box
-                    onClick={toggleQRCode}
+                    onClick={()=>{
+                      setShowQRCode(false);
+                    }}
                     sx={{
                         position: 'fixed',
                         top: 0,
@@ -80,6 +93,28 @@ export default function QRCodePopUp(props: QRCodePopUpProp) {
                 ></Box>
                 </Box>
             </Fade>
+          <Snackbar
+            anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
+            open={notification !== ''}
+            onClose={()=>{
+              setNotification('');
+            }}
+            autoHideDuration={5000}
+            message={notification}
+            key={"Notif"}
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                sx={{ p: 0.5 }}
+                onClick={()=>{
+                  setNotification('');
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            }
+          />
         </Box>
     );
 };
