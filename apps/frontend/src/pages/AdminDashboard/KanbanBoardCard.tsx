@@ -1,28 +1,28 @@
 import {ChangeEvent, useState} from "react";
-import {ServiceRequest} from "./ServiceRequestOverview";
+import {AssignedEmployee, ServiceRequest} from "../../helpers/typestuff.ts";
 import {Card, Collapse, FormControl, TextField, Typography} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
-// import PersonIcon from '@mui/icons-material/Person';
-
+import * as React from "react";
+import InformationField from "./InformationField.tsx";
+import EmployeeAutoComplete, {EmployeeAutocompleteOption} from "../../components/EmployeeAutoComplete.tsx";
 
 type KanbanBoardProp = {
     serviceRequestData: ServiceRequest;
+    employeeList: EmployeeAutocompleteOption[];
 };
 
 export default function KanbanBoardCard(prop: KanbanBoardProp){
     const [serviceData, setServiceData] = useState<ServiceRequest>(prop.serviceRequestData);
     const [expanded, setExpanded] = useState<boolean>(false);
 
-    const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
-        setServiceData({...serviceData, status: event.target.value});
-
-        const newStatus = {
+    function updateAssignmentStatus(newStatus: string){
+        const updatedStatus = {
             requestID: serviceData.requestID,
-            status: event.target.value
+            status: newStatus
         };
 
         fetch("/api/service-requests/update", {
@@ -30,7 +30,7 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(newStatus),
+            body: JSON.stringify(updatedStatus),
         })
             .then((response) => {
                 console.log(response);
@@ -40,12 +40,68 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
             .catch((error) => {
                 console.error("Error:", error);
             });
+    }
+
+    function updateEmployeeRequests(newEmployee: AssignedEmployee){
+        const newEmployeeService = {
+            employeeID: newEmployee?.id,
+            requestID: serviceData.requestID
+        };
+
+        fetch("/api/employees/assign", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newEmployeeService),
+        })
+            .then((response) => {
+                console.log(response);
+            })
+
+            .then((data) => console.log(data))
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
+
+    const onChangeEmployee = (newValue: EmployeeAutocompleteOption) => {
+        let statusChanged = false;
+        function changeStatus(employee: EmployeeAutocompleteOption, currentStatus: string): string{
+            if(currentStatus === "UNASSIGNED"){
+                statusChanged = true;
+                return "ASSIGNED";
+            }else{
+                return currentStatus;
+            }
+        }
+
+        const name = newValue.label.split(" ");
+        const newEmployee = {
+            firstName: name[0],
+            lastName: name[1],
+            id: newValue.id,
+            assignedRequests: [],
+        };
+
+        setServiceData(
+            {
+                ...serviceData,
+                assignedEmployee: newEmployee,
+                status: changeStatus(newValue, serviceData.status),
+            });
+
+        updateEmployeeRequests(newEmployee);
+        if(statusChanged){updateAssignmentStatus("ASSIGNMENT");}
     };
 
+    const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
+        setServiceData({...serviceData, status: event.target.value});
+        updateAssignmentStatus(event.target.value);
+    };
 
     return(
         <Box
-            key={serviceData.requestID}
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -68,78 +124,44 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                     </CardContent>
                     <Collapse in={expanded} timeout={'auto'} unmountOnExit>
                         <CardContent>
+                            {/*{*/}
+                            {/*    Object.entries(serviceData).filter((data) => data[1] !== null).map((data, index) => {*/}
+                            {/*        console.log(data);*/}
+
+                            {/*        return(*/}
+                            {/*            <Box key={"field" + index} sx={{display: 'flex', flexDirection: 'row'}}>*/}
+                            {/*                <Typography sx={{width: '50%'}}>{data[0]}: </Typography>*/}
+                            {/*                /!*<Typography>{data[1]}</Typography>*!/*/}
+                            {/*            </Box>*/}
+                            {/*        );*/}
+                            {/*    })*/}
+                            {/*}*/}
+
                             <Box sx={{display: 'flex', flexDirection: 'row'}}>
                                 <Typography sx={{width: '50%'}}>Priority: </Typography>
                                 <Typography>{serviceData.priority.toLowerCase()}</Typography>
                             </Box>
-                            {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Sender: </Typography>
-                                    <Typography>{serviceData.giftDetail.senderName}</Typography>
-                                </Box>
 
-                            }
+                            <InformationField label={"Sender"} data={serviceData.giftDetail?.senderName}></InformationField>
 
-                            {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Recipient: </Typography>
-                                    <Typography>{serviceData.giftDetail.recipientName}</Typography>
-                                </Box>
-                            }
+                            <InformationField label={"Recipient"} data={serviceData.giftDetail?.recipientName}></InformationField>
 
-                            {(serviceData.giftDetail === undefined || serviceData.giftDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Shipping Type: </Typography>
-                                    <Typography>{serviceData.giftDetail.shippingType.toLowerCase()}</Typography>
-                                </Box>
-                            }
+                            <InformationField label={"Shipping Type"} data={serviceData.giftDetail?.shippingType.toLowerCase()}></InformationField>
 
-                            {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Patient Name: </Typography>
-                                    <Typography>{serviceData.medicineDetail.patientName}</Typography>
-                                </Box>
-                            }
+                            <InformationField label={"Patient Name"} data={serviceData.medicineDetail?.patientName}></InformationField>
 
-                            {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Physician Name: </Typography>
-                                    <Typography>{serviceData.medicineDetail.primaryPhysicianName}</Typography>
-                                </Box>
-                            }
+                            <InformationField label={"Physician Name"} data={serviceData.medicineDetail?.primaryPhysicianName}></InformationField>
 
-                            {(serviceData.medicineDetail === undefined || serviceData.medicineDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Medicine: </Typography>
-                                    <Typography>{serviceData.medicineDetail.medicine.toLowerCase().replace("_", " ")}</Typography>
-                                </Box>
-                            }
+                            <InformationField label={"Medicine"} data={serviceData.medicineDetail?.medicine.toLowerCase().replace("_", " ")}></InformationField>
 
-                            {(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?
-                                <></>
-                                :
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '50%'}}>Date: </Typography>
-                                    <Typography>{serviceData.sanitationDetail.date}</Typography>
-                                </Box>
-                            }
+                            <InformationField label={"Date"} data={serviceData.sanitationDetail?.date}></InformationField>
+
+                            <InformationField label={"Date"} data={serviceData.sanitationDetail?.date}></InformationField>
 
                             {(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?"":(
                                 serviceData.sanitationDetail.messTypes.map((messtype)=>{
                                     return(
-                                        <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                        <Box key={messtype.messType} sx={{display: 'flex', flexDirection: 'row'}}>
                                             <Typography sx={{width: '50%'}}>Mess Type: </Typography>
                                             <Typography>{messtype.messType.toLowerCase().replace("_", " ")}</Typography>
                                         </Box>
@@ -149,19 +171,16 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                             <Box sx={{
                                 display: 'flex',
                                 flexDirection: 'row',
-                                pt: 3
+                                pt: 3,
                             }}>
-                                {(serviceData.assignedEmployee === undefined || serviceData.assignedEmployee === null)?
-                                    <></> : <Typography>{serviceData.assignedEmployee.firstName + " " + serviceData.assignedEmployee.lastName}</Typography>
-                                }
                                 <FormControl
-                                    sx={{width: "100%", display: "flex", flexDirection: "row"}}>
+                                    sx={{width: "100%", display: "flex", flexDirection: "column"}}>
                                     <TextField
                                         select
                                         value={serviceData.status}
                                         margin="normal"
                                         inputProps={{MenuProps: {disableScrollLock: true}}}
-                                        sx={{marginY: 0, width: '100%'}}
+                                        sx={{marginY: 0, width: '100%', p: 1}}
                                         onChange={onChangeAssignment}
                                     >
                                         <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
@@ -169,10 +188,18 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                         <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
                                         <MenuItem value={"CLOSED"}>Closed</MenuItem>
                                     </TextField>
-                                    {/*<Box sx={{width: "20%"}}>*/}
-                                    {/*    <Button variant="contained" endIcon={<PersonIcon />}>*/}
-                                    {/*    </Button>*/}
-                                    {/*</Box>*/}
+                                    <Box sx={{width: "100%", p: 1}}>
+                                        <EmployeeAutoComplete
+                                            onChange={(v: EmployeeAutocompleteOption)=>{
+                                                onChangeEmployee(v);
+                                            }}
+                                            label={
+                                                (serviceData.assignedEmployee && typeof serviceData.assignedEmployee === "object")?
+                                                    serviceData.assignedEmployee?.firstName:"Employee"
+                                            }
+                                            disableClearable={true}
+                                            employeeList={prop.employeeList}></EmployeeAutoComplete>
+                                    </Box>
                                 </FormControl>
                             </Box>
                         </CardContent>
@@ -180,7 +207,6 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                     <Box
                         sx={{
                             backgroundColor: "#F1F1F1",
-                            borderRadius: 2,
                             display: "flex",
                             flexDirection: "row",
                         }}>
