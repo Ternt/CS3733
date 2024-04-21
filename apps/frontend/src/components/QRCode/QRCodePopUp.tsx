@@ -17,7 +17,7 @@ export default function QRCodePopUp(props: QRCodePopUpProp) {
     };
 
     useEffect(() => {
-        const url = `ec2-18-217-227-54.us-east-2.compute.amazonaws.com/directions?startLocation=${props.startNode}&endLocation=${props.endNode}&algo=${props.algo}`;
+        const url = `http://ec2-18-217-227-54.us-east-2.compute.amazonaws.com/directions?startLocation=${props.startNode}&endLocation=${props.endNode}&algo=${props.algo}`;
         const generateQRCode = () => {
             QRCode.toDataURL(url, (err, url) => {
                 if (!err) {
