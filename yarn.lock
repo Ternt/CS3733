@@ -4947,6 +4947,7 @@ __metadata:
     fuzzy-search: "npm:^3.2.1"
     localforage: "npm:^1.10.0"
     match-sorter: "npm:^6.3.1"
+    material-ui-flags: "npm:^1.2.4"
     openai: "npm:^4.34.0"
     path-browserify: "npm:^1.0.1"
     postcss: "npm:^8.4.35"
@@ -6018,6 +6019,13 @@ __metadata:
     "@babel/runtime": "npm:^7.23.8"
     remove-accents: "npm:0.5.0"
   checksum: 51c0e18983797f8995815ebddb3fd18fcd1a6d203d43c08dfe6f91c24b2d60119f85f020a5a4b58884f58d50a143f16d5201354bcfa93f8283a610f5715d880c
+  languageName: node
+  linkType: hard
+
+"material-ui-flags@npm:^1.2.4":
+  version: 1.2.4
+  resolution: "material-ui-flags@npm:1.2.4"
+  checksum: d867f65c6834b1934f685454163babc438c1db11e1a7d1df8ee37d5335e362d9e509fa9337f2ee60422c4f77ef258143494ff84c81b23dbcf1fc5bcbed04a648
   languageName: node
   linkType: hard
 
@@ -8165,6 +8173,7 @@ __metadata:
     fuzzy-search: "npm:^3.2.1"
     happy-dom: "npm:^10.6.3"
     husky: "npm:^8.0.0"
+    material-ui-flags: "npm:^1.2.4"
     openai: "npm:^4.33.1"
     prettier: "npm:2.8.8"
     prettier-config-custom: "workspace:*"

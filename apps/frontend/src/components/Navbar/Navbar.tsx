@@ -14,7 +14,8 @@ import SearchBar from "../SearchBar/searchBar.tsx";
 import {useAuth0} from "@auth0/auth0-react";
 import LoginButton from "../LoginButton/LoginButton.tsx";
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
-import LanguageIcon from '@mui/icons-material/Language';
+import {LanguageSelect} from "./LanguageSelect.tsx";
+
 
 const services = [
     {label: "Sanitation", path: "/sanitation"},
@@ -23,7 +24,7 @@ const services = [
     {label: "Gift", path: "/gift-request"},
 ];
 
-type ResponsiveAppBarProps = {
+export type ResponsiveAppBarProps = {
     chatbotOpen: boolean;
     toggleChatbot: () => void;
     onSetLanguage: (l: string) => void;
@@ -33,6 +34,7 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
     const [anchorElRequests, setAnchorElRequests] =
         React.useState<null | HTMLElement>(null);
     const openRequests = Boolean(anchorElRequests);
+
 
     const navigate = useNavigate();
     const {user, isAuthenticated, isLoading} = useAuth0();
@@ -263,61 +265,13 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                             props.toggleChatbot();
                         }}
                     />
-                    <Menu
-                        id="Language-Settings-Menu"
-                        MenuListProps={{
-                            "aria-labelledby": "demo-customized-button",
-                        }}
-                        disableScrollLock={true}
-                        anchorEl={anchorElRequests}
-                        open={openRequests}
-                        onClose={handleCloseRequests}
-                        sx={{
-                            padding: 0,
-                        }}
-                    >
-                    </Menu>
-                            <><Button
-                                key={"Language-Settings"}
-                                id="demo-customized-button"
-                                aria-controls={openRequests ? "demo-customized-menu" : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={openRequests ? "true" : undefined}
-                                onClick={handleOnClickRequests}
-                                sx={{
-                                    color: "white",
-                                    display: "block",
-                                    fontSize: 15,
-                                    transition: "all 0.2s ease-in-out",
-                                    "&:hover": {
-                                        textDecoration: "underline",
-                                        background: "#012d5a",
-                                    },
-                                }}
-                            >
-                                <Typography
-                                    sx={{
-                                        fontSize: "0.9rem",
-                                    }}
-                                >
-                                    <LanguageIcon
-                                        sx={{
-                                            fontSize: '2.4rem',
-                                            color: (props.chatbotOpen ? "#f6bd38" : 'white'),
-                                            '&:hover': {
-                                                opacity: 0.9,
-                                                cursor: 'pointer'
-                                            }
-                                        }}
-                                        onClick={() => {
-                                            props.onSetLanguage("sp");
-                                        }}
-                                    />
-                                    <ArrowDropDownIcon sx={{
-                                        height: '1rem'
-                                    }}/>
-                                </Typography>
-                            </Button></>
+                    <>
+                        <LanguageSelect
+                            toggleChatbot={props.toggleChatbot}
+                            chatbotOpen={props.chatbotOpen}
+                            onSetLanguage={props.onSetLanguage}/>
+                    </>
+
                     <SearchBar/>
                     <LoginButton/>
                 </Toolbar>

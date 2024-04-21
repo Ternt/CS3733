@@ -71,6 +71,7 @@
     "express-fileupload": "^1.5.0",
     "fs": "^0.0.1-security",
     "fuzzy-search": "^3.2.1",
+    "material-ui-flags": "^1.2.4",
     "openai": "^4.33.1",
     "prisma": "^5.11.0",
     "react": "^18.2.0",
