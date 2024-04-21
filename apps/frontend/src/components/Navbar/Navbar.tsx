@@ -3,17 +3,15 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
 import Link from "@mui/material/Link";
 import logo from "../../assets/Brigham_and_Womens_Hospital_Logo_White.png";
 import {useNavigate} from "react-router-dom";
-import {Menu, Typography} from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import SearchBar from "../SearchBar/searchBar.tsx";
 import {useAuth0} from "@auth0/auth0-react";
 import LoginButton from "../LoginButton/LoginButton.tsx";
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
+import DropDownMenu from "../DropDownMenu.tsx";
+import NavbarItem from "./NavbarItem.tsx";
 
 const services = [
     {label: "Sanitation", path: "/sanitation"},
@@ -27,11 +25,7 @@ type ResponsiveAppBarProps = {
     toggleChatbot: () => void;
 }
 
-function ResponsiveAppBar(props: ResponsiveAppBarProps) {
-    const [anchorElRequests, setAnchorElRequests] =
-        React.useState<null | HTMLElement>(null);
-    const openRequests = Boolean(anchorElRequests);
-
+export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
     const navigate = useNavigate();
     const {user, isAuthenticated, isLoading} = useAuth0();
     const handleMenuItemClick = (path: string) => {
@@ -44,19 +38,7 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
             permissionLevel = 2;
         }
     }
-    const handleCloseRequests = () => {
-        setAnchorElRequests(null);
-    };
 
-    const handleOnClickRequests = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElRequests(event.currentTarget);
-    };
-
-    const handleClickMenuItemListRequests = (path: string) => {
-        console.log(path);
-        navigate(path);
-        setAnchorElRequests(null);
-    };
 
     return (
         <AppBar
@@ -96,157 +78,17 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                                 sx={{width: "4vh", aspectRatio: "294/423", mx: 1, p: "1%"}}
                             ></Box>
                         </Link>
-                        <Button
-                            key={"home"}
-                            onClick={() => handleMenuItemClick("/")}
-                            sx={{
-                                color: "white",
-                                display: "block",
-                                fontSize: 15,
-                                transition: "all 0.2s ease-in-out",
-                                "&:hover": {
-                                    textDecoration: "underline",
-                                    background: "#012d5a",
-                                },
-                            }}
-                        >
-                            <Typography
-                                sx={{fontSize: "0.9rem",}}
-                            >
-                                Home
-                            </Typography>
-                        </Button>
-
-                        <Button
-                            key={"map"}
-                            onClick={() => handleMenuItemClick("/map")}
-                            sx={{
-                                color: "white",
-                                display: "block",
-                                fontSize: 15,
-                                transition: "all 0.2s ease-in-out",
-                                "&:hover": {
-                                    textDecoration: "underline",
-                                    background: "#012d5a",
-                                },
-                            }}
-                        >
-                            <Typography
-                                sx={{fontSize: "0.9rem"}}
-                            >
-                                Map
-                            </Typography>
-                        </Button>
-
-
-                        <Menu
-                            id="demo-customized-menu"
-                            MenuListProps={{
-                                "aria-labelledby": "demo-customized-button",
-                            }}
-                            disableScrollLock={true}
-                            anchorEl={anchorElRequests}
-                            open={openRequests}
-                            onClose={handleCloseRequests}
-                            sx={{
-                                padding: 0,
-                            }}
-                        >
-                            {services.map((services) => (
-                                <MenuItem
-                                    key={services.label}
-                                    onClick={() => handleClickMenuItemListRequests(services.path)}
-                                    disableRipple
-                                >
-                                    {services.label}
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                        {!isLoading && (
-                            <>
-
-                                {permissionLevel === 2 && (
-
-                                    <Button
-                                        key={"admin"}
-                                        onClick={() => handleMenuItemClick("/admin")}
-                                        sx={{
-                                            color: "white",
-                                            display: "block",
-                                            fontSize: 15,
-                                            transition: "all 0.2s ease-in-out",
-                                            "&:hover": {
-                                                textDecoration: "underline",
-                                                background: "#012d5a",
-                                            },
-                                        }}
-                                    >
-                                        <Typography
-                                            sx={{
-                                                fontSize: "0.9rem",
-                                            }}
-                                        >
-                                            Admin
-                                        </Typography>
-                                    </Button>
-                                )}
-
+                        <NavbarItem title={"Home"} link={"/"}/>
+                        <NavbarItem title={"Map"} link={"/map"}/>
+                      {!isLoading && (
+                            <>{permissionLevel === 2 && (
+                              <NavbarItem title={"Admin"} link={"/admin"}/>
+                            )}
                                 {permissionLevel >= 1 && (
-                                    <><Button
-                                        key={"Request Services"}
-                                        id="demo-customized-button"
-                                        aria-controls={openRequests ? "demo-customized-menu" : undefined}
-                                        aria-haspopup="true"
-                                        aria-expanded={openRequests ? "true" : undefined}
-                                        onClick={handleOnClickRequests}
-                                        sx={{
-                                            color: "white",
-                                            display: "block",
-                                            fontSize: 15,
-                                            transition: "all 0.2s ease-in-out",
-                                            "&:hover": {
-                                                textDecoration: "underline",
-                                                background: "#012d5a",
-                                            },
-                                        }}
-                                    >
-                                        <Typography
-                                            sx={{
-                                                fontSize: "0.9rem",
-                                            }}
-                                        >
-                                            Service Requests
-                                            <ArrowDropDownIcon sx={{
-                                                height: '1rem'
-                                            }}/>
-                                        </Typography>
-                                    </Button></>
+                                    <DropDownMenu label={"SERVICE REQUESTS"} menuData={services}></DropDownMenu>
                                 )}
                             </>
                         )}
-                        <Menu
-                            id="demo-customized-menu"
-                            MenuListProps={{
-                                "aria-labelledby": "demo-customized-button",
-                            }}
-                            disableScrollLock={true}
-                            anchorEl={anchorElRequests}
-                            open={openRequests}
-                            onClose={handleCloseRequests}
-                            sx={{
-                                padding: 0,
-                            }}
-                        >
-                            {services.map((services) => (
-                                <MenuItem
-                                    key={services.label}
-                                    onClick={() => handleClickMenuItemListRequests(services.path)}
-                                    disableRipple
-                                >
-                                    {services.label}
-                                </MenuItem>
-                            ))}
-                        </Menu>
                     </Box>
                     <LiveHelpIcon
                         sx={{
@@ -268,5 +110,3 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
         </AppBar>
     );
 }
-
-export default ResponsiveAppBar;

@@ -23,7 +23,7 @@ export enum directionTypes{
   HELP
 }
 
-const PIXELS_PER_FOOT = 3;
+export const PIXELS_PER_FOOT = 3;
 
 function findNextNodeWithType(nodeTable: node[], path: string[], index: number){
     for (let i: number = index; i < path.length - 1; i++) {

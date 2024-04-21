@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-//import MapCanvas from "../components/Map/MapCanvas.tsx";
 import {Accordion, AccordionDetails, AccordionSummary, Box, Grid, TextField, Typography} from "@mui/material";
+import {speak} from "../components/TextToSpeech/TextToSpeech.tsx";
 import LocationDropdown from "../components/LocationDropdown.tsx";
 import MapCanvas from "../components/Map/MapCanvas.tsx";
 import NaturalLanguageDirection, {
@@ -18,6 +18,12 @@ import MyLocationIcon from '@mui/icons-material/MyLocation';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import ElevatorOutlinedIcon from '@mui/icons-material/ElevatorOutlined';
 import StairsOutlinedIcon from '@mui/icons-material/StairsOutlined';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
+import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
+import Button from "@mui/material/Button";
+import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
 
 export function getIconFromDirectionType(t:directionTypes){
   switch(t){
@@ -73,6 +79,16 @@ export default function MapPage() {
         setPath();
     }, [startLocation, endLocation, searchAlgorithm]);
 
+    const NaturalLangPath:string = natLangPath.join(";\n");
+
+    const qrCodeProps = {
+        startNode: startLocation,
+        endNode: endLocation,
+        algo: searchAlgorithm,
+
+    };
+
+
     return (
         <Grid
             container
@@ -89,14 +105,14 @@ export default function MapPage() {
                 <Box
                   sx={{
                     width: '95%',
-                    height: 'calc(90vh - 1.25%)',
+                    height: 'calc(90vh - 2.5%)',
                     borderRadius: '2rem',
                     boxShadow: 5,
                     p:2,
                     m:'2.5%',
                     display:'flex',
                     flexDirection:'column',
-                    gap:1.2,
+                    gap:1.5,
                 }}
                 >
                     <Typography
@@ -106,14 +122,49 @@ export default function MapPage() {
                     >
                         NAVIGATION MENU
                     </Typography>
-                    <LocationDropdown
-                        onChange={(v: string) => {
-                            setStartLocation(v);
-                        }}
-                        value={startLocation}
-                        filterTypes={["HALL"]}
-                        label={"Start "}
-                    />
+                    <Box
+                      sx={{
+                        display:'flex',
+                        flexDirection:'row',
+                        flexWrap:'nowrap',
+                        alignItems:'center',
+                        gap:'.25rem'
+                      }}
+                    >
+                      <MyLocationIcon/>
+                      <LocationDropdown
+                          onChange={(v: string) => {
+                              setStartLocation(v);
+                          }}
+                          value={startLocation}
+                          filterTypes={["HALL"]}
+                          label={"Start "}
+                      />
+                    </Box>
+                    <Button
+                      onClick={()=>{
+                        const s = startLocation;
+                        const e = endLocation;
+                        setStartLocation(e);
+                        setEndLocation(s);
+                      }}
+                      sx={{
+                        borderRadius:'100px',
+                        height:'2rem',
+                      }}
+                    >
+                      <SwapVertIcon/>
+                    </Button>
+                  <Box
+                    sx={{
+                      display:'flex',
+                      flexDirection:'row',
+                      flexWrap:'nowrap',
+                      alignItems:'center',
+                      gap:'.25rem'
+                    }}
+                  >
+                    <PinDropOutlinedIcon/>
                     <LocationDropdown
                         onChange={(v: string) => {
                             setEndLocation(v);
@@ -122,6 +173,17 @@ export default function MapPage() {
                         filterTypes={["HALL"]}
                         label={"End "}
                     />
+                  </Box>
+                  <Box
+                    sx={{
+                      display:'flex',
+                      flexDirection:'row',
+                      flexWrap:'nowrap',
+                      alignItems:'center',
+                      gap:'.25rem'
+                    }}
+                  >
+                    <RouteOutlinedIcon />
                     <TextField
                         select
                         onChange={(e) => {
@@ -132,13 +194,15 @@ export default function MapPage() {
                         }}
                         value={searchAlgorithm}
                         label={"Algorithm "}
-                        helperText={algos[searchAlgorithm].helper}
+                        //helperText={algos[searchAlgorithm].helper}
                     >
                         {
                             algos.map((a, i) => <MenuItem key={a.api} value={i}>{a.title}</MenuItem>)
                         }
                     </TextField>
+                  </Box>
                     <Box sx={{
+                        height: '100%',
                       width: '100%',
                       backgroundColor: 'white',
                       borderRadius: '0 0 23px 23px',
@@ -208,6 +272,28 @@ export default function MapPage() {
                               </Accordion>
                             );
                         })}
+                    </Box>
+
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        gap: '16px'
+                    }}>
+                        <Button onClick={() => speak(NaturalLangPath)} sx={{
+                            backgroundColor: '#012d5a',
+                            color: 'white',
+                            height: '100%',
+                            width: '50%',
+                            display: 'flex',
+                            alignSelf: 'center',
+
+                            "&:hover": {
+                                background: "#1a426a",
+                            },
+                        }}>
+                            Text To Speech
+                        </Button>
+                        <QRCodePopUp {...qrCodeProps}/>
                     </Box>
                 </Box>
             </Grid>

@@ -74,14 +74,13 @@ export function pointHelper(props: findClosestNodeOnGraphProps) {
       (nodeItem) => nodeItem.nodeID === node.nodeID,
     )[0].point;
 
-    const mousePos: vec2 = props.pos;
-    const dist: number = distance(pn, mousePos);
+    const dist: number = distance(pn, props.pos);
     if (dist < closestDist) {
       if (props.distance !== undefined && dist > props.distance) continue;
       closestDist = dist;
       closestNode = node;
     }
   }
-
+  console.log(closestDist);
   return closestNode;
 }

@@ -9,6 +9,7 @@ export async function createDatabase(
     header: boolean,
     node_str: string,
     edge_str: string,
+    initial: boolean
 ) {
     const nodeLines = splitLines(node_str).filter((line) => /\S/.test(line));
     if (header) {
@@ -39,7 +40,8 @@ export async function createDatabase(
         edgeRows.map((row) => ({
             startNodeID: row[0],
             endNodeID: row[1],
-            blocked: false,
+            blocked: (row[2] == "true"),
+            heat: parseInt(row[3]) || 0
         })),
     );
 
@@ -60,9 +62,11 @@ export async function createDatabase(
     ]);
 
     // add cart items
-    await createCartItems();
-    await createEmployees();
-    await createServiceRequests();
+    if (initial) {
+        await createCartItems();
+        await createEmployees();
+        await createServiceRequests();
+    }
 }
 
 async function createCartItems() {
@@ -80,7 +84,7 @@ async function createEmployees() {
 }
 
 async function createServiceRequests() {
-    await PrismaClient.serviceRequest.deleteMany()
+    await PrismaClient.serviceRequest.deleteMany();
     for (let data of serviceRequests) {
         await PrismaClient.serviceRequest.create({data: data});
     }
