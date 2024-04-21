@@ -1,113 +1,75 @@
-import {Box, Typography} from "@mui/material";
+import {Box} from "@mui/material";
+import {Typography} from "@mui/material";
 import {useEffect, useState} from "react";
-import {RequestInspectionDialogue} from "./RequestInspectionDialogue.tsx";
 import axios, {AxiosResponse} from "axios";
 import KanbanBoardCard from "./KanbanBoardCard.tsx";
-// import AddIcon from '@mui/icons-material/Add';
-// import Button from "@mui/material/Button";
+import {AssignedEmployee, ServiceRequest} from "../../helpers/typestuff.ts";
+import * as React from "react";
+import EmployeeAutoComplete, {EmployeeAutocompleteOption} from "../../components/EmployeeAutoComplete.tsx";
+// import {RequestInspectionDialogue} from "./RequestInspectionDialogue.tsx";
 
-export type RequestCard = {
-    type:string;
-}
 
-export type AssignedEmployee = {
-    id: number;
-    firstName: string;
-    lastName: string;
-    assignedRequests: ServiceRequest[];
-}
-
-export type Node = {
-    nodeID: string;
-    xcoord: number;
-    ycoord: number;
-    building: string;
-    floor: string;
-    longName: string;
-    shortName: string;
-    nodeType: string;
-}
-
-export type GiftRequest = {
-    requestID: number;
-    senderName: string;
-    recipientName: string;
-    shippingType: string;
-    cardNumber: number;
-    cardCVV: number;
-    cardHolderName: string;
-    cardExpirationDate: string;
-}
-
-export type MedicineRequest = {
-    requestID: number;
-    patientName: string;
-    primaryPhysicianName: string;
-    medicine: string;
-    dosage: number;
-    form: string;
-    date: string;
-}
-
-export type SanitationRequestMessTypes = {
-    messType: string;
-}
-
-export type SanitationRequest = {
-    requestID: number;
-    employeeName: string;
-    messTypes: SanitationRequestMessTypes[];
-    date: string;
-}
-
-export type MaintenanceRequest = {
-    requestID: number;
-    maintenanceType: string;
-    workersNeeded: number;
-}
-
-export type ServiceRequest = {
-    requestID: number,
-    priority: string,
-    status: string,
-    type: string,
-    location: Node,
-    assignedEmployee?: AssignedEmployee,
-    giftDetail? : GiftRequest,
-    maintenanceDetail?: MaintenanceRequest,
-    sanitationDetail?: SanitationRequest,
-    medicineDetail?: MedicineRequest,
-    notes?: string,
-}
 
 export default function ServiceRequestOverview(){
-
-    const [selectedCard, setSelectedCard] = useState<RequestCard | null>(null);
-    const [reqs, setReqs] = useState<ServiceRequest[]>([]);
+    const [serviceRequests, setServiceRequests] = useState<ServiceRequest[]>([]);
+    const [employeeList, setEmployeeList] = useState<EmployeeAutocompleteOption[]>([]);
     const reqTypes = ["MEDICINE", "SANITATION", "GIFT", "MAINTENANCE"];
+    const [filteredRequests, setFilteredRequests] = useState<ServiceRequest[]>([]);
 
     useEffect(()=>{
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
-            setReqs(res.data);
-            console.log(res.data);
+            setServiceRequests(res.data);
+            setFilteredRequests(res.data);
+        });
+        axios.get('/api/employees').then((res: AxiosResponse) => {
+            if(res.status !== 200){
+                console.error("die");
+            }
+            const employeeDropdownOptions: EmployeeAutocompleteOption[] = [];
+            res.data.forEach((employee: AssignedEmployee)=> {
+                employeeDropdownOptions.push({
+                    label: employee.firstName + " " + employee.lastName,
+                    id: employee.id,
+                });
+            });
+            setEmployeeList(employeeDropdownOptions);
         });
     }, []);
 
+    function onChange(value: EmployeeAutocompleteOption){
+        setFilteredRequests(serviceRequests.filter((request) => request.assignedEmployee?.id === value.id));
+    }
+
+    function onClear(){
+        setFilteredRequests(serviceRequests);
+    }
+
     return(
         <>
-            <Box
-                sx={{
-                    height: "80vh",
-                    width:'100%',
-                    overflowY:'hidden',
-                    p: 1,
-                    display:'flex',
-                    flexDirection:'row',
-                    justifyContent:'space-evenly',
-                    alignItems:'flex-start',
-                    backgroundColor: '#fff',
-                }}
-            >
+            <Box>
+                <Box sx={{p: 1, backgroundColor: '#FFFFFF'}}>
+                    <EmployeeAutoComplete
+                        onClear={onClear}
+                        onChange={(label: EmployeeAutocompleteOption) => {
+                            onChange(label);
+                        }}
+                        label={"Filter..."} employeeList={employeeList}
+                        disableClearable={false}
+                    >
+                    </EmployeeAutoComplete>
+                </Box>
+                <Box
+                    sx={{
+                        height: "80vh",
+                        width:'100%',
+                        overflowY:'hidden',
+                        p: 1,
+                        display:'flex',
+                        flexDirection:'row',
+                        justifyContent:'space-evenly',
+                        alignItems:'flex-start',
+                    }}
+                >
                     {
                         reqTypes.map((category)=>{
                             return (
@@ -121,8 +83,7 @@ export default function ServiceRequestOverview(){
                                         justifyContent:'flex-start',
                                         alignItems:'flex-start',
                                         p: "0.5%",
-                                        boxShadow:5,
-                                        borderRadius: '23px',
+                                        backgroundColor: '#F1F1F1',
                                     }}
                                 >
                                     <Box sx={{
@@ -134,7 +95,6 @@ export default function ServiceRequestOverview(){
                                         pt: "4%",
                                         pb: "2%",
                                         backgroundColor: '#012d5a',
-                                        borderRadius: '23px 23px 0 0',
                                     }}>
                                         <Typography
                                             variant={"h5"}
@@ -156,11 +116,9 @@ export default function ServiceRequestOverview(){
                                             p: '5%',
                                         }}>
                                         {
-                                            reqs.map((service) => {
+                                            filteredRequests.filter(x=> x.type === category).map((service) => {
                                                 return(
-                                                    service.type === category ?
-                                                      <KanbanBoardCard serviceRequestData={service}/> :
-                                                      <></>
+                                                    <KanbanBoardCard key={service.requestID} serviceRequestData={service} employeeList={employeeList} />
                                                 );
                                             })
                                         }
@@ -168,13 +126,14 @@ export default function ServiceRequestOverview(){
                                 </Box>
                             );})
                     }
+                </Box>
+                {/*<RequestInspectionDialogue*/}
+                {/*    selectedRequest={selectedCard}*/}
+                {/*    onCloseDialogue={()=>{*/}
+                {/*        setSelectedCard(null);*/}
+                {/*    }}*/}
+                {/*/>*/}
             </Box>
-            <RequestInspectionDialogue
-                selectedRequest={selectedCard}
-                onCloseDialogue={()=>{
-                    setSelectedCard(null);
-                }}
-            />
         </>
     );
 }
