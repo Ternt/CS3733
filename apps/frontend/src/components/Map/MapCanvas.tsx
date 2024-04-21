@@ -5,7 +5,7 @@ import { edge, node, vec2 } from "../../helpers/typestuff.ts";
 import axios, { AxiosResponse } from "axios";
 import { graphHelper, pointHelper } from "../../helpers/clickCorrectionMath.ts";
 import MapControls from "./MapControls.tsx";
-import InformationMenu from "../InformationMenu.tsx";
+import NodeInformationMenu from "./NodeInformationMenu.tsx";
 import {
   MAPS,
   ZOOM,
@@ -150,22 +150,23 @@ export default function MapCanvas(props: mapCanvasProps) {
         };
       }
 
-      function drawPoint(p: vec2, selected:boolean, dragging:boolean) {
+      function drawPoint(p: vec2, selected:boolean, dragging:boolean, id:string) {
         p = vecToCanvSpace(p);
         if (p.z !== viewingFloor) return;
         return <motion.ellipse
-          initial={{ opacity: 0, scale: 0.5, fill:"blue"}}
+          initial={{ opacity: 0, scale: 0, fill:"blue"}}
           animate={{ opacity: 1, scale: 1, fill:selected?"red":"blue"}}
           transition={{
-            duration: dragging?0:0.8,
+            duration: dragging?0:2,
             delay: 0,
-            ease: [0, 0.71, 0.2, 1.01]
+            ease: [0, 0.11, 0.2, 1.01]
           }}
           key={"Point "+p.x+","+p.y+","+p.z}
           cx={p.x}
           cy={p.y}
           rx={NODE_SIZE}
           ry={NODE_SIZE}
+          id={id}
         />;
       }
       function drawLine(a: vec2, b: vec2, color: string) {
@@ -183,7 +184,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           initial={{ strokeWidth: 0}}
           animate={{ strokeWidth: NODE_SIZE*.5}}
           transition={{
-            duration: 0.8,
+            duration: 1.7,
             delay: 0.3,
             ease: [0, 0.71, 0.2, 1.01]
           }}
@@ -257,11 +258,11 @@ export default function MapCanvas(props: mapCanvasProps) {
         }
         setPathStringInject(pathString);
       } else {
-        for (const n of renderData.n) {
-          svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID), draggingNode === n));
-        }
         for (const e of renderData.e) {
           svgElements.push(drawLine(e.startNode.point, e.endNode.point, "blue"));
+        }
+        for (const n of renderData.n) {
+          svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID), draggingNode === n, n.nodeID));
         }
       }
       setSvgInject(svgElements);
@@ -288,7 +289,7 @@ export default function MapCanvas(props: mapCanvasProps) {
   }, [handleDblclick, handleMouseDown, handleMouseMove, handleMouseUp, handleZoom]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  function handleDblclick(e:MouseEvent){
+  async function handleDblclick(e:MouseEvent){
     if (props.pathfinding) {
       return;
     }
@@ -297,10 +298,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     const y = e.clientY - svgRect.top;
     const x2 = Math.round((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
     const y2 = Math.round((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
-    if(props.startLocation === '' && props.pathfinding){
-      setNotification("Select a start location");
-      return;
-    }
+
     // Move point to nearest edge
     if (nodes === null) return;
     const pos:vec2 = {x: x2, y: y2, z: viewingFloor};
@@ -336,22 +334,15 @@ export default function MapCanvas(props: mapCanvasProps) {
     };
 
     // Send a PUT request to the server
-    fetch("/api/nodes/update", {
+    await fetch("/api/nodes/update", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(editedNode),
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .then((data) => console.log(data))
-      .catch((error) => {
-        setNotification("Failed to put new node data");
-        console.error("Error:", error);
-      });
-
+    });
+    setPathing({...pathing, nearestNode:newNode});
+    initializeData();
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -594,6 +585,9 @@ export default function MapCanvas(props: mapCanvasProps) {
 
   // Init data
   useEffect(() => {
+    initializeData();
+  }, []);
+  function initializeData(){
     axios.get("/api/map").then((res: AxiosResponse) => {
       const ns: node[] = [];
       const es: edge[] = [];
@@ -632,7 +626,7 @@ export default function MapCanvas(props: mapCanvasProps) {
       setNodes(ns);
       setEdges(es);
     });
-  }, []);
+  }
 
   // Update pathing if selection dropdown changes
   useEffect(() => {
@@ -691,7 +685,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         </Box>
 
         {!props.pathfinding && pathing.nearestNode !== null && (
-          <InformationMenu
+          <NodeInformationMenu
             nodeData={pathing.nearestNode}
             onClose={() => {
               setPathing({...pathing, nearestNode: null});
@@ -702,7 +696,11 @@ export default function MapCanvas(props: mapCanvasProps) {
                 nearestNode: node,
               });
             }}
+            onPulseUpdate={()=>{
+              initializeData();
+            }}
             edges={edges}
+            nodes={nodes}
           />
         )}
         <MapControls

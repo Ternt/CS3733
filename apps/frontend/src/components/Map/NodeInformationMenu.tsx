@@ -2,22 +2,34 @@ import Box from "@mui/material/Box";
 import * as React from "react";
 //import Tabs from "@mui/material/Tabs";
 //import Tab from "@mui/material/Tab";
-import {Chip, FormControl, TextField, Typography} from "@mui/material";
+import {
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl, IconButton, Snackbar,
+  TextField,
+  Typography
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
-import {edge, node} from "../helpers/typestuff.ts";
+import {edge, node} from "../../helpers/typestuff.ts";
+import CloseIcon from "@mui/icons-material/Close";
 
 type InfoMenuProp = {
   nodeData: node | null;
   onClose: () => void;
   onChangeNode: (node: node | null) => void;
+  onPulseUpdate: ()=>void;
   edges: edge[];
+  nodes: node[];
 };
 
-export default function InformationMenu(props: InfoMenuProp) {
-  //const [tabValue, setTabValue] = useState(0);
-
+export default function NodeInformationMenu(props: InfoMenuProp) {
   const [newNodeData, setNewNodeData] = useState<node | null>(props.nodeData);
+  const [addingNeighbor,setAddingNeighor] = useState<string | null>(null);
+  const [notification, setNotification] = useState('');
   useEffect(() => {
     setNewNodeData(props.nodeData);
   }, [props.nodeData]);
@@ -47,7 +59,7 @@ export default function InformationMenu(props: InfoMenuProp) {
     );
   }
 
-  function submitForm() {
+  async function submitForm() {
     props.onChangeNode(newNodeData);
 
     if(isComplete() && newNodeData !== null) {
@@ -63,22 +75,63 @@ export default function InformationMenu(props: InfoMenuProp) {
       };
 
       // Send a PUT request to the server
-      fetch("/api/nodes/update", {
+      await fetch("/api/nodes/update", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(editedNode),
-      })
-          .then((response) => {
-            console.log(response);
-          })
-
-          .then((data) => console.log(data))
-          .catch((error) => {
-            console.error("Error:", error);
-          });
+      });
+      props.onPulseUpdate();
     }
+  }
+
+  async function deleteNode(){
+    for (const ed of props.edges){
+      if(ed.startNode.nodeID === props.nodeData?.nodeID || ed.endNode.nodeID === props.nodeData?.nodeID)
+        await deleteEdge(ed);
+    }
+    await fetch("/api/nodes/delete?nodeID="+props.nodeData?.nodeID, {
+      method: "DELETE",
+    });
+    props.onPulseUpdate();
+    props.onClose();
+  }
+
+  async function deleteEdge(e:edge){
+    await fetch("/api/edges/delete?startNodeID="+e.startNode.nodeID+"&endNodeID="+e.endNode.nodeID ,{
+      method: "DELETE",
+    });
+  }
+
+  async function addNeighbor(){
+    if(addingNeighbor === null || addingNeighbor === props.nodeData?.nodeID)
+      return;
+    for(const n of props.nodes){
+      if(n.nodeID === addingNeighbor){
+        const editedEdge = {
+          startNodeID:n.nodeID,
+          endNodeID:props.nodeData?.nodeID,
+          blocked:false,
+          heat:100
+        };
+
+        // Send a PUT request to the server
+        await fetch("/api/edges/update", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editedEdge),
+        });
+        setNotification("Connected "+n.nodeID+" & "+props.nodeData?.nodeID);
+        setAddingNeighor(null);
+        props.onPulseUpdate();
+        return;
+      }
+    }
+    setNotification("Couldn't find node with id "+addingNeighbor);
+    setAddingNeighor(null);
   }
 
   return (
@@ -124,13 +177,13 @@ export default function InformationMenu(props: InfoMenuProp) {
           </Box>
           <Box
             sx={{
-              padding: 0,
+              padding: 2,
               display: "flex",
-              justifyContent: "space-evenly",
+              justifyContent: "flex-start",
               flexDirection: "column",
               height:'88vh',
-              px:2,
               boxShadow: 5,
+              gap:2,
               bgcolor:'white'
             }}
           >
@@ -219,7 +272,7 @@ export default function InformationMenu(props: InfoMenuProp) {
               <TextField
                 label={"X"}
                 value={
-                  newNodeData.point.x
+                  Math.round(newNodeData.point.x)
                 }
                 sx={adminCardStyleBody}
                 onChange={(e) => {
@@ -236,7 +289,7 @@ export default function InformationMenu(props: InfoMenuProp) {
               <TextField
                 label={"Y"}
                 value={
-                  newNodeData.point.y
+                  Math.round( newNodeData.point.y)
                 }
                 sx={adminCardStyleBody}
                 onChange={(e) => {
@@ -266,31 +319,98 @@ export default function InformationMenu(props: InfoMenuProp) {
                   if(props.nodeData === null)return false;
                   if(x.startNode.nodeID === props.nodeData?.nodeID || x.endNode.nodeID === props.nodeData?.nodeID)return true;
                 }).map((x)=>{
-                  if(x.startNode.nodeID === props.nodeData?.nodeID)
-                    return (<Chip label={x.endNode.nodeID} variant="outlined" onDelete={()=>{
-                      return true;
+                    return (<Chip label={
+                      (x.endNode.nodeID === props.nodeData?.nodeID)?
+                        x.startNode.nodeID:
+                        (x.startNode.nodeID === props.nodeData?.nodeID)?
+                          x.endNode.nodeID:
+                          "NONE"
+                    } variant="outlined" onDelete={async ()=>{
+                      await deleteEdge(x);
+                      props.onPulseUpdate();
                     }} />);
-                  if(x.endNode.nodeID === props.nodeData?.nodeID)
-                    return (<Chip label={x.startNode.nodeID} variant="outlined" onDelete={()=>{
-                      return true;
-                    }} />);
-                  return (<></>);
                 })
               }
               <Chip label={"+"} variant="outlined" onClick={()=>{
-                return true;
+                setAddingNeighor('');
               }} />
             </Box>
-            <Button
-              type="button"
-              variant="contained"
-              color="secondary"
-              onClick={submitForm}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection:'row',
+                justifyContent:'space-evenly',
+                gap:1,
+                width:'100%',
+              }}
             >
-              Save Node
-            </Button>
+              <Button
+                type="button"
+                variant="outlined"
+                color="secondary"
+                onClick={deleteNode}
+              >
+                Delete Node
+              </Button>
+              <Button
+                type="button"
+                variant="contained"
+                color="secondary"
+                onClick={submitForm}
+              >
+                Save Node
+              </Button>
+            </Box>
           </Box>
         </FormControl>
+      <Dialog
+        open={addingNeighbor !== null}
+        onClose={()=>{
+          setAddingNeighor(null);
+        }}
+      >
+        <DialogTitle>Add Neighbor</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="nodeid"
+            name="nodeid"
+            label="Node ID"
+            fullWidth
+            variant="standard"
+            value={addingNeighbor}
+            onChange={(e)=>{setAddingNeighor(e.target.value);}}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={()=> {setAddingNeighor(null);}}>Cancel</Button>
+          <Button onClick={addNeighbor}>Add</Button>
+        </DialogActions>
+      </Dialog>
+      <Snackbar
+        anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
+        open={notification !== ''}
+        onClose={()=>{
+          setNotification('');
+        }}
+        autoHideDuration={5000}
+        message={notification}
+        key={"Notif"}
+        action={
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            sx={{ p: 0.5 }}
+            onClick={()=>{
+              setNotification('');
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
+      />
     </Box>
   );
 }
