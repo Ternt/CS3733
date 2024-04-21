@@ -5,6 +5,7 @@ import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import ServiceBox from '../../components/HeroPage/ServiceBox.tsx';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import MapIcon from '@mui/icons-material/Map';
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 export default function OurServices() {
 
@@ -30,7 +31,7 @@ export default function OurServices() {
         <Typography
           sx={ ServicesHeaderSxTemplate }
         >
-            About Us
+            {TranslateTo("ourS.aboutUs")}
         </Typography>
           <Grid
               container
@@ -43,31 +44,31 @@ export default function OurServices() {
           >
               <ServiceBox path={""}
                           icon={<LocationCityIcon/>}
-                          header={"Brigham and Women's Hospital"}
-                          descriptiveText={"• 75 Francis Street, Boston, MA 02115\n• 617-732-5500"}
+                          header={TranslateTo("ourS.BWHeader")}
+                          descriptiveText={TranslateTo("ourS.BWDesc")}
                           onClick={() => handleExternalLink('https://www.brighamandwomens.org/about-bwh/locations/boston-main-hospital-campus')}/>
 
               <ServiceBox path={""}
                           icon={<LocationCityIcon/>}
-                          header={"Brigham and Women's Faulkner Hospital"}
-                          descriptiveText={"• 1153 Centre Street, Jamacia Plain, MA 02130\n • 617-983-7000"}
+                          header={TranslateTo("ourS.FaulkHeader")}
+                          descriptiveText={TranslateTo("ourS.FaulkDesc")}
                           onClick={() => handleExternalLink('https://www.brighamandwomens.org/about-bwh/locations/faulkner-hospital-jamaica-plain')}/>
 
               <ServiceBox path={"/map"}
                           icon={<MapIcon/>}
-                          header={"Map"}
-                          descriptiveText={"• Find your way to any location within the hospital"}/>
+                          header={TranslateTo("ourS.MapHeader")}
+                          descriptiveText={TranslateTo("ourS.MapDesc")}/>
 
 
               <ServiceBox path={"/gift-request"}
                           icon={<CardGiftcardIcon/>}
-                          header={"Send a Gift"}
-                          descriptiveText={"• Get your loved one a customized gift that will be delivered directly to their room"}/>
+                          header={TranslateTo("ourS.GiftHeader")}
+                          descriptiveText={TranslateTo("ourS.GiftDesc")}/>
 
               <ServiceBox path={"/flower-request"}
                           icon={<LocalFloristIcon/>}
-                          header={"Buy Flowers"}
-                          descriptiveText={"• Send Flowers directly to the room of a loved one"}/>
+                          header={TranslateTo("ourS.FlwrHeader")}
+                          descriptiveText={TranslateTo("ourS.FlwrDesc")}/>
 
           </Grid>
       </Box>

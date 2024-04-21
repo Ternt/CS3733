@@ -15,13 +15,15 @@ import {useAuth0} from "@auth0/auth0-react";
 import LoginButton from "../LoginButton/LoginButton.tsx";
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import {LanguageSelect} from "./LanguageSelect.tsx";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 
 const services = [
     {label: "Sanitation", path: "/sanitation"},
     {label: "Medicine Delivery", path: "/medicine-request"},
     {label: "Flowers", path: "/flower-request"},
-    {label: "Gift", path: "/gift-request"},
+    {label: "Gifts", path: "/gift-request"},
+
 ];
 
 export type ResponsiveAppBarProps = {
@@ -117,7 +119,7 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                             <Typography
                                 sx={{fontSize: "0.9rem",}}
                             >
-                                Home
+                                {TranslateTo("navB.Home")}
                             </Typography>
                         </Button>
 
@@ -138,7 +140,7 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                             <Typography
                                 sx={{fontSize: "0.9rem"}}
                             >
-                                Map
+                                {TranslateTo("navB.Map")}
                             </Typography>
                         </Button>
 
@@ -190,7 +192,7 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                                                 fontSize: "0.9rem",
                                             }}
                                         >
-                                            Admin
+                                            {TranslateTo("navB.Admin")}
                                         </Typography>
                                     </Button>
                                 )}
@@ -219,7 +221,7 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                                                 fontSize: "0.9rem",
                                             }}
                                         >
-                                            Service Requests
+                                            {TranslateTo("navB.ServiceReq")}
                                             <ArrowDropDownIcon sx={{
                                                 height: '1rem'
                                             }}/>

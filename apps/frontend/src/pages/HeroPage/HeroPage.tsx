@@ -82,7 +82,7 @@ export default function HeroPage() {
                         }}
                     >
                         <Typography variant="h6" mr={1}>
-                            Map
+                            {TranslateTo("heroP.map")}
                         </Typography>
                     </Button>
                     <Button
@@ -103,7 +103,7 @@ export default function HeroPage() {
                         }}
                     >
                         <Typography variant="h6" mr={1}>
-                            Learn More
+                            {TranslateTo("heroP.learnMore")}
                         </Typography>
                         <KeyboardDoubleArrowDownIcon/>
                     </Button>

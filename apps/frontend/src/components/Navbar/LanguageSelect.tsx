@@ -31,7 +31,7 @@ export function LanguageSelect(props: ResponsiveAppBarProps) {
                     <LanguageIcon
                         sx={{
                             color: 'white',
-                            fontSize: '2.2rem'
+                            fontSize: '2.3rem'
                         }}
                     />
                 </IconButton>
@@ -50,7 +50,7 @@ export function LanguageSelect(props: ResponsiveAppBarProps) {
                     }}
                 >
                     <MenuItem onClick={() => handleLanguageSelect('en')}>English</MenuItem>
-                    <MenuItem onClick={() => handleLanguageSelect('sp')}Spanish</MenuItem>
+                    <MenuItem onClick={() => handleLanguageSelect('sp')}>Spanish</MenuItem>
                 </Popover>
             </>
         );
