@@ -23,7 +23,7 @@ function ItemCard(props: CardProps) {
             id: props.id,
             imageURL: props.imageURL,
             name: props.name,
-            price: parseInt(props.price),
+            price: props.price,
             description: props.description,
             type: props.type,
         };

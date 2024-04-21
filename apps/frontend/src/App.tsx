@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {createBrowserRouter, RouterProvider, Outlet, useNavigate} from "react-router-dom";
-import {ThemeProvider, Box} from "@mui/material";
+import {createBrowserRouter, RouterProvider, Outlet} from "react-router-dom";
+import {ThemeProvider} from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
 import LoginButton from "./components/LoginButton/LoginButton.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
@@ -13,9 +13,11 @@ import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 import MapPage from "./pages/MapPage.tsx";
 import {Auth0Provider} from "@auth0/auth0-react";
+import {useNavigate} from 'react-router-dom';
+import Box from "@mui/material/Box";
 import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
-import SearchPage from "./pages/SearchPage/SearchPage.tsx";
+import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
 
 function App() {
     const router = createBrowserRouter([
@@ -81,8 +83,8 @@ function App() {
                     element: <ShopConfirmationPage returnPath="/flower-request"/>
                 },
                 {
-                    path: "/search",
-                    element: <SearchPage/>
+                    path: "/directions",
+                    element: <PhoneDirectionsPage/>
                 }
             ],
         },
@@ -121,10 +123,7 @@ function App() {
                         <Box key={"Navbar spacer"}
                              sx={{width: '100%', height: '10vh', backgroundColor: "#012d5a",}}></Box>
                         <Outlet/>
-                        <Chatbot
-                            open={chatbotOpen}
-                            onClose={() => setChatbotOpen(false)}
-                        />
+                        <Chatbot open={chatbotOpen} onClose={() => setChatbotOpen(false)}/>
                     </div>
                 </Auth0Provider>
             </>
