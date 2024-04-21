@@ -55,15 +55,14 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
             }}
         >
             <Container maxWidth="xl" sx={{maxHeight: "100%"}}>
-                <Toolbar disableGutters sx={{height: "10vh"}}>
-                    <Box
-                        sx={{
-                            flexGrow: 1,
-                            maxHeight: "10vh",
-                            display: {xs: "none", md: "flex", justifyContent: "flex-start"},
-                        }}
-                    >
-
+              <Toolbar disableGutters sx={{height: "10vh"}}>
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    maxHeight: "10vh",
+                    display: {xs: "none", md: "flex", justifyContent: "flex-start"},
+                  }}
+                >
                         <Link
                             href=""
                             underline="none"

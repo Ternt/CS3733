@@ -100,7 +100,7 @@ export default function MapPage() {
         >
             <Grid
                 item
-                xs={3}
+                xs={4}
             >
                 <Box
                   sx={{
@@ -298,7 +298,7 @@ export default function MapPage() {
                 </Box>
             </Grid>
 
-            <Grid item xs={9}>
+            <Grid item xs={8}>
                 <MapCanvas
                     defaultFloor={2}
                     pathfinding={algos[searchAlgorithm].api}
