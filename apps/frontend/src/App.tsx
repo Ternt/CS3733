@@ -16,6 +16,7 @@ import {Auth0Provider} from "@auth0/auth0-react";
 import {useNavigate} from 'react-router-dom';
 import Box from "@mui/material/Box";
 // import Chatbot from "./components/ChatBot/ChatBot.tsx";
+import HowToPage from "./pages/howToPage/howToPage.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
 
@@ -85,6 +86,10 @@ function App() {
                 {
                     path: "directions",
                     element: <PhoneDirectionsPage/>
+                },
+                {
+                    path: "/howTo",
+                    element: <HowToPage/>
                 }
             ],
         },
