@@ -78,7 +78,7 @@ export default function AdminDashboard() {
           </SidebarMenu>
           <Box
             sx={{
-              height: "80vh",
+              height: "90vh",
               width: "100%",
             }}
           >
