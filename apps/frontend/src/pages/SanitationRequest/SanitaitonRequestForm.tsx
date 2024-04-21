@@ -9,7 +9,7 @@ import {
     Button,
     Box,
     Typography,
-    FormLabel, InputAdornment, IconButton, Grow,
+    FormLabel, InputAdornment, IconButton, Grow, DialogTitle, DialogContent, DialogActions, Dialog,
 } from "@mui/material";
 
 import Checkboxes from "../../components/FormElements/Checkboxes.tsx";
@@ -35,7 +35,8 @@ function SanitationRequestForm() {
         document.title = "Sanitation Request";
     });
 
-
+    const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");
+    const [submitDialogFlag, setSubmitDialogFlag] = useState(false);
     const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(true);
     const [formMenuTransform, setFormMenuTransform] = useState<number>(0);
     const [formInput, setFormInput] = useState<formFields>({
@@ -47,6 +48,10 @@ function SanitationRequestForm() {
         size: "",
         status: "",
     });
+
+    const handleDialogClose = () =>{
+        setSubmitDialogFlag(!submitDialogFlag);
+    };
 
     function handleNameInput(e: ChangeEvent<HTMLInputElement>) {
         setFormInput({ ...formInput, name: e.target.value });
@@ -109,11 +114,16 @@ function SanitationRequestForm() {
                 body: JSON.stringify(sanitationRequest),
             })
                 .then((response) => {
+                    setSubmitDialogText("Request submitted");
+                    setSubmitDialogFlag(!submitDialogFlag);
+                    console.log("congratulations! u've submitted");
                     console.log(response);
                 })
 
                 .then((data) => console.log(data))
                 .catch((error) => {
+                    setSubmitDialogText("Request failed to submit. Please try again.");
+                    setSubmitDialogFlag(!submitDialogFlag);
                     console.error("Error:", error);
                 });
         } else {
@@ -361,6 +371,23 @@ function SanitationRequestForm() {
                                     Submit
                                 </Button>
                             </Box>
+
+                            <Dialog open={submitDialogFlag}>
+                                <DialogTitle></DialogTitle>
+                                <DialogContent>
+                                    <Typography>{submitDialogText}</Typography>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button
+                                        sx={{
+                                            display: "flex",
+                                            justifyContent: "center",
+                                        }}
+                                        onClick={handleDialogClose}>
+                                        CLOSE
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
                         </FormControl>
                     </form>
                 </Box>
