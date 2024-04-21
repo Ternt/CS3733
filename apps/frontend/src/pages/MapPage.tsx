@@ -42,6 +42,7 @@ export default function MapPage() {
         startNode: startLocation,
         endNode: endLocation,
         algo: searchAlgorithm,
+
     };
 
 
