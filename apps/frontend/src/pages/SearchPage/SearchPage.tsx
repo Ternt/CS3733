@@ -12,17 +12,23 @@ const pages: PageCardInfo[] = [
         path: "/gift-request",
         description: "Purchase a gift!",
         keywords: [
+            "request",
             "purchase",
             "buy",
-            "teddy bear",
             "gift delivery",
-            // add gifts offered in page
+            "teddy bear",
+            "chocolates",
+            "cake",
+            "succulent",
+            "blanket",
+            "gift basket"
         ]
     },
     {
         path: "/flower-request",
         description: "Order flowers for your loved one!",
         keywords: [
+            "request",
             "purchase",
             "buy",
             "flowers",
@@ -31,6 +37,13 @@ const pages: PageCardInfo[] = [
             "flower delivery",
             "send flowers",
             "florist",
+            "rose",
+            "daisy",
+            "tulip",
+            "forget-me-not",
+            "forget me not",
+            "carnation",
+            "orcid",
             // add flowers offered in page
         ]
     },
@@ -38,24 +51,31 @@ const pages: PageCardInfo[] = [
         path: "/medicine-request",
         description: "Request delivery of medicines",
         keywords: [
-            "medicine",
             "pharmacy",
             "medication",
             "drug delivery",
             "prescription",
             "order medicine",
-            // add medicine offered in page
+            "request",
+            "pain killers",
+            "tylenol",
+            "paracetamol",
+
         ]
     },
     {
         path: "/sanitation",
         description: "Book sanitation services",
         keywords: [
+            "request",
             "cleaning",
             "sanitary",
             "clean services",
             "disinfection",
-            "sanitation help"
+            "sanitation help",
+            "solid waste",
+            "liquid spill",
+            "mess",
         ]
     },
     {
