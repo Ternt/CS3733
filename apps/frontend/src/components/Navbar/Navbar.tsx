@@ -26,7 +26,7 @@ type ResponsiveAppBarProps = {
     toggleChatbot: () => void;
 }
 
-function ResponsiveAppBar(props: ResponsiveAppBarProps) {
+export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
     const navigate = useNavigate();
     const {user, isAuthenticated, isLoading} = useAuth0();
     const handleMenuItemClick = (path: string) => {
@@ -169,5 +169,3 @@ function ResponsiveAppBar(props: ResponsiveAppBarProps) {
         </AppBar>
     );
 }
-
-export default ResponsiveAppBar;
