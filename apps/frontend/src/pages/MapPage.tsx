@@ -19,8 +19,6 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import ElevatorOutlinedIcon from '@mui/icons-material/ElevatorOutlined';
 import StairsOutlinedIcon from '@mui/icons-material/StairsOutlined';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
-import MyLocationIcon from '@mui/icons-material/MyLocation';
-import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
 import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
 import Button from "@mui/material/Button";
 import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
