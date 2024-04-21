@@ -1,10 +1,12 @@
 import {useEffect, useState} from "react";
-//import MapCanvas from "../components/Map/MapCanvas.tsx";
+import {speak} from "../components/TextToSpeech/TextToSpeech.tsx";
 import {Grid, Box, Typography, TextField} from "@mui/material";
 import LocationDropdown from "../components/LocationDropdown.tsx";
 import MapCanvas from "../components/Map/MapCanvas.tsx";
 import NaturalLanguageDirection from "../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
 import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
+import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
 
 export default function MapPage() {
     useEffect(() => {
@@ -33,6 +35,16 @@ export default function MapPage() {
 
         setPath();
     }, [startLocation, endLocation, searchAlgorithm]);
+
+    const NaturalLangPath:string = natLangPath.join(";\n");
+
+    const qrCodeProps = {
+        startNode: startLocation,
+        endNode: endLocation,
+        algo: searchAlgorithm,
+
+    };
+
 
     return (
         <Grid
@@ -100,6 +112,7 @@ export default function MapPage() {
                         }
                     </TextField>
                     <Box sx={{
+                        height: '100%',
                       width: '100%',
                       backgroundColor: 'white',
                       borderRadius: '0 0 23px 23px',
@@ -122,6 +135,28 @@ export default function MapPage() {
                                 </Typography>
                             );
                         })}
+                    </Box>
+
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        gap: '16px'
+                    }}>
+                        <Button onClick={() => speak(NaturalLangPath)} sx={{
+                            backgroundColor: '#012d5a',
+                            color: 'white',
+                            height: '100%',
+                            width: '50%',
+                            display: 'flex',
+                            alignSelf: 'center',
+
+                            "&:hover": {
+                                background: "#1a426a",
+                            },
+                        }}>
+                            Text To Speech
+                        </Button>
+                        <QRCodePopUp {...qrCodeProps}/>
                     </Box>
                 </Box>
             </Grid>
