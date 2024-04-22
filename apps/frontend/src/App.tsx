@@ -18,7 +18,7 @@ import Box from "@mui/material/Box";
 // import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
-import LanguageInterpreterRequestForm from "./pages/LanguageInterpreterRequest.tsx";
+import LanguageInterpreterRequestForm from "./pages/LanguageInterpreterRequest/LanguageInterpreterRequest.tsx";
 
 function App() {
     const router = createBrowserRouter([

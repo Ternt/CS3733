@@ -90,7 +90,6 @@ async function getLanguageDirection(path: Array<string>): Promise<string[]> {
                     directions.push("Walk straight " + Math.round(distance * PIXELS_PER_FOOT) + "ft");
                 }
             } else if (((Math.abs(directionChangeNext) < Math.PI / 4) || (Math.abs(directionChangeNext - 2 * Math.PI) < Math.PI / 4) || (Math.abs(directionChangeNext + 2 * Math.PI) < Math.PI / 4)) && (distCurrToNext < 50)) {
-                directions.push("Don't turn, keep walking straight");
                 i = i + 2;
             } else {
                 const cn = currentNodeName === undefined ? "" : currentNodeName!;
