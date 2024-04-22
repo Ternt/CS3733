@@ -92,7 +92,7 @@ const InputCSV: React.FC = () => {
             formData.append('edges', edgeFile);
 
             try {
-                const response = await axios.post("/api/map/upload", formData, {
+                const response = await axios.post("/api/map/upload?header=true", formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
