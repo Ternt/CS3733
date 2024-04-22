@@ -1,8 +1,5 @@
-// import * as Papa from "papaparse";
 import React, { useEffect, useMemo, useState } from "react";
 import axios, { AxiosResponse } from "axios";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import {
   Box,
   Paper,
@@ -14,6 +11,8 @@ import {
   TablePagination,
   TableRow,
   Typography,
+    Button,
+    TextField
 } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 
@@ -53,7 +52,7 @@ export function UploadForm() {
   );
 }
 
-const InputCSV: React.FC = () => {
+function InputCSV(){
   const [nodeFile, setNodeFile] = useState<File | null>(null);
   const [edgeFile, setEdgeFile] = useState<File | null>(null);
 

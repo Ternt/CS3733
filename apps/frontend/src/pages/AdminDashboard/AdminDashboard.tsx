@@ -5,7 +5,6 @@ import TableViewIcon from "@mui/icons-material/TableView";
 import MapCanvas from "../../components/Map/MapCanvas.tsx";
 import { useState } from "react";
 import DisplayCSV from "../TableDisplayPage/displayCSV.tsx";
-import InputCSV from "../TableDisplayPage/displayCSV.tsx";
 import ServiceRequestOverview from "./ServiceRequestOverview.tsx";
 import {useAuth0} from "@auth0/auth0-react";
 import Button from "@mui/material/Button";
@@ -30,8 +29,6 @@ export default function AdminDashboard() {
     );
   } else if (selectedTab === 2) {
     tabInject = <DisplayCSV />;
-  } else if (selectedTab ===3){
-    tabInject = <InputCSV />;
   }
 
   function handleSelect(i: number) {
