@@ -152,7 +152,7 @@ function SearchPage() {
     const query = location.state?.query;
     const {isAuthenticated} = useAuth0();
 
-    const res: PageCardInfo[] = search(query, pages);
+    const res: PageCardInfo[] = search(query, pages).filter((d) => (d.needsAuthentication && isAuthenticated) || !d.needsAuthentication);
 
     console.log(res);
 
@@ -191,7 +191,6 @@ function SearchPage() {
                 {
 
                     res
-                        .filter((d) => (d.needsAuthentication && isAuthenticated) || !d.needsAuthentication)
                         .map((d) =>
                             <SearchPageCard
                                 key={d.title}
