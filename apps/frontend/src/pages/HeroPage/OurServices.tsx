@@ -3,6 +3,9 @@ import {Box, Typography, Grid} from "@mui/material";
 import ServiceBox from '../../components/HeroPage/ServiceBox.tsx';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import GroupIcon from '@mui/icons-material/Group';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 
 export default function OurServices() {
 
@@ -51,10 +54,25 @@ export default function OurServices() {
                                 descriptiveText={"• 1153 Centre Street, Jamacia Plain, MA 02130\n • 617-983-7000"}
                                 onClick={() => handleExternalLink('https://www.brighamandwomens.org/about-bwh/locations/faulkner-hospital-jamaica-plain')}/>
 
+                    <ServiceBox path={"/"}
+                                icon={<GroupIcon/>}
+                                header={"About Us"}
+                                descriptiveText={"• Learn more about the team how created this web app"}/>
+
+                    <ServiceBox path={"/"}
+                                icon={<PhoneIphoneIcon/>}
+                                header={"IOS App"}
+                                descriptiveText={"• Checkout our IOS App"}/>
+
                     <ServiceBox path={"/howTo"}
                                 icon={<QuestionMarkIcon/>}
                                 header={"FAQ"}
                                 descriptiveText={"• Answers to frequently asked questions and how to guides"}/>
+
+                    <ServiceBox path={"/"}
+                                icon={<HandshakeIcon/>}
+                                header={"Credits"}
+                                descriptiveText={"• Special Thanks to the people who made this project possible"}/>
                 </Grid>
             </Box>
         </>

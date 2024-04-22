@@ -71,7 +71,9 @@ function ServiceBox(props: ServiceBoxProps) {
                         }}>
                             {props.header}
                         </Typography>
-                        <Typography variant="body1" color="textSecondary"  style={{whiteSpace: 'pre-line'}}>
+                        <Typography variant="body1" color="textSecondary"  style={{whiteSpace: 'pre-line'}} sx={{
+                            fontSize: '15px',
+                        }}>
                             {props.descriptiveText}
                         </Typography>
                     </CardContent>

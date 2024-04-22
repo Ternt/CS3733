@@ -56,35 +56,35 @@ function HowToPage() {
                 >
                     <ServiceBox path={"/map"}
                                 icon={<MapIcon/>}
-                                header={"Q: How do I use Path Finding"}
-                                descriptiveText={"A:"}/>
+                                header={"Q: How do I use Pathfinding"}
+                                descriptiveText={"A: To use pathfinding, first navigate to the map page. Then select a start and end location from the dropdown menus. Finally, choose a algorithm (A* if you want the optimal path)."}/>
 
 
                     <ServiceBox path={"/gift-request"}
                                 icon={<CardGiftcardIcon/>}
                                 header={"Q: How do I get a gift for a loved one?"}
-                                descriptiveText={"A:"}/>
-
-                    <ServiceBox path={"/flower-request"}
-                                icon={<LocalFloristIcon/>}
-                                header={"Q: How do I send flowers to a loved one?"}
-                                descriptiveText={"A:"}/>
+                                descriptiveText={"A: To get a gift for a loved one, first navigate to the gift page. Then add the desired items to your cart. Finally, click on Submit and complete checking out."}/>
 
                     <ServiceBox path={"/sanitation"}
                                 icon={<CleaningServicesIcon/>}
                                 header={"Q: There is a spill in the Garden Cafe, how do I report this?"}
-                                descriptiveText={"A:"}/>
+                                descriptiveText={"A: A: To request a translator, first navigate to the sanitation page. Then fill out the relevant information and submit."}/>
 
 
                     <ServiceBox path={"/admin"}
                                 icon={<SupervisorAccountIcon/>}
-                                header={"Q: I am a hospital Admin, how do I see the different requests"}
-                                descriptiveText={"A:"}/>
+                                header={"Q: I am a hospital Admin, how do I see the requests"}
+                                descriptiveText={"A: To view all the requests, first login with an admin account and navigate to the admin dashboard page. Then fill out the relevant information and submit"}/>
 
                     <ServiceBox path={"/"}
                                 icon={<TranslateIcon/>}
                                 header={"Q: My friend doesn't speak english, How do I get a translator?"}
-                                descriptiveText={"A:"}/>
+                                descriptiveText={"A: To request a translator, first navigate to the translator page. Then fill out the relevant information and submit."}/>
+
+                    <ServiceBox path={"/flower-request"}
+                                icon={<LocalFloristIcon/>}
+                                header={"Q: How do I send flowers to a loved one?"}
+                                descriptiveText={"A: To get a gift for a loved one, first navigate to the flower page. Then add the desired items to your cart. Finally, click on Submit and complete checking out."}/>
 
                 </Grid>
             </Box>
