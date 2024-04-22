@@ -1,5 +1,14 @@
 import {useEffect, useState} from "react";
-import {Accordion, AccordionDetails, AccordionSummary, Box, Grid, TextField, Typography} from "@mui/material";
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Box, Dialog, DialogActions, DialogContent,
+    DialogTitle,
+    Grid,
+    TextField,
+    Typography
+} from "@mui/material";
 import {speak} from "../components/TextToSpeech/TextToSpeech.tsx";
 import LocationDropdown from "../components/LocationDropdown.tsx";
 import MapCanvas from "../components/Map/MapCanvas.tsx";
@@ -24,6 +33,7 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import MessageIcon from '@mui/icons-material/Message';
 import Button from "@mui/material/Button";
 import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
+import * as React from "react";
 
 export function getIconFromDirectionType(t: directionTypes) {
     switch (t) {
@@ -46,7 +56,7 @@ export function getIconFromDirectionType(t: directionTypes) {
     }
 }
 
-async function handleSMS(phone: string, msg: string) {
+async function handleSMSSend(phone: string, msg: string) {
     await fetch("/api/sms", {
         method: "POST",
         headers: {
@@ -56,7 +66,6 @@ async function handleSMS(phone: string, msg: string) {
     });
     console.log("SMS Sent");
 }
-
 
 export default function MapPage() {
     useEffect(() => {
@@ -117,6 +126,7 @@ export default function MapPage() {
         algo: searchAlgorithm,
     };
 
+    const [phoneNumber,setPhoneNumber] = useState<string | null>(null);
 
     return (
         <Grid
@@ -327,7 +337,7 @@ export default function MapPage() {
                                 TTS
                             </Box>
                         </Button>
-                        <Button onClick={() => handleSMS("+17742908219", NaturalLangPath)}
+                        <Button onClick={() => setPhoneNumber("")}
                                 sx={{
                                     backgroundColor: '#012d5a',
                                     color: 'white',
@@ -351,6 +361,34 @@ export default function MapPage() {
                         <QRCodePopUp {...qrCodeProps}/>
                     </Box>
                 </Box>
+
+                <Dialog
+                    open={phoneNumber !== null}
+                    onClose={()=>{
+                        setPhoneNumber(null);
+                    }}
+                >
+                    <DialogTitle>Enter Information</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            autoFocus
+                            required
+                            margin="dense"
+                            id="sendSMS"
+                            name="sendSMS"
+                            label="Send SMS"
+                            fullWidth
+                            variant="standard"
+                            value={phoneNumber}
+                            onChange={(e)=>{setPhoneNumber(e.target.value);}}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={()=> {setPhoneNumber(null);}}>Cancel</Button>
+                        <Button onClick={() => {handleSMSSend(phoneNumber!, NaturalLangPath); setPhoneNumber(null);}}>Send</Button>
+                    </DialogActions>
+                </Dialog>
+
             </Grid>
 
             <Grid item xs={8}>
