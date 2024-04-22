@@ -41,7 +41,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     down: false,
     downPos: {x: 0, y: 0},
   });
-  const [viewMode] = useState('normal');
+  const [viewMode, setViewMode] = useState('normal');
   const [viewingFloor, setViewingFloor] = useState(props.defaultFloor);
   const [nodes, setNodes] = useState<node[]>([]);
   const [edges, setEdges] = useState<edge[]>([]);
@@ -179,7 +179,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         p = vecToCanvSpace(p);
         if (p.z !== viewingFloor) return;
         return <motion.ellipse
-          initial={{ opacity: 0, scale: 0, fill:"blue"}}
+          initial={{ opacity: dragging?1:0, scale: dragging?1:0, fill:"blue"}}
           animate={{ opacity: 1, scale: 1, fill:selected?"red":"blue"}}
           transition={{
             duration: dragging?0:2,
@@ -194,7 +194,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           id={id}
         />;
       }
-      function drawLine(a: vec2, b: vec2, color: string, width?:number) {
+      function drawLine(a: vec2, b: vec2, color: string, width:number, noAnimate:boolean) {
         if (a.z !== viewingFloor) return;
         a = vecToCanvSpace(a);
         b = vecToCanvSpace(b);
@@ -206,11 +206,11 @@ export default function MapCanvas(props: mapCanvasProps) {
           y2={b.y}
           stroke={color}
           strokeLinecap={"round"}
-          initial={{ strokeWidth: 0}}
-          animate={{ strokeWidth: viewMode==='heatmap' ? width! : NODE_SIZE*.5}}
+          initial={{ strokeWidth: noAnimate ? NODE_SIZE * .5 : 0}}
+          animate={{ strokeWidth: viewMode==='heatmap' ? width! : NODE_SIZE * .5}}
           transition={{
-            duration: 1.7,
-            delay: 0.3,
+            duration: noAnimate? 0 : (viewMode==='heatmap'? 2 : 0.5),
+            delay:viewMode==='heatmap'?.5:0,
             ease: [0, 0.71, 0.2, 1.01]
           }}
         />;
@@ -294,9 +294,9 @@ export default function MapCanvas(props: mapCanvasProps) {
           let color = "blue";
           if(viewMode==='heatmap')
             color = evaluateHeatGradient(heat);
-          svgElements.push(drawLine(e.startNode.point, e.endNode.point, color, 10*heat+5));
+          svgElements.push(drawLine(e.startNode.point, e.endNode.point, color, 10*heat+5, e.endNode.nodeID === draggingNode?.nodeID || e.startNode.nodeID === draggingNode?.nodeID));
         }
-        if(viewMode!=='heatmap')
+        if(viewMode==='edit')
           for (const n of renderData.n) {
             svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID), draggingNode === n, n.nodeID));
           }
@@ -326,7 +326,7 @@ export default function MapCanvas(props: mapCanvasProps) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function handleDblclick(e:MouseEvent){
-    if (props.pathfinding) {
+    if (props.pathfinding || viewMode!=='edit') {
       return;
     }
 
@@ -425,7 +425,7 @@ export default function MapCanvas(props: mapCanvasProps) {
             y: cameraControl.panAnchor.y + dy,
           },
         });
-      } else {
+      } else if(viewMode==='edit'){
         draggingNode.point = {x: x2, y: y2, z: draggingNode.point.z};
       }
     }
@@ -445,7 +445,7 @@ export default function MapCanvas(props: mapCanvasProps) {
       panAnchor: cameraControl.pan,
     });
 
-    if (!props.pathfinding) {
+    if (!props.pathfinding && viewMode==='edit') {
       const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
       const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
 
@@ -533,6 +533,7 @@ export default function MapCanvas(props: mapCanvasProps) {
             props.onDeselectEndLocation();
         });
     } else {
+      if(viewMode!=='edit')return;
       const closestNode = pointHelper({
         pos:pos,
         floor:viewingFloor,
@@ -769,8 +770,14 @@ export default function MapCanvas(props: mapCanvasProps) {
           floor={viewingFloor}
           zoom={cameraControl.zoom}
           zoomSpeed={ZOOM.SPEED * 3}
+          viewMode={viewMode}
           onSetFloorIndex={(floorIndex: number) => {
             handleSetViewingFloor(floorIndex);
+          }}
+          onSetViewMode={(vm)=>{
+            setViewMode(vm);
+            if(vm !== 'edit')
+              setPathing({...pathing, nearestNode:null});
           }}
           onSetZoom={(z: number) => {
             const zc = clamp(z, ZOOM.MIN, ZOOM.MAX,);
