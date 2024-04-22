@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {createBrowserRouter, RouterProvider, Outlet, useNavigate} from "react-router-dom";
-import {ThemeProvider, Box} from "@mui/material";
+import {createBrowserRouter, RouterProvider, Outlet} from "react-router-dom";
+import {ThemeProvider} from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
 import LoginButton from "./components/LoginButton/LoginButton.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
@@ -13,11 +13,14 @@ import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 import MapPage from "./pages/MapPage.tsx";
 import {Auth0Provider} from "@auth0/auth0-react";
+import {useNavigate} from 'react-router-dom';
+import Box from "@mui/material/Box";
 import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
 import SearchPage from "./pages/SearchPage/SearchPage.tsx";
 import ErrorPage from "./pages/404Page/ErrorPage.tsx";
+import HowToPage from "./pages/howToPage/howToPage.tsx";
 
 function App() {
     const router = createBrowserRouter([
@@ -93,6 +96,10 @@ function App() {
                 {
                     path: "/search",
                     element: <SearchPage/>
+                },
+                {
+                    path: "/howTo",
+                    element: <HowToPage/>
                 }
             ],
         },

@@ -3,6 +3,7 @@ import {Button, Fade, IconButton, Snackbar} from '@mui/material';
 import Box from "@mui/material/Box";
 import QRCode from "qrcode";
 import CloseIcon from "@mui/icons-material/Close";
+import QrCodeIcon from '@mui/icons-material/QrCode';
 
 type QRCodePopUpProp = {
     startNode: string;
@@ -32,7 +33,7 @@ export default function QRCodePopUp(props: QRCodePopUpProp) {
 
     return (
         <Box sx={{
-            width: '50%',
+            width: '12vw',
         }}>
             <Button
                 onClick={()=>{
@@ -53,12 +54,16 @@ export default function QRCodePopUp(props: QRCodePopUpProp) {
                     width: '100%',
                     display: 'flex',
                     alignSelf: 'center',
+                    alignItems: 'center',
                     "&:hover": {
                         background: "#1a426a",
                     },
                 }}
             >
-                QR Code
+                <QrCodeIcon/>
+                <Box sx={{display: 'flex', justifyContent: 'center', flex: 1}}>
+                    QR Code
+                </Box>
             </Button>
             <Fade in={showQRCode}>
                 <Box
