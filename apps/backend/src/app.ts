@@ -14,9 +14,13 @@ import * as fs from "fs";
 import path from "path";
 import { createDatabase } from "./helper/createDatabase.ts";
 import {auth} from "express-oauth2-jwt-bearer";
+// import { generateHeatmapData } from "./helper/generateHeatmapData.ts";
 const _ = require('./helper/bigIntFix.ts');
 
 const app: Express = express(); // Set up the backend
+
+// uncomment if you want to generate heatmap data again
+// generateHeatmapData();
 
 (async () => {
   // this will remove all service requests from the DB
@@ -26,7 +30,7 @@ const app: Express = express(); // Set up the backend
   const node_str = fs.readFileSync(nodePath, "utf8");
   const edge_str = fs.readFileSync(edgePath, "utf8");
 
-  await createDatabase(true, node_str, edge_str);
+  await createDatabase(true, node_str, edge_str, true);
 })();
 
 //const fileUpload = require("express-fileupload");

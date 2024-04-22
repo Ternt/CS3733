@@ -24,6 +24,25 @@ export default function HeroPage() {
     return (
         <>
             <Box
+                sx = {{
+                    width: '100%',
+                    px: '1rem',
+                }}
+            >
+                <Typography
+                    variant = "caption"
+                    sx = {{
+                        display: 'inline-block',
+                        color: 'rgba(0, 0, 0, 0.6)',
+                        fontSize: '0.75rem',
+                        lineHeight: '1.4',
+                    }}
+                >
+                    Disclaimer: This website is a term project exercise for WPI CS 3733 Software Engineering (Prof. Wong) and is not to be confused with the actual Brigham & Women’s Hospital website.
+                </Typography>
+
+            </Box>
+            <Box
                 component="img"
                 className={"logo"}
                 src={logo}
@@ -67,7 +86,7 @@ export default function HeroPage() {
                 >
                     <Button
                         key="Map"
-                        onClick={() => handleMenuItemClick("/map")}
+                        onClick={() => {handleMenuItemClick("/map");}}
                         sx={{
                             minWidth: "15rem",
                             px: '2rem',

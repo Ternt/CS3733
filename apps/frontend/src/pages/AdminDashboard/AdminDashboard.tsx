@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
 
 export default function AdminDashboard() {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading } = useAuth0();
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(0);
   let tabInject = <></>;
@@ -78,21 +78,10 @@ export default function AdminDashboard() {
           </SidebarMenu>
           <Box
             sx={{
-              height: "80vh",
+              height: "90vh",
               width: "100%",
             }}
           >
-            <Box
-            sx={{
-              height:'8vh'
-            }}
-            >
-              <Typography variant={"h6"} sx={{
-                  textAlign: 'center',
-              }}>
-                  Welcome {user?.name}!
-              </Typography>
-            </Box>
             {tabInject}
           </Box>
         </Box>

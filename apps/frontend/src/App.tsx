@@ -13,80 +13,91 @@ import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 import MapPage from "./pages/MapPage.tsx";
 import {Auth0Provider} from "@auth0/auth0-react";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import Box from "@mui/material/Box";
 import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
+import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
+import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 
 
 export const LanguageContext = createContext("en");
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      errorElement: <div />,
-      element: <Root />,
-      children: [
+    const router = createBrowserRouter([
         {
-          path: "",
-          element: <HeroPage />,
+            path: "/",
+            errorElement: <div/>,
+            element: <Root/>,
+            children: [
+                {
+                    path: "*",
+                    element: <ErrorPage />
+                },
+                {
+                    path: "",
+                    element: <HeroPage/>,
+                },
+                {
+                    path: "/map",
+                    element: <MapPage/>,
+                },
+                {
+                    path: "/medicine-request",
+                    element: <MedicineDeliveryForm/>,
+                },
+                {
+                    path: "/sanitation",
+                    element: <SanitationRequestForm/>,
+                },
+                {
+                    path: "/login",
+                    element: <LoginButton/>,
+                },
+                {
+                    path: "/gift-request",
+                    element: <StoreRequestPage/>,
+                },
+                {
+                    path: "/flower-request",
+                    element: <StoreRequestPage/>,
+                },
+                {
+                    path: "/gift-checkout",
+                    element: (
+                        <Checkout checkoutType="gift" returnPath="/gift-request"/>
+                    ),
+                },
+                {
+                    path: "/flower-checkout",
+                    element: (
+                        <Checkout checkoutType="flower" returnPath="/flower-request"/>
+                    ),
+                },
+                {
+                    path: "/tables",
+                    element: <MapDataDisplay/>,
+                },
+                {
+                    path: "/admin",
+                    element: <AdminDashboard/>,
+                },
+                {
+                    path: "/gift-order-confirmation",
+                    element: <ShopConfirmationPage returnPath="/gift-request"/>
+                },
+                {
+                    path: "/flower-order-confirmation",
+                    element: <ShopConfirmationPage returnPath="/flower-request"/>
+                },
+                {
+                    path: "/directions",
+                    element: <PhoneDirectionsPage/>
+                }
+            ],
         },
-        {
-          path: "/map",
-          element: <MapPage />,
-        },
-        {
-          path: "/medicine-request",
-          element: <MedicineDeliveryForm />,
-        },
-        {
-          path: "/sanitation",
-          element: <SanitationRequestForm />,
-        },
-        {
-          path: "/login",
-          element: <LoginButton />,
-        },
-        {
-          path: "/gift-request",
-          element: <StoreRequestPage/>,
-        },
-        {
-          path: "/flower-request",
-          element: <StoreRequestPage/>,
-        },
-        {
-          path: "/gift-checkout",
-          element: (
-            <Checkout checkoutType="gift" returnPath="/gift-request" />
-          ),
-        },
-        {
-          path: "/flower-checkout",
-          element: (
-            <Checkout checkoutType="flower" returnPath="/flower-request" />
-          ),
-        },
-        {
-          path: "/tables",
-          element: <MapDataDisplay />,
-        },
-        {
-          path: "/admin",
-          element: <AdminDashboard />,
-        },
-        {
-          path: "/gift-order-confirmation",
-          element: <ShopConfirmationPage returnPath="/gift-request"/>
-        },
-        {
-          path: "/flower-order-confirmation",
-          element: <ShopConfirmationPage returnPath="/flower-request"/>
-        }
-      ],
-    },
-  ]);
+    ]);
+
 
     return (
         <ThemeProvider theme={CustomTheme}>

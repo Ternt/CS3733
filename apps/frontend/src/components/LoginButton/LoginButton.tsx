@@ -4,15 +4,9 @@ import {
     Typography,
 } from "@mui/material";
 import {useAuth0} from "@auth0/auth0-react";
-import User from 'common/src/User.tsx';
 
 export default function LoginButton() {
     const {loginWithRedirect, logout, user, error, isAuthenticated,} = useAuth0();
-
-    function logUserInfo(user: User) {
-        console.log(user);
-    }
-
 
     const handleSubmit = () => {
         if (!user) {
@@ -37,17 +31,6 @@ export default function LoginButton() {
             console.error(error);
         });
     };
-
-    // Log user info
-    if (user) {
-        logUserInfo(user);
-    }
-
-    // Log user info
-    if (user) {
-        logUserInfo(user);
-    }
-
 
     return (
         <>

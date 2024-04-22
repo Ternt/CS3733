@@ -38,6 +38,7 @@
   "devDependencies": {
     "@types/express": "^4",
     "@types/express-fileupload": "^1",
+    "@types/qrcode": "^1",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@vitest/ui": "^0.33.0",
@@ -74,6 +75,7 @@
     "material-ui-flags": "^1.2.4",
     "openai": "^4.33.1",
     "prisma": "^5.11.0",
+    "qrcode": "^1.5.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.0",
     "react-dom": "^18.2.0",

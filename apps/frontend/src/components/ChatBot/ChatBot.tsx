@@ -93,9 +93,12 @@ export default function Chatbot(props:ChatbotProps) {
         const {start, end} = checkUserMessage(userMessage);
         if (start !== '' && end !== '') {
             const res = await NaturalLanguageDirection(start, end, 0);
-            let path = ['Path text error'];
-            if (res !== undefined)
-                path = res;
+            const path = ['Path text error'];
+            if (res !== undefined) {
+              for(const d of res){
+                path.push(d.message);
+              }
+            }
             setChatMessages((prevMessages) => [
                 {role: "ChatBot", content: 'Path from ' + start + ' to ' + end + ': ' + path},
               ...prevMessages,
