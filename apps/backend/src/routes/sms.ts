@@ -29,7 +29,10 @@ router.post("/", async function (req: Request, res: Response) {
             body: msg,
         })
         .then(message => console.log(message.sid))
-        .catch(error => console.error(error));
+        .catch(error => {
+            console.error(error);
+            res.sendStatus(400);
+        });
 
     res.sendStatus(200);
 });

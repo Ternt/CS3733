@@ -5,7 +5,7 @@ import {
     AccordionSummary,
     Box, Dialog, DialogActions, DialogContent,
     DialogTitle,
-    Grid,
+    Grid, IconButton, Snackbar,
     TextField,
     Typography
 } from "@mui/material";
@@ -34,6 +34,7 @@ import MessageIcon from '@mui/icons-material/Message';
 import Button from "@mui/material/Button";
 import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
 import * as React from "react";
+import CloseIcon from "@mui/icons-material/Close";
 
 export function getIconFromDirectionType(t: directionTypes) {
     switch (t) {
@@ -56,18 +57,22 @@ export function getIconFromDirectionType(t: directionTypes) {
     }
 }
 
-async function handleSMSSend(phone: string, msg: string) {
-    await fetch("/api/sms", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({phone: phone, message: msg}),
-    });
-    console.log("SMS Sent");
-}
+
 
 export default function MapPage() {
+    async function handleSMSSend(phone: string, msg: string) {
+        const res = await fetch("/api/sms", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({phone: phone, message: msg}),
+        });
+        if(res.status !== 200){
+            setNotification("Failed to Send");
+        }
+    }
+
     useEffect(() => {
         document.title = "Map";
     });
@@ -127,6 +132,7 @@ export default function MapPage() {
     };
 
     const [phoneNumber,setPhoneNumber] = useState<string | null>(null);
+    const [notification, setNotification] = useState('');
 
     return (
         <Grid
@@ -388,6 +394,29 @@ export default function MapPage() {
                         <Button onClick={() => {handleSMSSend(phoneNumber!, NaturalLangPath); setPhoneNumber(null);}}>Send</Button>
                     </DialogActions>
                 </Dialog>
+
+                <Snackbar
+                    anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
+                    open={notification !== ''}
+                    onClose={()=>{
+                        setNotification('');
+                    }}
+                    autoHideDuration={5000}
+                    message={notification}
+                    key={"Notif"}
+                    action={
+                        <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            sx={{ p: 0.5 }}
+                            onClick={()=>{
+                                setNotification('');
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    }
+                />
 
             </Grid>
 
