@@ -4,7 +4,7 @@ import {speak} from "../components/TextToSpeech/TextToSpeech.tsx";
 import LocationDropdown from "../components/LocationDropdown.tsx";
 import MapCanvas from "../components/Map/MapCanvas.tsx";
 import NaturalLanguageDirection, {
-  directionTypes
+    directionTypes
 } from "../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
 import MenuItem from "@mui/material/MenuItem";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -23,18 +23,39 @@ import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
 import Button from "@mui/material/Button";
 import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
 
-export function getIconFromDirectionType(t:directionTypes){
-  switch(t){
-    case directionTypes.STRAIGHT: return <StraightIcon/>;
-    case directionTypes.LEFT: return <TurnLeftIcon/>;
-    case directionTypes.RIGHT: return <TurnRightIcon/>;
-    case directionTypes.START: return <MyLocationIcon/>;
-    case directionTypes.END: return <PinDropOutlinedIcon/>;
-    case directionTypes.HELP: return <HelpOutlineOutlinedIcon/>;
-    case directionTypes.ELEVATOR: return <ElevatorOutlinedIcon/>;
-    case directionTypes.STAIRS: return <StairsOutlinedIcon/>;
-  }
+export function getIconFromDirectionType(t: directionTypes) {
+    switch (t) {
+        case directionTypes.STRAIGHT:
+            return <StraightIcon/>;
+        case directionTypes.LEFT:
+            return <TurnLeftIcon/>;
+        case directionTypes.RIGHT:
+            return <TurnRightIcon/>;
+        case directionTypes.START:
+            return <MyLocationIcon/>;
+        case directionTypes.END:
+            return <PinDropOutlinedIcon/>;
+        case directionTypes.HELP:
+            return <HelpOutlineOutlinedIcon/>;
+        case directionTypes.ELEVATOR:
+            return <ElevatorOutlinedIcon/>;
+        case directionTypes.STAIRS:
+            return <StairsOutlinedIcon/>;
+    }
 }
+
+async function handleSMS(phone:string, msg:string){
+    await fetch("/api/sms", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({phone:phone, message:msg}),
+    });
+    console.log("SMS Sent");
+}
+
+
 
 export default function MapPage() {
     useEffect(() => {
@@ -42,48 +63,50 @@ export default function MapPage() {
     });
 
     const algos = [
-      {title: 'A-Star', api: 'astar', helper: 'The quickest route'},
-      {title: 'Breadth First Search', api: 'bfs', helper: 'A decent route'},
-      {title: 'Depth First Search', api: 'dfs', helper: 'The scenic route'},
-      {title: 'Dijkstra\'s', api: 'dijkstra', helper: 'A very fast route'},
+        {title: 'A-Star', api: 'astar', helper: 'The quickest route'},
+        {title: 'Breadth First Search', api: 'bfs', helper: 'A decent route'},
+        {title: 'Depth First Search', api: 'dfs', helper: 'The scenic route'},
+        {title: 'Dijkstra\'s', api: 'dijkstra', helper: 'A very fast route'},
     ];
     const [startLocation, setStartLocation] = useState("");
     const [endLocation, setEndLocation] = useState("");
     const [searchAlgorithm, setSearchAlgorithm] = useState(0);
-    const [natLangPath, setNatLangPath] = useState<{ messages:{a:string, t:directionTypes}[], floor:number }[]>([]);
+    const [natLangPath, setNatLangPath] = useState<{
+        messages: { a: string, t: directionTypes }[],
+        floor: number
+    }[]>([]);
 
     useEffect(() => {
         async function setPath() {
             const res = await NaturalLanguageDirection(startLocation, endLocation, searchAlgorithm);
-            if (res !== undefined){
-              const m: { messages:{a:string, t:directionTypes}[], floor:number }[] = [];
-              let cf = -1;
-              for(const d of res){
-                if(d.floor !== cf){
-                  cf = d.floor;
-                  m.push({
-                    messages:[],
-                    floor:cf,
-                  });
+            if (res !== undefined) {
+                const m: { messages: { a: string, t: directionTypes }[], floor: number }[] = [];
+                let cf = -1;
+                for (const d of res) {
+                    if (d.floor !== cf) {
+                        cf = d.floor;
+                        m.push({
+                            messages: [],
+                            floor: cf,
+                        });
+                    }
+                    m[m.length - 1].messages.push({a: d.message, t: d.type});
                 }
-                m[m.length-1].messages.push({a:d.message, t:d.type});
-              }
-              setNatLangPath(m);
-            }
-            else
-                setNatLangPath([{messages:[{a:"Select a Path",t:directionTypes.HELP}],floor:-1}]);
+                setNatLangPath(m);
+            } else
+                setNatLangPath([{messages: [{a: "Select a Path", t: directionTypes.HELP}], floor: -1}]);
         }
 
         setPath();
     }, [startLocation, endLocation, searchAlgorithm]);
 
     const NaturalLangPath:string = natLangPath.join(";\n");
+    console.log(NaturalLangPath);
 
     const qrCodeProps = {
         startNode: startLocation,
         endNode: endLocation,
         algo: searchAlgorithm,
-
     };
 
 
@@ -101,17 +124,17 @@ export default function MapPage() {
                 xs={4}
             >
                 <Box
-                  sx={{
-                    width: '95%',
-                    height: 'calc(90vh - 2.5%)',
-                    borderRadius: '2rem',
-                    boxShadow: 5,
-                    p:2,
-                    m:'2.5%',
-                    display:'flex',
-                    flexDirection:'column',
-                    gap:1.5,
-                }}
+                    sx={{
+                        width: '95%',
+                        height: 'calc(90vh - 2.5%)',
+                        borderRadius: '2rem',
+                        boxShadow: 5,
+                        p: 2,
+                        m: '2.5%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 1.5,
+                    }}
                 >
                     <Typography
                         variant="h6"
@@ -121,153 +144,153 @@ export default function MapPage() {
                         NAVIGATION MENU
                     </Typography>
                     <Box
-                      sx={{
-                        display:'flex',
-                        flexDirection:'row',
-                        flexWrap:'nowrap',
-                        alignItems:'center',
-                        gap:'.25rem'
-                      }}
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            flexWrap: 'nowrap',
+                            alignItems: 'center',
+                            gap: '.25rem'
+                        }}
                     >
-                      <MyLocationIcon/>
-                      <LocationDropdown
-                          onChange={(v: string) => {
-                              setStartLocation(v);
-                          }}
-                          value={startLocation}
-                          filterTypes={["HALL"]}
-                          label={"Start "}
-                      />
+                        <MyLocationIcon/>
+                        <LocationDropdown
+                            onChange={(v: string) => {
+                                setStartLocation(v);
+                            }}
+                            value={startLocation}
+                            filterTypes={["HALL"]}
+                            label={"Start "}
+                        />
                     </Box>
                     <Button
-                      onClick={()=>{
-                        const s = startLocation;
-                        const e = endLocation;
-                        setStartLocation(e);
-                        setEndLocation(s);
-                      }}
-                      sx={{
-                        borderRadius:'100px',
-                        height:'2rem',
-                      }}
-                    >
-                      <SwapVertIcon/>
-                    </Button>
-                  <Box
-                    sx={{
-                      display:'flex',
-                      flexDirection:'row',
-                      flexWrap:'nowrap',
-                      alignItems:'center',
-                      gap:'.25rem'
-                    }}
-                  >
-                    <PinDropOutlinedIcon/>
-                    <LocationDropdown
-                        onChange={(v: string) => {
-                            setEndLocation(v);
-                        }}
-                        value={endLocation}
-                        filterTypes={["HALL"]}
-                        label={"End "}
-                    />
-                  </Box>
-                  <Box
-                    sx={{
-                      display:'flex',
-                      flexDirection:'row',
-                      flexWrap:'nowrap',
-                      alignItems:'center',
-                      gap:'.25rem'
-                    }}
-                  >
-                    <RouteOutlinedIcon />
-                    <TextField
-                        select
-                        onChange={(e) => {
-                            setSearchAlgorithm(parseInt(e.target.value));
+                        onClick={() => {
+                            const s = startLocation;
+                            const e = endLocation;
+                            setStartLocation(e);
+                            setEndLocation(s);
                         }}
                         sx={{
-                            width: '100%'
+                            borderRadius: '100px',
+                            height: '2rem',
                         }}
-                        value={searchAlgorithm}
-                        label={"Algorithm "}
-                        //helperText={algos[searchAlgorithm].helper}
                     >
-                        {
-                            algos.map((a, i) => <MenuItem key={a.api} value={i}>{a.title}</MenuItem>)
-                        }
-                    </TextField>
-                  </Box>
+                        <SwapVertIcon/>
+                    </Button>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            flexWrap: 'nowrap',
+                            alignItems: 'center',
+                            gap: '.25rem'
+                        }}
+                    >
+                        <PinDropOutlinedIcon/>
+                        <LocationDropdown
+                            onChange={(v: string) => {
+                                setEndLocation(v);
+                            }}
+                            value={endLocation}
+                            filterTypes={["HALL"]}
+                            label={"End "}
+                        />
+                    </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            flexWrap: 'nowrap',
+                            alignItems: 'center',
+                            gap: '.25rem'
+                        }}
+                    >
+                        <RouteOutlinedIcon/>
+                        <TextField
+                            select
+                            onChange={(e) => {
+                                setSearchAlgorithm(parseInt(e.target.value));
+                            }}
+                            sx={{
+                                width: '100%'
+                            }}
+                            value={searchAlgorithm}
+                            label={"Algorithm "}
+                            //helperText={algos[searchAlgorithm].helper}
+                        >
+                            {
+                                algos.map((a, i) => <MenuItem key={a.api} value={i}>{a.title}</MenuItem>)
+                            }
+                        </TextField>
+                    </Box>
                     <Box sx={{
                         height: '100%',
-                      width: '100%',
-                      backgroundColor: 'white',
-                      borderRadius: '0 0 23px 23px',
-                      overflowY: 'scroll',
-                      display:'flex',
-                      flexWrap:'nowrap',
-                      flexDirection:'column',
-                      gap:'.1rem',
-                      borderTop:' 1px solid black',
-                      pb:'5rem',
+                        width: '100%',
+                        backgroundColor: 'white',
+                        borderRadius: '0 0 23px 23px',
+                        overflowY: 'scroll',
+                        display: 'flex',
+                        flexWrap: 'nowrap',
+                        flexDirection: 'column',
+                        gap: '.1rem',
+                        borderTop: ' 1px solid black',
+                        pb: '5rem',
                     }}>
                         {natLangPath.map((d, index) => {
-                          if(d.floor === -1){
-                            return(
-                              <Box
-                                sx={{
-                                  width: '100%',
-                                  display:'flex',
-                                  flexDirection:'row',
-                                  flexWrap:'nowrap',
-                                  gap: 1
-                                }}
-                              >
-                                {getIconFromDirectionType(directionTypes.HELP)}
-                                <Typography
-                                  key={"dir-1in"+index}
-                                >
-                                  Select a start and end location
-                                </Typography>
-                              </Box>
-                            );
-                          }
-                            return (
-                              <Accordion
-                                key={"direct"+index}
-                                defaultExpanded={index===0}
-
-                              >
-                                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                  <Typography>
-                                    {FLOOR_NAMES[d.floor]}
-                                  </Typography>
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                  {d.messages.map((m,i)=>{
-                                      return(
-                                        <Box
-                                          sx={{
-                                            py:1,
+                            if (d.floor === -1) {
+                                return (
+                                    <Box
+                                        sx={{
                                             width: '100%',
-                                            display:'flex',
-                                            flexDirection:'row',
-                                            flexWrap:'nowrap',
+                                            display: 'flex',
+                                            flexDirection: 'row',
+                                            flexWrap: 'nowrap',
                                             gap: 1
-                                            }}
-                                        >
-                                        {getIconFromDirectionType(m.t)}
+                                        }}
+                                    >
+                                        {getIconFromDirectionType(directionTypes.HELP)}
                                         <Typography
-                                          key={"dir"+i+"in"+index}
+                                            key={"dir-1in" + index}
                                         >
-                                          {m.a}
+                                            Select a start and end location
                                         </Typography>
-                                        </Box>
-                                        );
-                                    })}
-                                </AccordionDetails>
-                              </Accordion>
+                                    </Box>
+                                );
+                            }
+                            return (
+                                <Accordion
+                                    key={"direct" + index}
+                                    defaultExpanded={index === 0}
+
+                                >
+                                    <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                                        <Typography>
+                                            {FLOOR_NAMES[d.floor]}
+                                        </Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        {d.messages.map((m, i) => {
+                                            return (
+                                                <Box
+                                                    sx={{
+                                                        py: 1,
+                                                        width: '100%',
+                                                        display: 'flex',
+                                                        flexDirection: 'row',
+                                                        flexWrap: 'nowrap',
+                                                        gap: 1
+                                                    }}
+                                                >
+                                                    {getIconFromDirectionType(m.t)}
+                                                    <Typography
+                                                        key={"dir" + i + "in" + index}
+                                                    >
+                                                        {m.a}
+                                                    </Typography>
+                                                </Box>
+                                            );
+                                        })}
+                                    </AccordionDetails>
+                                </Accordion>
                             );
                         })}
                     </Box>
@@ -277,19 +300,35 @@ export default function MapPage() {
                         justifyContent: 'center',
                         gap: '16px'
                     }}>
-                        <Button onClick={() => speak(NaturalLangPath)} sx={{
-                            backgroundColor: '#012d5a',
-                            color: 'white',
-                            height: '100%',
-                            width: '50%',
-                            display: 'flex',
-                            alignSelf: 'center',
+                        <Button onClick={() => speak(NaturalLangPath)}
+                                sx={{
+                                    backgroundColor: '#012d5a',
+                                    color: 'white',
+                                    height: '100%',
+                                    width: '50%',
+                                    display: 'flex',
+                                    alignSelf: 'center',
 
-                            "&:hover": {
-                                background: "#1a426a",
-                            },
-                        }}>
-                            Text To Speech
+                                    "&:hover": {
+                                        background: "#1a426a",
+                                    },
+                                }}>
+                            TTS
+                        </Button>
+                        <Button onClick={() => handleSMS("+17742908219", NaturalLangPath)}
+                                sx={{
+                                    backgroundColor: '#012d5a',
+                                    color: 'white',
+                                    height: '100%',
+                                    width: '50%',
+                                    display: 'flex',
+                                    alignSelf: 'center',
+
+                                    "&:hover": {
+                                        background: "#1a426a",
+                                    },
+                                }}>
+                            SMS
                         </Button>
                         <QRCodePopUp {...qrCodeProps}/>
                     </Box>
