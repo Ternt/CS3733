@@ -27,6 +27,7 @@ type mapCanvasProps = {
   startLocation: string;
   pathfinding: string | null;
   endLocation: string;
+  heatmapMode:boolean;
   onDeselectEndLocation?: () => void;
 };
 
@@ -41,6 +42,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     down: false,
     downPos: {x: 0, y: 0},
   });
+  const [viewMode, setViewMode] = useState('normal');
   const [viewingFloor, setViewingFloor] = useState(props.defaultFloor);
   const [nodes, setNodes] = useState<node[]>([]);
   const [edges, setEdges] = useState<edge[]>([]);
@@ -82,12 +84,37 @@ export default function MapCanvas(props: mapCanvasProps) {
         height={getMapData().height / cameraControl.zoom}
         x={cameraControl.pan.x}
         y={cameraControl.pan.y}
+        filter={viewMode==='heatmap' ? "url(#darken)" : ''}
       />
+      <defs>
+        <filter
+          id="blurfilter"
+          x="-100%"
+          y="-100%"
+          width="200%"
+          height="200%"
+        >
+          <feGaussianBlur
+            stdDeviation="4.453736"
+            id="feGaussianBlur"/>
+        </filter>
+        <filter id="darken" x="0" y="0" width="100%" height="100%">
+          <feComponentTransfer>
+            <feFuncR type="linear" slope="0.5" intercept="0.05"></feFuncR>
+            <feFuncG type="linear" slope="0.5" intercept="0.05"></feFuncG>
+            <feFuncB type="linear" slope="0.5" intercept="0.1"></feFuncB>
+          </feComponentTransfer>
+        </filter>
+      </defs>
       <g
-        transform={"translate("+cameraControl.pan.x+" "+cameraControl.pan.y+") scale("+(1/cameraControl.zoom)+" "+(1/cameraControl.zoom)+")"}
+        transform={"translate(" + cameraControl.pan.x + " " + cameraControl.pan.y + ") scale(" + (1 / cameraControl.zoom) + " " + (1 / cameraControl.zoom) + ")"}
       >
-        <AnimatedPath svgPath={pathStringInject} />
-        {svgInject}
+        <AnimatedPath svgPath={pathStringInject}/>
+        <g
+          filter={viewMode==='heatmap' ? "url(#blurfilter)" : ''}
+        >
+          {svgInject}
+        </g>
       </g>
     </svg>
   );
@@ -95,11 +122,11 @@ export default function MapCanvas(props: mapCanvasProps) {
   // canvas data
 
   const [svgRect, setSvgRect] = useState({
-    width:0,
-    height:0,
-    top:0,
-    bottom:0,
-    left:0,
+    width: 0,
+    height: 0,
+    top: 0,
+    bottom: 0,
+    left: 0,
     right:0
   });
 
@@ -125,7 +152,7 @@ export default function MapCanvas(props: mapCanvasProps) {
       n: nodes.filter((n: node) => n.point.z === props.defaultFloor),
       e: edges.filter((e: edge) => e.startNode.point.z === props.defaultFloor),
     });
-    setViewingFloor(props.defaultFloor);
+    //setViewingFloor(viewingFloor);
   }, [edges, nodes, props.defaultFloor]);
 
   function handleSetViewingFloor(i: number) {
@@ -168,7 +195,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           id={id}
         />;
       }
-      function drawLine(a: vec2, b: vec2, color: string) {
+      function drawLine(a: vec2, b: vec2, color: string, width?:number) {
         if (a.z !== viewingFloor) return;
         a = vecToCanvSpace(a);
         b = vecToCanvSpace(b);
@@ -181,7 +208,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           stroke={color}
           strokeLinecap={"round"}
           initial={{ strokeWidth: 0}}
-          animate={{ strokeWidth: NODE_SIZE*.5}}
+          animate={{ strokeWidth: viewMode==='heatmap' ? width! : NODE_SIZE*.5}}
           transition={{
             duration: 1.7,
             delay: 0.3,
@@ -257,6 +284,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         }
         setPathStringInject(pathString);
       } else {
+        let min=0, max=0;
         for (const e of renderData.e) {
           const h = e.heat;
           if(h < min)min=h;
@@ -264,18 +292,21 @@ export default function MapCanvas(props: mapCanvasProps) {
         }
         for (const e of renderData.e) {
           const heat = (e.heat - min) / (max - min);
-          const color = evaluateHeatGradient(heat);
-          svgElements.push(drawLine(e.startNode.point, e.endNode.point, color));
+          let color = "blue";
+          if(viewMode==='heatmap')
+            color = evaluateHeatGradient(heat);
+          svgElements.push(drawLine(e.startNode.point, e.endNode.point, color, 10*heat+5));
         }
-        for (const n of renderData.n) {
-          svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID), draggingNode === n, n.nodeID));
-        }
+        if(viewMode!=='heatmap')
+          for (const n of renderData.n) {
+            svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID), draggingNode === n, n.nodeID));
+          }
       }
       setSvgInject(svgElements);
     }
 
     canvasDraw();
-  }, [mouseData.down, mouseData.downPos.x, mouseData.downPos.y, mouseData.pos.x, mouseData.pos.y, pathing.nearestNode?.nodeID, pathing.path, pathing.selectedPoint, props.pathfinding, renderData.e, renderData.n, viewingFloor, props.endLocation, draggingNode, X_MULT, Y_MULT]);
+  }, [mouseData.down, mouseData.downPos.x, mouseData.downPos.y, mouseData.pos.x, mouseData.pos.y, pathing.nearestNode?.nodeID, pathing.path, pathing.selectedPoint, props.pathfinding, renderData.e, renderData.n, viewingFloor, props.endLocation, draggingNode, X_MULT, Y_MULT, props.heatmapMode]);
 
   // event handles
   useEffect(() => {

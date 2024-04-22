@@ -31,10 +31,6 @@ export default function AdminDashboard() {
     tabInject = <DisplayCSV />;
   }
 
-  function handleSelect(i: number) {
-    setSelectedTab(i);
-    console.log(i);
-  }
 
   if(isLoading){
     return (
@@ -69,7 +65,7 @@ export default function AdminDashboard() {
             value={0}
             tabs={["Menu", "Map", "Analytics"]}
             onSelect={(i) => {
-              handleSelect(i);
+              setSelectedTab(i);
             }}
           >
             <ViewKanbanIcon/>
