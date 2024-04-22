@@ -2,7 +2,7 @@ import { IconButton, Popover } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
 import { useState } from "react";
-import { ResponsiveAppBarProps } from "./Navbar.tsx";
+import {ResponsiveAppBarProps}  from "./Navbar.tsx";
 import LanguageIcon from '@mui/icons-material/Language';
 
 export function LanguageSelect(props: ResponsiveAppBarProps) {

@@ -15,6 +15,8 @@ import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 import DropDownMenu from "../DropDownMenu.tsx";
 import NavbarItem from "./NavbarItem.tsx";
+import DarkModeToggle from "./DarkModeSwitch.tsx";
+
 
 const staffServices = [
     {label: "Sanitation", path: "/sanitation"},
@@ -29,7 +31,7 @@ const normalServices = [
     {label: "Gift", path: "/gift-request"},
 ];
 
-type ResponsiveAppBarProps = {
+export type ResponsiveAppBarProps = {
     chatbotOpen: boolean;
     toggleChatbot: () => void;
     onSetLanguage: (l: string) => void;
@@ -87,15 +89,15 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                                 sx={{width: "4vh", aspectRatio: "294/423", mx: 1, p: "1%"}}
                             ></Box>
                         </Link>
-                        <NavbarItem title={"Home"} link={"/"}/>
-                        <NavbarItem title={"Map"} link={"/map"}/>
+                        <NavbarItem title={TranslateTo("navB.Home")} link={"/"}/>
+                        <NavbarItem title={TranslateTo("navB.Map")} link={"/map"}/>
                       {!isLoading && (
                             <>
                                 {permissionLevel === 2 && (
-                                    <NavbarItem title={"Admin"} link={"/admin"}/>
+                                    <NavbarItem title={TranslateTo("navB.Admin")} link={"/admin"}/>
                                 )}
                                 {permissionLevel >= 1 && (
-                                    <DropDownMenu label={"SERVICE REQUESTS"} menuData={staffServices}></DropDownMenu>
+                                    <DropDownMenu label={TranslateTo("navB.ServiceReq")} menuData={staffServices}></DropDownMenu>
                                 )}
                                 {permissionLevel == 0 && (
                                     <DropDownMenu label={"SERVICES"} menuData={normalServices}></DropDownMenu>
@@ -121,8 +123,9 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                             toggleChatbot={props.toggleChatbot}
                             chatbotOpen={props.chatbotOpen}
                             onSetLanguage={props.onSetLanguage}/>
-                    </>
 
+                        <DarkModeToggle/>
+                    </>
                     <SearchBar/>
                     <LoginButton/>
                 </Toolbar>
