@@ -22,7 +22,11 @@ function SearchPageCard(props: SearchPageCardProps) {
     const navigate = useNavigate();
 
     return (
-        <Card>
+        <Card
+            sx={{
+                maxWidth: "67vw"
+            }}
+        >
             <CardContent>
                 <ClickableTitle variant="h5" onClick={() => navigate(props.path)}>
                     {props.title}

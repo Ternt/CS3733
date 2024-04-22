@@ -1,12 +1,14 @@
 import {useLocation} from "react-router-dom";
 import {search} from "../../helpers/fuzzySearch.tsx";
 import SearchPageCard from "../../components/SearchPageCard/SearchPageCard.tsx";
+import {useAuth0} from "@auth0/auth0-react";
 
 export type PageCardInfo = {
     title: string;
     path: string;
     description: string;
     keywords: string[];
+    needsAuthentication?: boolean;
 };
 
 const pages: PageCardInfo[] = [
@@ -66,7 +68,8 @@ const pages: PageCardInfo[] = [
             "tylenol",
             "paracetamol",
 
-        ]
+        ],
+        needsAuthentication: true,
     },
     {
         title: "Sanitation Services",
@@ -82,7 +85,8 @@ const pages: PageCardInfo[] = [
             "solid waste",
             "liquid spill",
             "mess",
-        ]
+        ],
+        needsAuthentication: true,
     },
     {
         title: "Map",
@@ -124,7 +128,8 @@ const pages: PageCardInfo[] = [
             "admin panel",
             "control panel",
             "site management"
-        ]
+        ],
+        needsAuthentication: true,
     },
     {
         title: "Login Page",
@@ -144,12 +149,15 @@ const pages: PageCardInfo[] = [
 function SearchPage() {
     const location = useLocation();
     const query = location.state?.query;
+    const { isAuthenticated } = useAuth0();
 
     const res: PageCardInfo[] = search(query, pages);
 
     return (
         <div>
-            {res.map((d) =>
+            {res
+                .filter((d) => !(d.needsAuthentication || isAuthenticated))
+                .map((d) =>
                 <SearchPageCard
                     title={d.title}
                     path={d.path}
