@@ -18,7 +18,7 @@ router.post("/", async function (req: Request, res: Response) {
     const phone:string= (req.body.phone)+"";
 
     // start sending message
-    if (!validE164('+17742908219')) {
+    if (!validE164(phone)) {
         throw new Error('number must be E164 format!');
     }
 
