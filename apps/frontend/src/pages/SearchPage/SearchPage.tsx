@@ -1,7 +1,9 @@
 import {useLocation} from "react-router-dom";
 import {search} from "../../helpers/fuzzySearch.tsx";
+import SearchPageCard from "../../components/SearchPageCard/SearchPageCard.tsx";
 
 export type PageCardInfo = {
+    title: string;
     path: string;
     description: string;
     keywords: string[];
@@ -9,8 +11,9 @@ export type PageCardInfo = {
 
 const pages: PageCardInfo[] = [
     {
+        title: "Send a Gift",
         path: "/gift-request",
-        description: "Purchase a gift!",
+        description: "Get your loved one a customized gift that will be delivered directly to their room",
         keywords: [
             "request",
             "purchase",
@@ -25,8 +28,9 @@ const pages: PageCardInfo[] = [
         ]
     },
     {
+        title: "Buy Flowers",
         path: "/flower-request",
-        description: "Order flowers for your loved one!",
+        description: "Send flowers directly to the room of a loved one",
         keywords: [
             "request",
             "purchase",
@@ -48,6 +52,7 @@ const pages: PageCardInfo[] = [
         ]
     },
     {
+        title: "Request Medicine",
         path: "/medicine-request",
         description: "Request delivery of medicines",
         keywords: [
@@ -64,6 +69,7 @@ const pages: PageCardInfo[] = [
         ]
     },
     {
+        title: "Sanitation Services",
         path: "/sanitation",
         description: "Book sanitation services",
         keywords: [
@@ -79,8 +85,9 @@ const pages: PageCardInfo[] = [
         ]
     },
     {
+        title: "Map",
         path: "/map",
-        description: "Explore our services via the map",
+        description: "Find your way with our map finder",
         keywords: [
             "location",
             "navigate",
@@ -94,8 +101,9 @@ const pages: PageCardInfo[] = [
 
     // give check for login
     {
+        title: "Tables",
         path: "/tables",
-        description: "View tabular data on our platform",
+        description: "View data",
         keywords: [
             "tables",
             "data tables",
@@ -106,6 +114,7 @@ const pages: PageCardInfo[] = [
         ]
     },
     {
+        title: "Admin",
         path: "/admin",
         description: "Administrative portal",
         keywords: [
@@ -118,8 +127,9 @@ const pages: PageCardInfo[] = [
         ]
     },
     {
+        title: "Login Page",
         path: "/login",
-        description: "Log into your account",
+        description: "Log into your admin account",
         keywords: [
             "login",
             "sign in",
@@ -139,8 +149,15 @@ function SearchPage() {
 
     return (
         <div>
-            <p>{res.map((d) => d.path)}</p>
+            {res.map((d) =>
+                <SearchPageCard
+                    title={d.title}
+                    path={d.path}
+                    description={d.description}
+                />
+            )}
         </div>
+
     );
 }
 
