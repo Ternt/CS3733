@@ -19,6 +19,7 @@ const services = [
     {label: "Medicine Delivery", path: "/medicine-request"},
     {label: "Flowers", path: "/flower-request"},
     {label: "Gift", path: "/gift-request"},
+    {label: "Language Interpreter", path: "/language-request"},
 ];
 
 type ResponsiveAppBarProps = {

@@ -18,6 +18,7 @@ import Box from "@mui/material/Box";
 // import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
+import LanguageInterpreterRequestForm from "./pages/LanguageInterpreterRequest.tsx";
 
 function App() {
     const router = createBrowserRouter([
@@ -85,7 +86,11 @@ function App() {
                 {
                     path: "directions",
                     element: <PhoneDirectionsPage/>
-                }
+                },
+                {
+                    path: "/language-request",
+                    element: <LanguageInterpreterRequestForm/>,
+                },
             ],
         },
     ]);

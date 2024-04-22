@@ -5,6 +5,7 @@ import LocationDropdown from "../components/LocationDropdown.tsx";
 import MapCanvas from "../components/Map/MapCanvas.tsx";
 import NaturalLanguageDirection from "../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
 import MenuItem from "@mui/material/MenuItem";
+import {node} from "../helpers/typestuff.ts";
 import Button from "@mui/material/Button";
 import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
 
@@ -14,19 +15,27 @@ export default function MapPage() {
     });
 
     const algos = [
-      {title: 'A-Star', api: 'astar', helper: 'The quickest route'},
-      {title: 'Breadth First Search', api: 'bfs', helper: 'A decent route'},
-      {title: 'Depth First Search', api: 'dfs', helper: 'The scenic route'},
-      {title: 'Dijkstra\'s', api: 'dijkstra', helper: 'A very fast route'},
+        {title: 'A-Star', api: 'astar', helper: 'The quickest route'},
+        {title: 'Breadth First Search', api: 'bfs', helper: 'A decent route'},
+        {title: 'Depth First Search', api: 'dfs', helper: 'The scenic route'},
+        {title: 'Dijkstra\'s', api: 'dijkstra', helper: 'A very fast route'},
     ];
     const [startLocation, setStartLocation] = useState("");
     const [endLocation, setEndLocation] = useState("");
     const [searchAlgorithm, setSearchAlgorithm] = useState(0);
     const [natLangPath, setNatLangPath] = useState<string[]>([]);
+    const [selectedNode, setSelectedNode] = useState<node | null>(null);
 
     useEffect(() => {
+        let endNode = endLocation;
+        console.log("selectedNode", selectedNode);
+        if ((endLocation === "") && (selectedNode != null)) {
+            endNode = selectedNode.nodeID;
+        }
         async function setPath() {
-            const res = await NaturalLanguageDirection(startLocation, endLocation, searchAlgorithm);
+            const res = await NaturalLanguageDirection(startLocation, endNode, searchAlgorithm);
+            console.log(endLocation === "");
+            console.log("selectedNode", selectedNode);
             if (res !== undefined)
                 setNatLangPath(res);
             else
@@ -34,9 +43,9 @@ export default function MapPage() {
         }
 
         setPath();
-    }, [startLocation, endLocation, searchAlgorithm]);
+    }, [startLocation, endLocation, searchAlgorithm, selectedNode]);
 
-    const NaturalLangPath:string = natLangPath.join(";\n");
+    const NaturalLangPath: string = natLangPath.join(";\n");
 
     const qrCodeProps = {
         startNode: startLocation,
@@ -60,17 +69,17 @@ export default function MapPage() {
                 xs={3}
             >
                 <Box
-                  sx={{
-                    width: '95%',
-                    height: 'calc(90vh - 1.25%)',
-                    borderRadius: '2rem',
-                    boxShadow: 5,
-                    p:2,
-                    m:'2.5%',
-                    display:'flex',
-                    flexDirection:'column',
-                    gap:1.2,
-                }}
+                    sx={{
+                        width: '95%',
+                        height: 'calc(90vh - 1.25%)',
+                        borderRadius: '2rem',
+                        boxShadow: 5,
+                        p: 2,
+                        m: '2.5%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 1.2,
+                    }}
                 >
                     <Typography
                         variant="h6"
@@ -113,17 +122,21 @@ export default function MapPage() {
                     </TextField>
                     <Box sx={{
                         height: '100%',
-                      width: '100%',
-                      backgroundColor: 'white',
-                      borderRadius: '0 0 23px 23px',
-                      overflowY: 'scroll',
-                      display:'flex',
-                      flexWrap:'nowrap',
-                      flexDirection:'column',
-                      gap:'.1rem',
-                      borderTop:' 1px solid black',
-                      pb:'5rem',
+                        width: '100%',
+                        backgroundColor: 'white',
+                        borderRadius: '0 0 23px 23px',
+                        overflowY: 'scroll',
+                        display: 'flex',
+                        flexWrap: 'nowrap',
+                        flexDirection: 'column',
+                        gap: '.1rem',
+                        borderTop: ' 1px solid black',
+                        pb: '5rem',
                     }}>
+
+                        <Typography>
+                            The selected Node is: ${selectedNode?.nodeID}
+                        </Typography>
 
                         {natLangPath.map((d: string, index) => {
                             return (
@@ -170,6 +183,7 @@ export default function MapPage() {
                     onDeselectEndLocation={() => {
                         setEndLocation("");
                     }}
+                    onGetNearestNode={setSelectedNode}
                 />
             </Grid>
         </Grid>
