@@ -27,7 +27,6 @@ type mapCanvasProps = {
   startLocation: string;
   pathfinding: string | null;
   endLocation: string;
-  heatmapMode:boolean;
   onDeselectEndLocation?: () => void;
 };
 
@@ -42,7 +41,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     down: false,
     downPos: {x: 0, y: 0},
   });
-  const [viewMode, setViewMode] = useState('normal');
+  const [viewMode, /*setViewMode*/] = useState('normal');
   const [viewingFloor, setViewingFloor] = useState(props.defaultFloor);
   const [nodes, setNodes] = useState<node[]>([]);
   const [edges, setEdges] = useState<edge[]>([]);
