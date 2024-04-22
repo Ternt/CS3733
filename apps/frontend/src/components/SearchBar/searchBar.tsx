@@ -3,6 +3,12 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 
+type searchBarProps = {
+  border ?: string;
+  borderColor ?: string;
+  borderRadius ?: string;
+}
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -41,13 +47,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function SearchBar() {
+function SearchBar(props ?: searchBarProps) {
   return (
     <Search
       sx={{
         height: "6vh",
         color: "white",
         bgcolor: "white",
+        border: (props ? props.border : "none"),
+        borderColor: (props ? props.borderColor : "none"),
+        borderRadius: (props ? props.borderRadius : "none"),
+        display: "flex",
+        alignItems: "center",
       }}
     >
       <SearchIconWrapper>

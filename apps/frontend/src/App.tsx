@@ -15,9 +15,10 @@ import MapPage from "./pages/MapPage.tsx";
 import {Auth0Provider} from "@auth0/auth0-react";
 import {useNavigate} from 'react-router-dom';
 import Box from "@mui/material/Box";
-// import Chatbot from "./components/ChatBot/ChatBot.tsx";
+import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
+import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 
 function App() {
     const router = createBrowserRouter([
@@ -26,6 +27,10 @@ function App() {
             errorElement: <div/>,
             element: <Root/>,
             children: [
+                {
+                    path: "*",
+                    element: <ErrorPage />
+                },
                 {
                     path: "",
                     element: <HeroPage/>,
@@ -83,12 +88,13 @@ function App() {
                     element: <ShopConfirmationPage returnPath="/flower-request"/>
                 },
                 {
-                    path: "directions",
+                    path: "/directions",
                     element: <PhoneDirectionsPage/>
                 }
             ],
         },
     ]);
+
 
     return (
         <ThemeProvider theme={CustomTheme}>
@@ -123,7 +129,7 @@ function App() {
                         <Box key={"Navbar spacer"}
                              sx={{width: '100%', height: '10vh', backgroundColor: "#012d5a",}}></Box>
                         <Outlet/>
-                        {/*<Chatbot open={chatbotOpen} onClose={() => setChatbotOpen(false)}/>*/}
+                        <Chatbot open={chatbotOpen} onClose={() => setChatbotOpen(false)}/>
                     </div>
                 </Auth0Provider>
             </>
