@@ -7,7 +7,7 @@ type ServiceBoxProps = {
     header: string,
     descriptiveText: string,
     icon: React.ReactNode,
-    onClick?: (event: React.MouseEvent<HTMLElement>) => void
+    onClick?: () => void
 };
 
 function ServiceBox(props: ServiceBoxProps) {

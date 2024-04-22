@@ -16,9 +16,9 @@ import {Auth0Provider} from "@auth0/auth0-react";
 import {useNavigate} from 'react-router-dom';
 import Box from "@mui/material/Box";
 import Chatbot from "./components/ChatBot/ChatBot.tsx";
-import HowToPage from "./pages/howToPage/howToPage.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
+import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 
 function App() {
     const router = createBrowserRouter([
@@ -27,6 +27,10 @@ function App() {
             errorElement: <div/>,
             element: <Root/>,
             children: [
+                {
+                    path: "*",
+                    element: <ErrorPage />
+                },
                 {
                     path: "",
                     element: <HeroPage/>,
@@ -84,7 +88,7 @@ function App() {
                     element: <ShopConfirmationPage returnPath="/flower-request"/>
                 },
                 {
-                    path: "directions",
+                    path: "/directions",
                     element: <PhoneDirectionsPage/>
                 },
                 {
@@ -94,6 +98,7 @@ function App() {
             ],
         },
     ]);
+
 
     return (
         <ThemeProvider theme={CustomTheme}>
