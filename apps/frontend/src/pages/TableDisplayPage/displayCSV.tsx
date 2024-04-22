@@ -90,7 +90,7 @@ const InputCSV: React.FC = () => {
       Papa.parse<NodeRow>(nodeFile, {
         header: true,
         complete: async (results) => {
-          const nodes = results.data.map((row: NodeRow) => ({
+          const nod = results.data.map((row: NodeRow) => ({
             nodeID: row.nodeID,
             xcoord: row.xcoord,
             ycoord: row.ycoord,
@@ -104,7 +104,7 @@ const InputCSV: React.FC = () => {
           Papa.parse<EdgeRow>(edgeFile, {
             header: true,
             complete: async (results) => {
-              const edges = results.data.map((row: EdgeRow) => ({
+              const edg = results.data.map((row: EdgeRow) => ({
                 startNode: row.startNode,
                 endNode: row.endNode,
                 blocked: row.blocked,
@@ -112,8 +112,8 @@ const InputCSV: React.FC = () => {
               }));
 
               try {
-                for (const node of nodes) {
-                  const response = await axios.put("/api/update/", node, {
+                for (const nodes of nod) {
+                  const response = await axios.post("/api/map/upload", nodes, {
                     headers: {
                       "Content-Type": "application/json",
                     },
@@ -121,8 +121,8 @@ const InputCSV: React.FC = () => {
                   console.log(response.data);
                 }
 
-                for (const edge of edges) {
-                  const response = await axios.put("/api/update/", edge, {
+                for (const edges of edg) {
+                  const response = await axios.post("/api/map/upload", edges, {
                     headers: {
                       "Content-Type": "application/json",
                     },
