@@ -18,7 +18,7 @@ import {clamp, distance} from "../../helpers/MathHelp.ts";
 import AnimatedPath from "./AnimatedPath.tsx";
 import CloseIcon from "@mui/icons-material/Close";
 import {evaluateHeatGradient} from "../../helpers/colorHelper.ts";
-import { motion } from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion";
 
 const NODE_SIZE = 3.1;
 
@@ -178,21 +178,25 @@ export default function MapCanvas(props: mapCanvasProps) {
       function drawPoint(p: vec2, selected:boolean, dragging:boolean, id:string) {
         p = vecToCanvSpace(p);
         if (p.z !== viewingFloor) return;
-        return <motion.ellipse
-          initial={{ opacity: dragging?1:0, scale: dragging?1:0, fill:"blue"}}
-          animate={{ opacity: 1, scale: 1, fill:selected?"red":"blue"}}
-          transition={{
-            duration: dragging?0:2,
-            delay: 0,
-            ease: [0, 0.11, 0.2, 1.01]
-          }}
-          key={"Point "+p.x+","+p.y+","+p.z}
-          cx={p.x}
-          cy={p.y}
-          rx={NODE_SIZE}
-          ry={NODE_SIZE}
-          id={id}
-        />;
+        return (
+          <AnimatePresence>
+            <motion.ellipse
+              initial={{ opacity: dragging?1:0, scale: dragging?1:0, fill:"blue"}}
+              exit={{ opacity: dragging?1:0, scale: dragging?1:0, fill:"blue"}}
+              animate={{ opacity: 1, scale: 1, fill:selected?"red":"blue"}}
+              transition={{
+                duration: dragging?0:2,
+                delay: 0,
+                ease: [0, 0.11, 0.2, 1.01]
+              }}
+              key={"Point "+p.x+","+p.y+","+p.z}
+              cx={p.x}
+              cy={p.y}
+              rx={NODE_SIZE}
+              ry={NODE_SIZE}
+              id={id}
+            />
+          </AnimatePresence>);
       }
       function drawLine(a: vec2, b: vec2, color: string, width:number, noAnimate:boolean) {
         if (a.z !== viewingFloor) return;
@@ -771,6 +775,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           zoom={cameraControl.zoom}
           zoomSpeed={ZOOM.SPEED * 3}
           viewMode={viewMode}
+          showViewModeSelector={props.pathfinding===null}
           onSetFloorIndex={(floorIndex: number) => {
             handleSetViewingFloor(floorIndex);
           }}

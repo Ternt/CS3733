@@ -17,6 +17,7 @@ type MapControlProps = {
   onSetZoom: (zoom: number) => void;
   onResetMap: () => void;
   viewMode: string;
+  showViewModeSelector:boolean;
   onSetViewMode: (m:string)=>void;
 };
 
@@ -106,7 +107,7 @@ export default function MapControls(props: MapControlProps) {
           );
         })}
       </Box>
-        <ToggleButtonGroup
+      { props.showViewModeSelector && (<ToggleButtonGroup
           value={props.viewMode}
           exclusive
           onChange={(e,n)=>{
@@ -120,7 +121,7 @@ export default function MapControls(props: MapControlProps) {
           <ToggleButton value="normal"><TimelineIcon /></ToggleButton>
           <ToggleButton value="edit"><EditIcon /></ToggleButton>
           <ToggleButton value="heatmap"><LocalFireDepartmentIcon /></ToggleButton>
-        </ToggleButtonGroup>
+        </ToggleButtonGroup>)}
         <Snackbar
           anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
           open={notification !== ''}
