@@ -20,6 +20,8 @@ import ElevatorOutlinedIcon from '@mui/icons-material/ElevatorOutlined';
 import StairsOutlinedIcon from '@mui/icons-material/StairsOutlined';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import MessageIcon from '@mui/icons-material/Message';
 import Button from "@mui/material/Button";
 import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
 
@@ -44,17 +46,16 @@ export function getIconFromDirectionType(t: directionTypes) {
     }
 }
 
-async function handleSMS(phone:string, msg:string){
+async function handleSMS(phone: string, msg: string) {
     await fetch("/api/sms", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({phone:phone, message:msg}),
+        body: JSON.stringify({phone: phone, message: msg}),
     });
     console.log("SMS Sent");
 }
-
 
 
 export default function MapPage() {
@@ -307,35 +308,45 @@ export default function MapPage() {
                         justifyContent: 'center',
                         gap: '16px'
                     }}>
-                        <Button onClick={() => speak(NaturalLangPath)}
-                                sx={{
-                                    backgroundColor: '#012d5a',
-                                    color: 'white',
-                                    height: '100%',
-                                    width: '50%',
-                                    display: 'flex',
-                                    alignSelf: 'center',
-
-                                    "&:hover": {
-                                        background: "#1a426a",
-                                    },
-                                }}>
-                            TTS
+                        <Button
+                            onClick={() => speak(NaturalLangPath)}
+                            sx={{
+                                backgroundColor: '#012d5a',
+                                color: 'white',
+                                height: '100%',
+                                width: '12vw',
+                                display: 'flex',
+                                alignItems: 'center',
+                                "&:hover": {
+                                    background: "#1a426a",
+                                },
+                            }}
+                        >
+                            <VolumeUpIcon/>
+                            <Box sx={{display: 'flex', justifyContent: 'center', flex: 1}}>
+                                TTS
+                            </Box>
                         </Button>
                         <Button onClick={() => handleSMS("+17742908219", NaturalLangPath)}
                                 sx={{
                                     backgroundColor: '#012d5a',
                                     color: 'white',
                                     height: '100%',
-                                    width: '50%',
+                                    width: '12vw',
                                     display: 'flex',
                                     alignSelf: 'center',
+                                    alignItems: 'center',
 
                                     "&:hover": {
                                         background: "#1a426a",
                                     },
                                 }}>
-                            SMS
+
+                            <MessageIcon/>
+                            <Box sx={{display: 'flex', justifyContent: 'center', flex: 1}}>
+                                SMS
+                            </Box>
+
                         </Button>
                         <QRCodePopUp {...qrCodeProps}/>
                     </Box>
