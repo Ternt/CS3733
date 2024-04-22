@@ -24,7 +24,7 @@ function SearchPageCard(props: SearchPageCardProps) {
     return (
         <Card
             sx={{
-                maxWidth: "67vw"
+                width: "100%",
             }}
         >
             <CardContent>

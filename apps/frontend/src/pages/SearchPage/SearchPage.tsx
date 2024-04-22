@@ -2,6 +2,7 @@ import {useLocation} from "react-router-dom";
 import {search} from "../../helpers/fuzzySearch.tsx";
 import SearchPageCard from "../../components/SearchPageCard/SearchPageCard.tsx";
 import {useAuth0} from "@auth0/auth0-react";
+import {Box, Typography} from "@mui/material";
 
 export type PageCardInfo = {
     title: string;
@@ -149,23 +150,59 @@ const pages: PageCardInfo[] = [
 function SearchPage() {
     const location = useLocation();
     const query = location.state?.query;
-    const { isAuthenticated } = useAuth0();
+    const {isAuthenticated} = useAuth0();
 
     const res: PageCardInfo[] = search(query, pages);
 
-    return (
-        <div>
-            {res
-                .filter((d) => (d.needsAuthentication && isAuthenticated) || !d.needsAuthentication)
-                .map((d) =>
-                <SearchPageCard
-                    title={d.title}
-                    path={d.path}
-                    description={d.description}
-                />
-            )}
-        </div>
+    console.log(res);
 
+    return (
+        <Box
+            sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                overflow: "hidden",
+            }}
+        >
+            <Typography
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 4,
+                }}
+                variant={"h4"}
+            >
+                Showing Search Results for "{query}"
+            </Typography>
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "78vh",
+                    gap: 2,
+                    padding: 4,
+                    bgcolor: "#f1f1f2",
+                    width: "67vw",
+                }}
+            >
+                {
+
+                    res
+                        .filter((d) => (d.needsAuthentication && isAuthenticated) || !d.needsAuthentication)
+                        .map((d) =>
+                            <SearchPageCard
+                                key={d.title}
+                                title={d.title}
+                                path={d.path}
+                                description={d.description}
+                            />
+                        )
+                }
+            </Box>
+        </Box>
     );
 }
 
