@@ -55,6 +55,7 @@ function SearchBar(props: searchBarProps) {
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
+            setSearchQuery("");
             navigate('/search', {state: {query: searchQuery}});
         }
     };
@@ -83,6 +84,7 @@ function SearchBar(props: searchBarProps) {
                 }}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 onKeyDown={handleKeyDown}
+                value={searchQuery}
             />
         </Search>
     );
