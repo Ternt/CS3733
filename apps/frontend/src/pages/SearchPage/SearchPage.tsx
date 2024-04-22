@@ -156,7 +156,7 @@ function SearchPage() {
     return (
         <div>
             {res
-                .filter((d) => !(d.needsAuthentication || isAuthenticated))
+                .filter((d) => (d.needsAuthentication && isAuthenticated) || !d.needsAuthentication)
                 .map((d) =>
                 <SearchPageCard
                     title={d.title}
