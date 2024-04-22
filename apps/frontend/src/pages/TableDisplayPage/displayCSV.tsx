@@ -1,4 +1,4 @@
-import * as Papa from "papaparse";
+// import * as Papa from "papaparse";
 import React, { useEffect, useMemo, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import Button from "@material-ui/core/Button";
@@ -57,23 +57,23 @@ const InputCSV: React.FC = () => {
   const [nodeFile, setNodeFile] = useState<File | null>(null);
   const [edgeFile, setEdgeFile] = useState<File | null>(null);
 
-  interface NodeRow {
-    nodeID: string;
-    xcoord: string;
-    ycoord: string;
-    floor: string;
-    building: string;
-    nodeType: string;
-    longName: string;
-    shortName: string;
-  }
-
-  interface EdgeRow {
-    startNode: string;
-    endNode: string;
-    blocked: string;
-    heat: string;
-  }
+  // interface NodeRow {
+  //   nodeID: string;
+  //   xcoord: string;
+  //   ycoord: string;
+  //   floor: string;
+  //   building: string;
+  //   nodeType: string;
+  //   longName: string;
+  //   shortName: string;
+  // }
+  //
+  // interface EdgeRow {
+  //   startNode: string;
+  //   endNode: string;
+  //   blocked: string;
+  //   heat: string;
+  // }
 
   const handleNodeFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNodeFile(event.target.files ? event.target.files[0] : null);
@@ -83,77 +83,41 @@ const InputCSV: React.FC = () => {
     setEdgeFile(event.target.files ? event.target.files[0] : null);
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
 
-    if (nodeFile && edgeFile) {
-      Papa.parse<NodeRow>(nodeFile, {
-        header: true,
-        complete: async (results) => {
-          const nod = results.data.map((row: NodeRow) => ({
-            nodeID: row.nodeID,
-            xcoord: row.xcoord,
-            ycoord: row.ycoord,
-            floor: row.floor,
-            building: row.building,
-            nodeType: row.nodeType,
-            longName: row.longName,
-            shortName: row.shortName,
-          }));
+        if (nodeFile && edgeFile) {
+            const formData = new FormData();
+            formData.append('nodes', nodeFile);
+            formData.append('edges', edgeFile);
 
-          Papa.parse<EdgeRow>(edgeFile, {
-            header: true,
-            complete: async (results) => {
-              const edg = results.data.map((row: EdgeRow) => ({
-                startNode: row.startNode,
-                endNode: row.endNode,
-                blocked: row.blocked,
-                heat: row.heat,
-              }));
-
-              try {
-                for (const nodes of nod) {
-                  const response = await axios.post("/api/map/upload", nodes, {
+            try {
+                const response = await axios.post("/api/map/upload", formData, {
                     headers: {
-                      "Content-Type": "application/json",
+                        'Content-Type': 'multipart/form-data',
                     },
-                  });
-                  console.log(response.data);
-                }
-
-                for (const edges of edg) {
-                  const response = await axios.post("/api/map/upload", edges, {
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                  });
-                  console.log(response.data);
-                }
-              } catch (error) {
+                });
+                console.log(response.data);
+            } catch (error) {
                 if (axios.isAxiosError(error)) {
-                  if (error.response) {
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                  } else if (error.request) {
-                    console.log(error.request);
-                  } else {
-                    console.log("Error", error.message);
-                  }
-                  console.log(error.config);
+                    if (error.response) {
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log("Error", error.message);
+                    }
+                    console.log(error.config);
                 } else {
-                  console.log("Error", error);
+                    console.log("Error", error);
                 }
-              }
-            },
-          });
-        },
-      });
-    } else {
-      console.log("Both files are required");
-    }
-  };
-
+            }
+        } else {
+            console.log("Both files are required");
+        }
+    };
   return (
     <form onSubmit={handleSubmit}>
       <TextField
