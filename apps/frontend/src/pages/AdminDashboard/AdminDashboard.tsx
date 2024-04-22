@@ -75,7 +75,7 @@ export default function AdminDashboard() {
           <Box
             sx={{
               height: "90vh",
-              width: "100%",
+              width: "92vw",
             }}
           >
             {tabInject}
