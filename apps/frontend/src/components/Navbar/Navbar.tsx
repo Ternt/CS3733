@@ -13,9 +13,14 @@ import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import DropDownMenu from "../DropDownMenu.tsx";
 import NavbarItem from "./NavbarItem.tsx";
 
-const services = [
+const staffServices = [
     {label: "Sanitation", path: "/sanitation"},
     {label: "Medicine Delivery", path: "/medicine-request"},
+    {label: "Flowers", path: "/flower-request"},
+    {label: "Gift", path: "/gift-request"},
+];
+
+const normalServices = [
     {label: "Flowers", path: "/flower-request"},
     {label: "Gift", path: "/gift-request"},
 ];
@@ -80,11 +85,15 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                         <NavbarItem title={"Home"} link={"/"}/>
                         <NavbarItem title={"Map"} link={"/map"}/>
                       {!isLoading && (
-                            <>{permissionLevel === 2 && (
-                              <NavbarItem title={"Admin"} link={"/admin"}/>
-                            )}
+                            <>
+                                {permissionLevel === 2 && (
+                                    <NavbarItem title={"Admin"} link={"/admin"}/>
+                                )}
                                 {permissionLevel >= 1 && (
-                                    <DropDownMenu label={"SERVICE REQUESTS"} menuData={services}></DropDownMenu>
+                                    <DropDownMenu label={"SERVICE REQUESTS"} menuData={staffServices}></DropDownMenu>
+                                )}
+                                {permissionLevel == 0 && (
+                                    <DropDownMenu label={"SERVICES"} menuData={normalServices}></DropDownMenu>
                                 )}
                             </>
                         )}
