@@ -1,8 +1,8 @@
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {search} from "../../helpers/fuzzySearch.tsx";
 import SearchPageCard from "../../components/SearchPageCard/SearchPageCard.tsx";
 import {useAuth0} from "@auth0/auth0-react";
-import {Box, Typography} from "@mui/material";
+import {Box, Typography, Button} from "@mui/material";
 
 export type PageCardInfo = {
     title: string;
@@ -149,59 +149,92 @@ const pages: PageCardInfo[] = [
 
 function SearchPage() {
     const location = useLocation();
+    const navigate = useNavigate();
     const query = location.state?.query;
     const {isAuthenticated} = useAuth0();
 
-    const res: PageCardInfo[] = search(query, pages).filter((d) => (d.needsAuthentication && isAuthenticated) || !d.needsAuthentication);
+    const res: PageCardInfo[] = search(query, pages)
+        .filter((d) => (d.needsAuthentication && isAuthenticated) || !d.needsAuthentication);
 
     console.log(res);
 
     return (
-        <Box
-            sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                overflow: "hidden",
-            }}
-        >
-            <Typography
-                sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: 4,
-                }}
-                variant={"h4"}
-            >
-                Showing Search Results for "{query}"
-            </Typography>
+        res.length === 0 || query === "" ?
             <Box
                 sx={{
                     display: "flex",
                     flexDirection: "column",
-                    height: "78vh",
-                    gap: 2,
-                    padding: 4,
-                    bgcolor: "#f1f1f2",
-                    width: "67vw",
+                    alignItems: "center",
+                    height: "90vh",
+                    justifyContent: "center",
+                    paddingBottom: 10
                 }}
             >
-                {
-
-                    res
-                        .map((d) =>
-                            <SearchPageCard
-                                key={d.title}
-                                title={d.title}
-                                path={d.path}
-                                description={d.description}
-                            />
-                        )
-                }
+                <Typography
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        padding: 4,
+                    }}
+                    variant={"h4"}
+                >
+                    No search results for "{query}"
+                </Typography>
+                <Button
+                    variant={"contained"}
+                    sx={{
+                        maxWidth: "15%"
+                    }}
+                    onClick={() => navigate("/")}
+                >
+                    Return Home
+                </Button>
             </Box>
-        </Box>
+            :
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    overflow: "hidden",
+                }}
+            >
+                <Typography
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: 4,
+                    }}
+                    variant={"h4"}
+                >
+                    Showing Search Results for "{query}"
+                </Typography>
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "78vh",
+                        gap: 2,
+                        padding: 4,
+                        bgcolor: "#f1f1f2",
+                        width: "67vw",
+                    }}
+                >
+                    {
+                        res
+                            .map((d) =>
+                                <SearchPageCard
+                                    key={d.title}
+                                    title={d.title}
+                                    path={d.path}
+                                    description={d.description}
+                                />
+                            )
+                    }
+                </Box>
+            </Box>
     );
 }
 
