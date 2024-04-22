@@ -41,7 +41,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     down: false,
     downPos: {x: 0, y: 0},
   });
-  const [viewMode, /*setViewMode*/] = useState('normal');
+  const [viewMode] = useState('normal');
   const [viewingFloor, setViewingFloor] = useState(props.defaultFloor);
   const [nodes, setNodes] = useState<node[]>([]);
   const [edges, setEdges] = useState<edge[]>([]);
@@ -305,7 +305,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     }
 
     canvasDraw();
-  }, [mouseData.down, mouseData.downPos.x, mouseData.downPos.y, mouseData.pos.x, mouseData.pos.y, pathing.nearestNode?.nodeID, pathing.path, pathing.selectedPoint, props.pathfinding, renderData.e, renderData.n, viewingFloor, props.endLocation, draggingNode, X_MULT, Y_MULT, props.heatmapMode]);
+  }, [mouseData.down, mouseData.downPos.x, mouseData.downPos.y, mouseData.pos.x, mouseData.pos.y, pathing.nearestNode?.nodeID, pathing.path, pathing.selectedPoint, props.pathfinding, renderData.e, renderData.n, viewingFloor, props.endLocation, draggingNode, X_MULT, Y_MULT, viewMode]);
 
   // event handles
   useEffect(() => {
