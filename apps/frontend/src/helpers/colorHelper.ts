@@ -1,7 +1,7 @@
 const gradient = {
-  0:[230, 40, 50],
+  0:[50, 220, 50],
   50:[255, 190, 0],
-  100:[50, 220, 60],
+  100:[230, 40, 60],
 };
 
 export function evaluateHeatGradient(t:number){
