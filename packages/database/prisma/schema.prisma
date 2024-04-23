@@ -234,6 +234,7 @@ model ReligiousRequest {
 
   requestorName       String
   religiousLeaderName String
+  serviceType         ReligiousServiceType
   date                String
   time                String
 
