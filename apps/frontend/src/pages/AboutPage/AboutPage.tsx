@@ -31,11 +31,11 @@ function AboutPage() {
                 }
             },
             {
-                threshold: 0.5 // Triggers when 50% of the element is in view
+                threshold: 0.5
             }
         );
 
-        const currentElement = ref.current; // Assign ref.current to a variable
+        const currentElement = ref.current;
 
         if (currentElement) {
             observer.observe(currentElement);
