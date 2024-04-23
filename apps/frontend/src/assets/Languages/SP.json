@@ -2,7 +2,7 @@
     "heroP.findway": "Encuentra Tu Camino",
     "heroP.map": "Mapa",
     "heroP.learnMore": "Más Información",
-    "ourS.aboutUs": "Sobre Nosotros",
+    "ourS.aboutUs": "¿Quiénes somos?",
     "ourS.BWHeader": "Hospital Brigham and Women's",
     "ourS.BWDesc": "• 75 Francis Street, Boston, MA 02115\n• 617-732-5500",
     "ourS.FaulkHeader": "Hospital Brigham and Women's Faulkner",
@@ -20,5 +20,12 @@
     "services.Sanitation": "Saneamiento",
     "services.Medicine": "Entrega de Medicamentos",
     "services.Flwr": "Flores",
-    "services.Gift": "Regalos"
+    "services.Gift": "Regalos",
+    "ourS.aboutUsDesc": "• Conoce más sobre el equipo que creó esta aplicación web",
+    "ourS.IOS": "Aplicación para iOS",
+    "ourS.IOSDesc": "• Echa un vistazo a nuestra aplicación para iOS",
+    "ourS.FAQ": "Preguntas frecuentes",
+    "ourS.FAQDesc": "• Respuestas a preguntas frecuentes y guías prácticas",
+    "ourS.Credits": "Créditos",
+    "ourS.creditsDesc": "• Agradecimientos especiales a las personas que hicieron posible este proyecto"
 }

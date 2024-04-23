@@ -20,5 +20,12 @@
     "services.Sanitation": "Sanitation",
     "services.Medicine": "Medicine Delivery",
     "services.Flwr": "Flowers",
-    "services.Gift": "Gifts"
+    "services.Gift": "Gifts",
+    "ourS.aboutUsDesc": "• Learn more about the team who created this web app",
+    "ourS.IOS": "IOS App",
+    "ourS.IOSDesc": "• Checkout our IOS App",
+    "ourS.FAQ": "FAQ",
+    "ourS.FAQDesc": "• Answers to frequently asked questions and how to guides",
+    "ourS.Credits": "Credits",
+    "ourS.creditsDesc": "• Special Thanks to the people who made this project possible"
 }
