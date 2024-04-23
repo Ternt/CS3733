@@ -14,7 +14,7 @@ router.post("/", async function (req: Request, res: Response) {
         return;
     }
 
-    const employee = Prisma.EmployeeCreateInput = body;
+    const employee: Prisma.EmployeeCreateInput = body;
 
     // Attempt to save the employee
     try {
@@ -70,15 +70,41 @@ router.post("/assign", async function (req: Request, res: Response) {
 
 // Whenever a get request is made, return the high score
 router.get("/", async function (req: Request, res: Response) {
-    try {
-        const items = await PrismaClient.employee.findMany();
 
-        if (items == null) {
+    let assigned: boolean = false;
+    if (req.query.assigned !== undefined) {
+        if (req.query.assigned!.toString() === "true") {
+            assigned = true;
+        } else if (req.query.assigned!.toString() === "false") {
+            assigned = false;
+        } else {
+            console.log("assigned must be 'true' or 'false'");
+            res.sendStatus(406);
+            return;
+        }
+    }
+
+    try {
+        const employees = await PrismaClient.employee.findMany({
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                assignedRequests: assigned ? {
+                    select: {
+                        requestID: true
+                    }
+                } : false
+            }
+        });
+
+        if (employees == null) {
             // if no service request data is in the db
             console.error("No employees have been submitted.");
             res.sendStatus(204);
-        } else {
-            res.json(items);
+        }
+        else {
+            res.json(employees);
         }
     } catch (error) {
         let errorMessage = "Failed to do something exceptional";
