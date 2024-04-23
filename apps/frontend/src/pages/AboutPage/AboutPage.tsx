@@ -7,6 +7,20 @@ function AboutPage() {
     const controls = useAnimation();
     const ref = useRef(null);
 
+    const slidesData = [
+        { text1: 'Brett Gerlach', text2: 'Front End Engineer', image: './src/assets/PicturesOfTeam/brett_gerlach.jpg' },
+        { text1: 'Warwick Barker', text2: 'Scrum Master', image: './src/assets/PicturesOfTeam/warwick_barker.jpg' },
+        { text1: 'Alex Siracusa', text2: 'Assist Lead', image: './src/assets/PicturesOfTeam/alex_siracusa.jpg' },
+        { text1: 'Anton Sibal', text2: 'Back End Engineer', image: './src/assets/PicturesOfTeam/anton_sibal.jpg' },
+        { text1: 'Matt Hagger', text2: 'Lead Software Engineer', image: './src/assets/PicturesOfTeam/matt_hagger.jpg' },
+        { text1: 'Mauricio Mergal', text2: 'Assist Lead', image: './src/assets/PicturesOfTeam/mauricio_mergal.jpg' },
+        { text1: 'Nick Rogerson', text2: 'Document Analyst', image: './src/assets/PicturesOfTeam/nick_rogerson.jpg' },
+        { text1: 'Rayyan Syed', text2: 'Project Manager', image: './src/assets/PicturesOfTeam/rayyan_syed.png' },
+        { text1: 'Thinh Pham', text2: 'Full-Time Software Engineer', image: './src/assets/PicturesOfTeam/thinh_pham.jpg' },
+        { text1: 'Yuhan Wu', text2: 'Product Owner', image: './src/assets/PicturesOfTeam/yuhan_wu.png' },
+        { text1: 'Zachary Szeto', text2: 'Backend Software Engineer', image: './src/assets/PicturesOfTeam/zachary_szeto.jpg' },
+    ];
+
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -75,19 +89,7 @@ function AboutPage() {
                         mt: 2
                     }}
                 >
-                    <CarouselComponent items={[
-                        { title: 'Brett Gerlach', description: 'Front End Engineer', img: './src/assets/PicturesOfTeam/brett_gerlach.jpg' },
-                        { title: 'Warwick Barker', description: 'Scrum Master', img: './src/assets/PicturesOfTeam/warwick_barker.jpg' },
-                        { title: 'Alex Siracusa', description: 'Assist Lead', img: './src/assets/PicturesOfTeam/alex_siracusa.jpg' },
-                        { title: 'Anton Sibal', description: 'Back End Engineer', img: './src/assets/PicturesOfTeam/anton_sibal.jpg' },
-                        { title: 'Matt Hagger', description: 'Lead Software Engineer', img: './src/assets/PicturesOfTeam/matt_hagger.jpg' },
-                        { title: 'Mauricio Mergal', description: 'Assist Lead', img: './src/assets/PicturesOfTeam/mauricio_mergal.jpg' },
-                        { title: 'Nick Rogerson', description: 'Document Analyst', img: './src/assets/PicturesOfTeam/nick_rogerson.jpg' },
-                        { title: 'Rayyan Syed', description: 'Project Manager', img: './src/assets/PicturesOfTeam/rayyan_syed.png' },
-                        { title: 'Thinh Pham', description: 'Full-Time Software Engineer', img: './src/assets/PicturesOfTeam/thinh_pham.jpg' },
-                        { title: 'Yuhan Wu', description: 'Product Owner', img: './src/assets/PicturesOfTeam/yuhan_wu.png' },
-                        { title: 'Zachary Szeto', description: 'Backend Software Engineer', img: './src/assets/PicturesOfTeam/zachary_szeto.jpg' },
-                    ]} />
+                    <CarouselComponent slides={slidesData} />
                 </Box>
                 <Box
                     ref={ref}
@@ -161,7 +163,7 @@ function AboutPage() {
                                 borderBottom: '1px dotted white',
                                 margin: '0 16px'
                             }} />
-                            <Typography color={"white"} variant="h5">Ari</Typography>
+                            <Typography color={"white"} variant="h5">Ariel Schechter</Typography>
                         </Box>
                         <Typography
                             pb={5}

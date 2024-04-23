@@ -1,132 +1,62 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Box, Card, CardMedia, CardContent, Typography, IconButton } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, IconButton } from '@mui/material';
+import { AnimatePresence, motion } from 'framer-motion';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-interface CarouselItem {
-    title: string;
-    description: string;
-    img: string;
-}
+// Define a type for the slides prop
+type Slide = {
+    image: string;
+    text1: string;
+    text2: string;
+};
 
 interface CarouselProps {
-    items: CarouselItem[];
-    interval?: number;
+    slides: Slide[];
 }
 
-function CarouselComponent({ items, interval = 3000 }: CarouselProps) {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+function CarouselComponent({ slides }: CarouselProps) {
+    const [index, setIndex] = useState(0);
+    const [dir, setDir] = useState(100); // Use this state to manage direction
 
-    const resetTimer = useCallback(() => {
-        if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-        }
-        intervalRef.current = setInterval(() => {
-            setActiveIndex(current => (current + 1) % items.length);
-        }, interval);
-    }, [items.length, interval]);
+    // Function to go to the next slide
+    const nextSlide = async () => {
+        setDir(100); // Setting direction for right movement
+        await setTimeout(() => { return; }, 1); // Short delay to manage update sequence
+        setIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    };
 
-    const handlePrev = useCallback(() => {
-        setActiveIndex(current => (current > 0 ? current - 1 : items.length - 1));
-        resetTimer();
-    }, [items.length, resetTimer]);
-
-    const handleNext = useCallback(() => {
-        setActiveIndex(current => (current + 1) % items.length);
-        resetTimer();
-    }, [items.length, resetTimer]);
-
-    useEffect(() => {
-        resetTimer();
-        return () => {
-            if (intervalRef.current) {
-                clearInterval(intervalRef.current);
-            }
-        };
-    }, [resetTimer]);
-
-    const translateX = -activeIndex * 100;
+    // Function to go to the previous slide
+    const prevSlide = async () => {
+        setDir(-100); // Setting direction for left movement
+        await setTimeout(() => { return; }, 1); // Short delay to manage update sequence
+        setIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
+    };
 
     return (
-        <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-            width: '100%',
-            overflow: 'hidden'
-        }}>
-            <IconButton onClick={handlePrev} sx={{ mx: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', width: '100vw', height: '60vh', maxHeight: '600px' }}>
+            <IconButton onClick={prevSlide} sx={{ position: 'absolute', left: 16, zIndex: 1 }}>
                 <ArrowBackIosIcon />
             </IconButton>
-            <Box sx={{
-                display: 'flex',
-                width: '100%',
-                height: '100%',
-                transform: `translateX(${translateX}%)`,
-                transition: activeIndex === 0 ? 'none' : 'transform 0.5s ease-in-out'
-            }}>
-                {items.map((item, index) => (
-                    <Box key={index} sx={{
-                        width: '100%',
-                        flexShrink: 0
-                    }}>
-                        <Card
-                            sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            backgroundColor: 'transparent',
-                            boxShadow: 'none',
-                            height: '100%'
-                        }}>
-                            <CardMedia
-                                component="img"
-                            sx={{
-                                height: 'auto',
-                                maxHeight: '50vh',
-                                width: '100%',
-                                objectFit: 'contain',
-                                paddingTop: '24px'
-                        }}
-                            image={item.img}
-                            alt={item.title}
-                            />
-                            <CardContent
-                                sx={{
-                                    flexGrow: 0,
-                                    backgroundColor: 'transparent'
-                            }}
-                            >
-                                <Typography
-                                    gutterBottom
-                                    variant="h5"
-                                    component="div"
-                                    sx={{
-                                        textAlign: 'center'
-                                }}
-                                >
-                                    {item.title}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    sx={{
-                                        textAlign: 'center'
-                                }}
-                                >
-                                    {item.description}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Box>
-                ))}
+            <Box sx={{ width: '100%', height: '100%', overflow: 'hidden' }}>
+                <AnimatePresence initial={false}>
+                    <motion.div
+                        key={index}
+                        initial={{ x: `${dir}%` }}
+                        animate={{ x: 0 }}
+                        exit={{ x: `${-dir}%` }}
+                        transition={{ type: 'tween', ease: 'easeInOut', duration: 0.5 }}
+                        style={{ position: 'absolute', width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}
+                    >
+                        <img src={slides[index].image} alt={`Slide ${index}`} style={{ width: '100%', height: '70%', objectFit: 'contain' }} />
+                        <Box sx={{ height: '30%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                            <Typography variant="h6" align="center">{slides[index].text1}</Typography>
+                            <Typography variant="body1" align="center">{slides[index].text2}</Typography>
+                        </Box>
+                    </motion.div>
+                </AnimatePresence>
             </Box>
-            <IconButton
-                onClick={handleNext}
-                sx={{
-                    mx: 1
-            }}
-            >
+            <IconButton onClick={nextSlide} sx={{ position: 'absolute', right: 16, zIndex: 1 }}>
                 <ArrowForwardIosIcon />
             </IconButton>
         </Box>
