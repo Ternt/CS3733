@@ -45,10 +45,9 @@ model NodeDB {
   shortName String
   nodeType  NodeType
 
-  startEdges            EdgeDB[]           @relation(name: "start")
-  endEdges              EdgeDB[]           @relation(name: "end")
-  requests              ServiceRequest[]
-  religiousEndLocations ReligiousRequest[]
+  startEdges EdgeDB[]         @relation(name: "start")
+  endEdges   EdgeDB[]         @relation(name: "end")
+  requests   ServiceRequest[]
 }
 
 model EdgeDB {
@@ -237,7 +236,5 @@ model ReligiousRequest {
   serviceType         ReligiousServiceType
   date                String
   time                String
-
-  endLocation   NodeDB @relation(fields: [endLocationID], references: [nodeID], onDelete: Cascade)
-  endLocationID String
+  endLocation         String?
 }

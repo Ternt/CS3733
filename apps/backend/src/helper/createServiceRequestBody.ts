@@ -111,7 +111,7 @@ export default function createServiceRequestBody(body): any | undefined {
                     serviceType: body.serviceType,
                     date: body.date,
                     time: body.time,
-                    endLocationID: body.endLocationID
+                    endLocation: body.endLocation
                 },
             };
             delete body.requestorName;
@@ -119,7 +119,7 @@ export default function createServiceRequestBody(body): any | undefined {
             delete body.serviceType;
             delete body.date;
             delete body.time;
-            delete body.endLocationID;
+            delete body.endLocation;
             break;
     }
 
