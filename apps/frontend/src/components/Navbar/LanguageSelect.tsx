@@ -6,6 +6,8 @@ import {ResponsiveAppBarProps}  from "./Navbar.tsx";
 import LanguageIcon from '@mui/icons-material/Language';
 
 export function LanguageSelect(props: ResponsiveAppBarProps) {
+
+
     const LanguageSelector = ({ onSetLanguage }: { onSetLanguage: (language: string) => void }) => {
         const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -31,7 +33,7 @@ export function LanguageSelect(props: ResponsiveAppBarProps) {
                     <LanguageIcon
                         sx={{
                             color: 'white',
-                            fontSize: '2.3rem'
+                            fontSize: '2rem'
                         }}
                     />
                 </IconButton>
@@ -48,9 +50,24 @@ export function LanguageSelect(props: ResponsiveAppBarProps) {
                         vertical: 'top',
                         horizontal: 'left',
                     }}
+                    disableScrollLock={true}
                 >
-                    <MenuItem onClick={() => handleLanguageSelect('en')}>English</MenuItem>
-                    <MenuItem onClick={() => handleLanguageSelect('sp')}>Spanish</MenuItem>
+                    <MenuItem onClick={() => handleLanguageSelect('en')}>
+                        <img
+                            src="https://flagcdn.com/w40/us.png"
+                            srcSet="https://flagcdn.com/w80/us.png 2x"
+                            width="40"
+                            alt="United States"/>
+                        English
+                    </MenuItem>
+                    <MenuItem onClick={() => handleLanguageSelect('sp')}>
+                        <img
+                            src="https://flagcdn.com/w40/pr.png"
+                            srcSet="https://flagcdn.com/w80/pr.png 2x"
+                            width="40"
+                            alt="Puerto Rico"/>
+                        Spanish
+                    </MenuItem>
                 </Popover>
             </>
         );

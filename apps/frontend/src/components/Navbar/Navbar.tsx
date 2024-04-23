@@ -17,20 +17,6 @@ import DropDownMenu from "../DropDownMenu.tsx";
 import NavbarItem from "./NavbarItem.tsx";
 import DarkModeToggle from "./DarkModeSwitch.tsx";
 
-
-const staffServices = [
-    {label: "Sanitation", path: "/sanitation"},
-    {label: "Medicine Delivery", path: "/medicine-request"},
-    {label: "Flowers", path: "/flower-request"},
-    {label: "Gifts", path: "/gift-request"},
-
-];
-
-const normalServices = [
-    {label: "Flowers", path: "/flower-request"},
-    {label: "Gift", path: "/gift-request"},
-];
-
 export type ResponsiveAppBarProps = {
     chatbotOpen: boolean;
     toggleChatbot: () => void;
@@ -38,6 +24,20 @@ export type ResponsiveAppBarProps = {
 }
 
 export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
+
+    const staffServices = [
+        {label:  TranslateTo("services.Sanitation"), path: "/sanitation"},
+        {label: TranslateTo("services.Medicine"), path: "/medicine-request"},
+        {label: TranslateTo("services.Flwr"), path: "/flower-request"},
+        {label: TranslateTo("services.Gift"), path: "/gift-request"},
+
+    ];
+
+    const normalServices = [
+        {label: TranslateTo("services.Flwr"), path: "/flower-request"},
+        {label: TranslateTo("services.Gift"), path: "/gift-request"},
+    ];
+
     const navigate = useNavigate();
     const {user, isAuthenticated, isLoading} = useAuth0();
     const handleMenuItemClick = (path: string) => {
@@ -107,7 +107,7 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                     </Box>
                     <LiveHelpIcon
                         sx={{
-                            fontSize: '2.4rem',
+                            fontSize: '2rem',
                             color: (props.chatbotOpen ? "#f6bd38" : 'white'),
                             '&:hover': {
                                 opacity: 0.9,

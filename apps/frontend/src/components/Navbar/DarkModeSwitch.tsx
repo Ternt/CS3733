@@ -6,14 +6,14 @@ import CustomLightTheme from "../CustomTheme.tsx";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: "6rem",
-    height: '2.3rem',
+    height: '2rem',
     padding: 0,
     '& .MuiSwitch-switchBase': {
         margin: 0,
         padding: 0,
         '&.Mui-checked': {
             color: '#fff',
-            transform: 'translateX(3.7rem)',
+            transform: 'translateX(4rem)',
             '& .MuiSwitch-thumb:before': {
                 backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
                     '#fff',
@@ -27,8 +27,8 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     },
     '& .MuiSwitch-thumb': {
         backgroundColor: theme.palette.mode === 'dark' ? '#003892' : '#001e3c',
-        width: '2.3rem', // Set thumb width to match LanguageIcon size
-        height: '2.3rem', // Set thumb height to match LanguageIcon size
+        width: '2rem', // Set thumb width to match LanguageIcon size
+        height: '2rem', // Set thumb height to match LanguageIcon size
         '&::before': {
             content: "''",
             position: 'absolute',
@@ -49,7 +49,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     '& .MuiSwitch-track': {
         opacity: 1,
         backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
-        borderRadius: '2.3rem', // Set track border radius to match thumb size
+        borderRadius: '2rem', // Set track border radius to match thumb size
         height: 'auto', // Set height to auto
     },
 }));
