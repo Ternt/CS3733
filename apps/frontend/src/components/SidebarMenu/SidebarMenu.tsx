@@ -17,12 +17,16 @@ export default function SidebarMenu(props: SidebarMenuProps) {
     <>
       <Box
         sx={{
-          width: "fit-content",
-          height: "fill-available",
-
+          width: "8vw",
+          height: "90vh",
         }}
       >
-        <Box>
+        <Box
+          sx={{
+            position:'fixed',
+            width:'8vw'
+          }}
+        >
           {props.tabs.map((t, i) => {
             return (
               <Button

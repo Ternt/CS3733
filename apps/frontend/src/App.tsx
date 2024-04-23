@@ -19,6 +19,7 @@ import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
 import ErrorPage from "./pages/404Page/ErrorPage.tsx";
+import HowToPage from "./pages/howToPage/howToPage.tsx";
 
 
 export const LanguageContext = createContext("en");
@@ -93,6 +94,10 @@ function App() {
                 {
                     path: "/directions",
                     element: <PhoneDirectionsPage/>
+                },
+                {
+                    path: "/howTo",
+                    element: <HowToPage/>
                 }
             ],
         },
