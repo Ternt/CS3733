@@ -45,9 +45,10 @@ model NodeDB {
   shortName String
   nodeType  NodeType
 
-  startEdges EdgeDB[]         @relation(name: "start")
-  endEdges   EdgeDB[]         @relation(name: "end")
-  requests   ServiceRequest[]
+  startEdges            EdgeDB[]           @relation(name: "start")
+  endEdges              EdgeDB[]           @relation(name: "end")
+  requests              ServiceRequest[]
+  religiousEndLocations ReligiousRequest[]
 }
 
 model EdgeDB {
@@ -86,6 +87,7 @@ enum ServiceRequestType {
   GIFT
   SANITATION
   MEDICINE
+  RELIGIOUS
 }
 
 enum ServiceRequestPriority {
@@ -117,6 +119,7 @@ model ServiceRequest {
   sanitationDetail  SanitationRequest?
   medicineDetail    MedicineRequest?
   giftDetail        GiftRequest?
+  religiousDetail   ReligiousRequest?
   maintenanceDetail MaintenanceRequest?
 }
 
@@ -217,4 +220,23 @@ model GiftRequest {
   cardExpirationDate String
 
   items CartItemsInGiftRequests[]
+}
+
+enum ReligiousServiceType {
+  CHAPEL
+  BEDSIDE
+  COMMUNAL
+}
+
+model ReligiousRequest {
+  request   ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
+  requestID Int            @unique
+
+  requestorName       String
+  religiousLeaderName String
+  date                String
+  time                String
+
+  endLocation   NodeDB @relation(fields: [endLocationID], references: [nodeID], onDelete: Cascade)
+  endLocationID String
 }

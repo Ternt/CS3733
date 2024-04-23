@@ -103,6 +103,22 @@ export default function createServiceRequestBody(body): any | undefined {
 
             delete body.items;
             break;
+        case "RELIGIOUS":
+            body.religiousDetail = {
+                create: {
+                    requestorName: body.requestorName,
+                    religiousLeaderName: body.religiousLeaderName,
+                    date: body.date,
+                    time: body.time,
+                    endLocationID: body.endLocationID
+                },
+            };
+            delete body.requestorName;
+            delete body.religiousLeaderName;
+            delete body.date;
+            delete body.time;
+            delete body.endLocationID;
+            break;
     }
 
     return body;
