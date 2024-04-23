@@ -118,10 +118,9 @@ export default function MapPage() {
 
     const initialMessage = 'Path from ' + startLocation + ' to ' + endLocation + ':\n';
 
-    const NaturalLangPath = `${initialMessage}\n${natLangPath.reduce<string[]>((acc, obj, index) => {
-        const messageStrings = obj.messages.map((message, messageIndex) => {
-            const messageNumber = (index * obj.messages.length) + messageIndex + 1;
-            return `${messageNumber}. ${message.a}`;
+    const NaturalLangPath = `${initialMessage}\n${natLangPath.reduce<string[]>((acc, obj) => {
+        const messageStrings = obj.messages.map((message) => {
+            return `${message.a}`;
         });
         return acc.concat(messageStrings);
     }, []).join('\n')}`;
