@@ -69,7 +69,7 @@ export default function OurServices() {
                                 header={"FAQ"}
                                 descriptiveText={"• Answers to frequently asked questions and how to guides"}/>
 
-                    <ServiceBox path={"/"}
+                    <ServiceBox path={"/credits"}
                                 icon={<HandshakeIcon/>}
                                 header={"Credits"}
                                 descriptiveText={"• Special Thanks to the people who made this project possible"}/>

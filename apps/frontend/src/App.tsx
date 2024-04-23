@@ -20,6 +20,7 @@ import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationP
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
 import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 import HowToPage from "./pages/howToPage/howToPage.tsx";
+import CreditsPage from "./pages/CreditsPage/CreditsPage.tsx";
 
 function App() {
     const router = createBrowserRouter([
@@ -95,6 +96,10 @@ function App() {
                 {
                     path: "/howTo",
                     element: <HowToPage/>
+                },
+                {
+                    path: "/credits",
+                    element: <CreditsPage/>
                 }
             ],
         },
