@@ -9,7 +9,7 @@ router.post("/", async function (req: Request, res: Response) {
 
     // do not let id be manually specified
     if (body.id !== undefined) {
-        console.error("Not allowed to specify request id. It is auto generated");
+        console.error("Not allowed to specify employee id. It is auto generated");
         res.sendStatus(400);
         return;
     }
@@ -20,10 +20,10 @@ router.post("/", async function (req: Request, res: Response) {
     try {
         // Attempt to create in the database
         await PrismaClient.employee.create({ data: employee });
-        console.info("Successfully saved cart item"); // Log that it was successful
+        console.info("Successfully saved employee"); // Log that it was successful
     } catch (error) {
         // Log any failures
-        console.error(`Unable to save cart item attempt ${employee}: ${error}`);
+        console.error(`Unable to save employee attempt ${employee}: ${error}`);
         res.sendStatus(400); // Send error
         return; // Don't try to send duplicate statuses
     }
@@ -57,7 +57,7 @@ router.post("/assign", async function (req: Request, res: Response) {
                 assignedEmployeeID: body.employeeID,
                 status: 'ASSIGNED'
             }
-        })
+        });
     } catch (error) {
         // Log any failures
         console.error(`Unable to assign employee to service request attempt ${body}: ${error}`);
