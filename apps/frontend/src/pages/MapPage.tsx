@@ -128,10 +128,10 @@ export default function MapPage() {
 
     const TTSPath = `${natLangPath.reduce<string[]>((acc, obj) => {
         const messageStrings = obj.messages.map((message) => {
-            return `${message.a}`;
+            return` ${message.a}`;
         });
         return acc.concat(messageStrings);
-    }, []).join('\n')}`;
+    }, []).concat('end').join('\n')}`;
 
     const qrCodeProps = {
         startNode: startLocation,

@@ -9,6 +9,12 @@ export function speak(text: string) {
     // Keep track of the current utterance
     let currentUtterance: SpeechSynthesisUtterance | null = null;
 
+    // Listen to end TTS
+    utterance.addEventListener('end', () => {
+        console.log('Speech synthesis ended');
+        currentUtterance = null;
+    });
+
     // Speak the text
     speechSynthesis.speak(utterance);
 
