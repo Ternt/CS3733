@@ -48,3 +48,4 @@ out
 # temporary download files
 /apps/backend/map/temp/
 /apps/frontend/src/components/ChatBot/key/
+/apps/backend/src/routes/SMS/key/

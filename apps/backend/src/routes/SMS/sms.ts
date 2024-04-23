@@ -1,12 +1,11 @@
 import express, {Router, Request, Response} from "express";
 import {Twilio} from 'twilio';
+import {AUTH_KEY, ACC_ID, TWILIO_NUMBER} from "./key/private.ts";
+
 
 const router: Router = express.Router();
 
-const twilioNumber = '+18666745632';
-const accountSid = 'ACe090c19b4ac0b1699991ce7af4bd4b6d';
-const authToken = '32a4202f264de97346ea9a9e93c3ecd8';
-const client = new Twilio(accountSid, authToken);
+const client = new Twilio(ACC_ID, AUTH_KEY);
 
 // Validate E164 format
 function validE164(num: string) {
@@ -24,7 +23,7 @@ router.post("/", async function (req: Request, res: Response) {
 
     client.messages
         .create({
-            from: twilioNumber,
+            from: TWILIO_NUMBER,
             to: phone,
             body: msg,
         })
