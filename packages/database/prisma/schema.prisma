@@ -86,6 +86,7 @@ enum ServiceRequestType {
   GIFT
   SANITATION
   MEDICINE
+  LANGUAGE
   RELIGIOUS
 }
 
@@ -118,8 +119,10 @@ model ServiceRequest {
   sanitationDetail  SanitationRequest?
   medicineDetail    MedicineRequest?
   giftDetail        GiftRequest?
-  religiousDetail   ReligiousRequest?
   maintenanceDetail MaintenanceRequest?
+  religiousDetail   ReligiousRequest?
+  languageDetail    LanguageRequest?
+
 }
 
 enum MaintenanceType {
@@ -237,4 +240,22 @@ model ReligiousRequest {
   date                String
   time                String
   endLocation         String?
+}
+
+enum LanguageType {
+    SPANISH
+    CHINESE
+    FRENCH
+}
+
+model LanguageRequest {
+  request         ServiceRequest  @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
+  requestID       Int             @unique
+  name            String
+  language        LanguageType
+}
+
+model LanguageInterpreterCount {
+  language        LanguageType    @unique
+  count           Int
 }

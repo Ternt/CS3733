@@ -28,7 +28,7 @@ export const PIXELS_PER_FOOT = 3;
 function findNextNodeWithType(nodeTable: node[], path: string[], index: number){
     for (let i: number = index; i < path.length - 1; i++) {
         const currentNodeType = nodeTable.find(nodes => nodes.nodeID === path[i])!.nodeType;
-        if(currentNodeType != 'HALL') {
+        if (currentNodeType != 'HALL') {
             return nodeTable.find(nodes => nodes.nodeID === path[i])!.longName;
         }
     }
@@ -39,14 +39,12 @@ async function getLanguageDirection(path: string[]){
     const response: AxiosResponse = await axios.get("/api/map");
 
     const nodeTable: node[] = response.data.nodes;
-    const nodeList: node[] = [];
     const directions: {message:string, floor:number, type:directionTypes}[] = [];
 
-    for (let i: number = 0; i < path.length - 2; i++) {
+    for (let i: number = 0; i < path.length - 1; i++) {
         const currentNode = nodeTable.find(nodes => nodes.nodeID === path[i])!;
         const currentNodeName = currentNode.shortName;
-        nodeList.push(currentNode);
-        const nextNode = nodeTable.find(nodes => nodes.nodeID === path[i+1])!;
+        const nextNode = nodeTable.find(nodes => nodes.nodeID === path[i + 1])!;
 
         if (i === 0) {
             directions.push({message:"You are currently at " +currentNodeName + " on floor " + currentNode.floor, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.START});
@@ -66,30 +64,39 @@ async function getLanguageDirection(path: string[]){
             const nn =  nextNodeNameWithType.toUpperCase().indexOf('HALL') === -1 ? "towards "+nextNodeNameWithType : "down the hall";
             directions.push({message:`Head ${nn}`, floor: FLOOR_NAME_TO_INDEX(nextNode.floor!), type:directionTypes.STRAIGHT});
 
-        }
-        else {
+        } else {
             const dx: number = nextNode.xcoord - currentNode.xcoord;
             const dy: number = nextNode.ycoord - currentNode.ycoord;
             const angle: number = Math.atan2(dy, dx);
 
+            const previousNode = nodeTable.find(nodes => nodes.nodeID === path[i - 1])!;
+            const dxPrev: number = currentNode.xcoord - previousNode.xcoord;
+            const dyPrev: number = currentNode.ycoord - previousNode.ycoord;
 
-                // add filter for node with only 2 neighbours to walk straight??
-                const previousNode = nodeTable.find(nodes => nodes.nodeID === path[i-1])!;
-                const dxPrev: number = currentNode.xcoord - previousNode.xcoord;
-                const dyPrev: number = currentNode.ycoord - previousNode.ycoord;
+            const anglePrev = Math.atan2(dyPrev, dxPrev);
 
-                const anglePrev = Math.atan2(dyPrev, dxPrev);
+            let dxNext = 0;
+            let dyNext = 0;
+            if (i < path.length - 2) {
+                const theNextOfNextNode: node = nodeTable.find(nodes => nodes.nodeID === path[i + 2])!;
+                dxNext = theNextOfNextNode.xcoord - nextNode.xcoord;
+                dyNext = theNextOfNextNode.ycoord - nextNode.ycoord;
+            }
 
-                let directionChange: number = (angle - anglePrev);
+            const angleNext = Math.atan2(dyNext, dxNext);
 
-                //map angle from 0 to pi
+            let directionChange: number = (angle - anglePrev);
 
-                if (directionChange > Math.PI && directionChange < 2*Math.PI){
-                    directionChange = directionChange - 2*Math.PI;
-                }
-                else if (directionChange < -Math.PI && directionChange > -2*Math.PI) {
-                    directionChange = directionChange + 2*Math.PI;
-                }
+            const directionChangeNext: number = (angleNext - anglePrev);
+
+            const distCurrToNext: number = (Math.sqrt(dx**2 + dy**2));
+            //map angle from 0 to pi
+
+            if (directionChange > Math.PI && directionChange < 2 * Math.PI) {
+                directionChange = directionChange - 2 * Math.PI;
+            } else if (directionChange < -Math.PI && directionChange > -2 * Math.PI) {
+                directionChange = directionChange + 2 * Math.PI;
+            }
 
 
                 if ((Math.abs(directionChange) < Math.PI / 4) || (Math.abs(directionChange - 2*Math.PI) < Math.PI / 4) || (Math.abs(directionChange + 2*Math.PI) < Math.PI / 4)) {
@@ -97,7 +104,13 @@ async function getLanguageDirection(path: string[]){
                         const distance = Math.sqrt(dx**2 + dy**2);
                         directions.push({message:"Walk straight " +Math.round(distance * PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
                     }
-                } else {
+                }
+
+                else if (((Math.abs(directionChangeNext) < Math.PI / 4) || (Math.abs(directionChangeNext - 2 * Math.PI) < Math.PI / 4) || (Math.abs(directionChangeNext + 2 * Math.PI) < Math.PI / 4)) && (distCurrToNext < 50)) {
+                    i = i + 2;
+                }
+
+                else {
                   const cn = currentNodeName === undefined ? "" : currentNodeName!;;
                   const nn =  cn.toUpperCase().indexOf('HALL') === -1 ? (" at "+cn) : "";
                   if (directionChange > 0) {
@@ -112,7 +125,7 @@ async function getLanguageDirection(path: string[]){
     return directions;
 }
 
-async function fetchPathData(startLocation: string, endLocation:string, searchAlgorithm: string) {
+async function fetchPathData(startLocation: string, endLocation: string, searchAlgorithm: string) {
     try {
         const response = await axios.get(`/api/pathfind?startNode=${endLocation}&endNode=${startLocation}&algorithm=${searchAlgorithm}`);
         return response.data.path; // Return the path in array
@@ -122,24 +135,21 @@ async function fetchPathData(startLocation: string, endLocation:string, searchAl
 }
 
 
-export default async function NaturalLanguageDirection(startLocation: string, endLocation:string, searchAlgorithm: number) {
+export default async function NaturalLanguageDirection(startLocation: string, endLocation: string, searchAlgorithm: number) {
     let searchAlgorithmString;
-    if (searchAlgorithm === 0){
+    if (searchAlgorithm === 0) {
         searchAlgorithmString = "astar";
-    }
-    else if (searchAlgorithm === 1){
+    } else if (searchAlgorithm === 1) {
         searchAlgorithmString = "bfs";
-    }
-    else if (searchAlgorithm === 2){
+    } else if (searchAlgorithm === 2) {
         searchAlgorithmString = "dfs";
-    }
-    else {
+    } else {
         searchAlgorithmString = "dijkstra";
     }
 
     const path = await fetchPathData(startLocation, endLocation, searchAlgorithmString);
-    if(path.length === 0)
+    if (path.length === 0)
         return;
-   return await getLanguageDirection(path);
+    return await getLanguageDirection(path);
 }
 

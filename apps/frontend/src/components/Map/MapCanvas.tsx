@@ -28,6 +28,7 @@ type mapCanvasProps = {
   pathfinding: string | null;
   endLocation: string;
   onDeselectEndLocation?: () => void;
+  onGetNearestNode?: (node: node | null) => void;
 };
 
 export default function MapCanvas(props: mapCanvasProps) {
@@ -66,6 +67,14 @@ export default function MapCanvas(props: mapCanvasProps) {
     nearestNode: null,
     algo: ""
   });
+
+    useEffect(() => {
+        if (props.onGetNearestNode === undefined) {
+            return;
+        }
+        props.onGetNearestNode(pathing.nearestNode);
+    }, [pathing.nearestNode, props]);
+
   const [draggingNode, setDraggingNode] = useState<node | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [svgInject, setSvgInject] = useState<ReactNode[]>([]);
@@ -491,7 +500,7 @@ export default function MapCanvas(props: mapCanvasProps) {
       let closestNode = closestEdge!.startNode;
       if(distance(closestEdge!.startNode.point, coords) > distance(closestEdge!.endNode.point, coords))
         closestNode = closestEdge!.endNode;
-
+      pathing.nearestNode = closestNode;
       axios
         .get("/api/pathfind?endNode=" + closestNode.nodeID + "&startNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
         .then((res) => {

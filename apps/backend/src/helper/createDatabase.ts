@@ -3,6 +3,7 @@ import { cartItems } from "./initialData/cartItems.ts";
 import { employees } from "./initialData/employees.ts";
 import { serviceRequests } from "./initialData/serviceRequests.ts";
 import PrismaClient from "../bin/database-connection.ts";
+import {languageInterpreter} from "./initialData/initialLanguageInterpreter.ts";
 
 
 export async function createDatabase(
@@ -72,6 +73,7 @@ export async function createDatabase(
         await createCartItems();
         await createEmployees();
         await createServiceRequests();
+        await createLanguageInterpreter();
     }
 }
 
@@ -93,5 +95,12 @@ async function createServiceRequests() {
     await PrismaClient.serviceRequest.deleteMany();
     for (let data of serviceRequests) {
         await PrismaClient.serviceRequest.create({data: data});
+    }
+}
+
+async function createLanguageInterpreter() {
+    await PrismaClient.languageInterpreterCount.deleteMany();
+    for (let data of languageInterpreter) {
+        await PrismaClient.languageInterpreterCount.create({data: data});
     }
 }
