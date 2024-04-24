@@ -74,11 +74,8 @@ function LanguageInterpreterRequestForm() {
     };
     const handleSubmitForm = () => {
         if (isComplete()) {
-            console.log("inidata", data);
             const selectedLanguageData = data.find(item => item.language === formInput.language.toUpperCase());
             if (selectedLanguageData && selectedLanguageData.count <= 0) {
-                console.log("after 0:", data);
-                console.log(data);
                 setDialogMessage(`No interpreters available for ${formInput.language}.`);
                 setDialogOpen(true);
                 return; // Stop the submission process
@@ -95,8 +92,6 @@ function LanguageInterpreterRequestForm() {
 
             setData(newData);
             setFormInput({...formInput, interpreterRemain: newData});
-            console.log(formInput);
-
             const languageRequest = {
                 type: "LANGUAGE",
                 priority: formInput.priority.toUpperCase(),
@@ -130,7 +125,6 @@ function LanguageInterpreterRequestForm() {
                 });
 
 
-            console.log("data:", data);
         } else {
             console.log("No service request submitted.");
         }
