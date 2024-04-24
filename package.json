@@ -67,6 +67,7 @@
     "@types/path-browserify": "^1.0.2",
     "@types/react-swipeable-views": "^0.13.5",
     "@yarnpkg/pnpify": "^4.0.0-rc.45",
+    "axios": "^1.6.8",
     "csv-parse": "^5.5.5",
     "csv-parser": "^3.0.0",
     "dayjs": "^1.11.10",

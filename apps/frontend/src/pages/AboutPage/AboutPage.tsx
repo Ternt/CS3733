@@ -189,7 +189,7 @@ function AboutPage() {
                             borderBottom: '1px dotted white',
                             margin: '0 16px'
                         }}/>
-                        <Typography color={"white"} variant="h5">Ariel Schechter</Typography>
+                        <Typography color={"white"} variant="h5">Ari Schechter</Typography>
                     </Box>
                     <Typography
                         pb={2}

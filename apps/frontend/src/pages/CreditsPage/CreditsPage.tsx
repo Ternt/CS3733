@@ -11,9 +11,9 @@ export default function CreditsPage() {
     let tabInject = <></>;
 
     if (selectedTab === 0) {
-        tabInject = (<StaffGrid/>);
+      tabInject = (<SoftwareList/>);
     } else if (selectedTab === 1) {
-        tabInject = (<SoftwareList/>);
+      tabInject = (<StaffGrid/>);
     }
     return (
         <>
@@ -29,7 +29,7 @@ export default function CreditsPage() {
                 >
                     <SidebarMenu
                         value={selectedTab}
-                        tabs={["Meet the Team", "What We Used"]}
+                        tabs={["What We Used", "Meet the Team"]}
                         onSelect={(i) => {
                             setSelectedTab(i);
                         }}
