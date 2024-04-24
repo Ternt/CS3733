@@ -16,7 +16,7 @@
     "navB.Home": "Home",
     "navB.Map": "Map",
     "navB.Admin": "Admin",
-    "navB.ServiceReq": "Service Requests",
+    "navB.ServiceReq": "Service",
     "services.Sanitation": "Sanitation",
     "services.Medicine": "Medicine Delivery",
     "services.Religious": "Religious Service",
@@ -33,5 +33,6 @@
     "SERVICES": "SERVICES",
     "Logout": "Logout",
     "Login": "Login",
-    "Searchbar": "Search..."
+    "Searchbar": "Search...",
+    "Disclaimer": "Disclaimer: This website is a term project exercise for WPI CS 3733 Software Engineering (Prof. Wong) and\n is not to be confused with the actual Brigham & Women’s Hospital website. (Click anywhere in this box to close)"
 }
