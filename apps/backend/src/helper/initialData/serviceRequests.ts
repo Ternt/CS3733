@@ -165,4 +165,38 @@ export const serviceRequests = [
             }
         }
     },
+    {
+        requestID: -8,
+        type: "RELIGIOUS",
+        notes: "notes",
+        locationID: "IDEPT00303",
+        priority: "LOW",
+        status: "UNASSIGNED",
+        assignedEmployeeID: -1,
+        religiousDetail: {
+            create: {
+                requestorName: "requestorName",
+                religiousLeaderName: "religiousLeaderName",
+                serviceType: "CHAPEL",
+                date: "12/31/2024",
+                time: "12:00 PM",
+                endLocation: "aa"
+            }
+        }
+    },
+    {
+        requestID: -9,
+        type: "LANGUAGE",
+        notes: "notes",
+        locationID: "WELEV00ML1",
+        priority: "LOW",
+        status: "UNASSIGNED",
+        assignedEmployeeID: -1,
+        languageDetail: {
+            create: {
+                name: "employeeName",
+                language: "SPANISH"
+            }
+        }
+    }
 ];

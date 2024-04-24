@@ -100,6 +100,8 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
         updateAssignmentStatus(event.target.value);
     };
 
+    console.log(prop.serviceRequestData);
+
     return(
         <Box
             sx={{
@@ -154,9 +156,27 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
 
                             <InformationField label={"Medicine"} data={serviceData.medicineDetail?.medicine.toLowerCase().replace("_", " ")}></InformationField>
 
+                            <InformationField label={"Requester Name"} data={serviceData.religiousDetail?.requestorName}></InformationField>
+
+                            <InformationField label={"Leader Name"} data={serviceData.religiousDetail?.religiousLeaderName}></InformationField>
+
+                            <InformationField label={"Service Type"} data={serviceData.religiousDetail?.serviceType}></InformationField>
+
+                            <InformationField label={"Date"} data={serviceData.religiousDetail?.date}></InformationField>
+
+                            <InformationField label={"Time"} data={serviceData.religiousDetail?.time}></InformationField>
+
+                            <InformationField label={"Location"} data={serviceData.religiousDetail?.endLocation}></InformationField>
+
+                            <InformationField label={"Interpreter Name"} data={serviceData.languageDetail?.name}></InformationField>
+
+                            <InformationField label={"Language"} data={serviceData.languageDetail?.language.toLowerCase()}></InformationField>
+
                             <InformationField label={"Date"} data={serviceData.sanitationDetail?.date}></InformationField>
 
                             <InformationField label={"Date"} data={serviceData.sanitationDetail?.date}></InformationField>
+
+                            <InformationField label={"Physician Name"} data={serviceData.medicineDetail?.primaryPhysicianName}></InformationField>
 
                             {(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?"":(
                                 serviceData.sanitationDetail.messTypes.map((messtype)=>{
