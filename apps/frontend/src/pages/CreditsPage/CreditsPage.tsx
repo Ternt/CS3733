@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
-import ViewKanbanIcon from '@mui/icons-material/ViewKanban';
-import MapIcon from "@mui/icons-material/Map";
+import GroupsIcon from '@mui/icons-material/Groups';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import React, { useState } from "react";
 import StaffGrid from "../../components/CreditsPage/StaffGrid.tsx";
 import SoftwareList from "../../components/CreditsPage/SoftwareList.tsx";
@@ -34,8 +34,8 @@ export default function CreditsPage() {
                             setSelectedTab(i);
                         }}
                     >
-                        <ViewKanbanIcon />
-                        <MapIcon />
+                        <GroupsIcon/>
+                        <LibraryBooksIcon/>
                     </SidebarMenu>
                     <Box
                         sx={{

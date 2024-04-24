@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, Avatar } from '@mui/material';
 
-// Define the type for the props
 interface StaffMemberProps {
     name: string;
     role: string;
@@ -16,10 +15,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         textAlign: 'center',
     },
     avatar: {
-        width: theme.spacing(12),
-        height: theme.spacing(12),
+        width: 50,
+        height: 50,
         margin: 'auto',
-        marginTop: theme.spacing(2),
+        marginTop: theme.spacing(5),
     },
     name: {
         fontSize: '1.25rem',
@@ -37,7 +36,7 @@ const StaffInfoCard: React.FC<StaffMemberProps> = ({ name, role, imageUrl }) => 
 
     return (
         <Card className={classes.root}>
-            <Avatar alt={name} src={imageUrl} className={classes.avatar} />
+            <Avatar alt={name} src={imageUrl} className={classes.avatar} sx={{width: 100, height: 100}}/>
             <CardContent>
                 <Typography variant="h6" className={classes.name}>
                     {name}
