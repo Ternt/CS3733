@@ -34,5 +34,17 @@
     "Logout": "Cierre Sesión",
     "Login": "Inicie Sesión",
     "Searchbar": "Busque...",
-    "Disclaimer": "Aviso: Esta página web es un proyecto de Ingeniería de Software de WPI CS 3733 (Prof. Wong) y no debe confundirse con la página web real del Brigham & Women's Hospital. (Haz clic en cualquier lugar de esta caja para cerrar)"
+    "Disclaimer": "Aviso: Esta página web es un proyecto de Ingeniería de Software de WPI CS 3733 (Prof. Wong) y no debe confundirse con la página web real del Brigham & Women's Hospital. (Haz clic en cualquier lugar de esta caja para cerrar)",
+  "langR.Header": "SOLICITUD DE INTERPRETE DE IDIOMA",
+  "langR.EName": "Nombre del Empleado",
+  "langR.LangR": "Español",
+  "priority.low": "BAJA",
+  "priority.med": "MEDIA",
+  "priority.high": "ALTA",
+  "priority.emergency": "EMERGENCIA",
+  "status.un": "SIN_ASIGNAR",
+  "status.as": "ASIGNADO",
+  "status.in": "EN_PROGRESO",
+  "status.cl": "CERRADO",
+  "langR.AvailHeader": "INTERPRETES DISPONIBLES"
 }

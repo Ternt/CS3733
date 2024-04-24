@@ -35,5 +35,17 @@
     "Login": "Login",
     "Searchbar": "Search...",
     "Disclaimer": "Disclaimer: This website is a term project exercise for WPI CS 3733 Software Engineering (Prof. Wong) and\n is not to be confused with the actual Brigham & Women’s Hospital website. (Click anywhere in this box to close)",
-    "langR.Header": "LANGUAGE INTERPRETER REQUEST"
+    "langR.Header": "LANGUAGE INTERPRETER REQUEST",
+    "langR.EName": "Employee Name",
+    "langR.LangR": "Spanish",
+    "priority.low": "LOW",
+    "priority.med": "MEDIUM",
+    "priority.high": "HIGH",
+    "priority.emergency": "EMERGENCY",
+    "status.un": "UNASSIGNED",
+    "status.as": "ASSIGNED",
+    "status.in": "IN_PROGRESS",
+    "status.cl": "CLOSED",
+    "langR.AvailHeader": "INTERPRETER AVAILABILITY"
+
 }
