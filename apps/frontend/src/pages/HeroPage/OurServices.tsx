@@ -2,6 +2,7 @@ import React from "react";
 import {Box, Typography, Grid} from "@mui/material";
 import ServiceBox from '../../components/HeroPage/ServiceBox.tsx';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import GroupIcon from '@mui/icons-material/Group';
 import HandshakeIcon from '@mui/icons-material/Handshake';
@@ -44,35 +45,35 @@ export default function OurServices() {
                 >
                     <ServiceBox path={""}
                                 icon={<LocationCityIcon/>}
-                                header={"Brigham and Women's Hospital"}
-                                descriptiveText={"• 75 Francis Street, Boston, MA 02115\n• 617-732-5500"}
+                                header={TranslateTo("ourS.BWHeader")}
+                                descriptiveText={TranslateTo("ourS.BWDesc")}
                                 onClick={() => handleExternalLink('https://www.brighamandwomens.org/about-bwh/locations/boston-main-hospital-campus')}/>
 
                     <ServiceBox path={""}
                                 icon={<LocationCityIcon/>}
-                                header={"Brigham and Women's Faulkner Hospital"}
-                                descriptiveText={"• 1153 Centre Street, Jamacia Plain, MA 02130\n • 617-983-7000"}
+                                header={TranslateTo("ourS.FaulkHeader")}
+                                descriptiveText={TranslateTo("ourS.FaulkDesc")}
                                 onClick={() => handleExternalLink('https://www.brighamandwomens.org/about-bwh/locations/faulkner-hospital-jamaica-plain')}/>
 
-                    <ServiceBox path={"/"}
+                    <ServiceBox path={"/about"}
                                 icon={<GroupIcon/>}
-                                header={"About Us"}
-                                descriptiveText={"• Learn more about the team how created this web app"}/>
+                                header={TranslateTo("ourS.aboutUs")}
+                                descriptiveText={TranslateTo("ourS.aboutUsDesc")}/>
 
                     <ServiceBox path={"/"}
                                 icon={<PhoneIphoneIcon/>}
-                                header={"IOS App"}
-                                descriptiveText={"• Checkout our IOS App"}/>
+                                header={TranslateTo("ourS.IOS")}
+                                descriptiveText={TranslateTo("ourS.IOSDesc")}/>
 
                     <ServiceBox path={"/howTo"}
                                 icon={<QuestionMarkIcon/>}
-                                header={"FAQ"}
-                                descriptiveText={"• Answers to frequently asked questions and how to guides"}/>
+                                header={TranslateTo("ourS.FAQ")}
+                                descriptiveText={TranslateTo("ourS.FAQDesc")}/>
 
-                    <ServiceBox path={"/"}
+                    <ServiceBox path={"/credits"}
                                 icon={<HandshakeIcon/>}
-                                header={"Credits"}
-                                descriptiveText={"• Special Thanks to the people who made this project possible"}/>
+                                header={TranslateTo("ourS.Credits")}
+                                descriptiveText={TranslateTo("ourS.creditsDesc")}/>
                 </Grid>
             </Box>
         </>
