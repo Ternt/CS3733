@@ -15,7 +15,9 @@ import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 import DropDownMenu from "../DropDownMenu.tsx";
 import NavbarItem from "./NavbarItem.tsx";
-
+import MenuIcon from '@mui/icons-material/Menu';
+import {SwipeableDrawer, Typography} from "@mui/material";
+import {useState} from "react";
 export type ResponsiveAppBarProps = {
     chatbotOpen: boolean;
     toggleChatbot: () => void;
@@ -50,6 +52,8 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
         }
     }
 
+  const [state, setState] = useState(false);
+
 
     return (
         <AppBar
@@ -66,67 +70,105 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
             }}
         >
             <Container maxWidth="xl" sx={{maxHeight: "100%"}}>
-              <Toolbar disableGutters sx={{height: "10vh"}}>
+              <Toolbar
+                disableGutters
+                sx={{
+                  height: "10vh",
+                  display:{xs:'none',md:'flex'}
+                }}
+              >
                 <Box
                   sx={{
                     flexGrow: 1,
                     maxHeight: "10vh",
-                    display: {xs: "none", md: "flex", justifyContent: "flex-start"},
+                    display: "flex",
                   }}
                 >
-                        <Link
-                            href=""
-                            underline="none"
-                            sx={{}}
-                        >
-                            <Box
-                                component="img"
-                                className={"logo"}
-                                src={logo}
-                                alt={"logo"}
-                                onClick={() => handleMenuItemClick("")}
-                                sx={{width: "4vh", aspectRatio: "294/423", mx: 1, p: "1%"}}
-                            ></Box>
-                        </Link>
-                        <NavbarItem title={TranslateTo("navB.Home")} link={"/"}/>
-                        <NavbarItem title={TranslateTo("navB.Map")} link={"/map"}/>
+                  <Link
+                      href=""
+                      underline="none"
+                      sx={{}}
+                  >
+                      <Box
+                          component="img"
+                          className={"logo"}
+                          src={logo}
+                          alt={"logo"}
+                          onClick={() => handleMenuItemClick("")}
+                          sx={{width: "4vh", aspectRatio: "294/423", mx: 1, p: "1%"}}
+                      ></Box>
+                  </Link>
+                  <NavbarItem title={TranslateTo("navB.Home")} link={"/"}/>
+                  <NavbarItem title={TranslateTo("navB.Map")} link={"/map"}/>
                       {!isLoading && (
-                            <>
-                                {permissionLevel === 2 && (
-                                    <NavbarItem title={TranslateTo("navB.Admin")} link={"/admin"}/>
-                                )}
-                                {permissionLevel >= 1 && (
-                                    <DropDownMenu label={TranslateTo("navB.ServiceReq")} menuData={staffServices}></DropDownMenu>
-                                )}
-                                {permissionLevel == 0 && (
-                                    <DropDownMenu label={"SERVICES"} menuData={normalServices}></DropDownMenu>
-                                )}
-                            </>
-                        )}
+                        <>
+                            {permissionLevel === 2 && (
+                                <NavbarItem title={TranslateTo("navB.Admin")} link={"/admin"}/>
+                            )}
+                            {permissionLevel >= 1 && (
+                                <DropDownMenu label={TranslateTo("navB.ServiceReq")} menuData={staffServices}></DropDownMenu>
+                            )}
+                            {permissionLevel == 0 && (
+                                <DropDownMenu label={"SERVICES"} menuData={normalServices}></DropDownMenu>
+                            )}
+                        </>
+                    )}
                     </Box>
-                    <LiveHelpIcon
-                        sx={{
-                            fontSize: '2rem',
-                            color: (props.chatbotOpen ? "#f6bd38" : 'white'),
-                            '&:hover': {
-                                opacity: 0.9,
-                                cursor: 'pointer'
-                            }
-                        }}
-                        onClick={() => {
-                            props.toggleChatbot();
-                        }}
-                    />
-                    <>
-                        <LanguageSelect
-                            toggleChatbot={props.toggleChatbot}
-                            chatbotOpen={props.chatbotOpen}
-                            onSetLanguage={props.onSetLanguage}/>
-                    </>
-                    <SearchBar/>
-                    <LoginButton/>
-                </Toolbar>
+                <LiveHelpIcon
+                    sx={{
+                        fontSize: '2rem',
+                        color: (props.chatbotOpen ? "#f6bd38" : 'white'),
+                        '&:hover': {
+                            opacity: 0.9,
+                            cursor: 'pointer'
+                        }
+                    }}
+                    onClick={() => {
+                        props.toggleChatbot();
+                    }}
+                />
+                <LanguageSelect
+                  toggleChatbot={props.toggleChatbot}
+                  chatbotOpen={props.chatbotOpen}
+                  onSetLanguage={props.onSetLanguage}
+                />
+                <SearchBar/>
+                <LoginButton/>
+              </Toolbar>
+              <Toolbar
+                disableGutters
+                sx={{
+                  height: "10vh",
+                  display:{xs:'flex',md:'none'}
+                }}
+              >
+                <MenuIcon
+                  sx={{
+                    fontSize: '2rem',
+                    color: 'white',
+                    '&:hover': {
+                      opacity: 0.9,
+                      cursor: 'pointer'
+                    }
+                  }}
+                  onClick={()=> {
+                    setState(true);
+                  }}
+                />
+              </Toolbar>
             </Container>
+          <SwipeableDrawer
+            anchor={"left"}
+            open={state}
+            onClose={()=> {
+              setState(false);
+            }}
+            onOpen={()=> {
+              setState(true);
+            }}
+          >
+            <Typography variant={"body1"}>Menu coming soon...</Typography>
+          </SwipeableDrawer>
         </AppBar>
     );
 }
