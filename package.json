@@ -54,6 +54,7 @@
     "vitest": "^0.33.0"
   },
   "dependencies": {
+    "@coreui/react-chartjs": "^3.0.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@material-ui/core": "^4.12.4",
@@ -79,8 +80,8 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.0",
     "react-dom": "^18.2.0",
-    "react-papaparse": "^4.4.0",
     "react-intl": "^6.6.5",
+    "react-papaparse": "^4.4.0",
     "twilio": "^5.0.4"
   }
 }
