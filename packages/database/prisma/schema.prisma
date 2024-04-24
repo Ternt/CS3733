@@ -227,7 +227,7 @@ enum LanguageType {
     FRENCH
 }
 
-model MaintenanceRequest {
+model LanguageRequest {
   request         ServiceRequest  @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
   requestID       Int             @unique
   name            String
