@@ -124,7 +124,7 @@ function CreditsPage() {
                         color={"white"}
                         variant="h5"
                     >
-                        Team Leader
+                        Team Coach
                     </Typography>
                     <Box sx={{
                         flexGrow: 1,
