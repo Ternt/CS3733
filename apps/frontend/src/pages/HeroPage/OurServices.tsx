@@ -11,7 +11,7 @@ import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 export default function OurServices() {
 
     const ServicesHeaderSxTemplate = {
-        fontFamily: "Open Sans",
+        fontFamily: "sans-serif",
         fontSize: "50px",
         width: "100%",
         textAlign: "center",

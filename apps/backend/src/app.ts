@@ -9,6 +9,7 @@ import nodesRouter from "./routes/nodes.ts";
 import edgesRouter from "./routes/edges.ts";
 import cartItemRouter from "./routes/cart-items.ts";
 import employeeRouter from "./routes/employees";
+import languageRouter from "./routes/language-interpreter.ts";
 import smsRouter from "./routes/SMS/sms.ts";
 import fileUpload from "express-fileupload";
 import * as fs from "fs";
@@ -61,6 +62,7 @@ app.use("/api/edges", edgesRouter);
 app.use("/api/cart-items", cartItemRouter);
 app.use("/api/employees", employeeRouter);
 app.use("/api/sms", smsRouter);
+app.use("/api/language-interpreter", languageRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });

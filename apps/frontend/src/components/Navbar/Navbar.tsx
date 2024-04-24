@@ -31,12 +31,14 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
         {label: TranslateTo("services.Medicine"), path: "/medicine-request"},
         {label: TranslateTo("services.Flwr"), path: "/flower-request"},
         {label: TranslateTo("services.Gift"), path: "/gift-request"},
+        {label: TranslateTo("services.Religious"), path: "/religious-request"},
 
     ];
 
     const normalServices = [
         {label: TranslateTo("services.Flwr"), path: "/flower-request"},
         {label: TranslateTo("services.Gift"), path: "/gift-request"},
+        {label: TranslateTo("services.Religious"), path: "/religious-request"},
     ];
 
     const navigate = useNavigate();
