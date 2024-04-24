@@ -45,21 +45,27 @@ export async function createDatabase(
         })),
     );
 
-    // const insertNodeQueries = nodeData.map((row) => {
-    //     return PrismaClient.nodeDB.create({data: row});
-    // });
-    //
-    // const insertEdgeQueries = edgeData.map((row) => {
-    //     return PrismaClient.edgeDB.create({data: row});
-    // });
+    const insertNodeQueries = nodeData.map((row) => {
+        return PrismaClient.nodeDB.create({data: row});
+    });
 
-    // add nodes and edges to database
-    await PrismaClient.$transaction([
-        PrismaClient.$executeRaw`DELETE FROM "EdgeDB";`,
-        PrismaClient.$executeRaw`DELETE FROM "NodeDB";`,
-        PrismaClient.nodeDB.createMany({data: nodeData}),
-        PrismaClient.edgeDB.createMany({data: edgeData}),
-    ]);
+    const insertEdgeQueries = edgeData.map((row) => {
+        return PrismaClient.edgeDB.create({data: row});
+    });
+
+    try {
+        // add nodes and edges to database
+        await PrismaClient.$transaction([
+            PrismaClient.$executeRaw`DELETE FROM "EdgeDB";`,
+            PrismaClient.$executeRaw`DELETE FROM "NodeDB";`,
+            ...insertNodeQueries,
+            ...insertEdgeQueries,
+        ]);
+    }
+    catch (e) {
+        console.error(e);
+        throw (e);
+    }
 
     // add cart items
     if (initial) {
