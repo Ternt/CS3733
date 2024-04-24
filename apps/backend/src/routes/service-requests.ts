@@ -90,6 +90,8 @@ router.get("/", async function (req: Request, res: Response) {
                     },
                 },
                 maintenanceDetail: true,
+                religiousDetail: true,
+                languageDetail: true,
             },
             where: {
                 ...(req.query.type !== undefined
