@@ -191,7 +191,7 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
               sx={{
                 display: "flex",
                 flexDirection:'row',
-                gap:1
+                gap:1,
               }}
             >
               <TextField
@@ -199,7 +199,6 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                 value={newNodeData.nodeID}
                 sx={adminCardStyleBody}
                 onChange={(e) => {
-                  console.log(e.target.value);
                   setNewNodeData({ ...newNodeData, nodeID: e.target.value });
                 }}
               />
@@ -325,10 +324,12 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                         (x.startNode.nodeID === props.nodeData?.nodeID)?
                           x.endNode.nodeID:
                           "NONE"
-                    } variant="outlined" onDelete={async ()=>{
+                    } variant="outlined" onDelete={async ()=> {
                       await deleteEdge(x);
                       props.onPulseUpdate();
-                    }} />);
+                    }}
+                    key={x.startNode.nodeID +" "+x.endNode.nodeID}
+                    />);
                 })
               }
               <Chip label={"+"} variant="outlined" onClick={()=>{

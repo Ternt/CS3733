@@ -86,6 +86,7 @@ enum ServiceRequestType {
   GIFT
   SANITATION
   MEDICINE
+  RELIGIOUS
 }
 
 enum ServiceRequestPriority {
@@ -117,6 +118,7 @@ model ServiceRequest {
   sanitationDetail  SanitationRequest?
   medicineDetail    MedicineRequest?
   giftDetail        GiftRequest?
+  religiousDetail   ReligiousRequest?
   maintenanceDetail MaintenanceRequest?
 }
 
@@ -217,4 +219,22 @@ model GiftRequest {
   cardExpirationDate String
 
   items CartItemsInGiftRequests[]
+}
+
+enum ReligiousServiceType {
+  CHAPEL
+  BEDSIDE
+  COMMUNAL
+}
+
+model ReligiousRequest {
+  request   ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
+  requestID Int            @unique
+
+  requestorName       String
+  religiousLeaderName String
+  serviceType         ReligiousServiceType
+  date                String
+  time                String
+  endLocation         String?
 }

@@ -28,6 +28,7 @@
     "pg": "^8.11.0",
     "ts-node": "^10.9.1",
     "tsconfig-custom": "workspace:*",
+    "twilio": "^5.0.4",
     "typescript": "^5.0.4"
   },
   "devDependencies": {

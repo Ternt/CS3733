@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from "react";
-import {Box, IconButton, Snackbar, SpeedDial, SpeedDialAction, Typography} from "@mui/material";
-//import PinDropIcon from "@mui/icons-material/PinDrop";
+import {Box, Fab, IconButton, Snackbar, ToggleButton, ToggleButtonGroup} from "@mui/material";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
 import {FLOOR_IDS, FLOOR_NAMES} from "../../helpers/MapHelper.ts";
 import CloseIcon from '@mui/icons-material/Close';
-import {LayoutGroup} from "framer-motion";
+import EditIcon from '@mui/icons-material/Edit';
+import TimelineIcon from '@mui/icons-material/Timeline';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 
 type MapControlProps = {
   floor: number;
@@ -15,25 +16,18 @@ type MapControlProps = {
   onSetFloorIndex: (floorIndex: number) => void;
   onSetZoom: (zoom: number) => void;
   onResetMap: () => void;
+  viewMode: string;
+  showViewModeSelector:boolean;
+  onSetViewMode: (m:string)=>void;
 };
 
 export default function MapControls(props: MapControlProps) {
-  const [floorSelectorOpen, setFloorSelectorOpen] = useState(false);
-  const [timeOfLastToggle, setTimeOfLastToggle] = useState(Date.now());
   const [notification, setNotification] = useState('');
-
-  const COOLDOWN = 600;
-
-  function toggleFloorSelector(){
-    if(Date.now() - timeOfLastToggle > COOLDOWN){
-      setTimeOfLastToggle(Date.now());
-      setFloorSelectorOpen(!floorSelectorOpen);
-    }
-  }
 
   useEffect(() => {
     setNotification("Viewing "+ FLOOR_NAMES[props.floor]);
   }, [props.floor]);
+
 
   return (
     <Box
@@ -46,63 +40,88 @@ export default function MapControls(props: MapControlProps) {
         flexWrap: "nowrap",
       }}
     >
-      <LayoutGroup>
-        <SpeedDial
-          ariaLabel="Map controls"
-          icon={<Typography variant={"subtitle1"}> {FLOOR_IDS[props.floor]}</Typography>}
-          open={true}
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            toggleFloorSelector();
+      <Box
+        sx={{
+          display:'flex',
+          flexDirection:'column-reverse',
+          justifyContent:'flex-start',
+          alignItems:'flex-end',
+          gap:1,
+        }}
+      >
+        <br/>
+        <Fab
+          size={'medium'}
+          sx={{
+            bgcolor:'white',
           }}
-          onMouseEnter={() => {
-            toggleFloorSelector();
-          }}
-          onMouseLeave={() => {
-            setFloorSelectorOpen(false);
-          }}
-        >
-          {FLOOR_IDS.map((floor, index) => {
-            return (
-              <SpeedDialAction
-                key={floor}
-                icon={floor}
-                tooltipTitle={FLOOR_NAMES[index]}
-                onClick={() => {
-                  props.onSetFloorIndex(index);
-                }}
-              />
-            );
-          })}
-        </SpeedDial>
-        <SpeedDial
-          ariaLabel="Map controls"
-          icon={<ZoomInIcon/>}
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
             props.onSetZoom(props.zoom - props.zoomSpeed);
           }}
-        />
-        <SpeedDial
-          ariaLabel="Map controls"
-          icon={<ZoomOutIcon/>}
+        >
+          <ZoomInIcon/>
+        </Fab>
+        <Fab
+          size={'medium'}
+          sx={{
+            bgcolor:'white',
+          }}
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
             props.onSetZoom(props.zoom + props.zoomSpeed);
           }}
-        />
-        <SpeedDial
-          ariaLabel="Map controls"
-          icon={<CenterFocusWeakIcon/>}
+        >
+          <ZoomOutIcon/>
+        </Fab>
+        <Fab
+          size={'medium'}
+          sx={{
+            bgcolor:'white',
+          }}
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
             props.onResetMap();
           }}
-        />
+        >
+          <CenterFocusWeakIcon/>
+        </Fab>
+        <br/>
+        {FLOOR_IDS.map((floor, index) => {
+          return (
+            <Fab
+              size={'medium'}
+              sx={{
+                bgcolor:'white',
+              }}
+              key={floor}
+              onClick={() => {
+                props.onSetFloorIndex(index);
+              }}
+            >
+              {floor}
+            </Fab>
+          );
+        })}
+      </Box>
+      { props.showViewModeSelector && (<ToggleButtonGroup
+          value={props.viewMode}
+          exclusive
+          onChange={(e,n)=>{
+            if(n===null)return;
+            props.onSetViewMode(n);
+          }}
+          sx={{
+            bgcolor:'white'
+          }}
+        >
+          <ToggleButton value="normal"><TimelineIcon /></ToggleButton>
+          <ToggleButton value="edit"><EditIcon /></ToggleButton>
+          <ToggleButton value="heatmap"><LocalFireDepartmentIcon /></ToggleButton>
+        </ToggleButtonGroup>)}
         <Snackbar
           anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
           open={notification !== ''}
@@ -125,7 +144,6 @@ export default function MapControls(props: MapControlProps) {
             </IconButton>
           }
         />
-      </LayoutGroup>
     </Box>
   );
 }
