@@ -32,7 +32,7 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
         {label: TranslateTo("services.Flwr"), path: "/flower-request"},
         {label: TranslateTo("services.Gift"), path: "/gift-request"},
         {label: TranslateTo("services.Religious"), path: "/religious-request"},
-
+        {label: TranslateTo("services.Interpreter"), path: "/interpreter"},
     ];
 
     const normalServices = [
@@ -111,7 +111,7 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                                 <DropDownMenu label={TranslateTo("navB.ServiceReq")} menuData={staffServices}></DropDownMenu>
                             )}
                             {permissionLevel == 0 && (
-                                <DropDownMenu label={"SERVICES"} menuData={normalServices}></DropDownMenu>
+                                <DropDownMenu label={TranslateTo("SERVICES")} menuData={normalServices}></DropDownMenu>
                             )}
                         </>
                     )}

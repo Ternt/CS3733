@@ -5337,6 +5337,7 @@ __metadata:
   resolution: "frontend@workspace:apps/frontend"
   dependencies:
     "@auth0/auth0-react": "npm:^2.2.4"
+    "@coreui/react-chartjs": "npm:^3.0.0"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
     "@material-ui/core": "npm:^4.12.4"

@@ -5,38 +5,41 @@ import MapIcon from "@mui/icons-material/Map";
 import TableViewIcon from "@mui/icons-material/TableView";
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 import MapCanvas from "../../components/Map/MapCanvas.tsx";
-import { useState } from "react";
-import DisplayCSV from "../TableDisplayPage/displayCSV.tsx";
+import React, { useState } from "react";
+import DisplayCSV from "../../components/DataHandling/DisplayCSV.tsx";
 import Graphing from "./Graphing.tsx";
 import ServiceRequestOverview from "./ServiceRequestOverview.tsx";
 import {useAuth0} from "@auth0/auth0-react";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
+import PersonIcon from '@mui/icons-material/Person';
+import UploadGraphData from "../../components/DataHandling/UploadGraphData.tsx";
+import EmployeeTable from "../../components/DataHandling/EmployeeTable.tsx";
+import UploadEmployeeData from "../../components/DataHandling/UploadEmployeeData.tsx";
 
 export default function AdminDashboard() {
   const { isAuthenticated, isLoading } = useAuth0();
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(0);
-  let tabInject = <></>;
 
-  if (selectedTab === 0) {
-    tabInject = (<ServiceRequestOverview/>);
-  } else if (selectedTab === 1) {
-    tabInject = (
-      <MapCanvas
-        defaultFloor={1}
-        pathfinding={null}
-        startLocation={""}
-        endLocation={""}
-      />
-    );
-  } else if (selectedTab === 2) {
-    tabInject = <DisplayCSV />;
-  }
-  else if (selectedTab === 3) {
-      tabInject = <Graphing />;
-  }
-
+  const tabSelector = [
+    <ServiceRequestOverview/>,
+    <MapCanvas
+      defaultFloor={1}
+      pathfinding={null}
+      startLocation={""}
+      endLocation={""}
+    />,
+    <Box>
+      <DisplayCSV />
+      <UploadGraphData />
+    </Box>,
+    <Graphing />,
+    <>
+      <EmployeeTable/>
+      <UploadEmployeeData/>
+    </>
+  ];
 
   if(isLoading){
     return (
@@ -69,7 +72,7 @@ export default function AdminDashboard() {
         >
           <SidebarMenu
             value={0}
-            tabs={["Menu", "Map", "Analytics", "Charts"]}
+            tabs={["Menu", "Map", "Data", "Charts", "Employees"]}
             onSelect={(i) => {
               setSelectedTab(i);
             }}
@@ -77,7 +80,8 @@ export default function AdminDashboard() {
             <ViewKanbanIcon/>
             <MapIcon/>
             <TableViewIcon/>
-              <SignalCellularAltIcon/>
+            <SignalCellularAltIcon/>
+            <PersonIcon/>
           </SidebarMenu>
           <Box
             sx={{
@@ -85,7 +89,7 @@ export default function AdminDashboard() {
               width: "92vw",
             }}
           >
-            {tabInject}
+            {tabSelector[selectedTab]}
           </Box>
         </Box>
       </>
