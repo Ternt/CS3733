@@ -12,6 +12,7 @@ import {
 import {pieArcLabelClasses, PieChart} from '@mui/x-charts/PieChart';
 import * as React from "react";
 import TempInterpreterForm from "./TempForm.tsx";
+import axios, {AxiosResponse} from "axios";
 
 type Interpreter = {
     language: string;
@@ -32,16 +33,21 @@ function LanguageInterpreterRequestForm() {
         document.title = "Language Interpreter Request";
     });
 
+    const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");
+    const [submitDialogFlag, setSubmitDialogFlag] = useState(false);
 
-
-    const iniData = [{language: "Spanish", count: 10}, {language: "Chinese", count: 7}, {language: "French", count: 3}];
+    const iniData = [];
     const [data, setData] = useState(iniData);
-    const iniSortedData = iniData.map((item, index) => ({
-        id: index,
-        value: item.count,
-        label: item.language
-    }));
-    const [sortedData, setSortedData] = useState(iniSortedData);
+
+    useEffect(() => {
+        axios.get('/api/language-interpreter').then((res: AxiosResponse) => {
+            setData(res.data);
+            console.log(res.data);
+        });
+        console.log("initial language data fetched");
+    }, []);
+
+
 
     const [formInput, setFormInput] = useState<TempInterpreterFormProps>({
         name: "",
@@ -63,7 +69,9 @@ function LanguageInterpreterRequestForm() {
     //     setSubmitDialogFlag(!submitDialogFlag);
     // };
 
-
+    const handleDialogClose = () =>{
+        setSubmitDialogFlag(!submitDialogFlag);
+    };
     const handleSubmitForm = () => {
         if (isComplete()) {
 
@@ -76,23 +84,51 @@ function LanguageInterpreterRequestForm() {
 
             // update data
             const newData = data.map((item) => {
-                if (item.language === formInput.language) {
+                if (item.language === formInput.language.toUpperCase()) {
                     return {...item, count: Math.max(0, item.count - 1)}; // Decrease by 1, but not below 0
                 }
                 return item;
             });
 
-            const newSortedData = newData.map((item, index) => ({
-                id: index,
-                value: item.count,
-                label: item.language
-            }));
 
-            setSortedData(newSortedData);
             setData(newData);
             setFormInput({...formInput, interpreterRemain: newData});
             console.log(formInput);
 
+            const languageRequest = {
+                type: "LANGUAGE",
+                priority: formInput.priority.toUpperCase(),
+                status: formInput.status.toUpperCase().replace(" ", "_"),
+                locationID: formInput.location,
+                name: formInput.name,
+                language: formInput.language.toUpperCase(),
+            };
+            console.log(JSON.stringify(languageRequest));
+
+            // Send a POST request to the server
+            fetch("/api/service-requests", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(languageRequest),
+            })
+                .then((response) => {
+                    setSubmitDialogText("Request submitted");
+                    setSubmitDialogFlag(!submitDialogFlag);
+                    console.log("congratulations! u've submitted");
+                    console.log(response);
+                })
+
+                .then((data) => console.log(data))
+                .catch((error) => {
+                    setSubmitDialogText("Request failed to submit. Please try again.");
+                    setSubmitDialogFlag(!submitDialogFlag);
+                    console.error("Error:", error);
+                });
+
+
+            console.log("data:", data);
         } else {
             console.log("No service request submitted.");
         }
@@ -301,6 +337,21 @@ function LanguageInterpreterRequestForm() {
                             </DialogActions>
                         </Dialog>
 
+                        <Dialog
+                            open={submitDialogFlag}>
+                            <DialogTitle></DialogTitle>
+                            <DialogContent>
+                                <Typography>{submitDialogText}</Typography>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button
+                                    onClick={handleDialogClose}
+                                >
+                                    Close
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+
                         {/*<Dialog open={submitDialogFlag}>*/}
                         {/*    <DialogTitle></DialogTitle>*/}
                         {/*    <DialogContent>*/}
@@ -372,7 +423,11 @@ function LanguageInterpreterRequestForm() {
                                     arcLabel: (item) => `${item.value}`,
                                     arcLabelMinAngle: 30,
                                     data: [
-                                        ...sortedData
+                                        ...data.map((item, index) => ({
+                                            id: index,
+                                            value: item.count,
+                                            label: item.language
+                                        }))
                                     ],
                                     highlightScope: {faded: 'global', highlighted: 'item'},
                                     faded: {innerRadius: 30, additionalRadius: -30, color: 'gray'},
