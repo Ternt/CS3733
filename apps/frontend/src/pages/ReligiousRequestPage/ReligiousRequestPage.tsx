@@ -167,7 +167,8 @@ function ReligiousRequestForm() {
                     padding: 3,
                     gap: 2,
                     flexWrap: 'wrap',
-                }}>
+                }}
+              >
                 <Box
                     sx={{
                         backgroundColor: 'whitesmoke',
@@ -411,6 +412,7 @@ function ReligiousRequestForm() {
                             margin={{left: 70, bottom: 50}}
                         />
                     </Box>
+                  <Typography variant={"caption"}>Made by Rayyan</Typography>
                 </Box>
             </Box>
         </LocalizationProvider>
