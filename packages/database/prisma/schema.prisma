@@ -119,7 +119,7 @@ model ServiceRequest {
   medicineDetail    MedicineRequest?
   giftDetail        GiftRequest?
   maintenanceDetail MaintenanceRequest?
-  languageDetain    LanguageRequest?
+  languageDetail    LanguageRequest?
 }
 
 enum MaintenanceType {
