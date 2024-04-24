@@ -32,7 +32,7 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
         {label: TranslateTo("services.Flwr"), path: "/flower-request"},
         {label: TranslateTo("services.Gift"), path: "/gift-request"},
         {label: TranslateTo("services.Religious"), path: "/religious-request"},
-
+        {label: TranslateTo("services.Interpreter"), path: "/interpreter"},
     ];
 
     const normalServices = [

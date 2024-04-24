@@ -123,6 +123,10 @@ function App() {
                 {
                     path: "/credits",
                     element: <CreditsPage/>
+                },
+                {
+                    path: "/interpreter",
+                    element: <LanguageInterpreterRequestForm/>
                 }
             ],
         },
