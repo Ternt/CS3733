@@ -1,11 +1,8 @@
 import express, {Router, Request, Response} from "express";
 import {Twilio} from 'twilio';
-import {AUTH_KEY, ACC_ID, TWILIO_NUMBER} from "./key/private.ts";
-
+import axios from "axios";
 
 const router: Router = express.Router();
-
-const client = new Twilio(ACC_ID, AUTH_KEY);
 
 // Validate E164 format
 function validE164(num: string) {
@@ -16,6 +13,17 @@ router.post("/", async function (req: Request, res: Response) {
     const msg:string = req.body.message;
     const phone:string= (req.body.phone)+"";
 
+    const keys = await axios.get("https://matthagger.me/apps/softeng/smskey.json");
+    if(keys.status !== 200){
+        console.error("Failed to retrieve Keys");
+    }
+
+    const auth = keys.data.AUTH_KEY;
+    const id = keys.data.ACC_ID;
+    const twilioNumber = keys.data.TWILIO_NUMBER;
+
+    const client = new Twilio(id, auth);
+
     // start sending message
     if (!validE164(phone)) {
         throw new Error('number must be E164 format!');
@@ -23,7 +31,7 @@ router.post("/", async function (req: Request, res: Response) {
 
     client.messages
         .create({
-            from: TWILIO_NUMBER,
+            from: twilioNumber,
             to: phone,
             body: msg,
         })
