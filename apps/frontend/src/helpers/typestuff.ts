@@ -80,6 +80,23 @@ export type SanitationRequest = {
     date: string;
 }
 
+
+export type ReligiousRequest = {
+   requestID: number;
+   requestorName: string;
+   religiousLeaderName: string;
+   serviceType: string;
+   date: string;
+   time: string;
+   endLocation?: string;
+}
+
+export type LanguageRequest = {
+    requestID: number;
+    name: string;
+    language: string;
+}
+
 export type MaintenanceRequest = {
     requestID: number;
     maintenanceType: string;
@@ -93,9 +110,11 @@ export type ServiceRequest = {
     type: string,
     location: Node,
     assignedEmployee?: AssignedEmployee,
-    giftDetail?: GiftRequest,
-    maintenanceDetail?: MaintenanceRequest,
     sanitationDetail?: SanitationRequest,
     medicineDetail?: MedicineRequest,
+    giftDetail?: GiftRequest,
+    religiousDetail?: ReligiousRequest,
+    languageDetail?: LanguageRequest,
+    maintenanceDetail?: MaintenanceRequest,
     notes?: string,
 }
