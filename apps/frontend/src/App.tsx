@@ -17,6 +17,7 @@ import {useNavigate} from 'react-router-dom';
 import Box from "@mui/material/Box";
 import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
+import AboutPage from "./pages/AboutPage/AboutPage.tsx";
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
 import SearchPage from "./pages/SearchPage/SearchPage.tsx";
 import ErrorPage from "./pages/404Page/ErrorPage.tsx";
@@ -103,6 +104,10 @@ function App() {
                 {
                     path: "/howTo",
                     element: <HowToPage/>
+                },
+                {
+                    path: "/about-page",
+                    element: <AboutPage />
                 }
             ],
         },
