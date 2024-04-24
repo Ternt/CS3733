@@ -20,6 +20,7 @@
     "services.Sanitation": "Sanitation",
     "services.Medicine": "Medicine Delivery",
     "services.Religious": "Religious",
+    "services.Interpreter": "Interpreter",
     "services.Flwr": "Flowers",
     "services.Gift": "Gifts",
     "ourS.aboutUsDesc": "• Learn more about the team who created this web app",
