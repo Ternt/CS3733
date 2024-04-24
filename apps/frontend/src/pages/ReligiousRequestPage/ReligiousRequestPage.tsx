@@ -11,9 +11,9 @@ import {
     Button,
     Box,
     Typography,
-    InputAdornment, IconButton,
+    // InputAdornment, IconButton,
 } from "@mui/material";
-import EventIcon from '@mui/icons-material/Event';
+// import EventIcon from '@mui/icons-material/Event';
 import LocationDropdown from "../../components/LocationDropdown.tsx";
 
 
@@ -83,7 +83,7 @@ function ReligiousRequestForm() {
         document.title = "Religious Service Request";
     });
 
-    const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(false);
+    // const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(false);
     //const [timeMenuFlag, setTimeMenuFlag] = useState<boolean>(false);
     const d = new Date();
     console.log();
@@ -250,17 +250,7 @@ function ReligiousRequestForm() {
                             InputLabelProps={{ shrink: true }}
                             value={formInput.date}
                             onChange={(e) => {handleChange('date', e.target.value);}}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            onClick={() => setCalendarMenuFlag(!calendarMenuFlag)}
-                                        >
-                                            <EventIcon />
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
+
                         />
                         <TextField
                             required

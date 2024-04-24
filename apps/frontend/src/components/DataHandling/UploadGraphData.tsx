@@ -20,6 +20,7 @@ export default function UploadGraphData(){
     const formData = new FormData();
     formData.append('nodes', nodeFile);
     formData.append('edges', edgeFile);
+    console.log(formData);
     await axios.post("/api/map/upload?header=true", formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

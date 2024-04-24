@@ -32,7 +32,7 @@
     "ourS.creditsDesc": "• Agradecimientos a las personas que hicieron posible este proyecto",
     "additionalInfo": "Información Adicional",
     "SERVICES": "SERVICIOS",
-    "Logout": "Finalicé",
+    "Logout": "Finalice",
     "Login": "Acceda",
     "Searchbar": "Busque...",
     "Disclaimer": "Aviso: Esta página web es un proyecto de Ingeniería de Software de WPI CS 3733 (Prof. Wong) y no debe confundirse con la página web real del Brigham & Women's Hospital. (Haz clic en cualquier lugar de esta caja para cerrar)",
@@ -47,5 +47,6 @@
   "status.as": "ASIGNADO",
   "status.in": "EN_PROGRESO",
   "status.cl": "CERRADO",
-  "langR.AvailHeader": "INTERPRETES DISPONIBLES"
+  "langR.AvailHeader": "INTERPRETES DISPONIBLES",
+  "services.Interpreter": "Intérprete"
 }

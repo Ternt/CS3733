@@ -15,6 +15,7 @@ export default function UploadGraphData(){
     if (!employeeFile) return;
     const formData = new FormData();
     formData.append('employees', employeeFile);
+
     await axios.post("/api/employees/upload", formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

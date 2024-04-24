@@ -100,8 +100,6 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
         updateAssignmentStatus(event.target.value);
     };
 
-    console.log(prop.serviceRequestData);
-
     return(
         <Box
             sx={{

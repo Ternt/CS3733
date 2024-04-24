@@ -128,6 +128,7 @@ export default function Chatbot(props:ChatbotProps) {
           transition:'all .3s ease-in-out',
           opacity: (props.open ? '1' : '0'),
           pointerEvents: (props.open ? 'all' : 'none'),
+            bgcolor: '#FFFFFF'
         }}>
             <Box sx={{
                 height: '12%',
