@@ -55,7 +55,7 @@ export default function OurServices() {
                                 descriptiveText={TranslateTo("ourS.FaulkDesc")}
                                 onClick={() => handleExternalLink('https://www.brighamandwomens.org/about-bwh/locations/faulkner-hospital-jamaica-plain')}/>
 
-                    <ServiceBox path={"/about-page"}
+                    <ServiceBox path={"/about"}
                                 icon={<GroupIcon/>}
                                 header={TranslateTo("ourS.aboutUs")}
                                 descriptiveText={TranslateTo("ourS.aboutUsDesc")}/>
@@ -70,7 +70,7 @@ export default function OurServices() {
                                 header={TranslateTo("ourS.FAQ")}
                                 descriptiveText={TranslateTo("ourS.FAQDesc")}/>
 
-                    <ServiceBox path={"/"}
+                    <ServiceBox path={"/credits"}
                                 icon={<HandshakeIcon/>}
                                 header={TranslateTo("ourS.Credits")}
                                 descriptiveText={TranslateTo("ourS.creditsDesc")}/>

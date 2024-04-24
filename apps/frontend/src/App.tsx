@@ -22,6 +22,7 @@ import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage
 import SearchPage from "./pages/SearchPage/SearchPage.tsx";
 import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 import HowToPage from "./pages/howToPage/howToPage.tsx";
+import CreditsPage from "./pages/CreditsPage/CreditsPage.tsx";
 
 
 export const LanguageContext = createContext("en");
@@ -106,8 +107,12 @@ function App() {
                     element: <HowToPage/>
                 },
                 {
-                    path: "/about-page",
+                    path: "/about",
                     element: <AboutPage />
+                },
+                {
+                    path: "/credits",
+                    element: <CreditsPage />
                 }
             ],
         },
