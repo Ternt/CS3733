@@ -108,7 +108,6 @@ function ReligiousRequestForm() {
         if (isComplete()) {
             console.log("Submitting Religious Service Request");
             const serviceRequest = {
-                ...formInput,
                 type: "RELIGIOUS",
                 notes: "None",
                 priority: "LOW",
@@ -141,6 +140,7 @@ function ReligiousRequestForm() {
         } else {
             console.log("Incomplete form submission attempt.");
         }
+        clearForm();
     }
 
     function clearForm() {
