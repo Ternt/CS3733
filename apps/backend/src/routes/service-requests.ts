@@ -18,6 +18,17 @@ router.post("/", async function (req: Request, res: Response) {
         // Attempt to create in the database
         await PrismaClient.serviceRequest.create({data: serviceRequest});
         console.info("Successfully saved service request attempt"); // Log that it was successful
+
+        if (serviceRequest.type === "LANGUAGE") {
+            const language = serviceRequest.languageDetail?.create?.language;
+            await PrismaClient.languageInterpreterCount.update({
+                where: {
+                    language: language
+                },
+                data: {
+                    count: {decrement: 1}}
+            });
+        }
         res.sendStatus(200);
     } catch (error) {
         // Log any failures
@@ -79,6 +90,8 @@ router.get("/", async function (req: Request, res: Response) {
                     },
                 },
                 maintenanceDetail: true,
+                religiousDetail: true,
+                languageDetail: true,
             },
             where: {
                 ...(req.query.type !== undefined

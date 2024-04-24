@@ -50,7 +50,7 @@ const pages: PageCardInfo[] = [
             "forget-me-not",
             "forget me not",
             "carnation",
-            "orcid",
+            "orchid",
             // add flowers offered in page
         ]
     },

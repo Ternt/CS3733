@@ -79,7 +79,7 @@ export const cartItems = [
         type: "GIFT",
         imageURL: "https://kriegersmarket.com/wp-content/uploads/2017/01/small-gift-basket.jpg",
         name: "Gift Basket",
-        description: "Get a gift baskets filled with treats",
+        description: "Get a gift basket filled with treats",
         price: 12
     },
     {
@@ -95,8 +95,8 @@ export const cartItems = [
         id: -12,
         type: "FLOWER",
         imageURL: "https://m.media-amazon.com/images/I/71kjeOuSuHL._AC_UF894,1000_QL80_.jpg",
-        name: "Orcid",
-        description: "Orcid",
+        name: "Orchid",
+        description: "Orchid",
         price: 17
     },
 ];

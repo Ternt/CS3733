@@ -15,8 +15,8 @@ export default function InformationField(prop: InformationFieldProp){
                 <></>
                 :
                 <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                    <Typography sx={{width: '50%'}}>{prop.label}: </Typography>
-                    <Typography>{prop.data}</Typography>
+                    <Typography noWrap={false} sx={{width: '50%'}}>{prop.label}: </Typography>
+                    <Typography noWrap={false}>{prop.data}</Typography>
                 </Box>
             }
         </Box>

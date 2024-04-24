@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
 import LoginButton from "./components/LoginButton/LoginButton.tsx";
-import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
+import MapDataDisplay from "./components/DataHandling/DisplayCSV.tsx";
 import NavBar from "./components/Navbar/Navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
 import StoreRequestPage from "./pages/StoreRequestPage/StoreRequestPage.tsx";
@@ -19,9 +19,12 @@ import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
 import AboutPage from "./pages/AboutPage/AboutPage.tsx";
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
+import LanguageInterpreterRequestForm from "./pages/LanguageInterpreterRequest/LanguageInterpreterRequest.tsx";
 import SearchPage from "./pages/SearchPage/SearchPage.tsx";
 import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 import HowToPage from "./pages/howToPage/howToPage.tsx";
+import CreditsPage from "./pages/CreditsPage/CreditsPage.tsx";
+import ReligiousRequestForm from "./pages/ReligiousRequestPage/ReligiousRequestPage.tsx";
 
 
 export const LanguageContext = createContext("en");
@@ -48,6 +51,10 @@ function App() {
                 {
                     path: "/medicine-request",
                     element: <MedicineDeliveryForm/>,
+                },
+                {
+                    path: "/religious-request",
+                    element: <ReligiousRequestForm/>,
                 },
                 {
                     path: "/sanitation",
@@ -98,6 +105,10 @@ function App() {
                     element: <PhoneDirectionsPage/>
                 },
                 {
+                    path: "/language-request",
+                    element: <LanguageInterpreterRequestForm/>,
+                },
+                {
                     path: "/search",
                     element: <SearchPage/>
                 },
@@ -108,6 +119,14 @@ function App() {
                 {
                     path: "/about",
                     element: <AboutPage />
+                },
+                {
+                    path: "/credits",
+                    element: <CreditsPage/>
+                },
+                {
+                    path: "/interpreter",
+                    element: <LanguageInterpreterRequestForm/>
                 }
             ],
         },
@@ -161,5 +180,6 @@ function App() {
         );
     }
 }
+
 
 export default App;

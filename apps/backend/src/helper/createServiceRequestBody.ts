@@ -14,6 +14,8 @@ export default function createServiceRequestBody(body): any | undefined {
     delete body.medicineDetail;
     delete body.maintenanceDetail;
     delete body.giftDetail;
+    delete body.religiousDetail;
+    delete body.languageDetail;
 
     // check for data corresponding to each service request type
     switch (body.type) {
@@ -120,6 +122,16 @@ export default function createServiceRequestBody(body): any | undefined {
             delete body.date;
             delete body.time;
             delete body.endLocation;
+            break;
+        case "LANGUAGE":
+            body.languageDetail = {
+                create: {
+                    name: body.name,
+                    language: body.language,
+                },
+            };
+            delete body.name;
+            delete body.language;
             break;
     }
 

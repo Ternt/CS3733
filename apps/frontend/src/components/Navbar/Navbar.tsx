@@ -27,16 +27,18 @@ export type ResponsiveAppBarProps = {
 export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
 
     const staffServices = [
-        {label:  TranslateTo("services.Sanitation"), path: "/sanitation"},
+        {label: TranslateTo("services.Sanitation"), path: "/sanitation"},
         {label: TranslateTo("services.Medicine"), path: "/medicine-request"},
         {label: TranslateTo("services.Flwr"), path: "/flower-request"},
         {label: TranslateTo("services.Gift"), path: "/gift-request"},
-
+        {label: TranslateTo("services.Religious"), path: "/religious-request"},
+        {label: TranslateTo("services.Interpreter"), path: "/interpreter"},
     ];
 
     const normalServices = [
         {label: TranslateTo("services.Flwr"), path: "/flower-request"},
         {label: TranslateTo("services.Gift"), path: "/gift-request"},
+        {label: TranslateTo("services.Religious"), path: "/religious-request"},
     ];
 
     const navigate = useNavigate();
@@ -109,7 +111,7 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                                 <DropDownMenu label={TranslateTo("navB.ServiceReq")} menuData={staffServices}></DropDownMenu>
                             )}
                             {permissionLevel == 0 && (
-                                <DropDownMenu label={"SERVICES"} menuData={normalServices}></DropDownMenu>
+                                <DropDownMenu label={TranslateTo("SERVICES")} menuData={normalServices}></DropDownMenu>
                             )}
                         </>
                     )}

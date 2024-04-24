@@ -1,6 +1,7 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import {Box, Button, Typography} from "@mui/material";
-import logo from "../../assets/baby.jpg";
+import heroImage from "../../assets/baby.jpg";
+import heroImage2 from "../../assets/baby2.jpg";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import OurServices from "./OurServices.tsx";
 import {useNavigate} from "react-router-dom";
@@ -8,6 +9,7 @@ import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 export default function HeroPage() {
     const heroPage2Ref = useRef<HTMLDivElement | null>(null);
+    const [wong, setWong] = useState(false);
 
     const handleLearnMoreClick = () => {
         if (heroPage2Ref.current) {
@@ -20,32 +22,49 @@ export default function HeroPage() {
         navigate(path);
     };
 
+    function hideDisclaimerBox() {
+      setBoxDisplay(false);
+    }
+
+    const [boxDisplay, setBoxDisplay] = useState(true);
+
 
     return (
-        <>
-            <Box
+        <Box>
+          {boxDisplay && <Box
                 sx = {{
-                    width: '100%',
-                    px: '1rem',
+                    position: "absolute",
+                    translate: "15vw 1vh",
+                    width: '70%',
+                    p: '1rem',
+                    zIndex: 2,
+                    border: "3px solid #cc0000",
+                    backgroundColor: "red",
+                    opacity: 0.5,
+                    borderRadius: "10px",
+                    "&:hover": {opacity: 1},
                 }}
+                onClick={hideDisclaimerBox}
             >
                 <Typography
                     variant = "caption"
                     sx = {{
                         display: 'inline-block',
-                        color: 'rgba(0, 0, 0, 0.6)',
-                        fontSize: '0.75rem',
+                        fontSize: '1rem',
                         lineHeight: '1.4',
+                        color: "white",
                     }}
                 >
-                    Disclaimer: This website is a term project exercise for WPI CS 3733 Software Engineering (Prof. Wong) and is not to be confused with the actual Brigham & Women’s Hospital website.
+                    {TranslateTo("Disclaimer")}
                 </Typography>
 
-            </Box>
+            </Box>}
             <Box
                 component="img"
                 className={"logo"}
-                src={logo}
+                src={
+                  wong ? heroImage2 : heroImage
+                }
                 alt={"logo"}
                 sx={{
                     width: "100vw",
@@ -131,6 +150,24 @@ export default function HeroPage() {
             <Box ref={heroPage2Ref}>
                 <OurServices/>
             </Box>
-        </>
+            <Box
+              sx={{
+                position:'absolute',
+                width:'300px',
+                height:'300px',
+                top:'50%',
+                left:'50%',
+                transform:'translate(0%,-50%)'
+              }}
+              onMouseOver={()=>{
+                setWong(true);
+              }}
+              onMouseLeave={()=>{
+                setWong(false);
+              }}
+            >
+
+            </Box>
+        </Box>
     );
 }

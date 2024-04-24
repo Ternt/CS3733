@@ -33,7 +33,7 @@ export default function TranslateTo(key: string){
                 return json[k];
             }
         }
-        return Error("Error: No translation Found");
+        return key;
     }
 
     return getKey(langDictionary, key);

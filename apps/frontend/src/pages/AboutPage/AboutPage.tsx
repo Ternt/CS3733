@@ -2,28 +2,32 @@ import React, {useEffect, useRef} from 'react';
 import {Box, Typography} from "@mui/material";
 import CarouselComponent from "../../components/Carousel/AboutCarousel.tsx";
 import {motion, useAnimation} from "framer-motion";
+import brett from '../../assets/TeamPictures/Brett.jpg';
+import warwick from '../../assets/TeamPictures/Warwick.jpg';
+import alex from '../../assets/TeamPictures/Alex.jpg';
+import anton from '../../assets/TeamPictures/Anton.jpg';
+import matt from '../../assets/TeamPictures/Matt.jpg';
+import mauri from '../../assets/TeamPictures/Mauri.jpg';
+import nick from '../../assets/TeamPictures/Nick.jpg';
+import rayyan from '../../assets/TeamPictures/Rayyan.png';
+import thinh from '../../assets/TeamPictures/Thinh.jpg';
+import yuhan from '../../assets/TeamPictures/Yuhan.png';
+import zach from '../../assets/TeamPictures/Zach.jpg';
+
 
 function AboutPage() {
     const slidesData = [
-        {text1: 'Brett Gerlach', text2: 'Front End Engineer', image: './src/assets/PicturesOfTeam/brett_gerlach.jpg'},
-        {text1: 'Warwick Barker', text2: 'Scrum Master', image: './src/assets/PicturesOfTeam/warwick_barker.jpg'},
-        {text1: 'Alex Siracusa', text2: 'Assist Lead', image: './src/assets/PicturesOfTeam/alex_siracusa.jpg'},
-        {text1: 'Anton Sibal', text2: 'Back End Engineer', image: './src/assets/PicturesOfTeam/anton_sibal.jpg'},
-        {text1: 'Matt Hagger', text2: 'Lead Software Engineer', image: './src/assets/PicturesOfTeam/matt_hagger.jpg'},
-        {text1: 'Mauricio Mergal', text2: 'Assist Lead', image: './src/assets/PicturesOfTeam/mauricio_mergal.jpg'},
-        {text1: 'Nick Rogerson', text2: 'Document Analyst', image: './src/assets/PicturesOfTeam/nick_rogerson.jpg'},
-        {text1: 'Rayyan Syed', text2: 'Project Manager', image: './src/assets/PicturesOfTeam/rayyan_syed.png'},
-        {
-            text1: 'Thinh Pham',
-            text2: 'Full-Time Software Engineer',
-            image: './src/assets/PicturesOfTeam/thinh_pham.jpg'
-        },
-        {text1: 'Yuhan Wu', text2: 'Product Owner', image: './src/assets/PicturesOfTeam/yuhan_wu.png'},
-        {
-            text1: 'Zachary Szeto',
-            text2: 'Backend Software Engineer',
-            image: './src/assets/PicturesOfTeam/zachary_szeto.jpg'
-        },
+        {text1: 'Brett Gerlach', text2: 'Front End Engineer', image: brett},
+        {text1: 'Warwick Barker', text2: 'Scrum Master', image: warwick},
+        {text1: 'Alex Siracusa', text2: 'Assist Lead', image: alex},
+        {text1: 'Anton Sibal', text2: 'Back End Engineer', image: anton},
+        {text1: 'Matt Hagger', text2: 'Lead Software Engineer', image: matt},
+        {text1: 'Mauricio Mergal', text2: 'Assist Lead', image: mauri},
+        {text1: 'Nick Rogerson', text2: 'Document Analyst', image: nick},
+        {text1: 'Rayyan Syed', text2: 'Project Manager', image: rayyan},
+        {text1: 'Thinh Pham', text2: 'Full-Time Software Engineer', image: thinh},
+        {text1: 'Yuhan Wu', text2: 'Product Owner', image: yuhan},
+        {text1: 'Zachary Szeto', text2: 'Backend Software Engineer', image: zach},
     ];
 
     const controls = useAnimation();
@@ -189,7 +193,7 @@ function AboutPage() {
                             borderBottom: '1px dotted white',
                             margin: '0 16px'
                         }}/>
-                        <Typography color={"white"} variant="h5">Ariel Schechter</Typography>
+                        <Typography color={"white"} variant="h5">Ari Schechter</Typography>
                     </Box>
                     <Typography
                         pb={2}

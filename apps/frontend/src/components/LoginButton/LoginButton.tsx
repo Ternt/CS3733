@@ -4,6 +4,7 @@ import {
     Typography,
 } from "@mui/material";
 import {useAuth0} from "@auth0/auth0-react";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 export default function LoginButton() {
     const {loginWithRedirect, logout, user, error, isAuthenticated,} = useAuth0();
@@ -52,7 +53,7 @@ export default function LoginButton() {
                             },
                         }}
                     >
-                        Login
+                        {TranslateTo("Login")}
                     </Button>
                 )}
                 {isAuthenticated && (
@@ -69,7 +70,7 @@ export default function LoginButton() {
                             },
                         }}
                     >
-                        Logout
+                        {TranslateTo("Logout")}
                     </Button>
                 )}
                 <Typography

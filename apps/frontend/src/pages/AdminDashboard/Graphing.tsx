@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CChartPie, CChartBar } from '@coreui/react-chartjs';
+import { CChartPie, CChartBar } from "@coreui/react-chartjs";
 import axios from 'axios';
 import Box from "@mui/material/Box";
 import {CircularProgress, Typography} from "@mui/material";
