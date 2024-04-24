@@ -109,8 +109,18 @@ function ReligiousRequestForm() {
             console.log("Submitting Religious Service Request");
             const serviceRequest = {
                 ...formInput,
-                type: "RELIGIOUS_SERVICE",
+                type: "RELIGIOUS",
                 notes: "None",
+                priority: "LOW",
+                status: "UNASSIGNED",
+                locationID: formInput.hospitalRoom,
+                religiousLeaderName: formInput.religiousLeaderName,
+                requestorName: "any",
+                serviceType: formInput.serviceType,
+                date: formInput.date,
+                time: formInput.time,
+                endLocation: formInput.endLocation,
+
             };
             console.log(JSON.stringify(serviceRequest));
 
