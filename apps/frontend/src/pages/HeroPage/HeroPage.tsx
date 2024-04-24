@@ -1,6 +1,7 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import {Box, Button, Typography} from "@mui/material";
-import logo from "../../assets/baby.jpg";
+import heroImage from "../../assets/baby.jpg";
+import heroImage2 from "../../assets/baby2.jpg";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import OurServices from "./OurServices.tsx";
 import {useNavigate} from "react-router-dom";
@@ -8,6 +9,7 @@ import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 export default function HeroPage() {
     const heroPage2Ref = useRef<HTMLDivElement | null>(null);
+    const [wong, setWong] = useState(false);
 
     const handleLearnMoreClick = () => {
         if (heroPage2Ref.current) {
@@ -45,7 +47,9 @@ export default function HeroPage() {
             <Box
                 component="img"
                 className={"logo"}
-                src={logo}
+                src={
+                  wong ? heroImage2 : heroImage
+                }
                 alt={"logo"}
                 sx={{
                     width: "100vw",
@@ -130,6 +134,24 @@ export default function HeroPage() {
             </Box>
             <Box ref={heroPage2Ref}>
                 <OurServices/>
+            </Box>
+            <Box
+              sx={{
+                position:'absolute',
+                width:'300px',
+                height:'300px',
+                top:'50%',
+                left:'50%',
+                transform:'translate(0%,-50%)'
+              }}
+              onMouseOver={()=>{
+                setWong(true);
+              }}
+              onMouseLeave={()=>{
+                setWong(false);
+              }}
+            >
+
             </Box>
         </>
     );
