@@ -1,6 +1,6 @@
 import React, {useRef} from "react";
 import {Box, Button, Typography} from "@mui/material";
-import logo from "../../assets/baby.jpg";
+import logo from "../../assets/baby.png";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import OurServices from "./OurServices.tsx";
 import {useNavigate} from "react-router-dom";
