@@ -2,9 +2,11 @@ import {Box, CircularProgress, Typography} from "@mui/material";
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
 import ViewKanbanIcon from '@mui/icons-material/ViewKanban';import MapIcon from "@mui/icons-material/Map";
 import TableViewIcon from "@mui/icons-material/TableView";
+import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 import MapCanvas from "../../components/Map/MapCanvas.tsx";
 import { useState } from "react";
 import DisplayCSV from "../TableDisplayPage/displayCSV.tsx";
+import Graphing from "./Graphing.tsx";
 import ServiceRequestOverview from "./ServiceRequestOverview.tsx";
 import {useAuth0} from "@auth0/auth0-react";
 import Button from "@mui/material/Button";
@@ -29,6 +31,9 @@ export default function AdminDashboard() {
     );
   } else if (selectedTab === 2) {
     tabInject = <DisplayCSV />;
+  }
+  else if (selectedTab === 3) {
+      tabInject = <Graphing />;
   }
 
 
@@ -63,7 +68,7 @@ export default function AdminDashboard() {
         >
           <SidebarMenu
             value={0}
-            tabs={["Menu", "Map", "Analytics"]}
+            tabs={["Menu", "Map", "Analytics", "Charts"]}
             onSelect={(i) => {
               setSelectedTab(i);
             }}
@@ -71,6 +76,7 @@ export default function AdminDashboard() {
             <ViewKanbanIcon/>
             <MapIcon/>
             <TableViewIcon/>
+              <SignalCellularAltIcon/>
           </SidebarMenu>
           <Box
             sx={{
