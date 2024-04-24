@@ -41,9 +41,9 @@ model NodeDB {
   ycoord    Int
   floor     String
   building  String
+  nodeType  NodeType
   longName  String
   shortName String
-  nodeType  NodeType
 
   startEdges EdgeDB[]         @relation(name: "start")
   endEdges   EdgeDB[]         @relation(name: "end")

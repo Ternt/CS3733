@@ -63,7 +63,10 @@ function ServiceBox(props: ServiceBoxProps) {
                         }}
                     />
                     <CardContent>
-                        {React.cloneElement(props.icon, {style: {fontSize: '50px'}})}
+                        {
+                          //@ts-expect-error props icon is real
+                          React.cloneElement(props.icon, {style: {fontSize: '50px'}})
+                        }
                         <Typography component="h2" sx={{
                             mt: '3%',
                             fontSize: '18px',

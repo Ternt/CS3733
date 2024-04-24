@@ -1,32 +1,31 @@
+import * as React from "react";
 import {useEffect, useState} from "react";
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Box, Dialog, DialogActions, DialogContent,
-    DialogTitle,
-    Grid, IconButton, Snackbar,
-    TextField,
-    Typography
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+  Snackbar,
+  TextField,
+  Typography
 } from "@mui/material";
 import {speak} from "../components/TextToSpeech/TextToSpeech.tsx";
 import LocationDropdown from "../components/LocationDropdown.tsx";
 import MapCanvas from "../components/Map/MapCanvas.tsx";
 import NaturalLanguageDirection, {
-    directionTypes
+  directionTypes
 } from "../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
 import MenuItem from "@mui/material/MenuItem";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {FLOOR_NAMES} from "../helpers/MapHelper.ts";
-
-import TurnLeftIcon from '@mui/icons-material/TurnLeft';
-import TurnRightIcon from '@mui/icons-material/TurnRight';
-import StraightIcon from '@mui/icons-material/Straight';
 import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-import ElevatorOutlinedIcon from '@mui/icons-material/ElevatorOutlined';
-import StairsOutlinedIcon from '@mui/icons-material/StairsOutlined';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -34,32 +33,9 @@ import MessageIcon from '@mui/icons-material/Message';
 import {node} from "../helpers/typestuff.ts";
 import Button from "@mui/material/Button";
 import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
-import * as React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import PauseIcon from '@mui/icons-material/Pause';
-
-export function getIconFromDirectionType(t: directionTypes) {
-    switch (t) {
-        case directionTypes.STRAIGHT:
-            return <StraightIcon/>;
-        case directionTypes.LEFT:
-            return <TurnLeftIcon/>;
-        case directionTypes.RIGHT:
-            return <TurnRightIcon/>;
-        case directionTypes.START:
-            return <MyLocationIcon/>;
-        case directionTypes.END:
-            return <PinDropOutlinedIcon/>;
-        case directionTypes.HELP:
-            return <HelpOutlineOutlinedIcon/>;
-        case directionTypes.ELEVATOR:
-            return <ElevatorOutlinedIcon/>;
-        case directionTypes.STAIRS:
-            return <StairsOutlinedIcon/>;
-    }
-}
-
-
+import {getIconFromDirectionType} from "./GetIconFromDirectionType.tsx";
 
 export default function MapPage() {
     async function handleSMSSend(phone: string, msg: string) {
@@ -202,10 +178,8 @@ export default function MapPage() {
                     </Box>
                     <Button
                         onClick={() => {
-                            const s = startLocation;
-                            const e = endLocation;
-                            setStartLocation(e);
-                            setEndLocation(s);
+                            setStartLocation(endLocation);
+                            setEndLocation(startLocation);
                         }}
                         sx={{
                             borderRadius: '100px',
@@ -332,7 +306,6 @@ export default function MapPage() {
                             );
                         })}
                     </Box>
-
                     <Box sx={{
                         display: 'flex',
                         justifyContent: 'center',

@@ -54,13 +54,19 @@ export async function createDatabase(
         return PrismaClient.edgeDB.create({data: row});
     });
 
-    // add nodes and edges to database
-    await PrismaClient.$transaction([
-        PrismaClient.$executeRaw`DELETE FROM "EdgeDB";`,
-        PrismaClient.$executeRaw`DELETE FROM "NodeDB";`,
-        ...insertNodeQueries,
-        ...insertEdgeQueries,
-    ]);
+    try {
+        // add nodes and edges to database
+        await PrismaClient.$transaction([
+            PrismaClient.$executeRaw`DELETE FROM "EdgeDB";`,
+            PrismaClient.$executeRaw`DELETE FROM "NodeDB";`,
+            ...insertNodeQueries,
+            ...insertEdgeQueries,
+        ]);
+    }
+    catch (e) {
+        console.error(e);
+        throw (e);
+    }
 
     // add cart items
     if (initial) {
