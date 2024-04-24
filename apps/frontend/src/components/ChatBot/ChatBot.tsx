@@ -4,6 +4,8 @@ import Button from "@mui/material/Button";
 import {Box, TextField, Typography} from "@mui/material";
 import NaturalLanguageDirection from "../NaturalLanguageDirection/naturalLanguageDirection.tsx";
 import axios from "axios";
+import SmartToyIcon from '@mui/icons-material/SmartToy';
+import PersonIcon from '@mui/icons-material/Person';
 
 const openai = new OpenAI({apiKey:'', dangerouslyAllowBrowser: true});
 const seed: string = "You are an AI Chatbot for my mock brigham and women's hospital";
@@ -136,15 +138,25 @@ export default function Chatbot(props:ChatbotProps) {
                 px:3,
 
             }}>
-              <Typography variant={"h6"} sx={{color:'white', lineHeight:2.3}}>
+              <Typography variant={"h6"} sx={{
+                  color:'white',
+                  lineHeight: 2.3,
+                  gap: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+              }}>
                   CHATBOT
               </Typography>
-              <Button
+
+                <Button
                 onClick={props.onClose}
                 sx={{
-                  color:'white'
+                  color:'white',
+                    ml: '17vw'
                 }}
-              >X</Button>
+              >
+                    X
+                </Button>
             </Box>
             <Box sx={{
                 backgroundColor: 'white',
@@ -181,7 +193,27 @@ export default function Chatbot(props:ChatbotProps) {
                                 <Typography sx={{
                                     color: message.role === "user" ? 'white' : 'black',
                                 }}>
-                                    {message.role === "user" ? "You: " : "ChatBot: "}
+                                    {message.role === "user" ? (
+                                        <Typography variant={"h6"} sx={{
+                                            gap: 1,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                        }}>
+                                            <PersonIcon/>
+                                            You
+                                        </Typography>
+                                    ) : (
+                                        <>
+                                            <Typography variant={"h6"} sx={{
+                                                gap: 1,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                            }}>
+                                                <SmartToyIcon/>
+                                                ChatBot
+                                            </Typography>
+                                        </>
+                                    )}
                                     {message.content}
                                 </Typography>
                             </Box>
@@ -214,6 +246,8 @@ export default function Chatbot(props:ChatbotProps) {
                         sx={{
                             backgroundColor: '#012d5a',
                             borderRadius: '2rem',
+                            ml: '5%',
+                            mt: '2%',
                             "&:hover": {
                                 background: "#1a426a",
                                 color: "white"
