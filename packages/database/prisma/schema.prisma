@@ -233,3 +233,8 @@ model LanguageRequest {
   name            String
   language        LanguageType
 }
+
+model LanguageInterpreterCount {
+  language        LanguageType    @unique
+  count           Int
+}
