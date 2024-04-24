@@ -1,6 +1,8 @@
 import express, { Router, Request, Response } from "express";
 import { Prisma } from "database";
 import PrismaClient from "../bin/database-connection.ts";
+import {createDatabase} from "../helper/createDatabase.ts";
+import {employees} from "../helper/initialData/employees.ts";
 
 const router: Router = express.Router();
 
@@ -115,6 +117,66 @@ router.get("/", async function (req: Request, res: Response) {
         res.sendStatus(400);
         return;
     }
+});
+
+//update or create new employees
+router.post("/upload", async function (req: Request, res: Response) {
+    if (!req.files) {
+        res.status(400).send("No files were uploaded.");
+        return;
+    }
+
+    // Get file data
+    const files = req.files;
+    if (!("data" in files.employee)) {
+        res.sendStatus(509);
+        return;
+    }
+    const employee_str: string = files.employee.data.toString();
+
+    // Check if headers are included in the file
+    let header: boolean = true;
+    if (req.query.header !== undefined) {
+        if (req.query.header!.toString() === "true") {
+            header = true;
+        } else if (req.query.header!.toString() === "false") {
+            header = false;
+        } else {
+            console.log("header must be 'true' or 'false'");
+            res.status(406);
+            return;
+        }
+    }
+
+
+    try {
+        //console.log(employee_str);
+
+        const employee_lines = employee_str.split("\n");
+        const employee_s = [];
+        console.log(employee_lines);
+
+        employee_lines.forEach((line) => {
+            const data = line.split(",");
+            employee_s.push({
+                id: parseInt(data[0]),
+                firstName: data[1],
+                lastName: data[2],
+            })
+        });
+        console.log(employee_s);
+
+        await PrismaClient.$transaction([
+            PrismaClient.employee.deleteMany(),
+            PrismaClient.employee.createMany({data: employee_s})
+        ]);
+    } catch (error) {
+        console.log("node file upload failed");
+        res.sendStatus(406);
+        return;
+    }
+
+    res.sendStatus(200);
 });
 
 export default router;

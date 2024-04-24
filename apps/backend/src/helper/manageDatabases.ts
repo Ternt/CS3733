@@ -68,6 +68,38 @@ export async function exportEdgeDBToCSV(
     }
 }
 
+export async function exportEmployeeToCSV(
+    filename: string,
+) {
+    try {
+        const data = await PrismaClient.employee.findMany();
+
+        if (data.length === 0) {
+            console.error("No data found to export.");
+            return;
+        }
+
+        const columns = Object.keys(data[0]);
+        let csvContent = columns.join(",") + "\n";
+        const rows: string = data
+            .map((employee) => {
+                return [
+                    employee.id,
+                    employee.firstName,
+                    employee.lastName,
+                ].join(",");
+            })
+            .join("\n");
+        csvContent += rows;
+
+        const filePath = path.join(__dirname, filename);
+
+        writeToFile(filePath, csvContent);
+    } catch (error) {
+        console.error("Error exporting to CSV: ", error);
+    }
+}
+
 function writeToFile(filePath: path, content: string) {
     if (!fs.existsSync(filePath)) {
         fs.mkdirSync(path.dirname(filePath), {recursive: true});
