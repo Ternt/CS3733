@@ -85,14 +85,16 @@ function ReligiousRequestForm() {
 
     const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(false);
     //const [timeMenuFlag, setTimeMenuFlag] = useState<boolean>(false);
+    const d = new Date();
+    console.log();
     const [formInput, setFormInput] = useState<FormInputs>({
         name: "",
         serviceType: "",
         hospitalRoom: "",
         endLocation: "",
         religiousLeaderName: "",
-        date: dayjs().format('MM/DD/YYYY'),
-        time: "",
+        date: d.getFullYear()+"-"+(1+d.getMonth())+"-"+d.getDate(),
+        time: String(d.getHours()).padStart(2,'0')+":"+String(d.getMinutes()).padStart(2,'0')+":00",
         status: "",
     });
 
@@ -246,7 +248,7 @@ function ReligiousRequestForm() {
                             type="date"
                             InputLabelProps={{ shrink: true }}
                             value={formInput.date}
-                            onChange={(e) => handleChange('date', e.target.value)}
+                            onChange={(e) => {handleChange('date', e.target.value);}}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -265,7 +267,9 @@ function ReligiousRequestForm() {
                             type="time"
                             InputLabelProps={{ shrink: true }}
                             value={formInput.time}
-                            onChange={(e) => handleChange('time', e.target.value)}
+                            onChange={(e) => {
+                                handleChange('time', e.target.value);
+                            }}
                             sx={{ width: 150 }}
                         />
                         <TextField
