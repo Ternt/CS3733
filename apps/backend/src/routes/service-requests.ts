@@ -21,7 +21,7 @@ router.post("/", async function (req: Request, res: Response) {
 
         if (serviceRequest.type === "LANGUAGE") {
             const language = serviceRequest.languageDetail?.create?.language;
-            PrismaClient.languageInterpreterCount.update({
+            await PrismaClient.languageInterpreterCount.update({
                 where: {
                     language: language
                 },
@@ -29,11 +29,6 @@ router.post("/", async function (req: Request, res: Response) {
                     count: {decrement: 1}}
             });
         }
-
-
-
-
-
         res.sendStatus(200);
     } catch (error) {
         // Log any failures
