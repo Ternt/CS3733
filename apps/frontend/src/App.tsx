@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
 import LoginButton from "./components/LoginButton/LoginButton.tsx";
-import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
+import MapDataDisplay from "./components/DataHandling/DisplayCSV.tsx";
 import NavBar from "./components/Navbar/Navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
 import StoreRequestPage from "./pages/StoreRequestPage/StoreRequestPage.tsx";

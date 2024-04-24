@@ -92,7 +92,7 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
             });
 
         updateEmployeeRequests(newEmployee);
-        if(statusChanged){updateAssignmentStatus("ASSIGNMENT");}
+        if(statusChanged){updateAssignmentStatus("ASSIGNED");}
     };
 
     const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
