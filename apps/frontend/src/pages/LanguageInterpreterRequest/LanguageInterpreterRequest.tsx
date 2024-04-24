@@ -11,7 +11,6 @@ import {
 
 import {pieArcLabelClasses, PieChart} from '@mui/x-charts/PieChart';
 import * as React from "react";
-import TempInterpreterForm from "./TempForm.tsx";
 import axios, {AxiosResponse} from "axios";
 
 type Interpreter = {
@@ -443,9 +442,6 @@ function LanguageInterpreterRequestForm() {
 
                 </Box>
 
-            </Box>
-            <Box>
-                    <TempInterpreterForm {...formInput}/>
             </Box>
         </Box>
         );
