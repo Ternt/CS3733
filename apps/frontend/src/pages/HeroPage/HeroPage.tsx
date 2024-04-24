@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import {Box, Button, Typography} from "@mui/material";
 import logo from "../../assets/baby.jpg";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
@@ -20,28 +20,44 @@ export default function HeroPage() {
         navigate(path);
     };
 
+    function hideDisclaimerBox() {
+      setBoxDisplay(false);
+    }
+
+    const [boxDisplay, setBoxDisplay] = useState(true);
+
 
     return (
-        <>
-            <Box
+        <Box>
+          {boxDisplay && <Box
                 sx = {{
-                    width: '100%',
-                    px: '1rem',
+                    position: "absolute",
+                    translate: "15vw 1vh",
+                    width: '70%',
+                    p: '1rem',
+                    zIndex: "5",
+                    border: "3px solid #cc0000",
+                    backgroundColor: "red",
+                    opacity: 0.5,
+                    borderRadius: "10px",
+                    "&:hover": {opacity: 1},
                 }}
+                onClick={hideDisclaimerBox}
             >
                 <Typography
                     variant = "caption"
                     sx = {{
                         display: 'inline-block',
-                        color: 'rgba(0, 0, 0, 0.6)',
-                        fontSize: '0.75rem',
+                        fontSize: '1rem',
                         lineHeight: '1.4',
+                        color: "white",
                     }}
                 >
-                    Disclaimer: This website is a term project exercise for WPI CS 3733 Software Engineering (Prof. Wong) and is not to be confused with the actual Brigham & Women’s Hospital website.
+                    Disclaimer: This website is a term project exercise for WPI CS 3733 Software Engineering (Prof. Wong) and
+                  is not to be confused with the actual Brigham & Women’s Hospital website. (Click anywhere in this box to close)
                 </Typography>
 
-            </Box>
+            </Box>}
             <Box
                 component="img"
                 className={"logo"}
@@ -131,6 +147,6 @@ export default function HeroPage() {
             <Box ref={heroPage2Ref}>
                 <OurServices/>
             </Box>
-        </>
+        </Box>
     );
 }
