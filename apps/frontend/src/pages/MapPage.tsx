@@ -30,6 +30,7 @@ import SwapVertIcon from '@mui/icons-material/SwapVert';
 import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import MessageIcon from '@mui/icons-material/Message';
+import {node} from "../helpers/typestuff.ts";
 import Button from "@mui/material/Button";
 import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
 import CloseIcon from "@mui/icons-material/Close";
@@ -63,12 +64,17 @@ export default function MapPage() {
     const [startLocation, setStartLocation] = useState("");
     const [endLocation, setEndLocation] = useState("");
     const [searchAlgorithm, setSearchAlgorithm] = useState(0);
+    const [selectedNode, setSelectedNode] = useState<node | null>(null);
     const [natLangPath, setNatLangPath] = useState<{
         messages: { a: string, t: directionTypes }[],
         floor: number
     }[]>([]);
 
     useEffect(() => {
+        console.log("selectedNode", selectedNode);
+        if ((endLocation === "") && (selectedNode != null)) {
+            setEndLocation(selectedNode.nodeID);
+        }
         async function setPath() {
             const res = await NaturalLanguageDirection(startLocation, endLocation, searchAlgorithm);
             if (res !== undefined) {
@@ -90,8 +96,8 @@ export default function MapPage() {
         }
 
         setPath();
-    }, [startLocation, endLocation, searchAlgorithm]);
-
+    }, [startLocation, endLocation, searchAlgorithm, selectedNode]);
+    
     const initialMessage = 'Path from ' + startLocation + ' to ' + endLocation + ':\n';
 
     const NaturalLangPath = `${initialMessage}\n${natLangPath.reduce<string[]>((acc, obj) => {
@@ -427,6 +433,7 @@ export default function MapPage() {
                     onDeselectEndLocation={() => {
                         setEndLocation("");
                     }}
+                    onGetNearestNode={setSelectedNode}
                 />
             </Grid>
         </Grid>

@@ -19,6 +19,7 @@ import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
 import AboutPage from "./pages/AboutPage/AboutPage.tsx";
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
+import LanguageInterpreterRequestForm from "./pages/LanguageInterpreterRequest/LanguageInterpreterRequest.tsx";
 import SearchPage from "./pages/SearchPage/SearchPage.tsx";
 import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 import HowToPage from "./pages/howToPage/howToPage.tsx";
@@ -104,6 +105,10 @@ function App() {
                     element: <PhoneDirectionsPage/>
                 },
                 {
+                    path: "/language-request",
+                    element: <LanguageInterpreterRequestForm/>,
+                },
+                {
                     path: "/search",
                     element: <SearchPage/>
                 },
@@ -171,5 +176,6 @@ function App() {
         );
     }
 }
+
 
 export default App;
