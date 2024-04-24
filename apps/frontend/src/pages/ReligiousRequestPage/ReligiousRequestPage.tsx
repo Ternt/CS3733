@@ -115,7 +115,7 @@ function ReligiousRequestForm() {
                 status: "UNASSIGNED",
                 locationID: formInput.hospitalRoom,
                 religiousLeaderName: formInput.religiousLeaderName,
-                requestorName: "any",
+                requestorName: formInput.name,
                 serviceType: formInput.serviceType,
                 date: formInput.date,
                 time: formInput.time,
@@ -216,9 +216,9 @@ function ReligiousRequestForm() {
                             value={formInput.serviceType}
                             onChange={(e) => handleChange('serviceType', e.target.value)}
                         >
-                            <MenuItem value="Chapel">Chapel</MenuItem>
-                            <MenuItem value="Bedside">Bedside</MenuItem>
-                            <MenuItem value="Communal">Communal</MenuItem>
+                            <MenuItem value="CHAPEL">Chapel</MenuItem>
+                            <MenuItem value="BEDSIDE">Bedside</MenuItem>
+                            <MenuItem value="COMMUNAL">Communal</MenuItem>
                         </TextField>
                         <Box sx={{marginY: 0}}><LocationDropdown
                             onChange={(v: string) => {
