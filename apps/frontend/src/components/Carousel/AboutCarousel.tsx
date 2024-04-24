@@ -46,8 +46,8 @@ function CarouselComponent({ slides }: CarouselProps) {
                 onClick={prevSlide}
                 sx={{
                     position: 'absolute',
-                    left: 16,
-                    zIndex: 1
+                    left: '30%',
+                    zIndex: 1,
             }}>
                 <ArrowBackIosIcon />
             </IconButton>
@@ -79,8 +79,8 @@ function CarouselComponent({ slides }: CarouselProps) {
                         <img src={slides[index].image}
                              alt={`Slide ${index}`}
                              style={{
-                                 width: '100%',
-                                 height: '70%',
+                                 width: '150%',
+                                 height: '105%',
                                  objectFit: 'contain'
                         }}
                         />
@@ -113,7 +113,7 @@ function CarouselComponent({ slides }: CarouselProps) {
                 onClick={nextSlide}
                 sx={{
                     position: 'absolute',
-                    right: 16,
+                    right: "30%",
                     zIndex: 1
             }}
             >

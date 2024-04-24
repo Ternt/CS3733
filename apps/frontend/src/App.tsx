@@ -106,7 +106,7 @@ function App() {
                     element: <HowToPage/>
                 },
                 {
-                    path: "/about-page",
+                    path: "/about",
                     element: <AboutPage />
                 }
             ],
