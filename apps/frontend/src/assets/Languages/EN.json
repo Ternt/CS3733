@@ -46,6 +46,6 @@
     "status.as": "ASSIGNED",
     "status.in": "IN_PROGRESS",
     "status.cl": "CLOSED",
-    "langR.AvailHeader": "INTERPRETER AVAILABILITY"
-
+    "langR.AvailHeader": "INTERPRETER AVAILABILITY",
+    "services.Interpreter": "Interpreter"
 }
