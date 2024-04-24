@@ -78,7 +78,5 @@
     "qrcode": "^1.5.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.0",
-    "react-dom": "^18.2.0",
-    "react-papaparse": "^4.4.0"
   }
 }
