@@ -102,7 +102,6 @@ function App() {
                     path: "/language-request",
                     element: <LanguageInterpreterRequestForm/>,
                 },
-                },
                 {
                     path: "/search",
                     element: <SearchPage/>
@@ -167,5 +166,6 @@ function App() {
         );
     }
 }
+
 
 export default App;

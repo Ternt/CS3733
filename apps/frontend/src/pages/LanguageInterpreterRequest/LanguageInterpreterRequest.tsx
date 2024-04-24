@@ -36,7 +36,7 @@ function LanguageInterpreterRequestForm() {
     const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");
     const [submitDialogFlag, setSubmitDialogFlag] = useState(false);
 
-    const iniData = [];
+    const iniData: Interpreter[] = [];
     const [data, setData] = useState(iniData);
 
     useEffect(() => {
@@ -74,9 +74,11 @@ function LanguageInterpreterRequestForm() {
     };
     const handleSubmitForm = () => {
         if (isComplete()) {
-
-            const selectedLanguageData = data.find(item => item.language === formInput.language);
-            if (selectedLanguageData && selectedLanguageData.count === 0) {
+            console.log("inidata", data);
+            const selectedLanguageData = data.find(item => item.language === formInput.language.toUpperCase());
+            if (selectedLanguageData && selectedLanguageData.count <= 0) {
+                console.log("after 0:", data);
+                console.log(data);
                 setDialogMessage(`No interpreters available for ${formInput.language}.`);
                 setDialogOpen(true);
                 return; // Stop the submission process

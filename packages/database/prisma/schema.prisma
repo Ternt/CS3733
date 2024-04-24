@@ -120,6 +120,9 @@ model ServiceRequest {
   medicineDetail    MedicineRequest?
   giftDetail        GiftRequest?
   maintenanceDetail MaintenanceRequest?
+  religiousDetail   ReligiousRequest?
+  languageDetail    LanguageRequest?
+
 }
 
 enum MaintenanceType {

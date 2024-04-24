@@ -97,7 +97,7 @@ export default function MapPage() {
     useEffect(() => {
         console.log("selectedNode", selectedNode);
         if ((endLocation === "") && (selectedNode != null)) {
-            endLocation = selectedNode.nodeID;
+            setEndLocation(selectedNode.nodeID);
         }
         async function setPath() {
             const res = await NaturalLanguageDirection(startLocation, endLocation, searchAlgorithm);
