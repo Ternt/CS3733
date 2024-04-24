@@ -190,7 +190,7 @@ export default function Chatbot(props:ChatbotProps) {
                               borderRadius:  message.role === "user" ? '1rem 1rem 0 1rem' : '1rem 1rem 1rem 0',
                               padding: '10px',
                             }}>
-                                <Typography sx={{
+                                <Box sx={{
                                     color: message.role === "user" ? 'white' : 'black',
                                 }}>
                                     {message.role === "user" ? (
@@ -215,7 +215,7 @@ export default function Chatbot(props:ChatbotProps) {
                                         </>
                                     )}
                                     {message.content}
-                                </Typography>
+                                </Box>
                             </Box>
                         </Box>
                     ))}
