@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from 'react-router-dom';
-import {
-    List,
-    ListItem,
-    ListItemText,
-} from "@mui/material";
+import {List, ListItem, ListItemText, Typography} from "@mui/material";
 import NaturalLanguageDirection from "../../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
+import Link from "@mui/material/Link";
 
-const PhoneDirectionsPage: React.FC = () => {
+export default function PhoneDirectionsPage(){
     const [natLangPath, setNatLangPath] = useState<string[]>([]);
     const [searchParams] = useSearchParams();
-    const startLocation = searchParams.get('startLocation') || 'ACONF00102';
-    const endLocation = searchParams.get('endLocation') || 'ACONF00103';
+    const startLocation = searchParams.get('startLocation');
+    const endLocation = searchParams.get('endLocation');
     const algo = searchParams.get('algo') || '0';
     let numericSearchAlgorithm = parseInt(algo, 10);
 
@@ -22,6 +19,8 @@ const PhoneDirectionsPage: React.FC = () => {
 
     useEffect(() => {
         async function setPath() {
+            console.log(startLocation, endLocation);
+            if(startLocation === null || endLocation === null) return;
             const res = await NaturalLanguageDirection(startLocation, endLocation, numericSearchAlgorithm);
             if (res !== undefined) {
                 setNatLangPath(res);
@@ -32,7 +31,14 @@ const PhoneDirectionsPage: React.FC = () => {
 
         setPath();
     }, [startLocation, endLocation, numericSearchAlgorithm]);
-
+    if(startLocation === null || startLocation === '' || endLocation === null || endLocation === ''){
+      return (
+        <>
+          <Typography variant={"h4"}>Oops! That path can't be found...</Typography>
+          <Link href={"/map"}>Back to map</Link>
+        </>
+      );
+    }
     return (
         <List dense>
             {natLangPath.map((step, index) => (
@@ -43,5 +49,3 @@ const PhoneDirectionsPage: React.FC = () => {
         </List>
     );
 };
-
-export default PhoneDirectionsPage;

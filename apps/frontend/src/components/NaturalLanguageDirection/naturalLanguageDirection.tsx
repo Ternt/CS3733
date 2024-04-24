@@ -1,4 +1,5 @@
-import axios, {AxiosResponse} from "axios";
+import axios, { AxiosResponse } from "axios";
+import {FLOOR_NAME_TO_INDEX} from "../../helpers/MapHelper.ts";
 
 type node = {
     xcoord: number;
@@ -11,9 +12,20 @@ type node = {
     floor?: string;
 };
 
-const PIXELS_PER_FOOT = 3;
+export enum directionTypes{
+  STRAIGHT,
+  RIGHT,
+  LEFT,
+  START,
+  END,
+  ELEVATOR,
+  STAIRS,
+  HELP
+}
 
-function findNextNodeWithType(nodeTable: Array<node>, path: Array<string>, index: number) {
+export const PIXELS_PER_FOOT = 3;
+
+function findNextNodeWithType(nodeTable: node[], path: string[], index: number){
     for (let i: number = index; i < path.length - 1; i++) {
         const currentNodeType = nodeTable.find(nodes => nodes.nodeID === path[i])!.nodeType;
         if (currentNodeType != 'HALL') {
@@ -23,11 +35,11 @@ function findNextNodeWithType(nodeTable: Array<node>, path: Array<string>, index
     return nodeTable.find(nodes => nodes.nodeID === path[index])!.nodeType;
 }
 
-async function getLanguageDirection(path: Array<string>): Promise<string[]> {
+async function getLanguageDirection(path: string[]){
     const response: AxiosResponse = await axios.get("/api/map");
 
-    const nodeTable: Array<node> = response.data.nodes;
-    const directions: string[] = [];
+    const nodeTable: node[] = response.data.nodes;
+    const directions: {message:string, floor:number, type:directionTypes}[] = [];
 
     for (let i: number = 0; i < path.length - 1; i++) {
         const currentNode = nodeTable.find(nodes => nodes.nodeID === path[i])!;
@@ -35,19 +47,22 @@ async function getLanguageDirection(path: Array<string>): Promise<string[]> {
         const nextNode = nodeTable.find(nodes => nodes.nodeID === path[i + 1])!;
 
         if (i === 0) {
-            directions.push("You are currently at " + currentNodeName + " on floor " + currentNode.floor);
-        } else if (currentNode.floor != nextNode.floor) {
+            directions.push({message:"You are currently at " +currentNodeName + " on floor " + currentNode.floor, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.START});
+        }
+
+        else if (currentNode.floor != nextNode.floor) {
             if (currentNode.nodeType === "ELEV") {
-                directions.push(`Take elevator to floor ${nextNode.floor}`);
-            } else {
-                directions.push(`Take stairs to floor ${nextNode.floor}`);
+                directions.push({message:`Take elevator to floor ${nextNode.floor}`, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.ELEVATOR});
+            }
+            else {
+                directions.push({message:`Take stairs to floor ${nextNode.floor}`, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STAIRS});
             }
             // add the direction when exit the stair/elev
             // "head towards: " find the name of the next node in path that's not a hall
             i++;
-            const nextNodeNameWithType = findNextNodeWithType(nodeTable, path, i + 1);
-            const nn = nextNodeNameWithType.toUpperCase().indexOf('HALL') === -1 ? "towards " + nextNodeNameWithType : "down the hall";
-            directions.push(`Head ${nn}`);
+            const nextNodeNameWithType = findNextNodeWithType(nodeTable, path, i+1);
+            const nn =  nextNodeNameWithType.toUpperCase().indexOf('HALL') === -1 ? "towards "+nextNodeNameWithType : "down the hall";
+            directions.push({message:`Head ${nn}`, floor: FLOOR_NAME_TO_INDEX(nextNode.floor!), type:directionTypes.STRAIGHT});
 
         } else {
             const dx: number = nextNode.xcoord - currentNode.xcoord;
@@ -84,27 +99,29 @@ async function getLanguageDirection(path: Array<string>): Promise<string[]> {
             }
 
 
-            if ((Math.abs(directionChange) < Math.PI / 4) || (Math.abs(directionChange - 2 * Math.PI) < Math.PI / 4) || (Math.abs(directionChange + 2 * Math.PI) < Math.PI / 4)) {
-                if (!directions[directions.length - 1].startsWith('Walk straight')) {
-                    const distance = Math.sqrt(dx ** 2 + dy ** 2);
-                    directions.push("Walk straight " + Math.round(distance * PIXELS_PER_FOOT) + "ft");
+                if ((Math.abs(directionChange) < Math.PI / 4) || (Math.abs(directionChange - 2*Math.PI) < Math.PI / 4) || (Math.abs(directionChange + 2*Math.PI) < Math.PI / 4)) {
+                    if (!directions[directions.length - 1].message.startsWith('Walk straight')){
+                        const distance = Math.sqrt(dx**2 + dy**2);
+                        directions.push({message:"Walk straight " +Math.round(distance * PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
+                    }
                 }
-            } else if (((Math.abs(directionChangeNext) < Math.PI / 4) || (Math.abs(directionChangeNext - 2 * Math.PI) < Math.PI / 4) || (Math.abs(directionChangeNext + 2 * Math.PI) < Math.PI / 4)) && (distCurrToNext < 50)) {
-                i = i + 2;
-            } else {
-                const cn = currentNodeName === undefined ? "" : currentNodeName!;
-                console.log(cn);
-                const nn = cn.toUpperCase().indexOf('HALL') === -1 ? (" at " + cn) : "";
-                if (directionChange > 0) {
-                    directions.push("Turn right" + nn);
-                } else {
-                    directions.push("Turn left" + nn);
+
+                else if (((Math.abs(directionChangeNext) < Math.PI / 4) || (Math.abs(directionChangeNext - 2 * Math.PI) < Math.PI / 4) || (Math.abs(directionChangeNext + 2 * Math.PI) < Math.PI / 4)) && (distCurrToNext < 50)) {
+                    i = i + 2;
                 }
-            }
-        }
-    }
-    const endNodeName = nodeTable.find(nodes => nodes.nodeID === path[path.length - 1])!.longName;
-    directions.push("You are at: " + endNodeName);
+
+                else {
+                  const cn = currentNodeName === undefined ? "" : currentNodeName!;;
+                  const nn =  cn.toUpperCase().indexOf('HALL') === -1 ? (" at "+cn) : "";
+                  if (directionChange > 0) {
+                    directions.push({message: "Turn right" +nn, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.RIGHT});
+                  } else {
+                    directions.push({message:"Turn left" +nn, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.LEFT});
+                  }
+                }
+        }}
+    const endingNode = nodeTable.find(nodes => nodes.nodeID === path[path.length - 1])!;
+    directions.push({message: "You are now at " +endingNode.longName, floor: FLOOR_NAME_TO_INDEX(endingNode.floor!), type:directionTypes.END});
     return directions;
 }
 
@@ -113,7 +130,7 @@ async function fetchPathData(startLocation: string, endLocation: string, searchA
         const response = await axios.get(`/api/pathfind?startNode=${endLocation}&endNode=${startLocation}&algorithm=${searchAlgorithm}`);
         return response.data.path; // Return the path in array
     } catch (error) {
-        return ["no path"]; // Return no path if there's error ?probably doesn't work
+        return ["no path found"]; // Return no path if there's error ?probably doesn't work
     }
 }
 

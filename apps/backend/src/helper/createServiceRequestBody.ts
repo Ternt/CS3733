@@ -14,6 +14,7 @@ export default function createServiceRequestBody(body): any | undefined {
     delete body.medicineDetail;
     delete body.maintenanceDetail;
     delete body.giftDetail;
+    delete body.religiousDetail;
     delete body.languageDetail;
 
     // check for data corresponding to each service request type
@@ -103,6 +104,24 @@ export default function createServiceRequestBody(body): any | undefined {
             delete body.cardExpirationDate;
 
             delete body.items;
+            break;
+        case "RELIGIOUS":
+            body.religiousDetail = {
+                create: {
+                    requestorName: body.requestorName,
+                    religiousLeaderName: body.religiousLeaderName,
+                    serviceType: body.serviceType,
+                    date: body.date,
+                    time: body.time,
+                    endLocation: body.endLocation
+                },
+            };
+            delete body.requestorName;
+            delete body.religiousLeaderName;
+            delete body.serviceType;
+            delete body.date;
+            delete body.time;
+            delete body.endLocation;
             break;
         case "LANGUAGE":
             body.languageDetail = {

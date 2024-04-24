@@ -1,6 +1,7 @@
 import { ReactNode, useState } from "react";
 import { Box, Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { motion } from "framer-motion";
 
 type SidebarMenuProps = {
   value: number;
@@ -16,19 +17,23 @@ export default function SidebarMenu(props: SidebarMenuProps) {
     <>
       <Box
         sx={{
-          width: "fit-content",
-          height: "fill-available",
-
+          width: "8vw",
+          height: "90vh",
         }}
       >
-        <Box>
+        <Box
+          sx={{
+            position:'fixed',
+            width:'8vw'
+          }}
+        >
           {props.tabs.map((t, i) => {
             return (
               <Button
                 key={i}
                 sx={{
                   width: "100%",
-                  bgcolor: i === selectedTab ? "#00000010" : "transparent",
+                  height:'5rem',
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
@@ -51,6 +56,14 @@ export default function SidebarMenu(props: SidebarMenuProps) {
                 >
                   {t}
                 </Typography>
+                {i === selectedTab ? (
+                  <motion.div style={{
+                    backgroundColor: "#00000010",
+                    width:'100%',
+                    height:'100%',
+                    position:'absolute',
+                  }} layoutId="underline" />
+                ) : null}
               </Button>
             );
           })}
