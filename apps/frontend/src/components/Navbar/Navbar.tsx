@@ -111,7 +111,7 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                                 <DropDownMenu label={TranslateTo("navB.ServiceReq")} menuData={staffServices}></DropDownMenu>
                             )}
                             {permissionLevel == 0 && (
-                                <DropDownMenu label={"SERVICES"} menuData={normalServices}></DropDownMenu>
+                                <DropDownMenu label={TranslateTo("SERVICES")} menuData={normalServices}></DropDownMenu>
                             )}
                         </>
                     )}

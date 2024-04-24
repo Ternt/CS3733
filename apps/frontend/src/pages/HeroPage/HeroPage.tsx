@@ -55,8 +55,7 @@ export default function HeroPage() {
                         color: "white",
                     }}
                 >
-                    Disclaimer: This website is a term project exercise for WPI CS 3733 Software Engineering (Prof. Wong) and
-                  is not to be confused with the actual Brigham & Women’s Hospital website. (Click anywhere in this box to close)
+                    {TranslateTo("Disclaimer")}
                 </Typography>
 
             </Box>}
