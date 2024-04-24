@@ -27,7 +27,7 @@ export type ResponsiveAppBarProps = {
 export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
 
     const staffServices = [
-        {label:  TranslateTo("services.Sanitation"), path: "/sanitation"},
+        {label: TranslateTo("services.Sanitation"), path: "/sanitation"},
         {label: TranslateTo("services.Medicine"), path: "/medicine-request"},
         {label: TranslateTo("services.Flwr"), path: "/flower-request"},
         {label: TranslateTo("services.Gift"), path: "/gift-request"},

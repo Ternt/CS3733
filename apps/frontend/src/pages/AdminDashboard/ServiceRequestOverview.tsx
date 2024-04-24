@@ -33,7 +33,6 @@ export default function ServiceRequestOverview(){
                     id: employee.id,
                 });
             });
-            console.log(res.data);
             setEmployeeList(employeeDropdownOptions);
         });
     }, []);
