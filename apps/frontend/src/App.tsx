@@ -1,6 +1,6 @@
-import React, {useState} from "react";
-import {createBrowserRouter, RouterProvider, Outlet} from "react-router-dom";
-import {ThemeProvider} from "@mui/material/styles";
+import React, {useState, createContext} from "react";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { ThemeProvider } from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
 import LoginButton from "./components/LoginButton/LoginButton.tsx";
 import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
@@ -17,8 +17,14 @@ import {useNavigate} from 'react-router-dom';
 import Box from "@mui/material/Box";
 import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
+import AboutPage from "./pages/AboutPage/AboutPage.tsx";
 import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
+import SearchPage from "./pages/SearchPage/SearchPage.tsx";
 import ErrorPage from "./pages/404Page/ErrorPage.tsx";
+import HowToPage from "./pages/howToPage/howToPage.tsx";
+
+
+export const LanguageContext = createContext("en");
 
 function App() {
     const router = createBrowserRouter([
@@ -90,6 +96,18 @@ function App() {
                 {
                     path: "/directions",
                     element: <PhoneDirectionsPage/>
+                },
+                {
+                    path: "/search",
+                    element: <SearchPage/>
+                },
+                {
+                    path: "/howTo",
+                    element: <HowToPage/>
+                },
+                {
+                    path: "/about",
+                    element: <AboutPage />
                 }
             ],
         },
@@ -107,6 +125,8 @@ function App() {
     function Root() {
         const navigate = useNavigate();
         const [chatbotOpen, setChatbotOpen] = useState(false);
+        const [lang, setlang] = useState<string>("en");
+
         return (
             <>
                 <Auth0Provider
@@ -122,14 +142,19 @@ function App() {
                     }}
                 >
                     <div className="w-full flex flex-col">
-                        <NavBar
-                            chatbotOpen={chatbotOpen}
-                            toggleChatbot={() => setChatbotOpen(!chatbotOpen)}
-                        />
-                        <Box key={"Navbar spacer"}
-                             sx={{width: '100%', height: '10vh', backgroundColor: "#012d5a",}}></Box>
-                        <Outlet/>
-                        <Chatbot open={chatbotOpen} onClose={() => setChatbotOpen(false)}/>
+                        <LanguageContext.Provider value={lang}>
+                            <NavBar
+                              chatbotOpen={chatbotOpen}
+                              toggleChatbot={()=>setChatbotOpen(!chatbotOpen)}
+                              onSetLanguage={(l)=> {setlang(l);}}
+                            />
+                            <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a",}}></Box>
+                            <Outlet />
+                            <Chatbot
+                              open={chatbotOpen}
+                              onClose={()=>setChatbotOpen(false)}
+                            />
+                        </LanguageContext.Provider>
                     </div>
                 </Auth0Provider>
             </>

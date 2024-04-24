@@ -10,27 +10,33 @@ import SearchBar from "../SearchBar/searchBar.tsx";
 import {useAuth0} from "@auth0/auth0-react";
 import LoginButton from "../LoginButton/LoginButton.tsx";
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
+import {LanguageSelect} from "./LanguageSelect.tsx";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
+
 import DropDownMenu from "../DropDownMenu.tsx";
 import NavbarItem from "./NavbarItem.tsx";
 
-const staffServices = [
-    {label: "Sanitation", path: "/sanitation"},
-    {label: "Medicine Delivery", path: "/medicine-request"},
-    {label: "Flowers", path: "/flower-request"},
-    {label: "Gift", path: "/gift-request"},
-];
-
-const normalServices = [
-    {label: "Flowers", path: "/flower-request"},
-    {label: "Gift", path: "/gift-request"},
-];
-
-type ResponsiveAppBarProps = {
+export type ResponsiveAppBarProps = {
     chatbotOpen: boolean;
     toggleChatbot: () => void;
+    onSetLanguage: (l: string) => void;
 }
 
 export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
+
+    const staffServices = [
+        {label:  TranslateTo("services.Sanitation"), path: "/sanitation"},
+        {label: TranslateTo("services.Medicine"), path: "/medicine-request"},
+        {label: TranslateTo("services.Flwr"), path: "/flower-request"},
+        {label: TranslateTo("services.Gift"), path: "/gift-request"},
+
+    ];
+
+    const normalServices = [
+        {label: TranslateTo("services.Flwr"), path: "/flower-request"},
+        {label: TranslateTo("services.Gift"), path: "/gift-request"},
+    ];
+
     const navigate = useNavigate();
     const {user, isAuthenticated, isLoading} = useAuth0();
     const handleMenuItemClick = (path: string) => {
@@ -82,15 +88,15 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                                 sx={{width: "4vh", aspectRatio: "294/423", mx: 1, p: "1%"}}
                             ></Box>
                         </Link>
-                        <NavbarItem title={"Home"} link={"/"}/>
-                        <NavbarItem title={"Map"} link={"/map"}/>
+                        <NavbarItem title={TranslateTo("navB.Home")} link={"/"}/>
+                        <NavbarItem title={TranslateTo("navB.Map")} link={"/map"}/>
                       {!isLoading && (
                             <>
                                 {permissionLevel === 2 && (
-                                    <NavbarItem title={"Admin"} link={"/admin"}/>
+                                    <NavbarItem title={TranslateTo("navB.Admin")} link={"/admin"}/>
                                 )}
                                 {permissionLevel >= 1 && (
-                                    <DropDownMenu label={"SERVICE REQUESTS"} menuData={staffServices}></DropDownMenu>
+                                    <DropDownMenu label={TranslateTo("navB.ServiceReq")} menuData={staffServices}></DropDownMenu>
                                 )}
                                 {permissionLevel == 0 && (
                                     <DropDownMenu label={"SERVICES"} menuData={normalServices}></DropDownMenu>
@@ -100,7 +106,7 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                     </Box>
                     <LiveHelpIcon
                         sx={{
-                            fontSize: '2.4rem',
+                            fontSize: '2rem',
                             color: (props.chatbotOpen ? "#f6bd38" : 'white'),
                             '&:hover': {
                                 opacity: 0.9,
@@ -111,6 +117,12 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                             props.toggleChatbot();
                         }}
                     />
+                    <>
+                        <LanguageSelect
+                            toggleChatbot={props.toggleChatbot}
+                            chatbotOpen={props.chatbotOpen}
+                            onSetLanguage={props.onSetLanguage}/>
+                    </>
                     <SearchBar/>
                     <LoginButton/>
                 </Toolbar>

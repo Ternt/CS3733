@@ -1,6 +1,7 @@
 import {Box, CircularProgress, Typography} from "@mui/material";
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
-import ViewKanbanIcon from '@mui/icons-material/ViewKanban';import MapIcon from "@mui/icons-material/Map";
+import ViewKanbanIcon from '@mui/icons-material/ViewKanban';
+import MapIcon from "@mui/icons-material/Map";
 import TableViewIcon from "@mui/icons-material/TableView";
 import MapCanvas from "../../components/Map/MapCanvas.tsx";
 import { useState } from "react";
@@ -31,10 +32,6 @@ export default function AdminDashboard() {
     tabInject = <DisplayCSV />;
   }
 
-  function handleSelect(i: number) {
-    setSelectedTab(i);
-    console.log(i);
-  }
 
   if(isLoading){
     return (
@@ -69,7 +66,7 @@ export default function AdminDashboard() {
             value={0}
             tabs={["Menu", "Map", "Analytics"]}
             onSelect={(i) => {
-              handleSelect(i);
+              setSelectedTab(i);
             }}
           >
             <ViewKanbanIcon/>
@@ -79,7 +76,7 @@ export default function AdminDashboard() {
           <Box
             sx={{
               height: "90vh",
-              width: "100%",
+              width: "92vw",
             }}
           >
             {tabInject}
