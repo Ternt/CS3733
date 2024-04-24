@@ -37,6 +37,7 @@
     "fuzzy-search": "^3.2.1",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
+    "material-ui-flags": "^1.2.4",
     "openai": "^4.34.0",
     "path-browserify": "^1.0.1",
     "postcss": "^8.4.35",

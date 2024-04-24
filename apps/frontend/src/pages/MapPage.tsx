@@ -29,12 +29,13 @@ import ElevatorOutlinedIcon from '@mui/icons-material/ElevatorOutlined';
 import StairsOutlinedIcon from '@mui/icons-material/StairsOutlined';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import MessageIcon from '@mui/icons-material/Message';
 import Button from "@mui/material/Button";
 import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
 import * as React from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import PauseIcon from '@mui/icons-material/Pause';
 
 export function getIconFromDirectionType(t: directionTypes) {
     switch (t) {
@@ -117,13 +118,19 @@ export default function MapPage() {
 
     const initialMessage = 'Path from ' + startLocation + ' to ' + endLocation + ':\n';
 
-    const NaturalLangPath = `${initialMessage}\n${natLangPath.reduce<string[]>((acc, obj, index) => {
-        const messageStrings = obj.messages.map((message, messageIndex) => {
-            const messageNumber = (index * obj.messages.length) + messageIndex + 1;
-            return `${messageNumber}. ${message.a}`;
+    const NaturalLangPath = `${initialMessage}\n${natLangPath.reduce<string[]>((acc, obj) => {
+        const messageStrings = obj.messages.map((message) => {
+            return `${message.a}`;
         });
         return acc.concat(messageStrings);
-    }, []).join('\n')}`;
+    }, []).join('\n\n')}`;
+
+    const TTSPath = `${natLangPath.reduce<string[]>((acc, obj) => {
+        const messageStrings = obj.messages.map((message) => {
+            return` ${message.a}`;
+        });
+        return acc.concat(messageStrings);
+    }, []).concat('end').join('\n')}`;
 
     const qrCodeProps = {
         startNode: startLocation,
@@ -133,6 +140,7 @@ export default function MapPage() {
 
     const [phoneNumber,setPhoneNumber] = useState<string | null>(null);
     const [notification, setNotification] = useState('');
+    const [TTS,setTTS] = useState<boolean | null>(null);
 
     return (
         <Grid
@@ -325,7 +333,23 @@ export default function MapPage() {
                         gap: '16px'
                     }}>
                         <Button
-                            onClick={() => speak(NaturalLangPath)}
+                            onClick={() => {
+                                console.log(TTSPath);
+                                if(TTS == null){
+                                    speak(TTSPath);
+                                    setTTS(true);
+                                }
+
+                                else if(TTS){
+                                    speak(TTSPath).pauseSpeech();
+                                    setTTS(false);
+                                }
+
+                                else if(!TTS){
+                                    speak(TTSPath).resumeSpeech();
+                                    setTTS(true);
+                                }
+                            }}
                             sx={{
                                 backgroundColor: '#012d5a',
                                 color: 'white',
@@ -338,7 +362,8 @@ export default function MapPage() {
                                 },
                             }}
                         >
-                            <VolumeUpIcon/>
+                            {TTS ? <PauseIcon/> : <PlayArrowIcon/>}
+
                             <Box sx={{display: 'flex', justifyContent: 'center', flex: 1}}>
                                 TTS
                             </Box>
