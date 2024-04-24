@@ -2001,6 +2001,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/file-saver@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "@types/file-saver@npm:2.0.7"
+  checksum: c3d1cd80eab1214767922cabac97681f3fb688e82b74890450d70deaca49537949bbc96d80d363d91e8f0a4752c7164909cc8902d9721c5c4809baafc42a3801
+  languageName: node
+  linkType: hard
+
 "@types/fuzzy-search@npm:^2.1.5":
   version: 2.1.5
   resolution: "@types/fuzzy-search@npm:2.1.5"
@@ -2119,6 +2126,15 @@ __metadata:
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 3fb90057208d7c3d1750eb9151b7ff2e048c4192ccf9837c9af4e843fbf9c76ead0c5a658187769adcf0b012cd348656c48695dd7a358bd2b3174b1575b1982b
+  languageName: node
+  linkType: hard
+
+"@types/papaparse@npm:^5.3.9":
+  version: 5.3.14
+  resolution: "@types/papaparse@npm:5.3.14"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 9bd5cc0e6a2c02def6c8903dc4604e499907cb465186ed3532390468082a06f023adbac0216428d0d8e8fe017206780a03d20007041e9fed47c8d391cd69a536
   languageName: node
   linkType: hard
 
@@ -5096,6 +5112,7 @@ __metadata:
   resolution: "frontend@workspace:apps/frontend"
   dependencies:
     "@auth0/auth0-react": "npm:^2.2.4"
+    "@coreui/react-chartjs": "npm:^3.0.0"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
     "@material-ui/core": "npm:^4.12.4"
@@ -7023,6 +7040,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"papaparse@npm:^5.4.1":
+  version: 5.4.1
+  resolution: "papaparse@npm:5.4.1"
+  checksum: 5e6dc978187182ad2efa1d264ffe73d2042cd23b8fb1dcb0b0f5c8c7c772c11e3eb4e166fb0893880ed24529a96abe9065d704cc5b4cb96abf037413cfe43788
+  languageName: node
+  linkType: hard
+
 "parent-module@npm:^1.0.0":
   version: 1.0.1
   resolution: "parent-module@npm:1.0.1"
@@ -7835,6 +7859,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-papaparse@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "react-papaparse@npm:4.4.0"
+  dependencies:
+    "@types/papaparse": "npm:^5.3.9"
+    papaparse: "npm:^5.4.1"
+  checksum: 6ed7ca142c5d0687f2ef776cdd52626371b95207ed3b12802a7d1e6fc8b0a9bc6f8bacbe78d52f578cbfaa3cf252103f0b244bbdc6e0a8ccf1c37d704fb6cd99
+  languageName: node
+  linkType: hard
+
 "react-router-bootstrap@npm:^0.26.2":
   version: 0.26.2
   resolution: "react-router-bootstrap@npm:0.26.2"
@@ -8572,6 +8606,7 @@ __metadata:
     "@mui/system": "npm:^5.15.15"
     "@types/express": "npm:^4"
     "@types/express-fileupload": "npm:^1"
+    "@types/file-saver": "npm:^2.0.7"
     "@types/fuzzy-search": "npm:^2.1.5"
     "@types/path-browserify": "npm:^1.0.2"
     "@types/qrcode": "npm:^1"

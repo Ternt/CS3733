@@ -4,6 +4,7 @@ import {styled, alpha} from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import {useNavigate} from "react-router-dom";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 type searchBarProps = {
     border?: string;
@@ -77,7 +78,7 @@ function SearchBar(props: searchBarProps) {
                 <SearchIcon/>
             </SearchIconWrapper>
             <StyledInputBase
-                placeholder="Search…"
+                placeholder={TranslateTo("Searchbar")}
                 inputProps={{"aria-label": "search"}}
                 sx={{
                     height: "6vh",

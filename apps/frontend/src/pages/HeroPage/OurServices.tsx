@@ -32,7 +32,7 @@ export default function OurServices() {
                 <Typography
                     sx={ServicesHeaderSxTemplate}
                 >
-                    Additional Information
+                    {TranslateTo("additionalInfo")}
                 </Typography>
                 <Grid
                     container

@@ -27,5 +27,10 @@
     "ourS.FAQ": "FAQ",
     "ourS.FAQDesc": "• Answers to frequently asked questions and how to guides",
     "ourS.Credits": "Credits",
-    "ourS.creditsDesc": "• Special Thanks to the people who made this project possible"
+    "ourS.creditsDesc": "• Special Thanks to the people who made this project possible",
+    "additionalInfo": "Additional Information",
+    "SERVICES": "SERVICES",
+    "Logout": "Logout",
+    "Login": "Login",
+    "Searchbar": "Search..."
 }

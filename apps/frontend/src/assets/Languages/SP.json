@@ -27,5 +27,10 @@
     "ourS.FAQ": "Preguntas frecuentes",
     "ourS.FAQDesc": "• Respuestas a preguntas frecuentes y guías prácticas",
     "ourS.Credits": "Créditos",
-    "ourS.creditsDesc": "• Agradecimientos especiales a las personas que hicieron posible este proyecto"
+    "ourS.creditsDesc": "• Agradecimientos a las personas que hicieron posible este proyecto",
+    "additionalInfo": "Información Adicional",
+    "SERVICES": "SERVICIOS",
+    "Logout": "Cierre Sesión",
+    "Login": "Inicie Sesión",
+    "Searchbar": "Busque..."
 }
