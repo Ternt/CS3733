@@ -15,7 +15,7 @@ import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 import DropDownMenu from "../DropDownMenu.tsx";
 import NavbarItem from "./NavbarItem.tsx";
-import DarkModeToggle from "./DarkModeSwitch.tsx";
+// import DarkModeToggle from "./DarkModeSwitch.tsx";
 
 export type ResponsiveAppBarProps = {
     chatbotOpen: boolean;
@@ -124,7 +124,7 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                             chatbotOpen={props.chatbotOpen}
                             onSetLanguage={props.onSetLanguage}/>
 
-                        <DarkModeToggle/>
+                        {/*<DarkModeToggle/>*/}
                     </>
                     <SearchBar/>
                     <LoginButton/>

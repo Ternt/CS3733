@@ -1,6 +1,6 @@
 import React from 'react';
-import { Grid, Container } from '@mui/material';
-import StaffInfoCard from '../Card/StaffInfoCard'; // Adjust the path accordingly
+import {Grid, Container, Typography} from '@mui/material';
+import StaffInfoCard from '../Card/StaffInfoCard';
 
 import warwick from '../../assets/TeamPictures/Warwick.jpg';
 import brett from '../../assets/TeamPictures/Brett.jpg';
@@ -32,7 +32,12 @@ const staffMembers = [
 
 const StaffInfoGrid = () => {
     return (
-        <Container style={{ marginTop: '50px' }}>
+        <Container style={{ marginTop: '5rem' }}>
+
+            <Typography variant={"h1"} fontFamily={"sans-serif"} align={"center"} sx={{fontWeight: 1000}}>
+                Desire Dwarves
+            </Typography>
+
             <Grid container justifyContent="center" spacing={3}>
                 {staffMembers.map((member, index) => (
                     <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
