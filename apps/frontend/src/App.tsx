@@ -23,6 +23,7 @@ import SearchPage from "./pages/SearchPage/SearchPage.tsx";
 import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 import HowToPage from "./pages/howToPage/howToPage.tsx";
 import CreditsPage from "./pages/CreditsPage/CreditsPage.tsx";
+import ReligiousRequestForm from "./pages/ReligiousRequestPage/ReligiousRequestPage.tsx";
 
 
 export const LanguageContext = createContext("en");
@@ -49,6 +50,10 @@ function App() {
                 {
                     path: "/medicine-request",
                     element: <MedicineDeliveryForm/>,
+                },
+                {
+                    path: "/religious-request",
+                    element: <ReligiousRequestForm/>,
                 },
                 {
                     path: "/sanitation",
