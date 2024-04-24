@@ -53,14 +53,15 @@ model NodeDB {
 model EdgeDB {
   startNodeID String
   endNodeID   String
-  blocked     Boolean
+  blocked     Boolean @default(false)
+  heat        Int     @default(0)
 
   startNode NodeDB @relation(name: "start", fields: [startNodeID], references: [nodeID], onDelete: Cascade)
   endNode   NodeDB @relation(name: "end", fields: [endNodeID], references: [nodeID], onDelete: Cascade)
 
+  @@id(name: "edgeID", [startNodeID, endNodeID])
   @@unique([startNodeID, endNodeID])
   @@unique([endNodeID, startNodeID])
-  @@id(name: "edgeID", [startNodeID, endNodeID])
 }
 
 enum CartItemType {
@@ -85,6 +86,7 @@ enum ServiceRequestType {
   GIFT
   SANITATION
   MEDICINE
+  RELIGIOUS
 }
 
 enum ServiceRequestPriority {
@@ -116,6 +118,7 @@ model ServiceRequest {
   sanitationDetail  SanitationRequest?
   medicineDetail    MedicineRequest?
   giftDetail        GiftRequest?
+  religiousDetail   ReligiousRequest?
   maintenanceDetail MaintenanceRequest?
 }
 
@@ -216,4 +219,22 @@ model GiftRequest {
   cardExpirationDate String
 
   items CartItemsInGiftRequests[]
+}
+
+enum ReligiousServiceType {
+  CHAPEL
+  BEDSIDE
+  COMMUNAL
+}
+
+model ReligiousRequest {
+  request   ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
+  requestID Int            @unique
+
+  requestorName       String
+  religiousLeaderName String
+  serviceType         ReligiousServiceType
+  date                String
+  time                String
+  endLocation         String?
 }

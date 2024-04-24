@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, createContext} from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
@@ -13,82 +13,106 @@ import AdminDashboard from "./pages/AdminDashboard/AdminDashboard.tsx";
 import MedicineDeliveryForm from "./pages/MedicineRequest/MedicineDeliveryRequest.tsx";
 import MapPage from "./pages/MapPage.tsx";
 import {Auth0Provider} from "@auth0/auth0-react";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import Box from "@mui/material/Box";
 import Chatbot from "./components/ChatBot/ChatBot.tsx";
 import ShopConfirmationPage from "./pages/ShopConfirmationPage/ShopConfirmationPage.tsx";
 import AboutPage from "./pages/AboutPage/AboutPage.tsx";
+import PhoneDirectionsPage from "./pages/PhoneDirectionsPage/PhoneDirectionsPage.tsx";
+import SearchPage from "./pages/SearchPage/SearchPage.tsx";
+import ErrorPage from "./pages/404Page/ErrorPage.tsx";
+import HowToPage from "./pages/howToPage/howToPage.tsx";
+
+
+export const LanguageContext = createContext("en");
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      errorElement: <div />,
-      element: <Root />,
-      children: [
+    const router = createBrowserRouter([
         {
-          path: "",
-          element: <HeroPage />,
+            path: "/",
+            errorElement: <div/>,
+            element: <Root/>,
+            children: [
+                {
+                    path: "*",
+                    element: <ErrorPage />
+                },
+                {
+                    path: "",
+                    element: <HeroPage/>,
+                },
+                {
+                    path: "/map",
+                    element: <MapPage/>,
+                },
+                {
+                    path: "/medicine-request",
+                    element: <MedicineDeliveryForm/>,
+                },
+                {
+                    path: "/sanitation",
+                    element: <SanitationRequestForm/>,
+                },
+                {
+                    path: "/login",
+                    element: <LoginButton/>,
+                },
+                {
+                    path: "/gift-request",
+                    element: <StoreRequestPage/>,
+                },
+                {
+                    path: "/flower-request",
+                    element: <StoreRequestPage/>,
+                },
+                {
+                    path: "/gift-checkout",
+                    element: (
+                        <Checkout checkoutType="gift" returnPath="/gift-request"/>
+                    ),
+                },
+                {
+                    path: "/flower-checkout",
+                    element: (
+                        <Checkout checkoutType="flower" returnPath="/flower-request"/>
+                    ),
+                },
+                {
+                    path: "/tables",
+                    element: <MapDataDisplay/>,
+                },
+                {
+                    path: "/admin",
+                    element: <AdminDashboard/>,
+                },
+                {
+                    path: "/gift-order-confirmation",
+                    element: <ShopConfirmationPage returnPath="/gift-request"/>
+                },
+                {
+                    path: "/flower-order-confirmation",
+                    element: <ShopConfirmationPage returnPath="/flower-request"/>
+                },
+                {
+                    path: "/directions",
+                    element: <PhoneDirectionsPage/>
+                },
+                {
+                    path: "/search",
+                    element: <SearchPage/>
+                },
+                {
+                    path: "/howTo",
+                    element: <HowToPage/>
+                },
+                {
+                    path: "/about-page",
+                    element: <AboutPage />
+                }
+            ],
         },
-        {
-          path: "/map",
-          element: <MapPage />,
-        },
-        {
-          path: "/medicine-request",
-          element: <MedicineDeliveryForm />,
-        },
-        {
-          path: "/sanitation",
-          element: <SanitationRequestForm />,
-        },
-        {
-          path: "/login",
-          element: <LoginButton />,
-        },
-        {
-          path: "/gift-request",
-          element: <StoreRequestPage/>,
-        },
-        {
-          path: "/flower-request",
-          element: <StoreRequestPage/>,
-        },
-        {
-          path: "/gift-checkout",
-          element: (
-            <Checkout checkoutType="gift" returnPath="/gift-request" />
-          ),
-        },
-        {
-          path: "/flower-checkout",
-          element: (
-            <Checkout checkoutType="flower" returnPath="/flower-request" />
-          ),
-        },
-        {
-          path: "/tables",
-          element: <MapDataDisplay />,
-        },
-        {
-          path: "/admin",
-          element: <AdminDashboard />,
-        },
-        {
-          path: "/gift-order-confirmation",
-          element: <ShopConfirmationPage returnPath="/gift-request"/>
-        },
-        {
-          path: "/flower-order-confirmation",
-          element: <ShopConfirmationPage returnPath="/flower-request"/>
-        },
-          {
-              path: "/about-page",
-              element: <AboutPage />
-          }
-      ],
-    },
-  ]);
+    ]);
+
 
     return (
         <ThemeProvider theme={CustomTheme}>
@@ -101,6 +125,8 @@ function App() {
     function Root() {
         const navigate = useNavigate();
         const [chatbotOpen, setChatbotOpen] = useState(false);
+        const [lang, setlang] = useState<string>("en");
+
         return (
             <>
                 <Auth0Provider
@@ -116,16 +142,19 @@ function App() {
                     }}
                 >
                     <div className="w-full flex flex-col">
-                        <NavBar
-                          chatbotOpen={chatbotOpen}
-                          toggleChatbot={()=>setChatbotOpen(!chatbotOpen)}
-                        />
-                        <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a",}}></Box>
-                        <Outlet />
-                        <Chatbot
-                          open={chatbotOpen}
-                          onClose={()=>setChatbotOpen(false)}
-                        />
+                        <LanguageContext.Provider value={lang}>
+                            <NavBar
+                              chatbotOpen={chatbotOpen}
+                              toggleChatbot={()=>setChatbotOpen(!chatbotOpen)}
+                              onSetLanguage={(l)=> {setlang(l);}}
+                            />
+                            <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a",}}></Box>
+                            <Outlet />
+                            <Chatbot
+                              open={chatbotOpen}
+                              onClose={()=>setChatbotOpen(false)}
+                            />
+                        </LanguageContext.Provider>
                     </div>
                 </Auth0Provider>
             </>

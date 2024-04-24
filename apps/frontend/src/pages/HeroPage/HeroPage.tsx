@@ -4,6 +4,7 @@ import logo from "../../assets/baby.jpg";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import OurServices from "./OurServices.tsx";
 import {useNavigate} from "react-router-dom";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 export default function HeroPage() {
     const heroPage2Ref = useRef<HTMLDivElement | null>(null);
@@ -22,6 +23,25 @@ export default function HeroPage() {
 
     return (
         <>
+            <Box
+                sx = {{
+                    width: '100%',
+                    px: '1rem',
+                }}
+            >
+                <Typography
+                    variant = "caption"
+                    sx = {{
+                        display: 'inline-block',
+                        color: 'rgba(0, 0, 0, 0.6)',
+                        fontSize: '0.75rem',
+                        lineHeight: '1.4',
+                    }}
+                >
+                    Disclaimer: This website is a term project exercise for WPI CS 3733 Software Engineering (Prof. Wong) and is not to be confused with the actual Brigham & Women’s Hospital website.
+                </Typography>
+
+            </Box>
             <Box
                 component="img"
                 className={"logo"}
@@ -53,7 +73,7 @@ export default function HeroPage() {
                         p: '1rem',
                     }}
                 >
-                    Find Your Way
+                    {TranslateTo("heroP.findway")}
                 </Typography>
                 <Box
                     sx={{
@@ -66,9 +86,9 @@ export default function HeroPage() {
                 >
                     <Button
                         key="Map"
-                        onClick={() => handleMenuItemClick("/map")}
+                        onClick={() => {handleMenuItemClick("/map");}}
                         sx={{
-                            width: "40%",
+                            minWidth: "15rem",
                             px: '2rem',
                             color: "black",
                             transition: "all 0.2s ease-in-out",
@@ -81,14 +101,14 @@ export default function HeroPage() {
                         }}
                     >
                         <Typography variant="h6" mr={1}>
-                            Map
+                            {TranslateTo("heroP.map")}
                         </Typography>
                     </Button>
                     <Button
                         key="learnMore"
                         onClick={handleLearnMoreClick}
                         sx={{
-                            width: "40%",
+                            minWidth: "15rem",
                             px: '2rem',
                             py: '1rem',
                             color: "white",
@@ -102,7 +122,7 @@ export default function HeroPage() {
                         }}
                     >
                         <Typography variant="h6" mr={1}>
-                            Learn More
+                            {TranslateTo("heroP.learnMore")}
                         </Typography>
                         <KeyboardDoubleArrowDownIcon/>
                     </Button>

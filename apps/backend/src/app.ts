@@ -9,14 +9,19 @@ import nodesRouter from "./routes/nodes.ts";
 import edgesRouter from "./routes/edges.ts";
 import cartItemRouter from "./routes/cart-items.ts";
 import employeeRouter from "./routes/employees";
+import smsRouter from "./routes/SMS/sms.ts";
 import fileUpload from "express-fileupload";
 import * as fs from "fs";
 import path from "path";
 import { createDatabase } from "./helper/createDatabase.ts";
 import {auth} from "express-oauth2-jwt-bearer";
+// import { generateHeatmapData } from "./helper/generateHeatmapData.ts";
 const _ = require('./helper/bigIntFix.ts');
 
 const app: Express = express(); // Set up the backend
+
+// uncomment if you want to generate heatmap data again
+// generateHeatmapData();
 
 (async () => {
   // this will remove all service requests from the DB
@@ -26,7 +31,7 @@ const app: Express = express(); // Set up the backend
   const node_str = fs.readFileSync(nodePath, "utf8");
   const edge_str = fs.readFileSync(edgePath, "utf8");
 
-  await createDatabase(true, node_str, edge_str);
+  await createDatabase(true, node_str, edge_str, true);
 })();
 
 //const fileUpload = require("express-fileupload");
@@ -55,6 +60,7 @@ app.use("/api/nodes", nodesRouter);
 app.use("/api/edges", edgesRouter);
 app.use("/api/cart-items", cartItemRouter);
 app.use("/api/employees", employeeRouter);
+app.use("/api/sms", smsRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
 });

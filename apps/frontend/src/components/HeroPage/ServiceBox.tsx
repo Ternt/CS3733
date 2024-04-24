@@ -7,7 +7,7 @@ type ServiceBoxProps = {
     header: string,
     descriptiveText: string,
     icon: React.ReactNode,
-    onClick?: (event: React.MouseEvent<HTMLElement>) => void
+    onClick?: () => void
 };
 
 function ServiceBox(props: ServiceBoxProps) {
@@ -65,11 +65,15 @@ function ServiceBox(props: ServiceBoxProps) {
                     <CardContent>
                         {React.cloneElement(props.icon, {style: {fontSize: '50px'}})}
                         <Typography component="h2" sx={{
-                            fontSize: '22px',
+                            mt: '3%',
+                            fontSize: '18px',
+                            fontWeight: 500,
                         }}>
                             {props.header}
                         </Typography>
-                        <Typography variant="body1" color="textSecondary"  style={{whiteSpace: 'pre-line'}}>
+                        <Typography variant="body1" color="textSecondary"  style={{whiteSpace: 'pre-line'}} sx={{
+                            fontSize: '15px',
+                        }}>
                             {props.descriptiveText}
                         </Typography>
                     </CardContent>

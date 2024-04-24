@@ -1,6 +1,7 @@
 import {Box, CircularProgress, Typography} from "@mui/material";
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
-import ViewKanbanIcon from '@mui/icons-material/ViewKanban';import MapIcon from "@mui/icons-material/Map";
+import ViewKanbanIcon from '@mui/icons-material/ViewKanban';
+import MapIcon from "@mui/icons-material/Map";
 import TableViewIcon from "@mui/icons-material/TableView";
 import MapCanvas from "../../components/Map/MapCanvas.tsx";
 import { useState } from "react";
@@ -11,7 +12,7 @@ import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
 
 export default function AdminDashboard() {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading } = useAuth0();
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(0);
   let tabInject = <></>;
@@ -31,10 +32,6 @@ export default function AdminDashboard() {
     tabInject = <DisplayCSV />;
   }
 
-  function handleSelect(i: number) {
-    setSelectedTab(i);
-    console.log(i);
-  }
 
   if(isLoading){
     return (
@@ -69,7 +66,7 @@ export default function AdminDashboard() {
             value={0}
             tabs={["Menu", "Map", "Analytics"]}
             onSelect={(i) => {
-              handleSelect(i);
+              setSelectedTab(i);
             }}
           >
             <ViewKanbanIcon/>
@@ -78,21 +75,10 @@ export default function AdminDashboard() {
           </SidebarMenu>
           <Box
             sx={{
-              height: "80vh",
-              width: "100%",
+              height: "90vh",
+              width: "92vw",
             }}
           >
-            <Box
-            sx={{
-              height:'8vh'
-            }}
-            >
-              <Typography variant={"h6"} sx={{
-                  textAlign: 'center',
-              }}>
-                  Welcome {user?.name}!
-              </Typography>
-            </Box>
             {tabInject}
           </Box>
         </Box>

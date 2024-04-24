@@ -158,4 +158,22 @@ export class Graph {
 
         return path;
     }
+
+    incrementEdge(start: string, end: string) {
+        const search = this.edges.get(start);
+        if (search == undefined) {
+            console.error("start", start, "node does not exist");
+            return;
+        }
+
+        for (const edge of search) {
+            if (edge.neighborOf(start)?.id === end) {
+                edge.count += 1;
+                return;
+            }
+        }
+
+        console.error("edge from ", start, " to ", end, " does not exist");
+        return;
+    }
 }

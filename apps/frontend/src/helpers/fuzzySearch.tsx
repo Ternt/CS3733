@@ -1,18 +1,17 @@
 import FuzzySearch from "fuzzy-search";
 // see usage here: https://www.npmjs.com/package/fuzzy-search
 
+import {PageCardInfo} from "../pages/SearchPage/SearchPage.tsx";
+
 export function search(
   needle: string,
-  haystack: string[],
-  keys: string[],
-): string[] {
-  const searcher = new FuzzySearch(haystack, keys, {
+  haystack: PageCardInfo[],
+): PageCardInfo[] {
+  const searcher = new FuzzySearch(haystack, ["keywords"], {
     caseSensitive: false,
     sort: true,
   });
-  const result = searcher.search(needle);
-  console.log(result);
-  return result;
+  return searcher.search(needle);
 }
 
 // example code/how to use keys for objects:

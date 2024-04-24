@@ -5,7 +5,7 @@ import { edge, node, vec2 } from "../../helpers/typestuff.ts";
 import axios, { AxiosResponse } from "axios";
 import { graphHelper, pointHelper } from "../../helpers/clickCorrectionMath.ts";
 import MapControls from "./MapControls.tsx";
-import InformationMenu from "../InformationMenu.tsx";
+import NodeInformationMenu from "./NodeInformationMenu.tsx";
 import {
   MAPS,
   ZOOM,
@@ -17,12 +17,10 @@ import {
 import {clamp, distance} from "../../helpers/MathHelp.ts";
 import AnimatedPath from "./AnimatedPath.tsx";
 import CloseIcon from "@mui/icons-material/Close";
-
-
+import {evaluateHeatGradient} from "../../helpers/colorHelper.ts";
+import {AnimatePresence, motion} from "framer-motion";
 
 const NODE_SIZE = 3.1;
-
-
 
 type mapCanvasProps = {
   defaultFloor: number;
@@ -31,7 +29,6 @@ type mapCanvasProps = {
   endLocation: string;
   onDeselectEndLocation?: () => void;
 };
-
 
 export default function MapCanvas(props: mapCanvasProps) {
 
@@ -44,6 +41,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     down: false,
     downPos: {x: 0, y: 0},
   });
+  const [viewMode, setViewMode] = useState('normal');
   const [viewingFloor, setViewingFloor] = useState(props.defaultFloor);
   const [nodes, setNodes] = useState<node[]>([]);
   const [edges, setEdges] = useState<edge[]>([]);
@@ -85,12 +83,37 @@ export default function MapCanvas(props: mapCanvasProps) {
         height={getMapData().height / cameraControl.zoom}
         x={cameraControl.pan.x}
         y={cameraControl.pan.y}
+        filter={viewMode==='heatmap' ? "url(#darken)" : ''}
       />
+      <defs>
+        <filter
+          id="blurfilter"
+          x="-100%"
+          y="-100%"
+          width="200%"
+          height="200%"
+        >
+          <feGaussianBlur
+            stdDeviation="4.453736"
+            id="feGaussianBlur"/>
+        </filter>
+        <filter id="darken" x="0" y="0" width="100%" height="100%">
+          <feComponentTransfer>
+            <feFuncR type="linear" slope="0.5" intercept="0.05"></feFuncR>
+            <feFuncG type="linear" slope="0.5" intercept="0.05"></feFuncG>
+            <feFuncB type="linear" slope="0.5" intercept="0.1"></feFuncB>
+          </feComponentTransfer>
+        </filter>
+      </defs>
       <g
-        transform={"translate("+cameraControl.pan.x+" "+cameraControl.pan.y+") scale("+(1/cameraControl.zoom)+" "+(1/cameraControl.zoom)+")"}
+        transform={"translate(" + cameraControl.pan.x + " " + cameraControl.pan.y + ") scale(" + (1 / cameraControl.zoom) + " " + (1 / cameraControl.zoom) + ")"}
       >
-        <AnimatedPath svgPath={pathStringInject} />
-        {svgInject}
+        <AnimatedPath svgPath={pathStringInject}/>
+        <g
+          filter={viewMode==='heatmap' ? "url(#blurfilter)" : ''}
+        >
+          {svgInject}
+        </g>
       </g>
     </svg>
   );
@@ -98,11 +121,11 @@ export default function MapCanvas(props: mapCanvasProps) {
   // canvas data
 
   const [svgRect, setSvgRect] = useState({
-    width:0,
-    height:0,
-    top:0,
-    bottom:0,
-    left:0,
+    width: 0,
+    height: 0,
+    top: 0,
+    bottom: 0,
+    left: 0,
     right:0
   });
 
@@ -128,7 +151,7 @@ export default function MapCanvas(props: mapCanvasProps) {
       n: nodes.filter((n: node) => n.point.z === props.defaultFloor),
       e: edges.filter((e: edge) => e.startNode.point.z === props.defaultFloor),
     });
-    setViewingFloor(props.defaultFloor);
+    //setViewingFloor(viewingFloor);
   }, [edges, nodes, props.defaultFloor]);
 
   function handleSetViewingFloor(i: number) {
@@ -152,31 +175,48 @@ export default function MapCanvas(props: mapCanvasProps) {
         };
       }
 
-      function drawPoint(p: vec2, color: string) {
+      function drawPoint(p: vec2, selected:boolean, dragging:boolean, id:string) {
         p = vecToCanvSpace(p);
         if (p.z !== viewingFloor) return;
-        return <ellipse
-          key={"Point "+p.x+","+p.y+","+p.z}
-          cx={p.x}
-          cy={p.y}
-          rx={NODE_SIZE}
-          ry={NODE_SIZE}
-          fill={color}
-        />;
+        return (
+          <AnimatePresence>
+            <motion.ellipse
+              initial={{ opacity: dragging?1:0, scale: dragging?1:0, fill:"blue"}}
+              exit={{ opacity: dragging?1:0, scale: dragging?1:0, fill:"blue"}}
+              animate={{ opacity: 1, scale: 1, fill:selected?"red":"blue"}}
+              transition={{
+                duration: dragging?0:2,
+                delay: 0,
+                ease: [0, 0.11, 0.2, 1.01]
+              }}
+              key={"Point "+p.x+","+p.y+","+p.z}
+              cx={p.x}
+              cy={p.y}
+              rx={NODE_SIZE}
+              ry={NODE_SIZE}
+              id={id}
+            />
+          </AnimatePresence>);
       }
-      function drawLine(a: vec2, b: vec2, color: string) {
+      function drawLine(a: vec2, b: vec2, color: string, width:number, noAnimate:boolean) {
         if (a.z !== viewingFloor) return;
         a = vecToCanvSpace(a);
         b = vecToCanvSpace(b);
-        return <line
+        return <motion.line
           key={"Edge "+a.x+","+a.y+","+a.z+","+b.x+","+b.y+","+b.z}
           x1={a.x}
           y1={a.y}
           x2={b.x}
           y2={b.y}
           stroke={color}
-          strokeWidth={NODE_SIZE*.5}
           strokeLinecap={"round"}
+          initial={{ strokeWidth: noAnimate ? NODE_SIZE * .5 : 0}}
+          animate={{ strokeWidth: viewMode==='heatmap' ? width! : NODE_SIZE * .5}}
+          transition={{
+            duration: noAnimate? 0 : (viewMode==='heatmap'? 2 : 0.5),
+            delay:viewMode==='heatmap'?.5:0,
+            ease: [0, 0.71, 0.2, 1.01]
+          }}
         />;
       }
 
@@ -215,6 +255,7 @@ export default function MapCanvas(props: mapCanvasProps) {
                   style={{
                     filter: "drop-shadow(10px 20px 30px #000)"
                   }}
+
                 />
                 <text
                   fill={"#f6bd38"}
@@ -244,30 +285,31 @@ export default function MapCanvas(props: mapCanvasProps) {
           if (a.z !== viewingFloor) continue;
           pathString += "L " + b.x + " " + b.y + ",";
         }
-        // check that the selected point is
-        // if (pathing.selectedPoint !== null && pathing.path[pathing.path.length-1].point.z === viewingFloor) {
-        //   // svgElements.push(drawLine(pathing.path[pathing.path.length - 1].point, pathing.selectedPoint, "red"));
-        //   const a = vecToCanvSpace(pathing.path[pathing.path.length-1].point);
-        //   const b = vecToCanvSpace(pathing.selectedPoint);
-        //   if(lastFloor !== pathing.path[pathing.path.length-1].point.z){
-        //     pathString += "M "+a.x+" "+a.y+",";
-        //   }
-        //   pathString += "L " + b.x + " " + b.y + ",";
-        // }
         setPathStringInject(pathString);
       } else {
-        for (const n of renderData.n) {
-          svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID ? "red" : "blue")));
+        let min=0, max=0;
+        for (const e of renderData.e) {
+          const h = e.heat;
+          if(h < min)min=h;
+          if(h > max)max=h;
         }
         for (const e of renderData.e) {
-          svgElements.push(drawLine(e.startNode.point, e.endNode.point, "blue"));
+          const heat = (e.heat - min) / (max - min);
+          let color = "blue";
+          if(viewMode==='heatmap')
+            color = evaluateHeatGradient(heat);
+          svgElements.push(drawLine(e.startNode.point, e.endNode.point, color, 10*heat+5, e.endNode.nodeID === draggingNode?.nodeID || e.startNode.nodeID === draggingNode?.nodeID));
         }
+        if(viewMode==='edit')
+          for (const n of renderData.n) {
+            svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID), draggingNode === n, n.nodeID));
+          }
       }
       setSvgInject(svgElements);
     }
 
     canvasDraw();
-  }, [mouseData.down, mouseData.downPos.x, mouseData.downPos.y, mouseData.pos.x, mouseData.pos.y, pathing.nearestNode?.nodeID, pathing.path, pathing.selectedPoint, props.pathfinding, renderData.e, renderData.n, viewingFloor, props.endLocation, draggingNode, X_MULT, Y_MULT]);
+  }, [mouseData.down, mouseData.downPos.x, mouseData.downPos.y, mouseData.pos.x, mouseData.pos.y, pathing.nearestNode?.nodeID, pathing.path, pathing.selectedPoint, props.pathfinding, renderData.e, renderData.n, viewingFloor, props.endLocation, draggingNode, X_MULT, Y_MULT, viewMode]);
 
   // event handles
   useEffect(() => {
@@ -276,15 +318,72 @@ export default function MapCanvas(props: mapCanvasProps) {
     el.addEventListener("mousemove",handleMouseMove);
     el.addEventListener("mousedown", handleMouseDown);
     el.addEventListener("mouseup", handleMouseUp);
-    //el.addEventListener("dblclick", handleDblclick);
+    el.addEventListener("dblclick", handleDblclick);
     return () => {
       el.removeEventListener("wheel", handleZoom);
       el.removeEventListener("mousemove",handleMouseMove);
       el.removeEventListener("mousedown", handleMouseDown);
       el.removeEventListener("mouseup", handleMouseUp);
-      //el.removeEventListener("dblclick", handleDblclick);
+      el.removeEventListener("dblclick", handleDblclick);
     };
   }, [handleDblclick, handleMouseDown, handleMouseMove, handleMouseUp, handleZoom]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  async function handleDblclick(e:MouseEvent){
+    if (props.pathfinding || viewMode!=='edit') {
+      return;
+    }
+
+    const x = e.clientX - svgRect.left;
+    const y = e.clientY - svgRect.top;
+    const x2 = Math.round((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
+    const y2 = Math.round((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
+
+    // Move point to nearest edge
+    if (nodes === null) return;
+    const pos:vec2 = {x: x2, y: y2, z: viewingFloor};
+    const graphResponse = graphHelper({
+      pos: pos,
+      nodes: nodes,
+      edges: edges,
+      floor: viewingFloor,
+    });
+    if (graphResponse === null || graphResponse.point === null || graphResponse.edge === null) return;
+    const newNode: node = {
+      point: pos,
+      nodeID: ((Date.now()+"").substring((Date.now()+"").length/2)),
+      nodeType: "HALL",
+      longName: "A new node",
+      building: "Unknown building",
+      shortName: "A new node",
+      floor: FLOOR_IDS[viewingFloor],
+    };
+    const N = nodes;
+    N.push(newNode);
+    setNodes(N);
+    setNotification("Added a new node");
+    const editedNode = {
+      nodeID: newNode.nodeID,
+      xcoord: Math.round(newNode.point.x),
+      ycoord: Math.round(newNode.point.y),
+      floor: newNode.floor,
+      building: newNode.building,
+      longName: newNode.longName,
+      shortName: newNode.shortName,
+      nodeType: newNode.nodeType
+    };
+
+    // Send a PUT request to the server
+    await fetch("/api/nodes/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editedNode),
+    });
+    setPathing({...pathing, nearestNode:newNode});
+    initializeData();
+  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleZoom(e: WheelEvent) {
@@ -330,7 +429,7 @@ export default function MapCanvas(props: mapCanvasProps) {
             y: cameraControl.panAnchor.y + dy,
           },
         });
-      } else {
+      } else if(viewMode==='edit'){
         draggingNode.point = {x: x2, y: y2, z: draggingNode.point.z};
       }
     }
@@ -350,7 +449,7 @@ export default function MapCanvas(props: mapCanvasProps) {
       panAnchor: cameraControl.pan,
     });
 
-    if (!props.pathfinding) {
+    if (!props.pathfinding && viewMode==='edit') {
       const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
       const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
 
@@ -360,38 +459,39 @@ export default function MapCanvas(props: mapCanvasProps) {
         pos: {x: x2, y: y2, z: viewingFloor},
         nodes: nodes,
         floor: viewingFloor,
-        distance: NODE_SIZE / cameraControl.zoom,
+        distance: 15
       });
       setDraggingNode(closestNode);
     }
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  function handleDblclick(e: MouseEvent) {
+  function handleClickNode(e: MouseEvent) {
     const x = e.clientX - svgRect.left;
     const y = e.clientY - svgRect.top;
     const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
     const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
-    if(props.startLocation === '' && props.pathfinding){
-      setNotification("Select a start location");
-      return;
-    }
-    // Move point to nearest edge
-    if (nodes === null) return;
-    const graphResponse = graphHelper({
-      pos: {x: x2, y: y2, z: viewingFloor},
-      nodes: nodes,
-      edges: edges,
-      floor: viewingFloor,
-    });
-    if(graphResponse === null) return;
-    const coords = graphResponse.point;
-    const closestEdge = graphResponse.edge;
-    if (coords === null || closestEdge === null) return;
-    let closestNode = closestEdge!.startNode;
-    if(distance(closestEdge!.startNode.point, coords) > distance(closestEdge!.endNode.point, coords))
-      closestNode = closestEdge!.endNode;
-
+    const pos:vec2 =  {x: x2, y: y2, z: viewingFloor};
     if (props.pathfinding) {
+      if(props.startLocation === ''){
+        setNotification("Select a start location");
+        return;
+      }
+      // Move point to nearest edge
+      if (nodes === null) return;
+      const graphResponse = graphHelper({
+        pos: pos,
+        nodes: nodes,
+        edges: edges,
+        floor: viewingFloor,
+      });
+      if(graphResponse === null) return;
+      const coords = graphResponse.point;
+      const closestEdge = graphResponse.edge;
+      if (coords === null || closestEdge === null) return;
+      let closestNode = closestEdge!.startNode;
+      if(distance(closestEdge!.startNode.point, coords) > distance(closestEdge!.endNode.point, coords))
+        closestNode = closestEdge!.endNode;
+
       axios
         .get("/api/pathfind?endNode=" + closestNode.nodeID + "&startNode=" + props.startLocation +"&algorithm=" +props.pathfinding,)
         .then((res) => {
@@ -424,20 +524,36 @@ export default function MapCanvas(props: mapCanvasProps) {
             selectedPoint: coords,
             algo: props.pathfinding!
           });
+          setViewingFloor(FLOOR_NAME_TO_INDEX(pathNodes[pathNodes.length - 1].floor!));
+          setCameraControl({
+            ...cameraControl,
+            zoom: 1,
+            pan: {
+              x: 0,
+              y: 0,
+            },
+          });
           if (props.onDeselectEndLocation !== undefined)
             props.onDeselectEndLocation();
         });
     } else {
-      if (pathing.nearestNode?.nodeID === closestNode.nodeID) {
+      if(viewMode!=='edit')return;
+      const closestNode = pointHelper({
+        pos:pos,
+        floor:viewingFloor,
+        nodes:nodes,
+        distance: 400,
+      });
+      if (closestNode && pathing.nearestNode?.nodeID === closestNode.nodeID) {
         setPathing({
           ...pathing,
-          selectedPoint: coords,
+          selectedPoint: pos,
           nearestNode: null,
         });
       } else {
         setPathing({
           ...pathing,
-          selectedPoint: coords,
+          selectedPoint: pos,
           nearestNode: closestNode,
         });
       }
@@ -450,7 +566,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     const dp = mouseData.downPos;
     const up = mouseData.pos;
     if(dp.x === up.x && dp.y === up.y){
-      handleDblclick(e);
+      handleClickNode(e);
     }
 
     setMouseData({...mouseData, down: false});
@@ -505,7 +621,15 @@ export default function MapCanvas(props: mapCanvasProps) {
                 pathNodes.pop();
               }
             }
-
+            setViewingFloor(FLOOR_NAME_TO_INDEX(pathNodes[pathNodes.length - 1].floor!));
+            setCameraControl({
+              ...cameraControl,
+              zoom: 1,
+              pan: {
+                x: 0,
+                y: 0,
+              },
+            });
             setPathing({
               ...pathing,
               path: pathNodes,
@@ -515,10 +639,13 @@ export default function MapCanvas(props: mapCanvasProps) {
           });
       }
     }
-  }, [edges, nodes, pathing, pathing.algo, props.pathfinding, props.startLocation, viewingFloor]);
+  }, [cameraControl, edges, nodes, pathing, pathing.algo, props.pathfinding, props.startLocation, viewingFloor]);
 
   // Init data
   useEffect(() => {
+    initializeData();
+  }, []);
+  function initializeData(){
     axios.get("/api/map").then((res: AxiosResponse) => {
       const ns: node[] = [];
       const es: edge[] = [];
@@ -550,14 +677,14 @@ export default function MapCanvas(props: mapCanvasProps) {
           return n.nodeID === r["endNodeID"];
         });
         if (end === undefined) continue;
-        const e: edge = {startNode: start, endNode: end};
+        const e: edge = {startNode: start, endNode: end, heat:r.heat};
         es.push(e);
       }
 
       setNodes(ns);
       setEdges(es);
     });
-  }, []);
+  }
 
   // Update pathing if selection dropdown changes
   useEffect(() => {
@@ -593,9 +720,18 @@ export default function MapCanvas(props: mapCanvasProps) {
             selectedPoint: null,
             algo: props.pathfinding!
           });
+          setViewingFloor(FLOOR_NAME_TO_INDEX(pathNodes[pathNodes.length - 1].floor!));
+          setCameraControl({
+            ...cameraControl,
+            zoom: 1,
+            pan: {
+              x: 0,
+              y: 0,
+            },
+          });
         });
     }
-  }, [pathing, nodes, props.endLocation, props.startLocation, props.pathfinding]);
+  }, [pathing, nodes, props.endLocation, props.startLocation, props.pathfinding, cameraControl]);
 
   return (
     <>
@@ -616,7 +752,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         </Box>
 
         {!props.pathfinding && pathing.nearestNode !== null && (
-          <InformationMenu
+          <NodeInformationMenu
             nodeData={pathing.nearestNode}
             onClose={() => {
               setPathing({...pathing, nearestNode: null});
@@ -627,14 +763,26 @@ export default function MapCanvas(props: mapCanvasProps) {
                 nearestNode: node,
               });
             }}
+            onPulseUpdate={()=>{
+              initializeData();
+            }}
+            edges={edges}
+            nodes={nodes}
           />
         )}
         <MapControls
           floor={viewingFloor}
           zoom={cameraControl.zoom}
           zoomSpeed={ZOOM.SPEED * 3}
+          viewMode={viewMode}
+          showViewModeSelector={props.pathfinding===null}
           onSetFloorIndex={(floorIndex: number) => {
             handleSetViewingFloor(floorIndex);
+          }}
+          onSetViewMode={(vm)=>{
+            setViewMode(vm);
+            if(vm !== 'edit')
+              setPathing({...pathing, nearestNode:null});
           }}
           onSetZoom={(z: number) => {
             const zc = clamp(z, ZOOM.MIN, ZOOM.MAX,);
