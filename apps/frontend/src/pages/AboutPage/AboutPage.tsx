@@ -70,12 +70,16 @@ function AboutPage() {
                 <Box
                     sx={{
                         justifyContent: 'center',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        backgroundColor: "#e4e4e4",
                     }}
                 >
                     <Typography
                         fontSize={"md"}
                         variant={"h1"}
+                        sx={{
+                            fontWeight: 500,
+                        }}
                     >
                         Meet the Team
                     </Typography>
@@ -85,9 +89,6 @@ function AboutPage() {
                     minWidth={"100vw"}
                     minHeight={"50vh"}
                     padding-top={"5px"}
-                    sx={{
-                        mt: 2
-                    }}
                 >
                     <CarouselComponent slides={slidesData} />
                 </Box>
