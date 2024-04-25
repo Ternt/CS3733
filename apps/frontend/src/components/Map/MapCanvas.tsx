@@ -29,6 +29,7 @@ type mapCanvasProps = {
   endLocation: string;
   onDeselectEndLocation?: () => void;
   onGetNearestNode?: (node: node | null) => void;
+  mobile?:boolean;
 };
 
 export default function MapCanvas(props: mapCanvasProps) {
@@ -791,6 +792,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           floor={viewingFloor}
           zoom={cameraControl.zoom}
           zoomSpeed={ZOOM.SPEED * 3}
+          mobile={props.mobile}
           viewMode={viewMode}
           showViewModeSelector={props.pathfinding===null}
           onSetFloorIndex={(floorIndex: number) => {
