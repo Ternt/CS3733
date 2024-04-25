@@ -174,7 +174,6 @@ function ReligiousRequestForm() {
                         backgroundColor: 'whitesmoke',
                         borderRadius: '23px',
                         boxShadow: 3,
-                        p: 4,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -190,7 +189,7 @@ function ReligiousRequestForm() {
                             bgcolor: '#012d5a',
                             color: '#f6bd38',
                             borderRadius: '23px 23px 0 0',
-                            p: 2,
+                            py: '3%',
                             width: '100%',
                             display: 'flex',
                             justifyContent: 'center',
@@ -205,7 +204,7 @@ function ReligiousRequestForm() {
                             RELIGIOUS SERVICES
                         </Typography>
                     </Box>
-                    <FormControl fullWidth sx={{ mt: 3, gap: 2 }}>
+                    <FormControl fullWidth sx={{ mt: 3, gap: 2, px: '3%', }}>
                         <TextField
                             required
                             label="Patient or Requestor Name"
@@ -298,10 +297,13 @@ function ReligiousRequestForm() {
                         </Button>
                     </Box>
                 </Box>
+
+                {/*Holds both Graphs*/}
                 <Box
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
+                        pt: 6,
                         gap: 2,
                         maxWidth: 'calc(100% - 700px)',
                         flexBasis: 'auto',
