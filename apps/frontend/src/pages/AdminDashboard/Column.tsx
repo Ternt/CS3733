@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import { Droppable } from "@hello-pangea/dnd";
 
 import {ServiceRequest} from "../../helpers/typestuff.ts";
-import KanbanBoardCard from "./KanbanBoardCard.tsx";
+import TaskCards from "./TaskCards.tsx";
 
 type ColumnProp = {
     id: string;
@@ -36,7 +36,7 @@ export default function Column(prop: ColumnProp){
                     >
                         {prop.tasks.map((service, index) => {
                             return(
-                                <KanbanBoardCard key={service.requestID} index={index} serviceRequestData={service}></KanbanBoardCard>
+                                <TaskCards key={service.requestID} index={index} serviceRequestData={service}></TaskCards>
                             );
                         })}
                         {provided.placeholder}
