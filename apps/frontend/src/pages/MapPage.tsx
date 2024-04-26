@@ -107,7 +107,7 @@ export default function MapPage() {
         return acc.concat(messageStrings);
     }, []).join('\n\n')}`;
 
-    const TTSPath = `${natLangPath.reduce<string[]>((acc, obj) => {
+     const TTSPath = `${natLangPath.reduce<string[]>((acc, obj) => {
         const messageStrings = obj.messages.map((message) => {
             return` ${message.a}`;
         });
