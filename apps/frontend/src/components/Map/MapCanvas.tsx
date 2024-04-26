@@ -199,13 +199,16 @@ export default function MapCanvas(props: mapCanvasProps) {
         return (
           <AnimatePresence>
             <motion.ellipse
-              initial={{ opacity: dragging?1:0, scale: dragging?1:0, fill:"blue"}}
-              exit={{ opacity: dragging?1:0, scale: dragging?1:0, fill:"blue"}}
-              animate={{ opacity: 1, scale: 1, fill:selected?"red":"blue"}}
+              initial={{ opacity: dragging?1:0, scale: dragging?(selected?1.5:1):0, fill:"#012d5a"}}
+              exit={{ opacity: dragging?1:0, scale: dragging?(selected?1.5:1):0, fill:"#012d5a"}}
+              animate={{ opacity: 1, scale: (selected?1.5:1), fill:selected?"red":"#012d5a"}}
               transition={{
                 duration: dragging?0:2,
                 delay: 0,
                 ease: [0, 0.11, 0.2, 1.01]
+              }}
+              style={{
+                filter: "drop-shadow(1px 1px 2px #00000020)"
               }}
               key={"Point "+p.x+","+p.y+","+p.z}
               cx={p.x}
@@ -234,6 +237,9 @@ export default function MapCanvas(props: mapCanvasProps) {
             duration: noAnimate? 0 : (viewMode==='heatmap'? 2 : 0.5),
             delay:viewMode==='heatmap'?.5:0,
             ease: [0, 0.71, 0.2, 1.01]
+          }}
+          style={{
+            filter: "drop-shadow(1px 1px 2px #000)"
           }}
         />;
       }
@@ -313,7 +319,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         }
         for (const e of renderData.e) {
           const heat = (e.heat - min) / (max - min);
-          let color = "blue";
+          let color = "#f6bd38";
           if(viewMode==='heatmap')
             color = evaluateHeatGradient(heat);
           svgElements.push(drawLine(e.startNode.point, e.endNode.point, color, 10*heat+5, e.endNode.nodeID === draggingNode?.nodeID || e.startNode.nodeID === draggingNode?.nodeID));
@@ -668,10 +674,18 @@ export default function MapCanvas(props: mapCanvasProps) {
       const ns: node[] = [];
       const es: edge[] = [];
 
+      const FLOOR_OFFSETS = [
+        {x: 45, y: -20},
+        {x: 20, y: 3},
+        {x: 0, y: 0},
+        {x: 0, y: 0},
+        {x: 0, y: 0},
+      ];
+
       for (const r of res.data.nodes) {
         const v: vec2 = {
-          x: r.xcoord,
-          y: r.ycoord,
+          x: FLOOR_OFFSETS[FLOOR_NAME_TO_INDEX(r.floor)].x + r.xcoord,
+          y: FLOOR_OFFSETS[FLOOR_NAME_TO_INDEX(r.floor)].y + r.ycoord,
           z: FLOOR_NAME_TO_INDEX(r.floor),
         };
         const n: node = {
