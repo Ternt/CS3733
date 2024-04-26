@@ -64,7 +64,11 @@ export default function ServiceRequestOverview(){
 
     // current state of the kanban board
     const [state , setState] = useState<ColumnData>(initialData);
+
+    // original state of the kanban board before filtering
     const [originalState, setOriginalState] = useState<ColumnData>(initialData);
+
+    // an array of employees for the autocomplete
     const [employeeList, setEmployeeList] = useState<EmployeeAutoCompleteOption[]>([]);
 
     // an array of changes made to the kanban board
@@ -72,11 +76,17 @@ export default function ServiceRequestOverview(){
 
 
     function updateServiceRequestData(){
+        // formatted service request
+        function formatServiceRequest(serviceRequest: ServiceRequest){
+            return serviceRequest;
+        }
+
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
             const parsed = JSON.parse(JSON.stringify(initialData));
             res.data.forEach((serviceRequest: ServiceRequest) => {
                 const id = serviceRequest.type.toLowerCase();
-                parsed.columns[id].tasks.push(serviceRequest);
+                const formattedSR = formatServiceRequest(serviceRequest);
+                parsed.columns[id].tasks.push(formattedSR);
             });
             setState(parsed);
             setOriginalState(parsed);
