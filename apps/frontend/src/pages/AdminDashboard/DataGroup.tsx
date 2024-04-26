@@ -10,7 +10,7 @@ type TaskGroupProp = {
     children: JSX.Element;
 }
 
-export default function TaskGroup(prop: TaskGroupProp){
+export default function DataGroup(prop: TaskGroupProp){
     const [open, setOpen] = useState<boolean>(true);
 
     function handleOpen() {
@@ -18,7 +18,7 @@ export default function TaskGroup(prop: TaskGroupProp){
     }
 
     return(
-        <Card sx={{bgcolor: '#E4E4E4'}}>
+        <Card elevation={0} sx={{bgcolor: '#E4E4E4'}}>
             <ButtonBase
                 sx={{display: 'flex', justifyContent: 'flex-start', width: '100%', height: '4vh'}}
                 onClick={() => (
@@ -29,7 +29,7 @@ export default function TaskGroup(prop: TaskGroupProp){
                 </CardContent>
             </ButtonBase>
             <Collapse in={open}>
-                <CardContent sx={{bgcolor: '#F1F1F1'}}>
+                <CardContent sx={{bgcolor: '#FFFFFF'}}>
                     {prop.children}
                 </CardContent>
             </Collapse>

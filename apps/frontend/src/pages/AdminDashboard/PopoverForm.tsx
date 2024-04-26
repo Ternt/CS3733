@@ -3,11 +3,14 @@
 
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import Card from "@mui/material/Card";
+// import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
+import SubjectIcon from "@mui/icons-material/Subject";
+import InputBase from "@mui/material/InputBase";
+import {IconButton} from "@mui/material";
 
 import {ServiceRequest} from "../../helpers/typestuff.ts";
-import TaskGroup from "./TaskGroup.tsx";
+import DataGroup from "./DataGroup.tsx";
 
 type PopoverFormProp = {
     open: boolean;
@@ -103,7 +106,7 @@ export function PopoverForm(prop: PopoverFormProp){
 
     // the most scuffed recursion function ever
     function recurseTree<Type extends object>(label: string, data: string | number | Type, informationField: JSX.Element) {
-        if(Array.isArray(data)){
+        if(Array.isArray(data) || label === "type"){
             return informationField;
         }
 
@@ -115,23 +118,57 @@ export function PopoverForm(prop: PopoverFormProp){
                 });
 
             return(
-                <TaskGroup label={label}>
+                <DataGroup label={label}>
                     {informationField}
-                </TaskGroup>
+                </DataGroup>
+            );
+        }
+
+        // if data have notes as the label, render a text field
+        if(label.toLowerCase().includes("notes")){
+            return(
+                <>
+                    <Box sx={{pb: 2}}>
+                        <Box sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItem: 'center',
+                                width: '100%',
+                                pb: 1,
+                            }}>
+                            <IconButton sx={{p: 0}}><SubjectIcon/></IconButton>
+                            <Typography variant="h6" sx={{px: 1}}>{label}</Typography>
+                        </Box>
+                        <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', padding: '0.125vh', px: '3%'}}>
+                            <Box
+                                sx={{
+                                    bgcolor: '#FFFFFF',
+                                    display: 'flex',
+                                    width: '100%',
+                                    padding: 1,
+                                    borderRadius: 2,
+                                    border: 2,
+                                    borderColor: '#E4E4E4'
+                            }}>
+                                <InputBase
+                                    fullWidth
+                                    multiline={true}
+                                    sx={{px: 1}}
+                                    placeholder={data.toString()}
+                                >
+                                </InputBase>
+                            </Box>
+                        </Box>
+                    </Box>
+                    {informationField}
+                </>
             );
         }
 
         return(
-            <>
-                <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', padding: 0}}>
-                    <Typography
-                        noWrap={false}
-                        sx={{width: '50%'}}
-                    >{label}: </Typography>
-                    <Typography
-                        noWrap={false}
-                        sx={{width: '50%'}}
-                    >{data.toString()}</Typography>
+            <><Box sx={{display: 'flex', flexDirection: 'row', width: '100%', padding: '0.125vh', px: '3%'}}>
+                    <Typography noWrap={false} sx={{width: '50%'}}> {label} </Typography>
+                    <Typography noWrap={false} sx={{width: '50%'}}> {data.toString()}</Typography>
                 </Box>
                 {informationField}
             </>
@@ -150,31 +187,33 @@ export function PopoverForm(prop: PopoverFormProp){
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-
                 }}
             >
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItem: 'center',
-                    bgcolor: '#FFFFFF',
-                    width: '40vw'
+                    bgcolor: '#F1F1F1',
+                    width: '40vw',
+                    borderRadius: 1,
+                    gap: '0.5vh',
+                    padding: 3,
+                    overflowY: 'scroll',
+                    overflowX: 'hidden',
+                    height: '75vh',
                 }}>
+
                     {
                         Object.entries(prop.data)
                             .filter((data) =>
                                 (data[1] !== null) &&
-                                (data[0] !== "requestID") &&
-                                (data[0] !== "status") &&
-                                (data[0] !== "assignedEmployee"))
+                                (data[0] !== "requestID"))
                             .map((data, index) => {
                                 const form = recurseTree(data[0], data[1], <></>);
                                 return(
                                     <Box key={"field" + index} >
-                                        <Card sx={{display: 'flex', flexDirection: 'column'}}>
+                                        <Box sx={{display: 'flex', flexDirection: 'column'}}>
                                             {form}
-                                        </Card>
+                                        </Box>
                                     </Box>
                                 );
                             })

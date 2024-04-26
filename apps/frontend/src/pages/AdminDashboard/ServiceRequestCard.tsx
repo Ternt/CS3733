@@ -17,7 +17,7 @@ type KanbanBoardProp = {
     serviceRequestData: ServiceRequest;
 };
 
-export default function TaskCards(prop: KanbanBoardProp){
+export default function ServiceRequestCard(prop: KanbanBoardProp){
     // a service request
     const [serviceRequest] = useState<ServiceRequest>(prop.serviceRequestData);
 
@@ -40,6 +40,7 @@ export default function TaskCards(prop: KanbanBoardProp){
                         data={serviceRequest}
                     />
                     <Card
+                        elevation={1}
                         sx={{
                             backgroundColor:'#FFFFFF',
                             borderRadius: 2,
