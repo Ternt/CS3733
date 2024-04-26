@@ -19,6 +19,7 @@ import AnimatedPath from "./AnimatedPath.tsx";
 import CloseIcon from "@mui/icons-material/Close";
 import {evaluateHeatGradient} from "../../helpers/colorHelper.ts";
 import {AnimatePresence, motion} from "framer-motion";
+import {ICONS} from "./MapIcons.tsx";
 
 const NODE_SIZE = 3.1;
 
@@ -43,6 +44,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     down: false,
     downPos: {x: 0, y: 0},
   });
+  const [showIcons, setShowIcons] = useState<boolean[]>(Array.from(ICONS, ()=>{return false;}));
   const [viewMode, setViewMode] = useState('normal');
   const [viewingFloor, setViewingFloor] = useState(props.defaultFloor);
   const [nodes, setNodes] = useState<node[]>([]);
@@ -124,6 +126,13 @@ export default function MapCanvas(props: mapCanvasProps) {
         >
           {svgInject}
         </g>
+        {
+          ICONS.map((ico, index)=>{
+            if(showIcons[index])
+              return ico.icon;
+            return <></>;
+          })
+        }
       </g>
     </svg>
   );
@@ -231,8 +240,8 @@ export default function MapCanvas(props: mapCanvasProps) {
           y2={b.y}
           stroke={color}
           strokeLinecap={"round"}
-          initial={{ strokeWidth: noAnimate ? NODE_SIZE * .5 : 0}}
-          animate={{ strokeWidth: viewMode==='heatmap' ? width! : NODE_SIZE * .5}}
+          initial={{ strokeWidth: noAnimate ? 1.2 : 0}}
+          animate={{ strokeWidth: viewMode==='heatmap' ? width! : 1.2}}
           transition={{
             duration: noAnimate? 0 : (viewMode==='heatmap'? 2 : 0.5),
             delay:viewMode==='heatmap'?.5:0,
@@ -843,6 +852,8 @@ export default function MapCanvas(props: mapCanvasProps) {
               },
             });
           }}
+          showIcons={showIcons}
+          onSetShowIcons={setShowIcons}
         />
       </Box>
       <Snackbar

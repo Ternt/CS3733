@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {
   Accordion, AccordionDetails,
   AccordionSummary,
-  Box,
+  Box, Checkbox,
   Fab,
   IconButton,
   Snackbar,
@@ -18,6 +18,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {ICONS} from "./MapIcons.tsx";
 
 type MapControlProps = {
   floor: number;
@@ -30,6 +31,8 @@ type MapControlProps = {
   showViewModeSelector:boolean;
   onSetViewMode: (m:string)=>void;
   mobile?:boolean;
+  showIcons:boolean[];
+  onSetShowIcons: (b:boolean[])=>void;
 };
 
 export default function MapControls(props: MapControlProps) {
@@ -145,6 +148,39 @@ export default function MapControls(props: MapControlProps) {
         flexWrap: "nowrap",
       }}
     >
+      <Accordion
+        defaultExpanded={false}
+      >
+        <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+          Icons
+        </AccordionSummary>
+        <AccordionDetails>
+          {
+            ICONS.map((ico, index)=>{
+              return(
+                <Box
+                  key={ico.name}
+                  sx={{
+                    display:'flex',
+                    flexDirection:'row',
+                  }}
+                >
+                  <Typography variant={'caption'}>{ico.name}</Typography>
+                  <Checkbox
+                    value={index}
+                    checked={props.showIcons[index]}
+                    onChange={()=>{
+                      const a = props.showIcons;
+                      a[index] = !a[index];
+                      props.onSetShowIcons(a);
+                    }}
+                  />
+                </Box>
+              );
+            })
+          }
+        </AccordionDetails>
+      </Accordion>
       <Box
         sx={{
           display:'flex',
