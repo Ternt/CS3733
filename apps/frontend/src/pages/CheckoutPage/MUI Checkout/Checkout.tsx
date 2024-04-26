@@ -89,7 +89,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                         .map((item: Item) => item.price)
                         .reduce(
                             (accumulator: number, currentValue: number) =>
-                                accumulator + currentValue,
+                                accumulator + parseFloat(currentValue.toString()),
                             0,
                         ) * 1.0625).toFixed(2)}
                 />;
