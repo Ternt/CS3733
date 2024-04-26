@@ -17,7 +17,7 @@ type KanbanBoardProp = {
     serviceRequestData: ServiceRequest;
 };
 
-export default function KanbanBoardCard(prop: KanbanBoardProp){
+export default function TaskCards(prop: KanbanBoardProp){
     // a service request
     const [serviceRequest] = useState<ServiceRequest>(prop.serviceRequestData);
 
