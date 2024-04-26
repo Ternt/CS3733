@@ -1,138 +1,147 @@
-import {Box, Card} from "@mui/material";
-import {Typography} from "@mui/material";
-import {useEffect, useState} from "react";
-import axios, {AxiosResponse} from "axios";
-import KanbanBoardCard from "./KanbanBoardCard.tsx";
-import {AssignedEmployee, ServiceRequest} from "../../helpers/typestuff.ts";
-import * as React from "react";
-import EmployeeAutoComplete, {EmployeeAutocompleteOption} from "../../components/EmployeeAutoComplete.tsx";
-import CardContent from "@mui/material/CardContent";
-// import {RequestInspectionDialogue} from "./RequestInspectionDialogue.tsx";
+import { useEffect, useState } from 'react';
+import axios, {AxiosResponse} from 'axios';
+import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 
+import Box from '@mui/material/Box';
+import { Typography } from '@mui/material';
 
+import {AssignedEmployee, ServiceRequest} from '../../helpers/typestuff.ts';
+import {EmployeeAutoCompleteOption} from '../../components/EmployeeAutoComplete.tsx';
+import Column from './Column.tsx';
+
+export interface Column<T>{
+    [key: string]: T
+}
+
+export interface ColumnData{
+    columns: Column<column>;
+    columnOrder: string[];
+}
+
+export type column = {
+    id: string;
+    title: string;
+    tasks: ServiceRequest[];
+};
+
+const initialData : ColumnData = {
+    columns: {
+        "medicine": {
+            id: 'medicine',
+            title: 'MEDICINE',
+            tasks: [],
+        },
+        "sanitation": {
+            id: 'sanitation',
+            title: 'SANITATION',
+            tasks: [],
+        },
+        "gift": {
+            id: 'gift',
+            title: 'GIFT',
+            tasks: [],
+        },
+        "maintenance": {
+            id: 'maintenance',
+            title: 'MAINTENANCE',
+            tasks: [],
+        },
+        "language": {
+            id: 'language',
+            title: 'LANGUAGE',
+            tasks: [],
+        },
+        "religious": {
+            id: 'religious',
+            title: 'RELIGIOUS',
+            tasks: [],
+        }
+    },
+    columnOrder: ['medicine', 'sanitation', 'gift', 'maintenance', 'language', 'religious']
+};
 
 export default function ServiceRequestOverview(){
-    const [serviceRequests, setServiceRequests] = useState<ServiceRequest[]>([]);
-    const [employeeList, setEmployeeList] = useState<EmployeeAutocompleteOption[]>([]);
-    const reqTypes = ["MEDICINE", "SANITATION", "GIFT", "MAINTENANCE", "LANGUAGE", "RELIGIOUS"];
-    const [filteredRequests, setFilteredRequests] = useState<ServiceRequest[]>([]);
+    const [state , setState] = useState<ColumnData>(initialData);
 
-    useEffect(()=>{
+    function updateServiceRequestData(){
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
-            setServiceRequests(res.data);
-            setFilteredRequests(res.data);
+            const parsed = JSON.parse(JSON.stringify(initialData));
+            res.data.forEach((serviceRequest: ServiceRequest) => {
+                const id = serviceRequest.type.toLowerCase();
+                parsed.columns[id].tasks.push(serviceRequest);
+            });
+            setState(parsed);
         });
         axios.get('/api/employees').then((res: AxiosResponse) => {
             if(res.status !== 200){
-                console.error("die");
+                console.error('die');
             }
-            const employeeDropdownOptions: EmployeeAutocompleteOption[] = [];
+            const employeeDropdownOptions: EmployeeAutoCompleteOption[] = [];
             res.data.forEach((employee: AssignedEmployee)=> {
                 employeeDropdownOptions.push({
-                    label: employee.firstName + " " + employee.lastName,
+                    label: employee.firstName + ' ' + employee.lastName,
                     id: employee.id,
                 });
             });
-            setEmployeeList(employeeDropdownOptions);
+            console.log(employeeDropdownOptions);
         });
-    }, []);
-
-    function onChange(value: EmployeeAutocompleteOption){
-        setFilteredRequests(serviceRequests.filter((request) => request.assignedEmployee?.id === value.id));
     }
 
-    function onClear(){
-        setFilteredRequests(serviceRequests);
+    useEffect(() => {
+        updateServiceRequestData();
+    }, []);
+
+    function onDragEnd(result: DropResult){
+        const {destination, source} = result;
+
+        if(!destination){
+            return;
+        }
+
+        if(source.droppableId === destination.droppableId
+            && source.index === destination.index) {
+            return;
+        }
+
+        const column = state.columns[source.droppableId];
+        const newTaskIds = Array.from(column.tasks);
+        newTaskIds.splice(source.index, 1);
+        newTaskIds.splice(destination.index, 0, state.columns[source.droppableId].tasks[source.index]);
+
+        const newColumn: column = {
+            ...column,
+            tasks: newTaskIds
+        };
+
+        const newState: ColumnData = {
+            ...state,
+            columns: {
+                ...state.columns,
+                [newColumn.id]: newColumn
+            }
+        };
+
+        setState(newState);
     }
 
     return(
         <>
-            <Box>
-                <Box sx={{px: '1.5%', pt: '1.5%', backgroundColor: '#FFFFFF', width: '40%'}}>
-                    <EmployeeAutoComplete
-                        onClear={onClear}
-                        onChange={(label: EmployeeAutocompleteOption) => {
-                            onChange(label);
-                        }}
-                        label={"Filter..."} employeeList={employeeList}
-                        disableClearable={false}
-                    >
-                    </EmployeeAutoComplete>
-                </Box>
-                <Box
-                    sx={{
-                        height: "78vh",
-                        width:'100%',
-                        overflowY:'hidden',
-                        p: '1%',
-                        display:'flex',
-                        flexDirection:'row',
-                        gap: 2,
-                    }}
-                >
-                    {
-                        reqTypes.map((category)=>{
-                            return (
-                                <Card
-                                    key={category}
-                                    sx={{
-                                        minWidth: "25vw",
-                                        minHeight:'70vh',
-                                        display:'flex',
-                                        flexDirection:'column',
-                                        p: "0.5%",
-                                        backgroundColor: '#F1F1F1',
-                                    }}
-                                >
-                                    <CardContent>
-                                        <Box sx={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItem: "center",
-                                            width:'fill-available',
-                                            px: "5%",
-                                            pt: "4%",
-                                            pb: "2%",
-                                            backgroundColor: '#012d5a',
-                                        }}>
-                                            <Typography
-                                                variant={"h5"}
-                                                sx={{
-                                                    textAlign:'center',
-                                                    color: '#f6bd38',
-                                                    fontWeight: 500,
-                                                }}>{category}
-                                            </Typography>
-                                        </Box>
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                width: '100%',
-                                                height: '65vh',
-                                                gap: "1rem",
-                                                overflow: 'scroll',
-                                                p: '5%',
-                                            }}>
-                                            {
-                                                filteredRequests.filter(x=> x.type === category).map((service) => {
-                                                    return(
-                                                        <KanbanBoardCard key={service.requestID} serviceRequestData={service} employeeList={employeeList} />
-                                                    );
-                                                })
-                                            }
-                                        </Box>
-                                    </CardContent>
-                                </Card>
-                            );})
-                    }
-                </Box>
-                {/*<RequestInspectionDialogue*/}
-                {/*    selectedRequest={selectedCard}*/}
-                {/*    onCloseDialogue={()=>{*/}
-                {/*        setSelectedCard(null);*/}
-                {/*    }}*/}
-                {/*/>*/}
+            <Box sx={{backgroundColor: '#FFFFFF', width: '40%', height: '5vh', px: '1.5%', pt: '1.5%'}}>
+                <Typography>Filter placeholder</Typography>
+            </Box>
+            <Box sx={{display: 'flex', flexDirection: 'row', overflowY: 'hidden', padding: 3, gap: 3}}>
+                {state.columnOrder.map((columnID) => {
+                    const column = state.columns[columnID];
+                    return(
+                        <DragDropContext
+                            key={column.id}
+                            onDragEnd={result => onDragEnd(result)}
+                        >
+                            <Column id={column.id} title={column.title} tasks={column.tasks} />
+                        </DragDropContext>
+                    );
+                })
+                }
             </Box>
         </>
     );
