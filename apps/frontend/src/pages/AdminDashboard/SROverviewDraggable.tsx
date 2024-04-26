@@ -1,11 +1,12 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import axios, {AxiosResponse} from 'axios';
+import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 
 import Box from '@mui/material/Box';
-// import {Typography} from '@mui/material';
+import { Typography } from '@mui/material';
 
 import {AssignedEmployee, ServiceRequest} from '../../helpers/typestuff.ts';
-import {EmployeeAutocompleteOption} from '../../components/EmployeeAutoComplete.tsx';
+import {EmployeeAutoCompleteOption} from '../../components/EmployeeAutoComplete.tsx';
 import Column from './Column.tsx';
 
 export interface Column<T>{
@@ -69,14 +70,13 @@ export default function ServiceRequestOverview(){
                 const id = serviceRequest.type.toLowerCase();
                 parsed.columns[id].tasks.push(serviceRequest);
             });
-            console.log(parsed);
             setState(parsed);
         });
         axios.get('/api/employees').then((res: AxiosResponse) => {
             if(res.status !== 200){
                 console.error('die');
             }
-            const employeeDropdownOptions: EmployeeAutocompleteOption[] = [];
+            const employeeDropdownOptions: EmployeeAutoCompleteOption[] = [];
             res.data.forEach((employee: AssignedEmployee)=> {
                 employeeDropdownOptions.push({
                     label: employee.firstName + ' ' + employee.lastName,
@@ -91,13 +91,58 @@ export default function ServiceRequestOverview(){
         updateServiceRequestData();
     }, []);
 
-    return(
-        <Box sx={{display: 'flex', flexDirection: 'row', padding: 3, gap: 3}}>
-            {state.columnOrder.map((columnID) => {
-                const column = state.columns[columnID];
-                return(<Column key={column.id} title={column.title} tasks={column.tasks} />);
-            })
+    function onDragEnd(result: DropResult){
+        const {destination, source} = result;
+
+        if(!destination){
+            return;
+        }
+
+        if(source.droppableId === destination.droppableId
+            && source.index === destination.index) {
+            return;
+        }
+
+        const column = state.columns[source.droppableId];
+        const newTaskIds = Array.from(column.tasks);
+        newTaskIds.splice(source.index, 1);
+        newTaskIds.splice(destination.index, 0, state.columns[source.droppableId].tasks[source.index]);
+
+        const newColumn: column = {
+            ...column,
+            tasks: newTaskIds
+        };
+
+        const newState: ColumnData = {
+            ...state,
+            columns: {
+                ...state.columns,
+                [newColumn.id]: newColumn
             }
-        </Box>
+        };
+
+        setState(newState);
+    }
+
+    return(
+        <>
+            <Box sx={{backgroundColor: '#FFFFFF', width: '40%', height: '5vh', px: '1.5%', pt: '1.5%'}}>
+                <Typography>Filter placeholder</Typography>
+            </Box>
+            <Box sx={{display: 'flex', flexDirection: 'row', overflowY: 'hidden', padding: 3, gap: 3}}>
+                {state.columnOrder.map((columnID) => {
+                    const column = state.columns[columnID];
+                    return(
+                        <DragDropContext
+                            key={column.id}
+                            onDragEnd={result => onDragEnd(result)}
+                        >
+                            <Column id={column.id} title={column.title} tasks={column.tasks} />
+                        </DragDropContext>
+                    );
+                })
+                }
+            </Box>
+        </>
     );
 }
