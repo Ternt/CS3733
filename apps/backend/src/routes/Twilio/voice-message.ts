@@ -9,7 +9,7 @@ router.get("/", async function (req: Request, res: Response) {
             "  <Say voice=\"woman\">Alex is hosting the Carstravaganza!</Say>\n" +
             "</Response>";
 
-        res.set('Content-Type', 'text/xml');
+        res.set('Content-Type', 'application/xml');
         res.send(xmlString);
     } catch (error) {
         // Handle error
