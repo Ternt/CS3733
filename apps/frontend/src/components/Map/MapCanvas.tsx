@@ -272,6 +272,11 @@ export default function MapCanvas(props: mapCanvasProps) {
                   style={{
                     filter: "drop-shadow(10px 20px 30px #000)"
                   }}
+                  onClick={()=>{
+                      setViewingFloor(lastFloor);
+
+                  }
+                }
 
                 />
                 <text
