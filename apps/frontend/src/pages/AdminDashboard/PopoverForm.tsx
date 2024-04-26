@@ -1,10 +1,13 @@
 // import {useState} from "react";
+// import {renderToString} from "react-dom/server";
 
 import Box from "@mui/material/Box";
-// import Card from "@mui/material/Card";
 import Modal from "@mui/material/Modal";
+import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
+
 import {ServiceRequest} from "../../helpers/typestuff.ts";
+import TaskGroup from "./TaskGroup.tsx";
 
 type PopoverFormProp = {
     open: boolean;
@@ -13,6 +16,7 @@ type PopoverFormProp = {
 }
 
 export function PopoverForm(prop: PopoverFormProp){
+
 
     // function updateAssignmentStatus(newStatus: string){
     //     const updatedStatus = {
@@ -97,10 +101,47 @@ export function PopoverForm(prop: PopoverFormProp){
     //     updateAssignmentStatus(event.target.value);
     // };
 
+    // the most scuffed recursion function ever
+    function recurseTree<Type extends object>(label: string, data: string | number | Type, informationField: JSX.Element) {
+        if(Array.isArray(data)){
+            return informationField;
+        }
+
+        if(typeof data === "object"){
+            Object.entries(data)
+                .filter((field) => field[0] !== "requestID")
+                .forEach((nestedFieldData) => {
+                    return informationField = recurseTree(nestedFieldData[0], nestedFieldData[1], informationField);
+                });
+
+            return(
+                <TaskGroup label={label}>
+                    {informationField}
+                </TaskGroup>
+            );
+        }
+
+        return(
+            <>
+                <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', padding: 0}}>
+                    <Typography
+                        noWrap={false}
+                        sx={{width: '50%'}}
+                    >{label}: </Typography>
+                    <Typography
+                        noWrap={false}
+                        sx={{width: '50%'}}
+                    >{data.toString()}</Typography>
+                </Box>
+                {informationField}
+            </>
+        );
+    }
 
     return(
         <>
             <Modal
+                keepMounted
                 open={prop.open}
                 onClose={() => {
                     prop.onClose();
@@ -112,7 +153,6 @@ export function PopoverForm(prop: PopoverFormProp){
 
                 }}
             >
-                {/*<Typography>helllo world!</Typography>*/}
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -128,91 +168,19 @@ export function PopoverForm(prop: PopoverFormProp){
                                 (data[0] !== "requestID") &&
                                 (data[0] !== "status") &&
                                 (data[0] !== "assignedEmployee"))
-                            .map((fieldData, index) => {
-                                // let informationField = [<></>];
-                                {/*                    if(typeof fieldData[1] === "object"){*/}
-                                {/*                        informationField = Object.entries(fieldData[1]).map((nestedFieldData) => {*/}
-                                {/*                            return(*/}
-                                {/*                                <>*/}
-                                {/*                                    <Box sx={{display: 'flex', flexWrap: 'wrap', width: '50%'}}>*/}
-                                {/*                                        <Typography noWrap={false} >{nestedFieldData[0]}: </Typography>*/}
-                                {/*                                    </Box>*/}
-                                {/*                                    <Box sx={{display: 'flex', flexWrap: 'wrap', width: '50%'}}>*/}
-                                {/*                                        <Typography>{nestedFieldData[1]}</Typography>*/}
-                                {/*                                    </Box>*/}
-                                {/*                                </>);*/}
-                                {/*                        });*/}
-                                {/*                        console.log(informationField);*/}
-                                {/*                    }*/}
+                            .map((data, index) => {
+                                const form = recurseTree(data[0], data[1], <></>);
                                 return(
                                     <Box key={"field" + index} >
-                                        {/*{informationField.map((field, index) => {*/}
-                                        {/*    return(*/}
-                                        {/*        <Card key={"field" + index} sx={{display: 'flex', flexDirection: 'row'}}>*/}
-                                        {/*            {field}*/}
-                                        {/*        </Card>*/}
-                                        {/*    );*/}
-                                        {/*})}*/}
-                                        <Typography sx={{width: '50%'}}>{fieldData[0]}: </Typography>
+                                        <Card sx={{display: 'flex', flexDirection: 'column'}}>
+                                            {form}
+                                        </Card>
                                     </Box>
                                 );
                             })
                     }
                 </Box>
             </Modal>
-            {/*<Collapse in={expanded} timeout={'auto'} unmountOnExit>*/}
-            {/*    <CardContent>*/}
-
-            {/*        <Box sx={{display: 'flex', flexDirection: 'row'}}>*/}
-            {/*            <Typography sx={{width: '50%'}}>Priority: </Typography>*/}
-            {/*            <Typography>{serviceData.priority.toLowerCase()}</Typography>*/}
-            {/*        </Box>*/}
-            {/*        {(serviceData.sanitationDetail === undefined || serviceData.sanitationDetail === null)?"":(*/}
-            {/*            serviceData.sanitationDetail.messTypes.map((messtype)=>{*/}
-            {/*                return(*/}
-            {/*                    <Box key={messtype.messType} sx={{display: 'flex', flexDirection: 'row'}}>*/}
-            {/*                        <Typography sx={{width: '50%'}}>Mess Type: </Typography>*/}
-            {/*                        <Typography>{messtype.messType.toLowerCase().replace("_", " ")}</Typography>*/}
-            {/*                    </Box>*/}
-            {/*                );*/}
-            {/*            })*/}
-            {/*        )}*/}
-            {/*        <Box sx={{*/}
-            {/*            display: 'flex',*/}
-            {/*            flexDirection: 'row',*/}
-            {/*            pt: 3,*/}
-            {/*        }}>*/}
-            {/*            <FormControl*/}
-            {/*                sx={{width: "100%", display: "flex", flexDirection: "column"}}>*/}
-            {/*                <TextField*/}
-            {/*                    select*/}
-            {/*                    value={serviceData.status}*/}
-            {/*                    margin="normal"*/}
-            {/*                    inputProps={{MenuProps: {disableScrollLock: true}}}*/}
-            {/*                    sx={{marginY: 0, width: '100%', p: 1}}*/}
-            {/*                    onChange={onChangeAssignment}*/}
-            {/*                >*/}
-            {/*                    <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>*/}
-            {/*                    <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>*/}
-            {/*                    <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>*/}
-            {/*                    <MenuItem value={"CLOSED"}>Closed</MenuItem>*/}
-            {/*                </TextField>*/}
-            {/*                <Box sx={{width: "100%", p: 1}}>*/}
-            {/*                    <EmployeeAutoComplete*/}
-            {/*                        onChange={(v: EmployeeAutocompleteOption)=>{*/}
-            {/*                            onChangeEmployee(v);*/}
-            {/*                        }}*/}
-            {/*                        label={*/}
-            {/*                            (serviceData.assignedEmployee && typeof serviceData.assignedEmployee === "object")?*/}
-            {/*                                serviceData.assignedEmployee?.firstName:"Employee"*/}
-            {/*                        }*/}
-            {/*                        disableClearable={true}*/}
-            {/*                        employeeList={prop.employeeList}></EmployeeAutoComplete>*/}
-            {/*                </Box>*/}
-            {/*            </FormControl>*/}
-            {/*        </Box>*/}
-            {/*    </CardContent>*/}
-            {/*</Collapse>*/}
         </>
     );
 }
