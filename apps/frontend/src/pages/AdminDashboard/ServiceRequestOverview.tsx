@@ -3,11 +3,11 @@ import axios, {AxiosResponse} from 'axios';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
 
 import {AssignedEmployee, ServiceRequest} from '../../helpers/typestuff.ts';
-import {EmployeeAutoCompleteOption} from '../../components/EmployeeAutoComplete.tsx';
+import EmployeeAutoComplete, {EmployeeAutoCompleteOption} from '../../components/EmployeeAutoComplete.tsx';
 import Column from './Column.tsx';
+
 
 export interface Column<T>{
     [key: string]: T
@@ -61,7 +61,15 @@ const initialData : ColumnData = {
 };
 
 export default function ServiceRequestOverview(){
+
+    // current state of the kanban board
     const [state , setState] = useState<ColumnData>(initialData);
+    const [originalState, setOriginalState] = useState<ColumnData>(initialData);
+    const [employeeList, setEmployeeList] = useState<EmployeeAutoCompleteOption[]>([]);
+
+    // an array of changes made to the kanban board
+    // const [historyBuffer, setHistoryBuffer] = useState<{requestId: number}>();
+
 
     function updateServiceRequestData(){
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
@@ -71,6 +79,7 @@ export default function ServiceRequestOverview(){
                 parsed.columns[id].tasks.push(serviceRequest);
             });
             setState(parsed);
+            setOriginalState(parsed);
         });
         axios.get('/api/employees').then((res: AxiosResponse) => {
             if(res.status !== 200){
@@ -83,7 +92,7 @@ export default function ServiceRequestOverview(){
                     id: employee.id,
                 });
             });
-            console.log(employeeDropdownOptions);
+            setEmployeeList(employeeDropdownOptions);
         });
     }
 
@@ -91,9 +100,15 @@ export default function ServiceRequestOverview(){
         updateServiceRequestData();
     }, []);
 
+
+    /**
+     * event handling for dragging
+     * @param result - an object which stores event data, for example, information of source and destination, type of drag event, etc.
+     */
     function onDragEnd(result: DropResult){
         const {destination, source} = result;
 
+        // return if destination is null
         if(!destination){
             return;
         }
@@ -103,6 +118,7 @@ export default function ServiceRequestOverview(){
             return;
         }
 
+        // swapping places in the array
         const column = state.columns[source.droppableId];
         const newTaskIds = Array.from(column.tasks);
         newTaskIds.splice(source.index, 1);
@@ -124,10 +140,37 @@ export default function ServiceRequestOverview(){
         setState(newState);
     }
 
+    function onChange(value: EmployeeAutoCompleteOption){
+        let accumulatedFilter = state;
+        accumulatedFilter.columnOrder.forEach((columnId) => {
+            const column = state.columns[columnId];
+            const filteredTasks = column.tasks.filter((request) => request.assignedEmployee?.id === value.id);
+
+            const newColumn: column = {
+                ...column,
+                tasks: filteredTasks
+            };
+
+            accumulatedFilter = {
+                ...accumulatedFilter,
+                columns: {
+                    ...accumulatedFilter.columns,
+                    [newColumn.id]: newColumn
+                }
+            };
+        });
+
+        setState(accumulatedFilter);
+    }
+
+    function onClear(){
+        setState(originalState);
+    }
+
     return(
         <>
-            <Box sx={{backgroundColor: '#FFFFFF', width: '40%', height: '5vh', px: '1.5%', pt: '1.5%'}}>
-                <Typography>Filter placeholder</Typography>
+            <Box sx={{backgroundColor: '#FFFFFF', width: '40%', height: '8vh', px: '1.5%', pt: '1.5%'}}>
+                <EmployeeAutoComplete label={"Filter..."} employeeList={employeeList} onChange={onChange} onClear={onClear}/>
             </Box>
             <Box sx={{display: 'flex', flexDirection: 'row', overflowY: 'hidden', padding: 3, gap: 3}}>
                 {state.columnOrder.map((columnID) => {

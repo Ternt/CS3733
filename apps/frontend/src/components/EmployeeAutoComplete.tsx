@@ -1,22 +1,20 @@
-import {Autocomplete, TextField} from "@mui/material";
 import * as React from "react";
+import {Autocomplete, TextField} from "@mui/material";
 
-export type EmployeeAutocompleteOption = {
+export type EmployeeAutoCompleteOption = {
     label: string;
     id: number;
 };
 
 type EmployeeAutoCompleteProp = {
     label: string;
-    employeeList: EmployeeAutocompleteOption[];
-    onChange:  (value: EmployeeAutocompleteOption) => void;
+    employeeList: EmployeeAutoCompleteOption[];
+    onChange:  (value: EmployeeAutoCompleteOption) => void;
     onClear?: () => void;
     disableClearable?: boolean;
 };
 
-
 export default function EmployeeAutoComplete(prop: EmployeeAutoCompleteProp){
-
     return(
         <Autocomplete
             disableClearable={prop.disableClearable}
