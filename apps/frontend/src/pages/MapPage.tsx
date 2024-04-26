@@ -38,13 +38,13 @@ import PauseIcon from '@mui/icons-material/Pause';
 import {getIconFromDirectionType} from "./GetIconFromDirectionType.tsx";
 
 export default function MapPage() {
-    async function handleSMSSend(phone: string, msg: string) {
+    async function handleSMSSend(phone: string, msg: string, type: string) {
         const res = await fetch("/api/sms", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({phone: phone, message: msg}),
+            body: JSON.stringify({phone: phone, message: msg, type: type}),
         });
         if(res.status !== 200){
             setNotification("Failed to Send");
@@ -395,7 +395,7 @@ export default function MapPage() {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={()=> {setPhoneNumber(null);}}>Cancel</Button>
-                        <Button onClick={() => {handleSMSSend(phoneNumber!, NaturalLangPath); setPhoneNumber(null);}}>Send</Button>
+                        <Button onClick={() => {handleSMSSend(phoneNumber!, NaturalLangPath, "call"); setPhoneNumber(null);}}>Send</Button>
                     </DialogActions>
                 </Dialog>
 
