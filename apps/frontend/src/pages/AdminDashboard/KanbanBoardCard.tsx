@@ -1,14 +1,16 @@
 import {useState} from "react";
 
 import Box from "@mui/material/Box";
-// import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-// import CardActionArea from "@mui/material/CardActionArea";
+import Divider from "@mui/material/Divider";
+import SubjectIcon from "@mui/icons-material/Subject";
 import {Draggable} from "@hello-pangea/dnd";
 
 import {ServiceRequest} from "../../helpers/typestuff.ts";
+import {PopoverForm} from "./PopoverForm.tsx";
 
 type KanbanBoardProp = {
     index: number;
@@ -16,10 +18,13 @@ type KanbanBoardProp = {
 };
 
 export default function KanbanBoardCard(prop: KanbanBoardProp){
-    const [serviceData] = useState<ServiceRequest>(prop.serviceRequestData);
-    // const [open, setOpen] = useState<boolean>(false);
-    // const handleOpen = () => setOpen(true);
-    // const handleClose = () => setOpen(false);
+    // a service request
+    const [serviceRequest] = useState<ServiceRequest>(prop.serviceRequestData);
+
+    // for opening and closing the form
+    const [open, setOpen] = useState<boolean>(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     return(
         <Draggable draggableId={prop.serviceRequestData.requestID.toString(10)} index={prop.index}>
@@ -29,34 +34,17 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                 >
-                    {/*<Modal*/}
-                    {/*    keepMounted*/}
-                    {/*    open={open}*/}
-                    {/*    onClose={handleClose}*/}
-                    {/*    sx={{*/}
-                    {/*        display: 'flex',*/}
-                    {/*        justifyContent: 'center',*/}
-                    {/*        alignItems: 'center',*/}
-
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    <Box sx={{*/}
-                    {/*        display: 'flex',*/}
-                    {/*        justifyContent: 'center',*/}
-                    {/*        alignItem: 'center',*/}
-                    {/*        bgcolor: '#FFFFFF',*/}
-                    {/*        width: '40vw'*/}
-                    {/*    }}>*/}
-                    {/*        <Typography>hello world!</Typography>*/}
-                    {/*    </Box>*/}
-                    {/*</Modal>*/}
+                    <PopoverForm
+                        open={open}
+                        onClose={handleClose}
+                        data={serviceRequest}
+                    />
                     <Card
                         sx={{
                             backgroundColor:'#FFFFFF',
                             borderRadius: 2,
                             margin: 1,
                         }}>
-                        {/*<CardActionArea onClick={handleOpen}>*/}
                             <CardContent
                                 sx={{
                                     display: 'flex',
@@ -64,30 +52,38 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                                     padding: "5%",
                                     paddingTop: "5%",
                                 }}>
-                                <Typography variant="h6">{serviceData.location.longName}</Typography>
+                                <Typography variant="h6">{serviceRequest.location.longName}</Typography>
                             </CardContent>
 
                             <Box
                                 sx={{
-                                    backgroundColor: "#FFFFFF",
+                                    backgroundColor: "#F1F1F1",
                                     display: "flex",
                                     flexDirection: "row",
                                 }}>
-                                <Box
+                                <IconButton
+                                    onClick={handleOpen}
+                                    sx={{
+                                        p: 1,
+                                        display: "flex",
+                                        justifyContent: "flex-start",
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <SubjectIcon></SubjectIcon>
+                                </IconButton>
+                                <Divider orientation={"vertical"} variant={"middle"} flexItem></Divider>
+                                <Typography
                                     sx={{
                                         p: 1,
                                         display: "flex",
                                         justifyContent: "flex-end",
                                         alignItems: 'center',
-                                        width: '100%',
                                     }}
                                 >
-                                    <Typography>
-                                        ID{serviceData.requestID}
-                                    </Typography>
-                                </Box>
+                                    ID{serviceRequest.requestID}
+                                </Typography>
                             </Box>
-                        {/*</CardActionArea>*/}
                     </Card>
                 </div>
             )}
