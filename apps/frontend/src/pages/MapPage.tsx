@@ -123,7 +123,7 @@ export default function MapPage() {
 
     const [phoneNumber,setPhoneNumber] = useState<string | null>(null);
     const [notification, setNotification] = useState('');
-    const [TTS,setTTS] = useState(false);
+    const [TTS,setTTS] = useState<boolean | null>(null);
 
     return (
         <Grid
@@ -315,14 +315,18 @@ export default function MapPage() {
                         <Button
                             onClick={() => {
                                 console.log(TTSPath);
-                                const { pauseSpeech, resumeSpeech, resetSpeech } = speak(TTSPath);
+                                const { pauseSpeech, resumeSpeech, resetSpeech, startSpeech } = speak(TTSPath);
 
                                 if(startLocation !== speakingLocation.start || endLocation !== speakingLocation.end){
                                     setSpeakingLocation({start: startLocation, end: endLocation});
                                     resetSpeech();
                                 }
 
-                                if (TTS) {
+                                if(TTS === null) {
+                                    startSpeech();
+                                    setTTS(true);
+                                }
+                                else if (TTS) {
                                     pauseSpeech();
                                     setTTS(false);
                                 } else {

@@ -16,8 +16,11 @@ export function speak(text: string) {
         speechSynthesis.cancel();
     });
 
-    // Speak the text
     speechSynthesis.speak(utterance);
+
+    function startSpeech() {
+        speechSynthesis.speak(utterance);
+    }
 
     // Store the current utterance
     currentUtterance = utterance;
@@ -34,6 +37,9 @@ export function speak(text: string) {
     }
 
     // Function to reset the speech path
+
+
+    // Function to reset the speech path
     function resetSpeech() {
         speechSynthesis.cancel();
     }
@@ -48,5 +54,5 @@ export function speak(text: string) {
         }
     }
 
-    return { pauseSpeech, resumeSpeech, resetSpeech };
+    return { pauseSpeech, resumeSpeech, resetSpeech, startSpeech };
 }
