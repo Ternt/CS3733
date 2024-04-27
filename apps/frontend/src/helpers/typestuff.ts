@@ -119,12 +119,12 @@ export type ServiceRequest = {
 }
 
 
-export type EmployeeAutoCompleteOption = {
+export type AutoCompleteOption = {
     label: string;
     id: number;
 };
 
 export type EmployeeAutoCompleteData = {
-    employeeList: EmployeeAutoCompleteOption[];
+    employeeList: AutoCompleteOption[];
     updateFunction:  () => void;
 };
