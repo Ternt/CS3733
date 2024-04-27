@@ -30,11 +30,11 @@ export type RequestCard = {
 
 
 // ------------------------------- Types used in Kanban Board ------------------------------- //
+
 export type AssignedEmployee = {
     id: number;
     firstName: string;
     lastName: string;
-    assignedRequests: ServiceRequest[];
 }
 
 export type Node = {
@@ -80,7 +80,6 @@ export type SanitationRequest = {
     date: string;
 }
 
-
 export type ReligiousRequest = {
    requestID: number;
    requestorName: string;
@@ -118,3 +117,14 @@ export type ServiceRequest = {
     maintenanceDetail?: MaintenanceRequest,
     notes?: string,
 }
+
+
+export type EmployeeAutoCompleteOption = {
+    label: string;
+    id: number;
+};
+
+export type EmployeeAutoCompleteData = {
+    employeeList: EmployeeAutoCompleteOption[];
+    updateFunction:  () => void;
+};
