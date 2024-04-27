@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.78 35.92">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #0180c4;
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <g id="CafeIcons">
+    <g>
+      <path class="cls-1" d="M35.78,17.95c-.04,9.92-7.97,18-17.88,17.97C7.98,35.88-.04,27.88,0,17.97.04,8.05,7.97-.04,17.88,0c9.85-.04,17.86,7.96,17.89,17.95Z"/>
+      <polyline class="cls-2" points="24.02 11.22 11.76 11.22 19.67 11.22 19.67 15.1 24.02 24.7 11.76 24.7 15.75 15.1 15.75 14.64"/>
+    </g>
+  </g>
+</svg>

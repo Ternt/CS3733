@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.98 35.97">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #779658;
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 3px;
+      }
+    </style>
+  </defs>
+  <g id="DiningIcon">
+    <g>
+      <path class="cls-1" d="M24.55,34.74c9.16-3.61,13.85-14.02,10.19-23.32C31.13,2.26,20.59-2.38,11.42,1.23S-2.38,15.38,1.23,24.55c3.47,9.21,13.93,13.8,23.32,10.19"/>
+      <polygon class="cls-2" points="13.22 25.89 13.22 9.27 22.46 9.27 22.46 25.89 21 25.89 21 21.31 14.56 21.31 14.52 25.89 13.22 25.89"/>
+      <polyline class="cls-2" points="13.22 15.2 22.46 15.2 22.46 9.27 17.84 9.27 17.84 21.31"/>
+    </g>
+  </g>
+</svg>

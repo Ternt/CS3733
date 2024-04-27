@@ -19,6 +19,7 @@ import AnimatedPath from "./AnimatedPath.tsx";
 import CloseIcon from "@mui/icons-material/Close";
 import {evaluateHeatGradient} from "../../helpers/colorHelper.ts";
 import {AnimatePresence, motion} from "framer-motion";
+import {ICONS} from "./MapIcons.tsx";
 
 const NODE_SIZE = 3.1;
 
@@ -29,6 +30,7 @@ type mapCanvasProps = {
   endLocation: string;
   onDeselectEndLocation?: () => void;
   onGetNearestNode?: (node: node | null) => void;
+  mobile?:boolean;
 };
 
 export default function MapCanvas(props: mapCanvasProps) {
@@ -42,6 +44,7 @@ export default function MapCanvas(props: mapCanvasProps) {
     down: false,
     downPos: {x: 0, y: 0},
   });
+  const [showIcons, setShowIcons] = useState<boolean[]>(Array.from(ICONS, ()=>{return false;}));
   const [viewMode, setViewMode] = useState('normal');
   const [viewingFloor, setViewingFloor] = useState(props.defaultFloor);
   const [nodes, setNodes] = useState<node[]>([]);
@@ -123,6 +126,13 @@ export default function MapCanvas(props: mapCanvasProps) {
         >
           {svgInject}
         </g>
+        {
+          ICONS.map((ico, index)=>{
+            if(showIcons[index])
+              return ico.icon;
+            return <></>;
+          })
+        }
       </g>
     </svg>
   );
@@ -198,13 +208,16 @@ export default function MapCanvas(props: mapCanvasProps) {
         return (
           <AnimatePresence>
             <motion.ellipse
-              initial={{ opacity: dragging?1:0, scale: dragging?1:0, fill:"blue"}}
-              exit={{ opacity: dragging?1:0, scale: dragging?1:0, fill:"blue"}}
-              animate={{ opacity: 1, scale: 1, fill:selected?"red":"blue"}}
+              initial={{ opacity: dragging?1:0, scale: dragging?(selected?1.5:1):0, fill:"#012d5a"}}
+              exit={{ opacity: dragging?1:0, scale: dragging?(selected?1.5:1):0, fill:"#012d5a"}}
+              animate={{ opacity: 1, scale: (selected?1.5:1), fill:selected?"red":"#012d5a"}}
               transition={{
                 duration: dragging?0:2,
                 delay: 0,
                 ease: [0, 0.11, 0.2, 1.01]
+              }}
+              style={{
+                filter: "drop-shadow(1px 1px 2px #00000020)"
               }}
               key={"Point "+p.x+","+p.y+","+p.z}
               cx={p.x}
@@ -227,12 +240,15 @@ export default function MapCanvas(props: mapCanvasProps) {
           y2={b.y}
           stroke={color}
           strokeLinecap={"round"}
-          initial={{ strokeWidth: noAnimate ? NODE_SIZE * .5 : 0}}
-          animate={{ strokeWidth: viewMode==='heatmap' ? width! : NODE_SIZE * .5}}
+          initial={{ strokeWidth: noAnimate ? 1.2 : 0}}
+          animate={{ strokeWidth: viewMode==='heatmap' ? width! : 1.2}}
           transition={{
             duration: noAnimate? 0 : (viewMode==='heatmap'? 2 : 0.5),
             delay:viewMode==='heatmap'?.5:0,
             ease: [0, 0.71, 0.2, 1.01]
+          }}
+          style={{
+            filter: "drop-shadow(1px 1px 2px #000)"
           }}
         />;
       }
@@ -317,7 +333,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         }
         for (const e of renderData.e) {
           const heat = (e.heat - min) / (max - min);
-          let color = "blue";
+          let color = "#f6bd38";
           if(viewMode==='heatmap')
             color = evaluateHeatGradient(heat);
           svgElements.push(drawLine(e.startNode.point, e.endNode.point, color, 10*heat+5, e.endNode.nodeID === draggingNode?.nodeID || e.startNode.nodeID === draggingNode?.nodeID));
@@ -672,10 +688,18 @@ export default function MapCanvas(props: mapCanvasProps) {
       const ns: node[] = [];
       const es: edge[] = [];
 
+      const FLOOR_OFFSETS = [
+        {x: 45, y: -20},
+        {x: 20, y: 3},
+        {x: 0, y: 0},
+        {x: 0, y: 0},
+        {x: 0, y: 0},
+      ];
+
       for (const r of res.data.nodes) {
         const v: vec2 = {
-          x: r.xcoord,
-          y: r.ycoord,
+          x: FLOOR_OFFSETS[FLOOR_NAME_TO_INDEX(r.floor)].x + r.xcoord,
+          y: FLOOR_OFFSETS[FLOOR_NAME_TO_INDEX(r.floor)].y + r.ycoord,
           z: FLOOR_NAME_TO_INDEX(r.floor),
         };
         const n: node = {
@@ -796,6 +820,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           floor={viewingFloor}
           zoom={cameraControl.zoom}
           zoomSpeed={ZOOM.SPEED * 3}
+          mobile={props.mobile}
           viewMode={viewMode}
           showViewModeSelector={props.pathfinding===null}
           onSetFloorIndex={(floorIndex: number) => {
@@ -832,6 +857,8 @@ export default function MapCanvas(props: mapCanvasProps) {
               },
             });
           }}
+          showIcons={showIcons}
+          onSetShowIcons={setShowIcons}
         />
       </Box>
       <Snackbar

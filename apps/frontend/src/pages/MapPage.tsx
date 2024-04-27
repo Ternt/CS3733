@@ -64,7 +64,7 @@ export default function MapPage() {
     ];
     const [startLocation, setStartLocation] = useState("");
     const [endLocation, setEndLocation] = useState("");
-    const [searchAlgorithm, setSearchAlgorithm] = useState(0);
+    const [searchAlgorithm, setSearchAlgorithm] = useState('astar');
     const [selectedNode, setSelectedNode] = useState<node | null>(null);
     const [natLangPath, setNatLangPath] = useState<{
         messages: { a: string, t: directionTypes }[],
@@ -221,7 +221,7 @@ export default function MapPage() {
                         <TextField
                             select
                             onChange={(e) => {
-                                setSearchAlgorithm(parseInt(e.target.value));
+                                setSearchAlgorithm(e.target.value);
                             }}
                             sx={{
                                 width: '100%'
@@ -231,7 +231,7 @@ export default function MapPage() {
                             //helperText={algos[searchAlgorithm].helper}
                         >
                             {
-                                algos.map((a, i) => <MenuItem key={a.api} value={i}>{a.title}</MenuItem>)
+                                algos.map((a) => <MenuItem key={a.api} value={a.api}>{a.title}</MenuItem>)
                             }
                         </TextField>
                     </Box>
@@ -428,7 +428,7 @@ export default function MapPage() {
             <Grid item xs={8}>
                 <MapCanvas
                     defaultFloor={2}
-                    pathfinding={algos[searchAlgorithm].api}
+                    pathfinding={searchAlgorithm}
                     startLocation={startLocation}
                     endLocation={endLocation}
                     onDeselectEndLocation={() => {

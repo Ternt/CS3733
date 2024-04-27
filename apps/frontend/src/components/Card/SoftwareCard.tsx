@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@mui/styles';
 import { Card, CardContent, Typography } from '@mui/material';
+import CardMedia from "@mui/material/CardMedia";
 
 const useStyles = makeStyles({
     root: {
@@ -19,27 +20,27 @@ const useStyles = makeStyles({
 });
 
 type SoftwareItemProps = {
-    // icon: string;
+    icon: string;
     name: string;
     description: string;
     website: string;
 };
 
-const SoftwareItem: React.FC<SoftwareItemProps> = ({name, description, website }) => {
+function  SoftwareItem(props:SoftwareItemProps){
     const classes = useStyles();
 
     const handleClick = () => {
-        if (website) {
-            window.open(website, '_blank');
+        if (props.website) {
+            window.open(props.website, '_blank');
         }
     };
 
     return (
         <Card className={classes.root} onClick={handleClick}>
-            {/*<CardMedia className={classes.media} component="img" image={icon} alt={`${name} icon`} />*/}
+            <CardMedia className={classes.media} component="img" image={props.icon} alt={`${name} icon`} />
             <CardContent>
-                <Typography variant="h6">{name}</Typography>
-                <Typography variant="body2">{description}</Typography>
+                <Typography variant="h6">{props.name}</Typography>
+                <Typography variant="body2">{props.description}</Typography>
             </CardContent>
         </Card>
     );

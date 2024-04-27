@@ -4,10 +4,12 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import {ReactNode} from "react";
 
 type MenuDataType = {
     label   : string;
     path    : string;
+    icon    : ReactNode;
 };
 
 type DropdownProp = {
@@ -73,7 +75,7 @@ export default function DropDownMenu(prop: DropdownProp){
                         onClick={() => handleClickMenuItemListRequests(data.path)}
                         disableRipple
                     >
-                        {data.label}
+                        {data.icon}&nbsp;&nbsp;{data.label}
                     </MenuItem>
                 ))}
             </Menu>

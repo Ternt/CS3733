@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.07 37.13">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 1.22px;
+      }
+
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #fff;
+      }
+
+      .cls-3 {
+        fill: #dc7327;
+      }
+
+      .cls-3, .cls-4 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+
+      .cls-4 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="InfoIcon">
+    <g>
+      <path class="cls-3" d="M18.56.61C8.63.68.61,8.66.61,18.51c0,9.99,7.98,18.02,17.83,18.02,9.99,0,18.03-8.12,18.02-17.97,0-9.85-7.98-18.02-17.9-17.95Z"/>
+      <path class="cls-1" d="M18.56.61C8.63.68.61,8.66.61,18.51c0,9.99,7.98,18.02,17.83,18.02,9.99,0,18.03-8.12,18.02-17.97,0-9.85-7.98-18.02-17.9-17.95Z"/>
+    </g>
+  </g>
+  <path class="cls-2" d="M20.01,9.64c-2.39,0-7.87,0-7.87,0v17.86h7.87"/>
+  <path class="cls-4" d="M28.17,17s0-.02-.02-.03l-4.09-4.46-2.21,2.03,2.32,2.53h-6.82v3h6.69l-2.17,2.22,2.15,2.09,5.62-5.76-1.49-1.61Z"/>
+</svg>
