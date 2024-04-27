@@ -9,12 +9,13 @@ import Divider from "@mui/material/Divider";
 import SubjectIcon from "@mui/icons-material/Subject";
 import {Draggable} from "@hello-pangea/dnd";
 
-import {ServiceRequest} from "../../helpers/typestuff.ts";
+import {EmployeeAutoCompleteData, ServiceRequest} from "../../helpers/typestuff.ts";
 import {PopoverForm} from "./PopoverForm.tsx";
 
 type KanbanBoardProp = {
     index: number;
     serviceRequestData: ServiceRequest;
+    autocomplete: EmployeeAutoCompleteData;
 };
 
 export default function ServiceRequestCard(prop: KanbanBoardProp){
@@ -38,6 +39,7 @@ export default function ServiceRequestCard(prop: KanbanBoardProp){
                         open={open}
                         onClose={handleClose}
                         data={serviceRequest}
+                        autocomplete={prop.autocomplete}
                     />
                     <Card
                         elevation={1}
