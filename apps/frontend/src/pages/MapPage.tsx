@@ -61,6 +61,7 @@ export default function MapPage() {
         {title: 'Depth First Search', api: 'dfs', helper: 'The scenic route'},
         {title: 'Dijkstra\'s', api: 'dijkstra', helper: 'A very fast route'},
     ];
+    const [speakingLocation, setSpeakingLocation] = useState({start: "", end: ""});
     const [startLocation, setStartLocation] = useState("");
     const [endLocation, setEndLocation] = useState("");
     const [searchAlgorithm, setSearchAlgorithm] = useState(0);
@@ -122,7 +123,7 @@ export default function MapPage() {
 
     const [phoneNumber,setPhoneNumber] = useState<string | null>(null);
     const [notification, setNotification] = useState('');
-    const [TTS,setTTS] = useState<boolean | null>(null);
+    const [TTS,setTTS] = useState(false);
 
     return (
         <Grid
@@ -314,7 +315,13 @@ export default function MapPage() {
                         <Button
                             onClick={() => {
                                 console.log(TTSPath);
-                                const { pauseSpeech, resumeSpeech } = speak(TTSPath);
+                                const { pauseSpeech, resumeSpeech, resetSpeech } = speak(TTSPath);
+
+                                if(startLocation !== speakingLocation.start || endLocation !== speakingLocation.end){
+                                    setSpeakingLocation({start: startLocation, end: endLocation});
+                                    resetSpeech();
+                                }
+
                                 if (TTS) {
                                     pauseSpeech();
                                     setTTS(false);
@@ -322,6 +329,7 @@ export default function MapPage() {
                                     resumeSpeech();
                                     setTTS(true);
                                 }
+
                             }}
                             sx={{
                                 backgroundColor: '#012d5a',

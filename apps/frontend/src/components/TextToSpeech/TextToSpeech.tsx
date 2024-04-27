@@ -1,8 +1,6 @@
 export function speak(text: string) {
-    speechSynthesis.cancel();
     // Create a SpeechSynthesisUtterance
     const utterance = new SpeechSynthesisUtterance(text);
-
 
     // Select a voice
     const voices = speechSynthesis.getVoices();
@@ -35,6 +33,11 @@ export function speak(text: string) {
         }
     }
 
+    // Function to reset the speech path
+    function resetSpeech() {
+        speechSynthesis.cancel();
+    }
+
     // Function to resume the speech synthesis
     function resumeSpeech() {
         if (currentUtterance) {
@@ -45,5 +48,5 @@ export function speak(text: string) {
         }
     }
 
-    return { pauseSpeech, resumeSpeech };
+    return { pauseSpeech, resumeSpeech, resetSpeech };
 }

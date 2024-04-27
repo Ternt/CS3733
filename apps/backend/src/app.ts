@@ -63,7 +63,7 @@ app.use("/api/edges", edgesRouter);
 app.use("/api/cart-items", cartItemRouter);
 app.use("/api/employees", employeeRouter);
 app.use("/api/sms", smsRouter);
-app.use("/api/voice", voiceRouter);
+app.use("/api/voice.xml", voiceRouter);
 app.use("/api/language-interpreter", languageRouter);
 app.use("/healthcheck", (req, res) => {
   res.status(200).send();
