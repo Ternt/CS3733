@@ -40,9 +40,9 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
     const [state, setState] = useState(false);
 
     const handleSetLanguage = (l: string) => {
-        // setLanguage(l);
         localStorage.setItem("language", l);
         props.onSetLanguage(l);
+        window.location.reload();
     };
 
     const navigate = useNavigate();

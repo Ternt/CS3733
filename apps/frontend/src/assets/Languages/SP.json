@@ -38,15 +38,15 @@
   "langR.Header": "SOLICITUD DE INTERPRETE DE IDIOMA",
   "langR.EName": "Nombre del Empleado",
   "langR.LangR": "Español",
-  "priority": "NIVEL DE PRIORIDAD",
-  "priority.low": "BAJA",
-  "priority.med": "MEDIA",
-  "priority.high": "ALTA",
-  "priority.emergency": "EMERGENCIA",
-  "status.un": "SIN_ASIGNAR",
-  "status.as": "ASIGNADO",
-  "status.in": "EN_PROGRESO",
-  "status.cl": "CERRADO",
+  "priority": "Nivel De Prioridad",
+  "priority.low": "Baja",
+  "priority.med": "Media",
+  "priority.high": "Alta",
+  "priority.emergency": "Emergencia",
+  "status.un": "Sin_Asignar",
+  "status.as": "Asignado",
+  "status.in": "En_Progreso",
+  "status.cl": "Cerrado",
   "status.sc": "Programado",
   "status.comp": "Completado",
   "status.cancel": "Cancelado",
@@ -219,9 +219,11 @@
 
   "deleteNode": "BORRAR NODO",
   "saveNode": "GUARDAR NODO",
-  "neighbors": "Vecinos"
+  "neighbors": "Vecinos",
 
-
+  "spanish": "Español",
+  "english": "Inglés",
+  "french": "Francés"
 
 
 }

@@ -43,15 +43,15 @@
     "langR.AvailHeader": "INTERPRETER AVAILABILITY",
 
     "priority": "Priority",
-    "priority.low": "LOW",
-    "priority.med": "MEDIUM",
-    "priority.high": "HIGH",
-    "priority.emergency": "EMERGENCY",
+    "priority.low": "Low",
+    "priority.med": "Medium",
+    "priority.high": "High",
+    "priority.emergency": "Emergency",
 
-    "status.un": "UNASSIGNED",
-    "status.as": "ASSIGNED",
-    "status.in": "IN_PROGRESS",
-    "status.cl": "CLOSED",
+    "status.un": "Unassigned",
+    "status.as": "Assgined",
+    "status.in": "In_progress",
+    "status.cl": "Closed",
     "status.sc": "Scheduled",
     "status.comp": "Completed",
     "status.cancel": "Cancelled",
@@ -223,7 +223,9 @@
 
     "deleteNode": "DELETE NODE",
     "saveNode": "SAVE NODE",
-    "neighbors": "Neighbors"
+    "neighbors": "Neighbors",
 
-
+    "spanish": "Spanish",
+    "english": "English",
+    "french": "French"
 }
