@@ -1,4 +1,4 @@
-import {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import LocationDropdown from "../../components/LocationDropdown.tsx";
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import EventIcon from '@mui/icons-material/Event';
 import TranslateTo from "../../helpers/multiLanguageSupport.ts";
+import FooterBar from "../../components/Footerbar/footer.tsx";
 
 type form = {
     medicine: string;
@@ -142,7 +143,8 @@ function MedicineRequestForm() {
         });
     }
 
-    return <Box
+    return <>
+    <Box
         sx={{
             display: 'flex',
             flexDirection: 'row',
@@ -486,7 +488,9 @@ function MedicineRequestForm() {
             }
             </Grow>
         </Box>
-    </Box>;
+    </Box>
+    <FooterBar />
+    </>;
 }
 
 export default MedicineRequestForm;

@@ -146,17 +146,7 @@ async function fetchPathData(startLocation: string, endLocation: string, searchA
 }
 
 
-export default async function NaturalLanguageDirection(startLocation: string, endLocation: string, searchAlgorithm: number) {
-    let searchAlgorithmString;
-    if (searchAlgorithm === 0) {
-        searchAlgorithmString = "astar";
-    } else if (searchAlgorithm === 1) {
-        searchAlgorithmString = "bfs";
-    } else if (searchAlgorithm === 2) {
-        searchAlgorithmString = "dfs";
-    } else {
-        searchAlgorithmString = "dijkstra";
-    }
+export default async function NaturalLanguageDirection(startLocation: string, endLocation: string, searchAlgorithmString: string) {
 
     const path = await fetchPathData(startLocation, endLocation, searchAlgorithmString);
     if (path.length === 0)

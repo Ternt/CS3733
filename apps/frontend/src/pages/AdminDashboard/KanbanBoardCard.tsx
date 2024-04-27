@@ -112,6 +112,7 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
                 sx={{
                     backgroundColor:'#FFFFFF',
                     borderRadius: 2,
+                    boxShadow:2,
                 }}>
                     <CardContent
                         sx={{

@@ -25,7 +25,6 @@ import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 import HowToPage from "./pages/howToPage/howToPage.tsx";
 import CreditsPage from "./pages/CreditsPage/CreditsPage.tsx";
 import ReligiousRequestForm from "./pages/ReligiousRequestPage/ReligiousRequestPage.tsx";
-import FooterBar from "./components/Footerbar/footer.tsx";
 
 
 export const LanguageContext = createContext("en");
@@ -39,7 +38,7 @@ function App() {
             children: [
                 {
                     path: "*",
-                    element: <ErrorPage />
+                    element: <ErrorPage />,
                 },
                 {
                     path: "",
@@ -171,7 +170,6 @@ function App() {
                             />
                             <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a",}}></Box>
                             <Outlet />
-                            <FooterBar />
                             <Chatbot
                               open={chatbotOpen}
                               onClose={()=>setChatbotOpen(false)}

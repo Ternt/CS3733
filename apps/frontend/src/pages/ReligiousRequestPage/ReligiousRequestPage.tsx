@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -16,6 +16,7 @@ import {
 // import EventIcon from '@mui/icons-material/Event';
 import LocationDropdown from "../../components/LocationDropdown.tsx";
 import TranslateTo from "../../helpers/multiLanguageSupport.ts";
+import FooterBar from "../../components/Footerbar/footer.tsx";
 
 
 type FormInputs = {
@@ -160,6 +161,7 @@ function ReligiousRequestForm() {
     }
 
     return (
+      <>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Box
                 sx={{
@@ -409,6 +411,8 @@ function ReligiousRequestForm() {
                 </Box>
             </Box>
         </LocalizationProvider>
+      <FooterBar />
+      </>
     );
 
 }

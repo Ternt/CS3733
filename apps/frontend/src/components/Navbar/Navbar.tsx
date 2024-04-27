@@ -18,6 +18,14 @@ import NavbarItem from "./NavbarItem.tsx";
 import MenuIcon from '@mui/icons-material/Menu';
 import {SwipeableDrawer, Typography} from "@mui/material";
 import {useState} from "react";
+
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
+import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
+import ChurchIcon from '@mui/icons-material/Church';
+import RedeemIcon from '@mui/icons-material/Redeem';
+import TranslateIcon from '@mui/icons-material/Translate';
+import MedicationIcon from '@mui/icons-material/Medication';
+
 export type ResponsiveAppBarProps = {
     chatbotOpen: boolean;
     toggleChatbot: () => void;
@@ -42,18 +50,15 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
 
 
     const staffServices = [
-        {label: TranslateTo("services.Sanitation"), path: "/sanitation"},
-        {label: TranslateTo("services.Medicine"), path: "/medicine-request"},
-        {label: TranslateTo("services.Flwr"), path: "/flower-request"},
-        {label: TranslateTo("services.Gift"), path: "/gift-request"},
-        {label: TranslateTo("services.Religious"), path: "/religious-request"},
-        {label: TranslateTo("services.Interpreter"), path: "/interpreter"},
+        {label: TranslateTo("services.Sanitation"), path: "/sanitation", icon:<CleaningServicesIcon/>},
+        {label: TranslateTo("services.Medicine"), path: "/medicine-request", icon:<MedicationIcon/>},
+        {label: TranslateTo("services.Interpreter"), path: "/interpreter", icon:<TranslateIcon/>},
     ];
 
     const normalServices = [
-        {label: TranslateTo("services.Flwr"), path: "/flower-request"},
-        {label: TranslateTo("services.Gift"), path: "/gift-request"},
-        {label: TranslateTo("services.Religious"), path: "/religious-request"},
+        {label: TranslateTo("services.Flwr"), path: "/flower-request", icon:<LocalFloristIcon/>},
+        {label: TranslateTo("services.Gift"), path: "/gift-request", icon:<RedeemIcon/>},
+        {label: TranslateTo("services.Religious"), path: "/religious-request", icon:<ChurchIcon/>},
     ];
 
 
@@ -120,10 +125,10 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                                 <NavbarItem title={TranslateTo("navB.Admin")} link={"/admin"}/>
                             )}
                             {permissionLevel >= 1 && (
-                                <DropDownMenu label={TranslateTo("navB.ServiceReq")} menuData={staffServices}></DropDownMenu>
+                                <DropDownMenu label={TranslateTo("navB.ServiceReq")} menuData={[...normalServices,...staffServices]}></DropDownMenu>
                             )}
                             {permissionLevel == 0 && (
-                                <DropDownMenu label={TranslateTo("SERVICES")} menuData={normalServices}></DropDownMenu>
+                                <DropDownMenu label={TranslateTo("navB.ServiceReq")} menuData={normalServices}></DropDownMenu>
                             )}
                         </>
                     )}
