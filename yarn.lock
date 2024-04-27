@@ -1129,6 +1129,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/lab@npm:^5.0.0-alpha.170":
+  version: 5.0.0-alpha.170
+  resolution: "@mui/lab@npm:5.0.0-alpha.170"
+  dependencies:
+    "@babel/runtime": "npm:^7.23.9"
+    "@mui/base": "npm:5.0.0-beta.40"
+    "@mui/system": "npm:^5.15.15"
+    "@mui/types": "npm:^7.2.14"
+    "@mui/utils": "npm:^5.15.14"
+    clsx: "npm:^2.1.0"
+    prop-types: "npm:^15.8.1"
+  peerDependencies:
+    "@emotion/react": ^11.5.0
+    "@emotion/styled": ^11.3.0
+    "@mui/material": ">=5.15.0"
+    "@types/react": ^17.0.0 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@emotion/react":
+      optional: true
+    "@emotion/styled":
+      optional: true
+    "@types/react":
+      optional: true
+  checksum: be723d3824a8c56681c2fa71f3bfda5cad9404ed527ab82258ae85219fbb28e8080b90870954c064491699c15409fc2aa4e008e29011cadae1cb978179166f2d
+  languageName: node
+  linkType: hard
+
 "@mui/material@npm:^5.15.14":
   version: 5.15.14
   resolution: "@mui/material@npm:5.15.14"
@@ -1792,6 +1821,30 @@ __metadata:
   version: 4.6.0
   resolution: "@sindresorhus/is@npm:4.6.0"
   checksum: e7f36ed72abfcd5e0355f7423a72918b9748bb1ef370a59f3e5ad8d40b728b85d63b272f65f63eec1faf417cda89dcb0aeebe94015647b6054659c1442fe5ce0
+  languageName: node
+  linkType: hard
+
+"@splinetool/react-spline@npm:^2.2.6":
+  version: 2.2.6
+  resolution: "@splinetool/react-spline@npm:2.2.6"
+  dependencies:
+    lodash.debounce: "npm:^4.0.8"
+    react-merge-refs: "npm:^2.0.1"
+  peerDependencies:
+    "@splinetool/runtime": "*"
+    react: ">=17.0.0"
+    react-dom: ">=17.0.0"
+  checksum: fcc17035506a9d26ddfac4204f5008b05cef3fd5c7453661b1ed13c7966324158e2c6284d88d8793cd3ec64b55b1ec9ceccb454a3d6e59797fb9ad45fe2c4f44
+  languageName: node
+  linkType: hard
+
+"@splinetool/runtime@npm:^1.1.9":
+  version: 1.1.9
+  resolution: "@splinetool/runtime@npm:1.1.9"
+  dependencies:
+    on-change: "npm:^4.0.0"
+    semver-compare: "npm:^1.0.0"
+  checksum: 3c5ffd7cd776166de5b894889739bdb80a9c945365a73d269c7937ee95d0d5ad5f702449392ecd75de5c0d2cf83848c402f1a26ad991cc017722ece389a5fd5f
   languageName: node
   linkType: hard
 
@@ -6448,6 +6501,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.debounce@npm:^4.0.8":
+  version: 4.0.8
+  resolution: "lodash.debounce@npm:4.0.8"
+  checksum: cd0b2819786e6e80cb9f5cda26b1a8fc073daaf04e48d4cb462fa4663ec9adb3a5387aa22d7129e48eed1afa05b482e2a6b79bfc99b86886364449500cbb00fd
+  languageName: node
+  linkType: hard
+
 "lodash.includes@npm:^4.3.0":
   version: 4.3.0
   resolution: "lodash.includes@npm:4.3.0"
@@ -7079,6 +7139,13 @@ __metadata:
   version: 1.1.2
   resolution: "obuf@npm:1.1.2"
   checksum: 53ff4ab3a13cc33ba6c856cf281f2965c0aec9720967af450e8fd06cfd50aceeefc791986a16bcefa14e7898b3ca9acdfcf15b9d9a1b9c7e1366581a8ad6e65e
+  languageName: node
+  linkType: hard
+
+"on-change@npm:^4.0.0":
+  version: 4.0.2
+  resolution: "on-change@npm:4.0.2"
+  checksum: bda86aa65e47b784646719500c6c8a56c646bad296332e3b3f2dc529ffbb5b744749721143be1e725bc8e7300d07a5bf6b827c1e3aa2d14ea54df8fff4435c4b
   languageName: node
   linkType: hard
 
@@ -8094,6 +8161,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-merge-refs@npm:^2.0.1":
+  version: 2.1.1
+  resolution: "react-merge-refs@npm:2.1.1"
+  checksum: 40564bc4c16520ef830d4fe7a2bd298c23a42d644a8fcb2353cdc6cf16aa82eac681c554df4c849397b25af9dbe728086566e1a01f65f95d2301dc8fc8f6809f
+  languageName: node
+  linkType: hard
+
 "react-papaparse@npm:^4.4.0":
   version: 4.4.0
   resolution: "react-papaparse@npm:4.4.0"
@@ -8844,10 +8918,13 @@ __metadata:
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
     "@material-ui/core": "npm:^4.12.4"
+    "@mui/lab": "npm:^5.0.0-alpha.170"
     "@mui/material": "npm:^5.15.14"
     "@mui/styles": "npm:^5.15.15"
     "@mui/system": "npm:^5.15.15"
     "@mui/x-charts": "npm:^7.3.0"
+    "@splinetool/react-spline": "npm:^2.2.6"
+    "@splinetool/runtime": "npm:^1.1.9"
     "@types/express": "npm:^4"
     "@types/express-fileupload": "npm:^1"
     "@types/file-saver": "npm:^2.0.7"
@@ -8884,6 +8961,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-intl: "npm:^6.6.5"
     react-papaparse: "npm:^4.4.0"
+    spline: "npm:^0.0.0"
     tsconfig-custom: "workspace:*"
     turbo: "npm:latest"
     twilio: "npm:^5.0.4"
@@ -8912,6 +8990,13 @@ __metadata:
   version: 0.5.7
   resolution: "source-map@npm:0.5.7"
   checksum: 9b4ac749ec5b5831cad1f8cc4c19c4298ebc7474b24a0acf293e2f040f03f8eeccb3d01f12aa0f90cf46d555c887e03912b83a042c627f419bda5152d89c5269
+  languageName: node
+  linkType: hard
+
+"spline@npm:^0.0.0":
+  version: 0.0.0
+  resolution: "spline@npm:0.0.0"
+  checksum: d402e7c05bbed54a9f1a6f2640ab265c8f8cd061e69fb86f5fdd151d7bdd8d3f6854d6b32cba1b159d6645859f39994f8e45bc4e100582f8e7d5c9c2fc95d8af
   languageName: node
   linkType: hard
 
