@@ -1,25 +1,26 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  IconButton,
-  Snackbar,
-  TextField,
-  Typography
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Box,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle, FormControlLabel,
+    Grid,
+    IconButton, Radio,
+    RadioGroup,
+    Snackbar,
+    TextField,
+    Typography
 } from "@mui/material";
 import {speak} from "../components/TextToSpeech/TextToSpeech.tsx";
 import LocationDropdown from "../components/LocationDropdown.tsx";
 import MapCanvas from "../components/Map/MapCanvas.tsx";
 import NaturalLanguageDirection, {
-  directionTypes
+    directionTypes
 } from "../components/NaturalLanguageDirection/naturalLanguageDirection.tsx";
 import MenuItem from "@mui/material/MenuItem";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -29,13 +30,13 @@ import MyLocationIcon from '@mui/icons-material/MyLocation';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import MessageIcon from '@mui/icons-material/Message';
 import {node} from "../helpers/typestuff.ts";
 import Button from "@mui/material/Button";
 import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
 import CloseIcon from "@mui/icons-material/Close";
 import PauseIcon from '@mui/icons-material/Pause';
 import {getIconFromDirectionType} from "./GetIconFromDirectionType.tsx";
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 
 export default function MapPage() {
     async function handleSMSSend(phone: string, msg: string, type: string) {
@@ -46,7 +47,7 @@ export default function MapPage() {
             },
             body: JSON.stringify({phone: phone, message: msg, type: type}),
         });
-        if(res.status !== 200){
+        if (res.status !== 200) {
             setNotification("Failed to Send");
         }
     }
@@ -76,6 +77,7 @@ export default function MapPage() {
         if ((endLocation === "") && (selectedNode != null)) {
             setEndLocation(selectedNode.nodeID);
         }
+
         async function setPath() {
             const res = await NaturalLanguageDirection(startLocation, endLocation, searchAlgorithm);
             if (res !== undefined) {
@@ -98,19 +100,10 @@ export default function MapPage() {
 
         setPath();
     }, [startLocation, endLocation, searchAlgorithm, selectedNode]);
-    
-    const initialMessage = 'Path from ' + startLocation + ' to ' + endLocation + ':\n';
 
-    const NaturalLangPath = `${initialMessage}\n${natLangPath.reduce<string[]>((acc, obj) => {
+    const NaturalLangPath = `${natLangPath.reduce<string[]>((acc, obj) => {
         const messageStrings = obj.messages.map((message) => {
-            return `${message.a}`;
-        });
-        return acc.concat(messageStrings);
-    }, []).join('\n\n')}`;
-
-     const TTSPath = `${natLangPath.reduce<string[]>((acc, obj) => {
-        const messageStrings = obj.messages.map((message) => {
-            return` ${message.a}`;
+            return ` ${message.a}`;
         });
         return acc.concat(messageStrings);
     }, []).concat('end').join('\n')}`;
@@ -121,9 +114,11 @@ export default function MapPage() {
         algo: searchAlgorithm,
     };
 
-    const [phoneNumber,setPhoneNumber] = useState<string | null>(null);
+    const [phoneNumber, setPhoneNumber] = useState<string | null>(null);
+    const [type, setType] = useState<string>("");
+
     const [notification, setNotification] = useState('');
-    const [TTS,setTTS] = useState<boolean | null>(null);
+    const [TTS, setTTS] = useState<boolean | null>(null);
 
     return (
         <Grid
@@ -314,19 +309,18 @@ export default function MapPage() {
                     }}>
                         <Button
                             onClick={() => {
-                                console.log(TTSPath);
-                                const { pauseSpeech, resumeSpeech, resetSpeech, startSpeech } = speak(TTSPath);
+                                console.log(NaturalLangPath);
+                                const {pauseSpeech, resumeSpeech, resetSpeech, startSpeech} = speak(NaturalLangPath);
 
-                                if(startLocation !== speakingLocation.start || endLocation !== speakingLocation.end){
+                                if (startLocation !== speakingLocation.start || endLocation !== speakingLocation.end) {
                                     setSpeakingLocation({start: startLocation, end: endLocation});
                                     resetSpeech();
                                 }
 
-                                if(TTS === null) {
+                                if (TTS === null) {
                                     startSpeech();
                                     setTTS(true);
-                                }
-                                else if (TTS) {
+                                } else if (TTS) {
                                     pauseSpeech();
                                     setTTS(false);
                                 } else {
@@ -368,9 +362,9 @@ export default function MapPage() {
                                     },
                                 }}>
 
-                            <MessageIcon/>
+                            <PhoneIphoneIcon/>
                             <Box sx={{display: 'flex', justifyContent: 'center', flex: 1}}>
-                                SMS
+                                Mobile
                             </Box>
 
                         </Button>
@@ -380,7 +374,7 @@ export default function MapPage() {
 
                 <Dialog
                     open={phoneNumber !== null}
-                    onClose={()=>{
+                    onClose={() => {
                         setPhoneNumber(null);
                     }}
                 >
@@ -392,23 +386,43 @@ export default function MapPage() {
                             margin="dense"
                             id="sendSMS"
                             name="sendSMS"
-                            label="Send SMS"
+                            label="Phone Number"
                             fullWidth
                             variant="standard"
                             value={phoneNumber}
-                            onChange={(e)=>{setPhoneNumber(e.target.value);}}
+                            onChange={(e) => {
+                                setPhoneNumber(e.target.value);
+                            }}
                         />
+                        <RadioGroup
+                            row
+                            aria-labelledby="demo-row-radio-buttons-group-label"
+                            name="row-radio-buttons-group"
+                            value={type}
+                            onChange={(e) => {
+                                setType(e.target.value);
+                            }}
+                        >
+                            <FormControlLabel value="sms" control={<Radio/>} label="SMS  Text"/>
+                            <FormControlLabel value="call" control={<Radio/>} label="Voice Call"/>
+
+                        </RadioGroup>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={()=> {setPhoneNumber(null);}}>Cancel</Button>
-                        <Button onClick={() => {handleSMSSend(phoneNumber!, NaturalLangPath, "call"); setPhoneNumber(null);}}>Send</Button>
+                        <Button onClick={() => {
+                            setPhoneNumber(null);
+                        }}>Cancel</Button>
+                        <Button onClick={() => {
+                            handleSMSSend(phoneNumber!, NaturalLangPath, type);
+                            setPhoneNumber(null);
+                        }}>Send</Button>
                     </DialogActions>
                 </Dialog>
 
                 <Snackbar
-                    anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
+                    anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                     open={notification !== ''}
-                    onClose={()=>{
+                    onClose={() => {
                         setNotification('');
                     }}
                     autoHideDuration={5000}
@@ -418,12 +432,12 @@ export default function MapPage() {
                         <IconButton
                             aria-label="close"
                             color="inherit"
-                            sx={{ p: 0.5 }}
-                            onClick={()=>{
+                            sx={{p: 0.5}}
+                            onClick={() => {
                                 setNotification('');
                             }}
                         >
-                            <CloseIcon />
+                            <CloseIcon/>
                         </IconButton>
                     }
                 />
