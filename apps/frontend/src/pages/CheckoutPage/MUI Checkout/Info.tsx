@@ -13,11 +13,6 @@ type InfoProps = {
 };
 
 export default function Info(props: InfoProps) {
-    //const total2 = props.cart.reduce((accumulator: number, currentValue: Item) => (accumulator + currentValue.price), 0);
-    let total = 0;
-    for(const i of props.cart){
-      total += parseFloat(i.price+"");
-    }
     return (
         <>
             <Typography sx={{
@@ -153,6 +148,16 @@ export default function Info(props: InfoProps) {
                                     </HighlightOffIcon>
                                 </Box>
                             </Box>
+                            <Box
+                                sx={{
+                                    position: "absolute",
+                                    top: "105%",
+                                }}
+                            >
+
+                            </Box>
+
+
                         </Card>
                     ))}
                 </Box>
@@ -167,7 +172,14 @@ export default function Info(props: InfoProps) {
             <Typography variant="h4" gutterBottom sx={{
                 ml: '-3.5vw',
             }}>
-                ${total}
+                $
+                {props.cart
+                    .map((item: Item) => item.price)
+                    .reduce(
+                        (accumulator: number, currentValue: number) =>
+                            accumulator + parseFloat(currentValue.toString()),
+                        0,
+                    )}
             </Typography>
         </>
     );
