@@ -6,6 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import {Item} from "../../StoreRequestPage/StoreRequestPage.tsx";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import TranslateTo from "../../../helpers/multiLanguageSupport.ts";
 
 type InfoProps = {
     cart: Item[];
@@ -22,7 +23,7 @@ export default function Info(props: InfoProps) {
                 marginBottom: "3%",
                 marginRight: "0.5 rem",
             }}>
-                Cart <ShoppingCartIcon/>
+                {TranslateTo("cart.Cart")} <ShoppingCartIcon/>
             </Typography>
 
             <Box
@@ -167,7 +168,7 @@ export default function Info(props: InfoProps) {
                 ml: '-3.5vw',
                 mt: '5%',
             }}>
-                Total
+                {TranslateTo("total")}
             </Typography>
             <Typography variant="h4" gutterBottom sx={{
                 ml: '-3.5vw',

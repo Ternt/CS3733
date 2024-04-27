@@ -7,6 +7,7 @@ import {useNavigate, useLocation} from "react-router-dom";
 import Info from "../CheckoutPage/MUI Checkout/Info.tsx";
 import axios, {AxiosResponse} from "axios";
 import {Typography} from "@mui/material";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 export type Item = {
     id: string;
@@ -109,7 +110,7 @@ function StoreRequestPage() {
                                 sx={{margin: 1}}
                                 onClick={() => setCart([])}
                             >
-                                Clear
+                                {TranslateTo("clear")}
                             </Button>
                              <Button
                                  variant="contained"
@@ -118,7 +119,7 @@ function StoreRequestPage() {
                                  style={{minWidth: "10vw"}}
                                  sx={{margin: 1}}
                              >
-                                 Submit
+                                 {TranslateTo("submit")}
                              </Button>
                         </Box>
                       <Typography variant={"caption"}>Made by {pageType==="FLOWER"?"Rayyan and Anton":"Brett and Alex"}</Typography>

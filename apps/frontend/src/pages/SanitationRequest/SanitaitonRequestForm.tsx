@@ -19,6 +19,7 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 type formFields = {
     name: string;
@@ -190,7 +191,7 @@ function SanitationRequestForm() {
                         component="h1"
                         align="center"
                     >
-                        SANITATION REQUEST
+                        {TranslateTo("saniR.Header")}
                     </Typography>
                 </Box>
 
@@ -224,7 +225,7 @@ function SanitationRequestForm() {
                         >
                             <TextField
                                 required
-                                label="Employee Name"
+                                label={TranslateTo("employeeN")}
                                 onChange={handleNameInput}
                                 margin="normal"
                                 value={formInput.name}
@@ -236,7 +237,7 @@ function SanitationRequestForm() {
                                 required
                                 select
                                 id="priority-select"
-                                label={"Priority"}
+                                label={TranslateTo("priority")}
                                 margin="normal"
                                 inputProps={{ MenuProps: { disableScrollLock: true } }}
                                 value={formInput.priority}
@@ -248,10 +249,10 @@ function SanitationRequestForm() {
                                 }}
                                 sx={{marginY: 0}}
                             >
-                                <MenuItem value={"LOW"}>Low</MenuItem>
-                                <MenuItem value={"MEDIUM"}>Medium</MenuItem>
-                                <MenuItem value={"HIGH"}>High</MenuItem>
-                                <MenuItem value={"EMERGENCY"}>Emergency</MenuItem>
+                                <MenuItem value={"LOW"}>{TranslateTo("priority.low")}</MenuItem>
+                                <MenuItem value={"MEDIUM"}>{TranslateTo("priority.med")}</MenuItem>
+                                <MenuItem value={"HIGH"}>{TranslateTo("priority.high")}</MenuItem>
+                                <MenuItem value={"EMERGENCY"}>{TranslateTo("priority.emergency")}</MenuItem>
                             </TextField>
 
                             <Box sx={{marginY: 0}}><LocationDropdown
@@ -260,12 +261,12 @@ function SanitationRequestForm() {
                                 }}
                                 value={formInput.location}
                                 filterTypes={["HALL"]}
-                                label={"Location"}
+                                label={TranslateTo("location")}
                             /></Box>
 
                             <Box>
                                 <TextField
-                                    label={"Date"}
+                                    label={TranslateTo("date")}
                                     value={formInput.date}
                                     InputProps={{
                                         readOnly: true,
@@ -286,13 +287,14 @@ function SanitationRequestForm() {
                             </Box>
 
                             <Box sx={{marginY: 0}}><Checkboxes
-                                label={"Mess Type"}
+                                label={TranslateTo("saniR.MessType")}
                                 onChange={handleTypeChange}
-                                items={["Solid Waste", "Liquid Spill", "Other"]}
+                                items={[TranslateTo("messType.Solid"),
+                                    TranslateTo("messType.Liquid"), TranslateTo("messType.Other")]}
                                 checked={formInput.type}
                             /></Box>
 
-                            <Box sx={{marginY: 0}}><FormLabel id="mess-size">Mess Size</FormLabel>
+                            <Box sx={{marginY: 0}}><FormLabel id="mess-size">{TranslateTo("saniR.MessSize")}</FormLabel>
                                 <RadioGroup
                                     row
                                     name="mess-size"
@@ -303,18 +305,18 @@ function SanitationRequestForm() {
                                     <FormControlLabel
                                         value="SMALL"
                                         control={<Radio />}
-                                        label="Small"
+                                        label={TranslateTo("small")}
 
                                     />
                                     <FormControlLabel
                                         value="MEDIUM"
                                         control={<Radio />}
-                                        label="Medium"
+                                        label={TranslateTo("medium")}
                                     />
                                     <FormControlLabel
                                         value="LARGE"
                                         control={<Radio />}
-                                        label="Large"
+                                        label={TranslateTo("large")}
                                     />
                                 </RadioGroup></Box>
 
@@ -322,7 +324,7 @@ function SanitationRequestForm() {
                                 required
                                 select
                                 value={formInput.status}
-                                label={"Status"}
+                                label={TranslateTo("status")}
                                 margin="normal"
                                 inputProps={{ MenuProps: { disableScrollLock: true } }}
                                 onChange={(event) => {
@@ -333,10 +335,10 @@ function SanitationRequestForm() {
                                 }}
                                 sx={{marginY: 0}}
                             >
-                                <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
-                                <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>
-                                <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
-                                <MenuItem value={"CLOSED"}>Closed</MenuItem>
+                                <MenuItem value={"UNASSIGNED"}>{TranslateTo("status.un")}</MenuItem>
+                                <MenuItem value={"ASSIGNED"}>{TranslateTo("status.as")}</MenuItem>
+                                <MenuItem value={"IN_PROGRESS"}>{TranslateTo("status.in")}</MenuItem>
+                                <MenuItem value={"CLOSED"}>{TranslateTo("status.cl")}</MenuItem>
                             </TextField>
 
                             <Box
@@ -384,7 +386,7 @@ function SanitationRequestForm() {
                                             justifyContent: "center",
                                         }}
                                         onClick={handleDialogClose}>
-                                        CLOSE
+                                        {TranslateTo("close")}
                                     </Button>
                                 </DialogActions>
                             </Dialog>
@@ -414,7 +416,7 @@ function SanitationRequestForm() {
                                 component="h1"
                                 align="center"
                             >
-                                Date
+                                {TranslateTo("date")}
                             </Typography>
                         </Box>
                         <Box

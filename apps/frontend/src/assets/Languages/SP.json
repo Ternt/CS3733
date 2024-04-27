@@ -133,7 +133,7 @@
 
   "continueShop": "Continue su compra",
 
-  "plusTax": "Impuestos",
+  "plusTax": "Impuestos añadidos",
   "orderD": "Detalles del Pedido",
   "location": "Ubicación",
   "shippingType": "Tipo de Envío",
@@ -143,7 +143,7 @@
   "cardNum": "Número de Tarjeta",
 
   "name": "Nombre",
-  "ccv": "CCV",
+  "cvv": "CVV",
   "expDate": "Fecha de Expiración",
   "standard": "Estándar",
   "express": "Expreso",
@@ -151,6 +151,10 @@
   "submit": "ENVIE",
   "total": "Total",
   "close": "Cierre",
+  "next": "Siguiente",
+  "previous": "Anterior",
+  "placeOrder": "Realizar pedido",
+
 
   "relR.Header": "SERVICIOS RELIGIOSOS",
   "relR.PName": "Nombre del Paciente o Solicitante",

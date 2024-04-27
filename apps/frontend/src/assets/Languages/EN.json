@@ -148,7 +148,7 @@
     "cardNum": "Card Number",
 
     "name": "Name",
-    "ccv": "CCV",
+    "cvv": "CVV",
     "expDate": "Expiration Date",
     "standard": "Standard",
     "express": "Express",
@@ -156,6 +156,9 @@
     "submit": "SUBMIT",
     "total": "Total",
     "close": "Close",
+    "next": "Next",
+    "previous": "Previous",
+    "placeOrder": "Place order",
 
     "relR.Header": "RELIGIOUS SERVICES",
     "relR.PName": "Patient or Requestor Name",
