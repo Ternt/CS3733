@@ -3,13 +3,14 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Droppable } from "@hello-pangea/dnd";
 
-import {ServiceRequest} from "../../helpers/typestuff.ts";
+import {EmployeeAutoCompleteData, ServiceRequest} from "../../helpers/typestuff.ts";
 import ServiceRequestCard from "./ServiceRequestCard.tsx";
 
 type ColumnProp = {
     id: string;
     title: string;
     tasks: ServiceRequest[];
+    autocomplete: EmployeeAutoCompleteData;
 }
 
 export default function Column(prop: ColumnProp){
@@ -36,7 +37,12 @@ export default function Column(prop: ColumnProp){
                     >
                         {prop.tasks.map((service, index) => {
                             return(
-                                <ServiceRequestCard key={service.requestID} index={index} serviceRequestData={service}></ServiceRequestCard>
+                                <ServiceRequestCard
+                                    key={service.requestID}
+                                    index={index}
+                                    serviceRequestData={service}
+                                    autocomplete={prop.autocomplete}>
+                                </ServiceRequestCard>
                             );
                         })}
                         {provided.placeholder}
