@@ -16,9 +16,13 @@ import {FLOOR_NAMES} from "../../helpers/MapHelper.ts";
 import * as React from "react";
 
 import {getIconFromDirectionType} from "../GetIconFromDirectionType.tsx";
+import {speak} from "../../components/TextToSpeech/TextToSpeech.tsx";
+import PauseIcon from "@mui/icons-material/Pause";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import Button from "@mui/material/Button";
 
 export default function PhoneDirectionsPage(){
-  const [natLangPath, setNatLangPath] = useState<{
+    const [natLangPath, setNatLangPath] = useState<{
     messages: { a: string, t: directionTypes }[],
     floor: number
   }[]>([]);    const [searchParams] = useSearchParams();
@@ -57,6 +61,9 @@ export default function PhoneDirectionsPage(){
 
         setPath();
     }, [startLocation, endLocation, numericSearchAlgorithm]);
+
+    const [TTS,setTTS] = useState<boolean | null>(null);
+
     if(startLocation === null || startLocation === '' || endLocation === null || endLocation === ''){
       return (
         <>
@@ -65,6 +72,14 @@ export default function PhoneDirectionsPage(){
         </>
       );
     }
+
+    const TTSPath = `${natLangPath.reduce<string[]>((acc, obj) => {
+        const messageStrings = obj.messages.map((message) => {
+            return` ${message.a}`;
+        });
+        return acc.concat(messageStrings);
+    }, []).concat('end').join('\n')}`;
+
     return (
       <Box sx={{
         mt:'5vh',
@@ -139,6 +154,48 @@ export default function PhoneDirectionsPage(){
             </Accordion>
           );
         })}
+          <Box sx={{
+              display:'flex',
+              justifyContent: 'center',
+              my: '3%',
+          }}>
+              <Button
+                  onClick={() => {
+                      console.log(TTSPath);
+                      if(TTS == null){
+                          speak(TTSPath);
+                          setTTS(true);
+                      }
+
+                      else if(TTS){
+                          speak(TTSPath).pauseSpeech();
+                          setTTS(false);
+                      }
+
+                      else if(!TTS){
+                          speak(TTSPath).resumeSpeech();
+                          setTTS(true);
+                      }
+                  }}
+                  sx={{
+                      backgroundColor: '#012d5a',
+                      color: 'white',
+                      height: '100%',
+                      width: '20vw',
+                      display: 'flex',
+                      alignItems: 'center',
+                      "&:hover": {
+                          background: "#1a426a",
+                      },
+                  }}
+              >
+                  {TTS ? <PauseIcon/> : <PlayArrowIcon/>}
+
+                  <Box sx={{display: 'flex', justifyContent: 'center', flex: 1}}>
+                      TTS
+                  </Box>
+              </Button>
+          </Box>
       </Box>
     );
 };

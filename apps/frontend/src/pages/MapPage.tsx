@@ -314,18 +314,12 @@ export default function MapPage() {
                         <Button
                             onClick={() => {
                                 console.log(TTSPath);
-                                if(TTS == null){
-                                    speak(TTSPath);
-                                    setTTS(true);
-                                }
-
-                                else if(TTS){
-                                    speak(TTSPath).pauseSpeech();
+                                const { pauseSpeech, resumeSpeech } = speak(TTSPath);
+                                if (TTS) {
+                                    pauseSpeech();
                                     setTTS(false);
-                                }
-
-                                else if(!TTS){
-                                    speak(TTSPath).resumeSpeech();
+                                } else {
+                                    resumeSpeech();
                                     setTTS(true);
                                 }
                             }}

@@ -1,6 +1,8 @@
 export function speak(text: string) {
+    speechSynthesis.cancel();
     // Create a SpeechSynthesisUtterance
     const utterance = new SpeechSynthesisUtterance(text);
+
 
     // Select a voice
     const voices = speechSynthesis.getVoices();
@@ -13,6 +15,7 @@ export function speak(text: string) {
     utterance.addEventListener('end', () => {
         console.log('Speech synthesis ended');
         currentUtterance = null;
+        speechSynthesis.cancel();
     });
 
     // Speak the text
