@@ -4,8 +4,8 @@ import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 
 import Box from '@mui/material/Box';
 
-import {AssignedEmployee, ServiceRequest} from '../../helpers/typestuff.ts';
-import EmployeeAutoComplete, {EmployeeAutoCompleteOption} from '../../components/EmployeeAutoComplete.tsx';
+import {AssignedEmployee, ServiceRequest, EmployeeAutoCompleteOption} from '../../helpers/typestuff.ts';
+import EmployeeAutoComplete from '../../components/EmployeeAutoComplete.tsx';
 import Column from './Column.tsx';
 
 
@@ -76,17 +76,12 @@ export default function ServiceRequestOverview(){
 
 
     function updateServiceRequestData(){
-        // formatted service request
-        function formatServiceRequest(serviceRequest: ServiceRequest){
-            return serviceRequest;
-        }
 
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
             const parsed = JSON.parse(JSON.stringify(initialData));
             res.data.forEach((serviceRequest: ServiceRequest) => {
                 const id = serviceRequest.type.toLowerCase();
-                const formattedSR = formatServiceRequest(serviceRequest);
-                parsed.columns[id].tasks.push(formattedSR);
+                parsed.columns[id].tasks.push(serviceRequest);
             });
             setState(parsed);
             setOriginalState(parsed);
@@ -190,7 +185,14 @@ export default function ServiceRequestOverview(){
                             key={column.id}
                             onDragEnd={result => onDragEnd(result)}
                         >
-                            <Column id={column.id} title={column.title} tasks={column.tasks} />
+                            <Column
+                                id={column.id}
+                                title={column.title}
+                                tasks={column.tasks}
+                                autocomplete={{
+                                    employeeList: employeeList,
+                                    updateFunction: updateServiceRequestData
+                            }}/>
                         </DragDropContext>
                     );
                 })
