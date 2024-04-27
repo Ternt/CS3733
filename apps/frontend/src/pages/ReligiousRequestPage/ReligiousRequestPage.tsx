@@ -11,9 +11,9 @@ import {
     Button,
     Box,
     Typography,
-    InputAdornment, IconButton,
+    // InputAdornment, IconButton,
 } from "@mui/material";
-import EventIcon from '@mui/icons-material/Event';
+// import EventIcon from '@mui/icons-material/Event';
 import LocationDropdown from "../../components/LocationDropdown.tsx";
 import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
@@ -84,7 +84,7 @@ function ReligiousRequestForm() {
         document.title = "Religious Service Request";
     });
 
-    const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(false);
+    // const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(false);
     //const [timeMenuFlag, setTimeMenuFlag] = useState<boolean>(false);
     const d = new Date();
     console.log();
@@ -175,7 +175,6 @@ function ReligiousRequestForm() {
                         backgroundColor: 'whitesmoke',
                         borderRadius: '23px',
                         boxShadow: 3,
-                        p: 4,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
@@ -191,7 +190,7 @@ function ReligiousRequestForm() {
                             bgcolor: '#012d5a',
                             color: '#f6bd38',
                             borderRadius: '23px 23px 0 0',
-                            p: 2,
+                            py: '3%',
                             width: '100%',
                             display: 'flex',
                             justifyContent: 'center',
@@ -206,7 +205,7 @@ function ReligiousRequestForm() {
                             {TranslateTo("relR.Header")}
                         </Typography>
                     </Box>
-                    <FormControl fullWidth sx={{ mt: 3, gap: 2 }}>
+                    <FormControl fullWidth sx={{ mt: 3, gap: 2, px: '3%', }}>
                         <TextField
                             required
                             label={TranslateTo("relR.PName")}
@@ -251,17 +250,7 @@ function ReligiousRequestForm() {
                             InputLabelProps={{ shrink: true }}
                             value={formInput.date}
                             onChange={(e) => {handleChange('date', e.target.value);}}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            onClick={() => setCalendarMenuFlag(!calendarMenuFlag)}
-                                        >
-                                            <EventIcon />
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
+
                         />
                         <TextField
                             required
@@ -309,10 +298,13 @@ function ReligiousRequestForm() {
                         </Button>
                     </Box>
                 </Box>
+
+                {/*Holds both Graphs*/}
                 <Box
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
+                        pt: 6,
                         gap: 2,
                         maxWidth: 'calc(100% - 700px)',
                         flexBasis: 'auto',

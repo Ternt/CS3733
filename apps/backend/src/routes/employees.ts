@@ -3,6 +3,8 @@ import { Prisma } from "database";
 import PrismaClient from "../bin/database-connection.ts";
 import {createDatabase} from "../helper/createDatabase.ts";
 import {employees} from "../helper/initialData/employees.ts";
+import {exportEdgeDBToCSV, exportEmployeeToCSV} from "../helper/manageDatabases.ts";
+import path from "path";
 
 const router: Router = express.Router();
 
@@ -128,11 +130,12 @@ router.post("/upload", async function (req: Request, res: Response) {
 
     // Get file data
     const files = req.files;
-    if (!("data" in files.employee)) {
-        res.sendStatus(509);
-        return;
-    }
-    const employee_str: string = files.employee.data.toString();
+    // if (!("data" in files.employee)) {
+    //     res.sendStatus(509);
+    //     return;
+    // }
+    console.log(req.files);
+    const employee_str: string = files.employees.data.toString();
 
     // Check if headers are included in the file
     let header: boolean = true;
@@ -177,6 +180,11 @@ router.post("/upload", async function (req: Request, res: Response) {
     }
 
     res.sendStatus(200);
+});
+
+router.get("/download/", async function (req: Request, res: Response) {
+    await exportEmployeeToCSV("../../map/temp/employeeDownload.csv");
+    res.download(path.join(__dirname, "../../map/temp/employeeDownload.csv"));
 });
 
 export default router;

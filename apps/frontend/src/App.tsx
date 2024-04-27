@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CustomTheme from "./components/CustomTheme.tsx";
 import LoginButton from "./components/LoginButton/LoginButton.tsx";
-import MapDataDisplay from "./pages/TableDisplayPage/displayCSV.tsx";
+import MapDataDisplay from "./components/DataHandling/DisplayCSV.tsx";
 import NavBar from "./components/Navbar/Navbar.tsx";
 import HeroPage from "./pages/HeroPage/HeroPage.tsx";
 import StoreRequestPage from "./pages/StoreRequestPage/StoreRequestPage.tsx";
@@ -25,6 +25,7 @@ import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 import HowToPage from "./pages/howToPage/howToPage.tsx";
 import CreditsPage from "./pages/CreditsPage/CreditsPage.tsx";
 import ReligiousRequestForm from "./pages/ReligiousRequestPage/ReligiousRequestPage.tsx";
+import FooterBar from "./components/Footerbar/footer.tsx";
 
 
 export const LanguageContext = createContext("en");
@@ -123,6 +124,10 @@ function App() {
                 {
                     path: "/credits",
                     element: <CreditsPage/>
+                },
+                {
+                    path: "/interpreter",
+                    element: <LanguageInterpreterRequestForm/>
                 }
             ],
         },
@@ -166,6 +171,7 @@ function App() {
                             />
                             <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a",}}></Box>
                             <Outlet />
+                            <FooterBar />
                             <Chatbot
                               open={chatbotOpen}
                               onClose={()=>setChatbotOpen(false)}

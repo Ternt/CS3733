@@ -37,7 +37,7 @@ export default function HeroPage() {
                     translate: "15vw 1vh",
                     width: '70%',
                     p: '1rem',
-                    zIndex: "5",
+                    zIndex: 2,
                     border: "3px solid #cc0000",
                     backgroundColor: "red",
                     opacity: 0.5,

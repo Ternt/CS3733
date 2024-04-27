@@ -68,7 +68,7 @@ function HowToPage() {
                     <ServiceBox path={"/sanitation"}
                                 icon={<CleaningServicesIcon/>}
                                 header={"Q: There is a spill in the Garden Cafe, how do I report this?"}
-                                descriptiveText={"A: A: To request a translator, first navigate to the sanitation page. Then fill out the relevant information and submit."}/>
+                                descriptiveText={"A: To notify janitors of a spill, first navigate to the sanitation page. Then fill out the relevant information and submit."}/>
 
 
                     <ServiceBox path={"/admin"}
@@ -76,7 +76,7 @@ function HowToPage() {
                                 header={"Q: I am a hospital Admin, how do I see the requests"}
                                 descriptiveText={"A: To view all the requests, first login with an admin account and navigate to the admin dashboard page. Then fill out the relevant information and submit"}/>
 
-                    <ServiceBox path={"/"}
+                    <ServiceBox path={"/interpreter"}
                                 icon={<TranslateIcon/>}
                                 header={"Q: My friend doesn't speak english, How do I get a translator?"}
                                 descriptiveText={"A: To request a translator, first navigate to the translator page. Then fill out the relevant information and submit."}/>

@@ -170,6 +170,14 @@ export default function MapCanvas(props: mapCanvasProps) {
       e: edges.filter((e: edge) => e.startNode.point.z === i),
     });
     setViewingFloor(i);
+    setCameraControl({
+      ...cameraControl,
+      zoom: 1,
+      pan: {
+        x: 0,
+        y: 0,
+      },
+    });
   }
 
   // draw to canvas
@@ -264,6 +272,11 @@ export default function MapCanvas(props: mapCanvasProps) {
                   style={{
                     filter: "drop-shadow(10px 20px 30px #000)"
                   }}
+                  onClick={()=>{
+                      setViewingFloor(lastFloor);
+
+                  }
+                }
 
                 />
                 <text

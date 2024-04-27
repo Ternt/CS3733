@@ -24,7 +24,7 @@ export enum directionTypes{
   HELP
 }
 
-export const PIXELS_PER_FOOT = 3;
+export const PIXELS_PER_FOOT = 8;
 
 function findNextNodeWithType(nodeTable: node[], path: string[], index: number){
     for (let i: number = index; i < path.length - 1; i++) {
@@ -38,7 +38,7 @@ function findNextNodeWithType(nodeTable: node[], path: string[], index: number){
 
 async function getLanguageDirection(path: string[]){
     const response: AxiosResponse = await axios.get("/api/map");
-
+    let distance = 0;
     const nodeTable: node[] = response.data.nodes;
     const directions: {message:string, floor:number, type:directionTypes}[] = [];
 
@@ -99,15 +99,25 @@ async function getLanguageDirection(path: string[]){
                 directionChange = directionChange + 2 * Math.PI;
             }
 
-
                 if ((Math.abs(directionChange) < Math.PI / 4) || (Math.abs(directionChange - 2*Math.PI) < Math.PI / 4) || (Math.abs(directionChange + 2*Math.PI) < Math.PI / 4)) {
                     if (!directions[directions.length - 1].message.startsWith('Walk straight')){
-                        const distance = Math.sqrt(dx**2 + dy**2);
-                        directions.push({message:"Walk straight " +Math.round(distance * PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
+                        distance = Math.sqrt(dx**2 + dy**2);
+                        directions.push({message:"Walk straight " +Math.round(distance / PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
+                    }
+                    else {
+                        directions.pop();
+                        distance = distance + Math.sqrt(dx**2 + dy**2);
+                        directions.push({message:"Walk straight " +Math.round(distance / PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
                     }
                 }
 
                 else if (((Math.abs(directionChangeNext) < Math.PI / 4) || (Math.abs(directionChangeNext - 2 * Math.PI) < Math.PI / 4) || (Math.abs(directionChangeNext + 2 * Math.PI) < Math.PI / 4)) && (distCurrToNext < 50)) {
+                    if (!directions[directions.length - 1].message.startsWith('Walk straight')){
+                        directions.pop();
+                        distance = distance + Math.sqrt(dx**2 + dy**2);
+                        directions.push({message:"Walk straight " +Math.round(distance / PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
+
+                    }
                     i = i + 2;
                 }
 
