@@ -1,4 +1,4 @@
-// import {useState} from "react";
+import {useState} from "react";
 // import {renderToString} from "react-dom/server";
 
 import Box from "@mui/material/Box";
@@ -11,9 +11,8 @@ import InputBase from "@mui/material/InputBase";
 import {IconButton} from "@mui/material";
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
-// import {EmployeeAutoCompleteData, EmployeeAutoCompleteOption, ServiceRequest, AssignedEmployee} from "../../helpers/typestuff.ts";
-import {EmployeeAutoCompleteData, ServiceRequest} from "../../helpers/typestuff.ts";
-// import EmployeeAutoComplete from "../../components/EmployeeAutoComplete.tsx";
+import {EmployeeAutoCompleteData, EmployeeAutoCompleteOption, ServiceRequest, AssignedEmployee} from "../../helpers/typestuff.ts";
+import EmployeeAutoComplete from "../../components/EmployeeAutoComplete.tsx";
 import DataGroup from "./DataGroup.tsx";
 
 type PopoverFormProp = {
@@ -24,85 +23,85 @@ type PopoverFormProp = {
 }
 
 export function PopoverForm(prop: PopoverFormProp){
-    // const [serviceRequest, setServiceRequest] = useState<ServiceRequest>(prop.data);
-    //
-    // function updateAssignmentStatus(newStatus: string){
-    //     const updatedStatus = {
-    //         requestID: serviceRequest.requestID,
-    //         status: newStatus
-    //     };
-    //
-    //     fetch("/api/service-requests/update", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(updatedStatus),
-    //     })
-    //         .then((response) => {
-    //             console.log(response);
-    //         })
-    //
-    //         .then((data) => console.log(data))
-    //         .catch((error) => {
-    //             console.error("Error:", error);
-    //         });
-    // }
-    //
-    // function updateEmployeeRequests(newEmployee: AssignedEmployee){
-    //     const newEmployeeService = {
-    //         employeeID: newEmployee?.id,
-    //         requestID: serviceRequest.requestID
-    //     };
-    //
-    //     fetch("/api/employees/assign", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(newEmployeeService),
-    //     })
-    //         .then((response) => {
-    //             console.log(response);
-    //         })
-    //
-    //         .then((data) => console.log(data))
-    //         .catch((error) => {
-    //             console.error("Error:", error);
-    //         });
-    // }
-    //
-    // const onChangeEmployee = (newValue: EmployeeAutoCompleteOption) => {
-    //     let statusChanged = false;
-    //     function changeStatus(employee: EmployeeAutoCompleteOption, currentStatus: string): string{
-    //         if(currentStatus === "UNASSIGNED"){
-    //             statusChanged = true;
-    //             return "ASSIGNED";
-    //         }else{
-    //             return currentStatus;
-    //         }
-    //     }
-    //
-    //     const name = newValue.label.split(" ");
-    //     const newEmployee = {
-    //         firstName: name[0],
-    //         lastName: name[1],
-    //         id: newValue.id,
-    //         assignedRequests: [],
-    //     };
-    //
-    //     setServiceRequest(
-    //         {
-    //             ...serviceRequest,
-    //             assignedEmployee: newEmployee,
-    //             status: changeStatus(newValue, serviceRequest.status),
-    //         });
-    //
-    //     prop.autocomplete.updateFunction();
-    //
-    //     updateEmployeeRequests(newEmployee);
-    //     if(statusChanged){updateAssignmentStatus("ASSIGNED");}
-    // };
+    const [serviceRequest, setServiceRequest] = useState<ServiceRequest>(prop.data);
+
+    function updateAssignmentStatus(newStatus: string){
+        const updatedStatus = {
+            requestID: serviceRequest.requestID,
+            status: newStatus
+        };
+
+        fetch("/api/service-requests/update", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedStatus),
+        })
+            .then((response) => {
+                console.log(response);
+            })
+
+            .then((data) => console.log(data))
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
+
+    function updateEmployeeRequests(newEmployee: AssignedEmployee){
+        const newEmployeeService = {
+            employeeID: newEmployee?.id,
+            requestID: serviceRequest.requestID
+        };
+
+        fetch("/api/employees/assign", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newEmployeeService),
+        })
+            .then((response) => {
+                console.log(response);
+            })
+
+            .then((data) => console.log(data))
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
+
+    const onChangeEmployee = (newValue: EmployeeAutoCompleteOption) => {
+        let statusChanged = false;
+        function changeStatus(employee: EmployeeAutoCompleteOption, currentStatus: string): string{
+            if(currentStatus === "UNASSIGNED"){
+                statusChanged = true;
+                return "ASSIGNED";
+            }else{
+                return currentStatus;
+            }
+        }
+
+        const name = newValue.label.split(" ");
+        const newEmployee = {
+            firstName: name[0],
+            lastName: name[1],
+            id: newValue.id,
+            assignedRequests: [],
+        };
+
+        setServiceRequest(
+            {
+                ...serviceRequest,
+                assignedEmployee: newEmployee,
+                status: changeStatus(newValue, serviceRequest.status),
+            });
+
+        prop.autocomplete.updateFunction();
+
+        updateEmployeeRequests(newEmployee);
+        if(statusChanged){updateAssignmentStatus("ASSIGNED");}
+    };
 
     //
     // const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
@@ -167,9 +166,16 @@ export function PopoverForm(prop: PopoverFormProp){
                     <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', px: 4, pb: 1}}>
                         <Box sx={{width: '15vw'}}>
                             <Typography>Employee</Typography>
-                            <IconButton>
-                                <AccountCircleRoundedIcon/>
-                            </IconButton>
+                            <Box sx={{display: 'flex', flexDirection: 'row', py: 1}}>
+                                <IconButton>
+                                    <AccountCircleRoundedIcon/>
+                                </IconButton>
+                                <EmployeeAutoComplete
+                                    sx={{width: '50%'}}
+                                    label={"Employee"}
+                                    employeeList={prop.autocomplete.employeeList}
+                                    onChange={onChangeEmployee}></EmployeeAutoComplete>
+                            </Box>
                         </Box>
                         <Box sx={{width: '15vw'}}>
                             <Typography>Status</Typography>
