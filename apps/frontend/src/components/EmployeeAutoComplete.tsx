@@ -1,12 +1,9 @@
 import * as React from "react";
-import {Autocomplete, TextField} from "@mui/material";
-
-export type EmployeeAutoCompleteOption = {
-    label: string;
-    id: number;
-};
+import {Autocomplete, TextField, SxProps} from "@mui/material";
+import {EmployeeAutoCompleteOption} from "../helpers/typestuff.ts";
 
 type EmployeeAutoCompleteProp = {
+    sx?: SxProps;
     label: string;
     employeeList: EmployeeAutoCompleteOption[];
     onChange:  (value: EmployeeAutoCompleteOption) => void;
@@ -17,8 +14,9 @@ type EmployeeAutoCompleteProp = {
 export default function EmployeeAutoComplete(prop: EmployeeAutoCompleteProp){
     return(
         <Autocomplete
+            sx={prop.sx}
+            size={'small'}
             disableClearable={prop.disableClearable}
-            fullWidth
             options={prop.employeeList}
             renderInput={(params)=><TextField{...params} label={prop.label}/>}
             onChange={(e, newLabel, value) => {
