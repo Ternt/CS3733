@@ -1,12 +1,10 @@
 import en from "../assets/Languages/EN.json";
 import sp from "../assets/Languages/SP.json";
-import {useContext} from "react";
-import {LanguageContext} from "../App.tsx";
 
 
 export default function TranslateTo(key: string){
 
-    const lang = useContext(LanguageContext) || "en";
+    const lang = localStorage.getItem("language") || 'en';
 
     let langDictionary: JSON = JSON.parse("{}");
 

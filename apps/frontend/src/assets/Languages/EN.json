@@ -51,6 +51,9 @@
     "status.as": "ASSIGNED",
     "status.in": "IN_PROGRESS",
     "status.cl": "CLOSED",
+    "status.sc": "Scheduled",
+    "status.comp": "Completed",
+    "status.cancel": "Cancelled",
 
     "mapP.NavMenu": "NAVIGATION MENU",
     "mapP.selectStrtEnd": "Select a start and end location",
@@ -80,6 +83,7 @@
 
     "mediR.Header": "MEDICINE REQUEST",
     "mediR.PName": "Patient Name",
+    "mediR.PhysicianName": "Name of Primary Physician",
     "mediR.MedicineType": "Medicine",
     "medType.PainK": "Painkillers",
     "medType.Tylenol": "Tylenol",
@@ -150,6 +154,7 @@
     "clear": "CLEAR",
     "submit": "SUBMIT",
     "total": "Total",
+    "close": "Close",
 
     "relR.Header": "RELIGIOUS SERVICES",
     "relR.PName": "Patient or Requestor Name",

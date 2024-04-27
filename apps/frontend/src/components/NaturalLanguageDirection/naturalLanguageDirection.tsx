@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import {FLOOR_NAME_TO_INDEX} from "../../helpers/MapHelper.ts";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 type node = {
     xcoord: number;
@@ -47,15 +48,15 @@ async function getLanguageDirection(path: string[]){
         const nextNode = nodeTable.find(nodes => nodes.nodeID === path[i + 1])!;
 
         if (i === 0) {
-            directions.push({message: "You are currently at " +currentNodeName + " on floor" + currentNode.floor, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.START});
+            directions.push({message: TranslateTo("langDir.currAt") +currentNodeName + TranslateTo("langDir.onFloor") + currentNode.floor, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.START});
         }
 
         else if (currentNode.floor != nextNode.floor) {
             if (currentNode.nodeType === "ELEV") {
-                directions.push({message:`Take elevator to floor ${nextNode.floor}`, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.ELEVATOR});
+                directions.push({message: TranslateTo("langDir.takeElev")  + nextNode.floor, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.ELEVATOR});
             }
             else {
-                directions.push({message:`Take stairs to floor ${nextNode.floor}`, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STAIRS});
+                directions.push({message: TranslateTo("langDir.takeStr")  + nextNode.floor, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STAIRS});
             }
             // add the direction when exit the stair/elev
             // "head towards: " find the name of the next node in path that's not a hall
@@ -111,7 +112,7 @@ async function getLanguageDirection(path: string[]){
                 }
 
                 else {
-                  const cn = currentNodeName === undefined ? "" : currentNodeName!;;
+                  const cn = currentNodeName === undefined ? "" : currentNodeName!;
                   const nn =  cn.toUpperCase().indexOf('HALL') === -1 ? (" at "+cn) : "";
                   if (directionChange > 0) {
                     directions.push({message: "Turn right" +nn, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.RIGHT});

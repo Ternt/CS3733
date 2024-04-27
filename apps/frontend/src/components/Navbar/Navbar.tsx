@@ -17,26 +17,23 @@ import DropDownMenu from "../DropDownMenu.tsx";
 import NavbarItem from "./NavbarItem.tsx";
 import MenuIcon from '@mui/icons-material/Menu';
 import {SwipeableDrawer, Typography} from "@mui/material";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 export type ResponsiveAppBarProps = {
     chatbotOpen: boolean;
     toggleChatbot: () => void;
     onSetLanguage: (l: string) => void;
 }
 
+
+
+
 export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
 
     const [state, setState] = useState(false);
-    const [language, setLanguage] = useState(() => {
-        return localStorage.getItem('language') || 'en';
-    });
-
-    useEffect(() =>{
-        localStorage.setItem('language', language);
-    }, [language]);
 
     const handleSetLanguage = (l: string) => {
-        setLanguage(l);
+        // setLanguage(l);
+        localStorage.setItem("language", l);
         props.onSetLanguage(l);
     };
 

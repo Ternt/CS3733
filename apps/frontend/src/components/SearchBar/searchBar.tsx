@@ -59,7 +59,7 @@ function SearchBar(props: searchBarProps) {
             setSearchQuery("");
             navigate('/search', {state: {query: searchQuery}});
         }
-    };
+        };
 
     return (
         <Search

@@ -47,6 +47,9 @@
   "status.as": "ASIGNADO",
   "status.in": "EN_PROGRESO",
   "status.cl": "CERRADO",
+  "status.sc": "Programado",
+  "status.comp": "Completado",
+  "status.cancel": "Cancelado",
   "langR.AvailHeader": "INTERPRETES DISPONIBLES",
   "mapP.NavMenu": "MENÚ DE NAVEGACIÓN",
   "mapP.selectStrtEnd": "Seleccione una ubicación inicial y final",
@@ -76,6 +79,7 @@
 
   "mediR.Header": "SOLICITUD DE MEDICAMENTOS",
   "mediR.PName": "Nombre del Paciente",
+  "mediR.PhysicianName": "Nombre de su médico de cabecera",
   "mediR.MedicineType": "Medicamento",
   "medType.PainK": "Analgésicos",
   "medType.Tylenol": "Tylenol",
@@ -144,8 +148,9 @@
   "standard": "Estándar",
   "express": "Expreso",
   "clear": "LIMPIAR",
-  "submit": "CONTINUE",
+  "submit": "ENVIE",
   "total": "Total",
+  "close": "Cierre",
 
   "relR.Header": "SERVICIOS RELIGIOSOS",
   "relR.PName": "Nombre del Paciente o Solicitante",
