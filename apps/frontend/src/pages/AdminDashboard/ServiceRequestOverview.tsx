@@ -4,8 +4,8 @@ import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 
 import Box from '@mui/material/Box';
 
-import {AssignedEmployee, ServiceRequest, EmployeeAutoCompleteOption} from '../../helpers/typestuff.ts';
-import EmployeeAutoComplete from '../../components/EmployeeAutoComplete.tsx';
+import {AssignedEmployee, ServiceRequest, AutoCompleteOption} from '../../helpers/typestuff.ts';
+import CustomAutoComplete from '../../components/CustomAutoComplete.tsx';
 import Column from './Column.tsx';
 
 
@@ -69,7 +69,7 @@ export default function ServiceRequestOverview(){
     const [originalState, setOriginalState] = useState<ColumnData>(initialData);
 
     // an array of employees for the autocomplete
-    const [employeeList, setEmployeeList] = useState<EmployeeAutoCompleteOption[]>([]);
+    const [employeeList, setEmployeeList] = useState<AutoCompleteOption[]>([]);
 
     // an array of changes made to the kanban board
     // const [historyBuffer, setHistoryBuffer] = useState<{requestId: number}>();
@@ -90,7 +90,7 @@ export default function ServiceRequestOverview(){
             if(res.status !== 200){
                 console.error('die');
             }
-            const employeeDropdownOptions: EmployeeAutoCompleteOption[] = [];
+            const employeeDropdownOptions: AutoCompleteOption[] = [];
             res.data.forEach((employee: AssignedEmployee)=> {
                 employeeDropdownOptions.push({
                     label: employee.firstName + ' ' + employee.lastName,
@@ -145,7 +145,7 @@ export default function ServiceRequestOverview(){
         setState(newState);
     }
 
-    function onChange(value: EmployeeAutoCompleteOption){
+    function onChange(value: AutoCompleteOption){
         let accumulatedFilter = state;
         accumulatedFilter.columnOrder.forEach((columnId) => {
             const column = state.columns[columnId];
@@ -175,7 +175,7 @@ export default function ServiceRequestOverview(){
     return(
         <>
             <Box sx={{backgroundColor: '#FFFFFF', width: '40%', height: '8vh', px: '1.5%', pt: '1.5%'}}>
-                <EmployeeAutoComplete label={"Filter..."} employeeList={employeeList} onChange={onChange} onClear={onClear}/>
+                <CustomAutoComplete label={"Filter..."} employeeList={employeeList} onChange={onChange} onClear={onClear}/>
             </Box>
             <Box sx={{display: 'flex', flexDirection: 'row', overflowY: 'hidden', padding: 3, gap: 3}}>
                 {state.columnOrder.map((columnID) => {

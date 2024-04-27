@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {ChangeEvent, useState} from "react";
 // import {renderToString} from "react-dom/server";
 
 import Box from "@mui/material/Box";
@@ -8,11 +8,12 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import SubjectIcon from "@mui/icons-material/Subject";
 import InputBase from "@mui/material/InputBase";
-import {IconButton} from "@mui/material";
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
+// import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import {IconButton, TextField} from "@mui/material";
 
-import {EmployeeAutoCompleteData, EmployeeAutoCompleteOption, ServiceRequest, AssignedEmployee} from "../../helpers/typestuff.ts";
-import EmployeeAutoComplete from "../../components/EmployeeAutoComplete.tsx";
+import {EmployeeAutoCompleteData, AutoCompleteOption, ServiceRequest, AssignedEmployee} from "../../helpers/typestuff.ts";
+import CustomAutoComplete from "../../components/CustomAutoComplete.tsx";
 import DataGroup from "./DataGroup.tsx";
 
 type PopoverFormProp = {
@@ -71,9 +72,9 @@ export function PopoverForm(prop: PopoverFormProp){
             });
     }
 
-    const onChangeEmployee = (newValue: EmployeeAutoCompleteOption) => {
+    const onChangeEmployee = (newValue: AutoCompleteOption) => {
         let statusChanged = false;
-        function changeStatus(employee: EmployeeAutoCompleteOption, currentStatus: string): string{
+        function changeStatus(employee: AutoCompleteOption, currentStatus: string): string{
             if(currentStatus === "UNASSIGNED"){
                 statusChanged = true;
                 return "ASSIGNED";
@@ -103,11 +104,10 @@ export function PopoverForm(prop: PopoverFormProp){
         if(statusChanged){updateAssignmentStatus("ASSIGNED");}
     };
 
-    //
-    // const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
-    //     setServiceData({...serviceData, status: event.target.value});
-    //     updateAssignmentStatus(event.target.value);
-    // };
+    const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
+        setServiceRequest({...serviceRequest, status: event.target.value});
+        updateAssignmentStatus(event.target.value);
+    };
 
     // the most scuffed recursion function ever
     function recurseTree<Type extends object>(label: string, data: string | number | Type, informationField: JSX.Element) {
@@ -166,22 +166,41 @@ export function PopoverForm(prop: PopoverFormProp){
                     <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', px: 4, pb: 1}}>
                         <Box sx={{width: '15vw'}}>
                             <Typography>Employee</Typography>
-                            <Box sx={{display: 'flex', flexDirection: 'row', py: 1}}>
-                                <IconButton>
-                                    <AccountCircleRoundedIcon/>
-                                </IconButton>
-                                <EmployeeAutoComplete
-                                    sx={{width: '50%'}}
-                                    label={"Employee"}
+                            <Box sx={{display: 'flex', flexDirection: 'row' , pb: 1}}>
+                                <CustomAutoComplete
+                                    variant={'standard'}
+                                    sx={{width: '70%'}}
+                                    disableClearable={true}
+                                    label={
+                                            (prop.data.assignedEmployee?.firstName === undefined)?
+                                            "Unassigned":
+                                            (prop.data.assignedEmployee.firstName + ' ' + prop.data.assignedEmployee.lastName)
+                                    }
                                     employeeList={prop.autocomplete.employeeList}
-                                    onChange={onChangeEmployee}></EmployeeAutoComplete>
+                                    onChange={onChangeEmployee}></CustomAutoComplete>
                             </Box>
                         </Box>
                         <Box sx={{width: '15vw'}}>
                             <Typography>Status</Typography>
+                            <Box sx={{width: "100%"}}>
+                                <TextField
+                                    select
+                                    variant={'standard'}
+                                    value={serviceRequest.status}
+                                    inputProps={{MenuProps: {disableScrollLock: true}}}
+                                    sx={{width: '70%', height: 4, pt: 1.48}}
+                                    onChange={onChangeAssignment}
+                                >
+                                    <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
+                                    <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>
+                                    <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
+                                    <MenuItem value={"CLOSED"}>Closed</MenuItem>
+                                </TextField>
+                            </Box>
                         </Box>
                         <Box sx={{width: '15vw'}}>
                             <Typography>Priority</Typography>
+                            <Typography sx={{pt: 2}}>{prop.data.priority}</Typography>
                         </Box>
                     </Box>
 
