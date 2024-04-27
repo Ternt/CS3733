@@ -47,7 +47,7 @@ async function getLanguageDirection(path: string[]){
         const nextNode = nodeTable.find(nodes => nodes.nodeID === path[i + 1])!;
 
         if (i === 0) {
-            directions.push({message:"You are currently at " +currentNodeName + " on floor " + currentNode.floor, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.START});
+            directions.push({message: "You are currently at " +currentNodeName + " on floor" + currentNode.floor, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.START});
         }
 
         else if (currentNode.floor != nextNode.floor) {

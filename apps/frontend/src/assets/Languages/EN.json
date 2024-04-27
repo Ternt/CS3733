@@ -46,6 +46,22 @@
     "status.as": "ASSIGNED",
     "status.in": "IN_PROGRESS",
     "status.cl": "CLOSED",
-    "langR.AvailHeader": "INTERPRETER AVAILABILITY"
+    "langR.AvailHeader": "INTERPRETER AVAILABILITY",
+    "mapP.NavMenu": "NAVIGATION MENU",
+    "mapP.selectStrtEnd": "Select a start and end location",
+    "mapP.sendSMS": "send SMS",
+    "enterInformation": "Enter Information",
+    "start": "Start",
+    "end": "End",
+    "algorithm": "Algorithm",
+    "cancel": "Cancel",
+    "send": "Send",
+
+    "langDir.currAt": "You are currently at ",
+    "langDir.onFloor": " on floor",
+    "langDir.takeElev": "Take elevator to Floor ",
+    "langDir.takeStr": "Take stairs to Floor "
+
+
 
 }

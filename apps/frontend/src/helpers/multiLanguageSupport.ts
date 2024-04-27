@@ -6,7 +6,7 @@ import {LanguageContext} from "../App.tsx";
 
 export default function TranslateTo(key: string){
 
-    const lang = useContext(LanguageContext);
+    const lang = useContext(LanguageContext) || "en";
 
     let langDictionary: JSON = JSON.parse("{}");
 
@@ -33,7 +33,7 @@ export default function TranslateTo(key: string){
                 return json[k];
             }
         }
-        return key;
+        return `Translation for ${key} was not found.`;
     }
 
     return getKey(langDictionary, key);

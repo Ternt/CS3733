@@ -36,6 +36,7 @@ import QRCodePopUp from "../components/QRCode/QRCodePopUp.tsx";
 import CloseIcon from "@mui/icons-material/Close";
 import PauseIcon from '@mui/icons-material/Pause';
 import {getIconFromDirectionType} from "./GetIconFromDirectionType.tsx";
+import TranslateTo from "../helpers/multiLanguageSupport.ts";
 
 export default function MapPage() {
     async function handleSMSSend(phone: string, msg: string) {
@@ -155,7 +156,7 @@ export default function MapPage() {
                         component="h1"
                         align="center"
                     >
-                        NAVIGATION MENU
+                        {TranslateTo("mapP.NavMenu")}
                     </Typography>
                     <Box
                         sx={{
@@ -173,7 +174,7 @@ export default function MapPage() {
                             }}
                             value={startLocation}
                             filterTypes={["HALL"]}
-                            label={"Start "}
+                            label={TranslateTo("start")}
                         />
                     </Box>
                     <Button
@@ -204,7 +205,7 @@ export default function MapPage() {
                             }}
                             value={endLocation}
                             filterTypes={["HALL"]}
-                            label={"End "}
+                            label={TranslateTo("end")}
                         />
                     </Box>
                     <Box
@@ -226,7 +227,7 @@ export default function MapPage() {
                                 width: '100%'
                             }}
                             value={searchAlgorithm}
-                            label={"Algorithm "}
+                            label={TranslateTo("algorithm")}
                             //helperText={algos[searchAlgorithm].helper}
                         >
                             {
@@ -251,6 +252,7 @@ export default function MapPage() {
                             if (d.floor === -1) {
                                 return (
                                     <Box
+                                        key={"dir-1in" + index+1}
                                         sx={{
                                             width: '100%',
                                             display: 'flex',
@@ -263,7 +265,7 @@ export default function MapPage() {
                                         <Typography
                                             key={"dir-1in" + index}
                                         >
-                                            Select a start and end location
+                                            {TranslateTo("mapP.selectStrtEnd")}
                                         </Typography>
                                     </Box>
                                 );
@@ -378,7 +380,7 @@ export default function MapPage() {
                         setPhoneNumber(null);
                     }}
                 >
-                    <DialogTitle>Enter Information</DialogTitle>
+                    <DialogTitle>{TranslateTo("enterInformation")}</DialogTitle>
                     <DialogContent>
                         <TextField
                             autoFocus
@@ -386,7 +388,7 @@ export default function MapPage() {
                             margin="dense"
                             id="sendSMS"
                             name="sendSMS"
-                            label="Send SMS"
+                            label={TranslateTo("mapP.sendSMS")}
                             fullWidth
                             variant="standard"
                             value={phoneNumber}
@@ -394,8 +396,8 @@ export default function MapPage() {
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={()=> {setPhoneNumber(null);}}>Cancel</Button>
-                        <Button onClick={() => {handleSMSSend(phoneNumber!, NaturalLangPath); setPhoneNumber(null);}}>Send</Button>
+                        <Button onClick={()=> {setPhoneNumber(null);}}>{TranslateTo("cancel")}</Button>
+                        <Button onClick={() => {handleSMSSend(phoneNumber!, NaturalLangPath); setPhoneNumber(null);}}>{TranslateTo("send")}</Button>
                     </DialogActions>
                 </Dialog>
 

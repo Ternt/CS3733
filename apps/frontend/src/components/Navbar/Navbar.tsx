@@ -17,7 +17,7 @@ import DropDownMenu from "../DropDownMenu.tsx";
 import NavbarItem from "./NavbarItem.tsx";
 import MenuIcon from '@mui/icons-material/Menu';
 import {SwipeableDrawer, Typography} from "@mui/material";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 export type ResponsiveAppBarProps = {
     chatbotOpen: boolean;
     toggleChatbot: () => void;
@@ -25,6 +25,24 @@ export type ResponsiveAppBarProps = {
 }
 
 export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
+
+    const [state, setState] = useState(false);
+    const [language, setLanguage] = useState(() => {
+        return localStorage.getItem('language') || 'en';
+    });
+
+    useEffect(() =>{
+        localStorage.setItem('language', language);
+    }, [language]);
+
+    const handleSetLanguage = (l: string) => {
+        setLanguage(l);
+        props.onSetLanguage(l);
+    };
+
+    const navigate = useNavigate();
+    const {user, isAuthenticated, isLoading} = useAuth0();
+
 
     const staffServices = [
         {label:  TranslateTo("services.Sanitation"), path: "/sanitation"},
@@ -41,8 +59,7 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
         {label: TranslateTo("services.Religious"), path: "/religious-request"},
     ];
 
-    const navigate = useNavigate();
-    const {user, isAuthenticated, isLoading} = useAuth0();
+
     const handleMenuItemClick = (path: string) => {
         navigate(path);
     };
@@ -53,8 +70,6 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
             permissionLevel = 2;
         }
     }
-
-  const [state, setState] = useState(false);
 
 
     return (
@@ -132,7 +147,7 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                 <LanguageSelect
                   toggleChatbot={props.toggleChatbot}
                   chatbotOpen={props.chatbotOpen}
-                  onSetLanguage={props.onSetLanguage}
+                  onSetLanguage={handleSetLanguage}
                 />
                 <SearchBar/>
                 <LoginButton/>

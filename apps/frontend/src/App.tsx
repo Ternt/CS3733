@@ -128,13 +128,14 @@ function App() {
         },
     ]);
 
-
     return (
+
         <ThemeProvider theme={CustomTheme}>
             {" "}
             {/* Wrap RouterProvider with ThemeProvider */}
             <RouterProvider router={router}/>
         </ThemeProvider>
+
     );
 
     function Root() {

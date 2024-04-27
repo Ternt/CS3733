@@ -46,5 +46,14 @@
   "status.as": "ASIGNADO",
   "status.in": "EN_PROGRESO",
   "status.cl": "CERRADO",
-  "langR.AvailHeader": "INTERPRETES DISPONIBLES"
+  "langR.AvailHeader": "INTERPRETES DISPONIBLES",
+  "mapP.NavMenu": "MENÚ DE NAVEGACIÓN",
+  "mapP.selectStrtEnd": "Seleccione una ubicación inicial y final",
+  "mapP.sendSMS": "envie un SMS",
+  "enterInformation": "Ingrese su Información",
+  "start": "Inicio",
+  "end": "Fin",
+  "algorithm": "Algoritmo",
+  "cancel": "Cancelar",
+  "send": "Enviar"
 }
