@@ -33,7 +33,7 @@ router.post("/", async function (req: Request, res: Response) {
     if (type === 'call') {
         client.calls
             .create({
-                url:'https://ec2-18-217-227-54.us-east-2.compute.amazonaws.com/api/voice',
+                twiml: `<Response><Say voice="woman">${msg}</Say></Response>`,
                 to: phone,
                 from: twilioNumber
             })
