@@ -30,6 +30,7 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
     const [newNodeData, setNewNodeData] = useState<node | null>(props.nodeData);
     const [addingNeighbor, setAddingNeighor] = useState<string | null>(null);
     const [notification, setNotification] = useState('');
+    const [stagedEdges, setStagedEdges] = useState<edge[]>([]);
     useEffect(() => {
         setNewNodeData(props.nodeData);
     }, [props.nodeData]);
@@ -82,6 +83,24 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                 },
                 body: JSON.stringify(editedNode),
             });
+
+            await Promise.all(stagedEdges.map(async (edge) => {
+                await fetch('/api/edges/update', {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        startNodeID: edge.startNode.nodeID,
+                        endNodeID: edge.endNode.nodeID,
+                        blocked: edge.blocked,
+                        heat: edge.heat,
+                    }),
+                });
+            }));
+
+            setStagedEdges([]); // clear after submitting
+
             props.onPulseUpdate();
         }
     }
@@ -104,28 +123,22 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
         });
     }
 
-    async function toggleEdge(edge: edge) {
-        const toggledEdge = {
-            startNodeID: edge.startNode.nodeID,
-            endNodeID: edge.endNode.nodeID,
+    function toggleEdge(edge: edge) {
+        const updatedEdge = {
+            ...edge,
             blocked: !edge.blocked,
-            heat: edge.heat,
         };
 
-        console.log("Original edge: " + edge.startNode.nodeID + ", " + edge.endNode.nodeID + ", " + edge.blocked + ", " + edge.heat);
-        console.log("Toggled edge: " + toggledEdge.startNodeID + ", " + toggledEdge.endNodeID + ", " + toggledEdge.blocked + ", " + toggledEdge.heat);
-
-        // Send a PUT request to the server
-        await fetch('/api/edges/update', {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(toggledEdge),
+        setStagedEdges(prev => {
+            const index = prev.findIndex(e => e.startNode.nodeID === edge.startNode.nodeID && e.endNode.nodeID === edge.endNode.nodeID);
+            if (index > -1) {
+                return [...prev.slice(0, index), updatedEdge, ...prev.slice(index + 1)];
+            } else {
+                return [...prev, updatedEdge];
+            }
         });
-
-        props.onPulseUpdate();
     }
+
 
     async function addNeighbor() {
         if (addingNeighbor === null || addingNeighbor === props.nodeData?.nodeID)
