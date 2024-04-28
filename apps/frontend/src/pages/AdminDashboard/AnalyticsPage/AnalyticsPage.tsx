@@ -4,7 +4,7 @@ import axios from "axios";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-// import {PanelGroup, Panel} from "react-resizable-panels";
+import {PanelGroup, Panel} from "react-resizable-panels";
 import {Resizable} from "re-resizable";
 import {PieChart, BarChart} from "@mui/x-charts";
 // import CustomPieChart from "./CustomPieChart.tsx";
@@ -12,8 +12,8 @@ import {PieChart, BarChart} from "@mui/x-charts";
 // import {CChartBar} from "@coreui/react-chartjs";
 // import {CircularProgress} from "@mui/material";
 
-// import ResizeHandle from "./ResizeHandle.tsx";
-//
+import ResizeHandle from "./ResizeHandle.tsx";
+
 type DataObject = {
     [key: string]: Data
 }
@@ -77,108 +77,75 @@ export default function AnalyticsPage(){
 
     return(
         <>
-            <Box sx={{display: 'flex', flexDirection: 'row',padding: 3}}>
-                    <Resizable
-                        defaultSize={{
-                            height: '40vh',
-                            width: '50%',
-                        }}
-                        minHeight={'40vh'}
-                        maxHeight={'60vh'}
-                        minWidth={'40%'}
-                        maxWidth={'60%'}
-                        bounds={'window'}
-                    >
-                        <Box sx={{border: 2, borderColor: '#E4E4E4', bgcolor: '#F1F1F1', height: '100%', padding: 3}}>
-                            <Typography
-                                variant={"h5"}
-                                sx={{
-                                    fontFamily: 'Open Sans',
-                                    color: '#012d5a',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    height: '20%'
-                                }}
-                            >Service Request Usage</Typography>
-                            <Box sx={{height: '80%'}}>
-                                <PieChart
-                                    sx={{transition: 'all 0.5s ease-out'}}
-                                    colors={['#ef476f', '#f78c6b', '#f6bd38', '#9f8be8', '#003a96', '#012d5a']}
-                                    series={[{
-                                        data: serviceData,
-                                    }]}
-                                />
-                            </Box>
-                        </Box>
-                    </Resizable>
-                    <Box sx={{border: 1, borderColor: '#E4E4E4', bgcolor: '#F1F1F1', width: '100%', padding: 3}}>
-                        <Typography
-                            variant={"h5"}
-                            sx={{
-                                fontFamily: 'Open Sans',
-                                color: '#012d5a',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                height: '20%'
+
+            <PanelGroup autoSaveId={"page-group"} direction={"vertical"}>
+                <Panel maxSize={50} minSize={35} collapsible={true}>
+                    <Box sx={{display: 'flex', height: '100%', flexDirection: 'row', padding: 3}}>
+                        <Resizable
+                            defaultSize={{
+                                height: '100%',
+                                width: '50%',
                             }}
-                        >Service Request Usage</Typography>
-                        <Box sx={{height: '80%'}}>
-                            <Box sx={{ display: 'flex', position: 'relative', height: '100%' }}>
-                                <BarChart
-                                    xAxis={[{ scaleType: 'band', data: ['Unassigned', 'Assigned', 'In-Progress', 'Closed'] }]}
-                                    series={employeeData}
-                                />
+                            minWidth={'30vw'}
+                            maxHeight={'100%'}
+                            bounds={'window'}
+                        >
+                            <Box sx={{pr: 3, height: '100%'}}>
+                                <Box sx={{border: 2, borderColor: '#E4E4E4', bgcolor: '#F1F1F1', height: '100%', padding: 3}}>
+                                    <Typography
+                                        variant={"h5"}
+                                        sx={{
+                                            fontFamily: 'Open Sans',
+                                            color: '#012d5a',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            height: '20%'
+                                        }}
+                                    >Service Request Usage</Typography>
+                                    <Box sx={{height: '80%'}}>
+                                        <PieChart
+                                            colors={['#ef476f', '#f78c6b', '#f6bd38', '#9f8be8', '#003a96', '#012d5a']}
+                                            series={[{
+                                                data: serviceData,
+                                            }]}
+                                            width={undefined}
+                                            height={undefined}
+                                        />
+                                    </Box>
+                                </Box>
+                            </Box>
+                        </Resizable>
+                        <Box sx={{pl: 3, height: '100%', width: '100%' }}>
+                            <Box sx={{border: 1, borderColor: '#E4E4E4', bgcolor: '#F1F1F1', height: '100%', width: '100%', padding: 3}}>
+                                <Typography
+                                    variant={"h5"}
+                                    sx={{
+                                        fontFamily: 'Open Sans',
+                                        color: '#012d5a',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        height: '20%'
+                                    }}
+                                >Service Request Usage</Typography>
+                                <Box sx={{height: '80%'}}>
+                                    <Box sx={{ display: 'flex', position: 'relative', height: '100%' }}>
+                                        <BarChart
+                                            xAxis={[{ scaleType: 'band', data: ['Unassigned', 'Assigned', 'In-Progress', 'Closed'] }]}
+                                            series={employeeData}
+                                            width={undefined}
+                                            height={undefined}
+                                        />
+                                    </Box>
+                                </Box>
                             </Box>
                         </Box>
                     </Box>
-            </Box>
-            {/*<PanelGroup autoSaveId={"page-group"} direction={"vertical"}>*/}
-            {/*    <Panel minSize={48} maxSize={48} collapsible={true}>*/}
-            {/*        <PanelGroup autoSaveId={"chart-group"} direction={"horizontal"}>*/}
-            {/*            <Panel defaultSize={50} minSize={35} maxSize={80} collapsible={true} order={1}>*/}
-            {/*                <Box sx={{height: '100%', padding: 3}}>*/}
-            {/*                    <Box sx={{bgcolor: '#E4E4E4', height: '100%', borderRadius: 2, padding: 3}}>*/}
-            {/*                        <Typography*/}
-            {/*                            variant={"h5"}*/}
-            {/*                            sx={{*/}
-            {/*                                fontFamily: 'Open Sans',*/}
-            {/*                                color: '#012d5a',*/}
-            {/*                                display: 'flex',*/}
-            {/*                                justifyContent: 'center',*/}
-            {/*                                height: '20%'*/}
-            {/*                            }}*/}
-            {/*                        >Service Request Usage</Typography>*/}
-            {/*                        <Box sx={{height: '80%'}}>*/}
-            {/*                            <PieChart*/}
-            {/*                                series={[{*/}
-            {/*                                    data: serviceData,*/}
-            {/*                                }]}*/}
-            {/*                            />*/}
-            {/*                        </Box>*/}
-            {/*                    </Box>*/}
-            {/*                </Box>*/}
-            {/*            </Panel>*/}
-            {/*            <ResizeHandle/>*/}
+                </Panel>
+                <ResizeHandle/>
+                <Panel defaultSize={20} collapsible={true} order={2}>
 
-            {/*            <Panel defaultSize={50} minSize={30} maxSize={80} collapsible={true} order={2}>*/}
-            {/*                <Typography*/}
-            {/*                    variant={"h5"}*/}
-            {/*                    sx={{*/}
-            {/*                        fontFamily: 'Open Sans',*/}
-            {/*                        color: '#012d5a',*/}
-            {/*                        display: 'flex',*/}
-            {/*                        justifyContent: 'center',*/}
-            {/*                    }}*/}
-            {/*                >Unassigned and Assigned employees</Typography>*/}
-
-            {/*            </Panel>*/}
-            {/*        </PanelGroup>*/}
-            {/*    </Panel>*/}
-            {/*    <ResizeHandle/>*/}
-            {/*    <Panel defaultSize={20} collapsible={true} order={2}>*/}
-
-            {/*    </Panel>*/}
-            {/*</PanelGroup>*/}
+                </Panel>
+            </PanelGroup>
         </>
     );
 }
