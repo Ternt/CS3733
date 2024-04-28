@@ -307,10 +307,12 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
               sx={{
                 display:'flex',
                 flexWrap:'wrap',
-                gap:1
+                gap:1,
+                overflowY:'scroll'
+
               }}
             >
-              <Typography variant={'caption'} sx={{display:'block', width:'100%'}}>Neighbors</Typography>
+              <Typography variant={'caption'} sx={{display:'block', width:'100%'}}>Connects To</Typography>
               {
                 // filter all edges that have this as a node, display the other node as the neighbors
                 // add neighbor button that brings up a text popup to add the selection
@@ -318,7 +320,9 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                   if(props.nodeData === null)return false;
                   if(x.startNode.nodeID === props.nodeData?.nodeID || x.endNode.nodeID === props.nodeData?.nodeID)return true;
                 }).map((x)=>{
-                    return (<Chip label={
+                    return (
+                      <Chip
+                        label={
                       (x.endNode.nodeID === props.nodeData?.nodeID)?
                         x.startNode.nodeID:
                         (x.startNode.nodeID === props.nodeData?.nodeID)?
