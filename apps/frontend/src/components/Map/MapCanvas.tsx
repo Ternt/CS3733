@@ -14,6 +14,8 @@ import {
   MAP_BASE,
   FLOOR_IDS
 } from "../../helpers/MapHelper.ts";
+import Tooltip from '@mui/material/Tooltip';
+
 import {clamp, distance} from "../../helpers/MathHelp.ts";
 import AnimatedPath from "./AnimatedPath.tsx";
 import CloseIcon from "@mui/icons-material/Close";
@@ -202,11 +204,12 @@ export default function MapCanvas(props: mapCanvasProps) {
         };
       }
 
-      function drawPoint(p: vec2, selected:boolean, dragging:boolean, id:string) {
+      function drawPoint(p: vec2, name:string, selected:boolean, dragging:boolean, id:string) {
         p = vecToCanvSpace(p);
         if (p.z !== viewingFloor) return;
         return (
           <AnimatePresence>
+              <Tooltip title={name}>
             <motion.ellipse
               initial={{ opacity: dragging?1:0, scale: dragging?(selected?1.5:1):0, fill:"#012d5a"}}
               exit={{ opacity: dragging?1:0, scale: dragging?(selected?1.5:1):0, fill:"#012d5a"}}
@@ -226,6 +229,7 @@ export default function MapCanvas(props: mapCanvasProps) {
               ry={NODE_SIZE}
               id={id}
             />
+              </Tooltip>
           </AnimatePresence>);
       }
       function drawLine(a: vec2, b: vec2, color: string, width:number, noAnimate:boolean) {
@@ -340,7 +344,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         }
         if(viewMode==='edit')
           for (const n of renderData.n) {
-            svgElements.push(drawPoint(n.point, (n.nodeID === pathing.nearestNode?.nodeID), draggingNode === n, n.nodeID));
+            svgElements.push(drawPoint(n.point, n.longName, (n.nodeID === pathing.nearestNode?.nodeID), draggingNode === n, n.nodeID));
           }
       }
       setSvgInject(svgElements);
