@@ -723,7 +723,7 @@ export default function MapCanvas(props: mapCanvasProps) {
           return n.nodeID === r["endNodeID"];
         });
         if (end === undefined) continue;
-        const e: edge = {startNode: start, endNode: end, heat:r.heat};
+        const e: edge = {startNode: start, endNode: end, blocked: r.blocked, heat: r.heat};
         es.push(e);
       }
 
