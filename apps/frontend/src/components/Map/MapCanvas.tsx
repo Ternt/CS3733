@@ -128,13 +128,19 @@ export default function MapCanvas(props: mapCanvasProps) {
         >
           {svgInject}
         </g>
-        {
-          ICONS.map((ico, index)=>{
-            if(showIcons[index])
-              return ico.icon;
-            return <></>;
-          })
-        }
+        <g>
+          {
+            ICONS.map((ico, index)=>{
+              if(!showIcons[index])
+                return <></>;
+              return ico.points.map(p=> {
+                if(p.z !== viewingFloor)
+                  return <></>;
+                return <image x={p.x * X_MULT} y={p.y * Y_MULT} width={8} height={8} href={ico.icon} key={ico.name}/>;
+              });
+            })
+          }
+        </g>
       </g>
     </svg>
   );
@@ -783,6 +789,8 @@ export default function MapCanvas(props: mapCanvasProps) {
     }
   }, [pathing, nodes, props.endLocation, props.startLocation, props.pathfinding, cameraControl]);
 
+
+  console.log("render");
   return (
     <>
       <Box
@@ -862,7 +870,9 @@ export default function MapCanvas(props: mapCanvasProps) {
             });
           }}
           showIcons={showIcons}
-          onSetShowIcons={setShowIcons}
+          onSetShowIcons={(a)=>{
+            setShowIcons(a.concat());
+          }}
         />
       </Box>
       <Snackbar
