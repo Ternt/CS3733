@@ -5,6 +5,7 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import React, { useState } from "react";
 import StaffGrid from "../../components/CreditsPage/StaffGrid.tsx";
 import SoftwareList from "../../components/CreditsPage/SoftwareList.tsx";
+import Wongprism from "../../components/Wongprism.tsx";
 
 export default function CreditsPage() {
     const [selectedTab, setSelectedTab] = useState(0);
@@ -14,6 +15,8 @@ export default function CreditsPage() {
       tabInject = (<SoftwareList/>);
     } else if (selectedTab === 1) {
       tabInject = (<StaffGrid/>);
+    }else if (selectedTab === 2){
+      tabInject = <Wongprism/>;
     }
     return (
         <>
@@ -29,7 +32,7 @@ export default function CreditsPage() {
                 >
                     <SidebarMenu
                         value={selectedTab}
-                        tabs={["What We Used", "Meet the Team"]}
+                        tabs={["Libraries", "Team", "Thanks"]}
                         onSelect={(i) => {
                             setSelectedTab(i);
                         }}

@@ -94,7 +94,7 @@ export default function Chatbot(props:ChatbotProps) {
         //Hijacking for Natural Language
         const {start, end} = checkUserMessage(userMessage);
         if (start !== '' && end !== '') {
-            const res = await NaturalLanguageDirection(start, end, 0);
+            const res = await NaturalLanguageDirection(start, end, 'astar');
             const path = ['Path text error'];
             if (res !== undefined) {
               for(const d of res){

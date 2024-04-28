@@ -20,27 +20,23 @@ import {speak} from "../../components/TextToSpeech/TextToSpeech.tsx";
 import PauseIcon from "@mui/icons-material/Pause";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import Button from "@mui/material/Button";
+import MapCanvas from "../../components/Map/MapCanvas.tsx";
 
 export default function PhoneDirectionsPage(){
-    const [natLangPath, setNatLangPath] = useState<{
+  const [natLangPath, setNatLangPath] = useState<{
     messages: { a: string, t: directionTypes }[],
     floor: number
   }[]>([]);    const [searchParams] = useSearchParams();
     const startLocation = searchParams.get('startLocation');
     const endLocation = searchParams.get('endLocation');
-    const algo = searchParams.get('algo') || '0';
-    let numericSearchAlgorithm = parseInt(algo, 10);
+    const algo = searchParams.get('algo') || 'astar';
 
-    if (isNaN(numericSearchAlgorithm)) {
-        console.error('Invalid search algorithm number provided, setting to default.');
-        numericSearchAlgorithm = 0; // default
-    }
 
     useEffect(() => {
         async function setPath() {
             console.log(startLocation, endLocation);
             if(startLocation === null || endLocation === null) return;
-          const res = await NaturalLanguageDirection(startLocation, endLocation, numericSearchAlgorithm);
+          const res = await NaturalLanguageDirection(startLocation, endLocation, algo);
           if (res !== undefined) {
             const m: { messages: { a: string, t: directionTypes }[], floor: number }[] = [];
             let cf = -1;
@@ -60,7 +56,7 @@ export default function PhoneDirectionsPage(){
         }
 
         setPath();
-    }, [startLocation, endLocation, numericSearchAlgorithm]);
+    }, [startLocation, endLocation, algo]);
 
     const [TTS,setTTS] = useState<boolean | null>(null);
 
@@ -82,7 +78,6 @@ export default function PhoneDirectionsPage(){
 
     return (
       <Box sx={{
-        mt:'5vh',
         height: '100%',
         width: '100%',
         backgroundColor: 'white',
@@ -95,6 +90,88 @@ export default function PhoneDirectionsPage(){
         borderTop: ' 1px solid black',
         pb: '5rem',
       }}>
+        <Box
+          sx={{
+            aspectRatio:'1/1',
+            width:'100vw',
+            objectFit:'cover',
+            overflow:'clip'
+          }}
+        >
+          <MapCanvas
+            defaultFloor={2}
+            pathfinding={algo}
+            startLocation={startLocation}
+            endLocation={endLocation}
+            mobile
+          />
+        </Box>
+        <Box
+          sx={{
+            width:'100vw',
+            zIndex:10,
+            bgcolor:'white',
+          }}
+        >
+          <Typography variant={"h3"} sx={{textAlign:'center'}}>Directions</Typography>
+          {natLangPath.map((d, index) => {
+            if (d.floor === -1) {
+              return (
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexWrap: 'nowrap',
+                    gap: 1
+                  }}
+                >
+                  {getIconFromDirectionType(directionTypes.HELP)}
+                  <Typography
+                    key={"dir-1in" + index}
+                  >
+                    Select a start and end location
+                  </Typography>
+                </Box>
+              );
+            }
+            return (
+              <Accordion
+                key={"direct" + index}
+                defaultExpanded={index === 0}
+              >
+                <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                  <Typography>
+                    {FLOOR_NAMES[d.floor]}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {d.messages.map((m, i) => {
+                    return (
+                      <Box
+                        sx={{
+                          py: 1,
+                          width: '100%',
+                          display: 'flex',
+                          flexDirection: 'row',
+                          flexWrap: 'nowrap',
+                          gap: 1
+                        }}
+                      >
+                        {getIconFromDirectionType(m.t)}
+                        <Typography
+                          key={"dir" + i + "in" + index}
+                        >
+                          {m.a}
+                        </Typography>
+                      </Box>
+                    );
+                  })}
+                </AccordionDetails>
+              </Accordion>
+            );
+          })}
+        </Box>
         <Typography variant={"h3"} sx={{textAlign:'center'}}>Directions</Typography>
         {natLangPath.map((d, index) => {
           if (d.floor === -1) {
