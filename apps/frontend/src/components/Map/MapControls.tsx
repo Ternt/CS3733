@@ -167,11 +167,11 @@ export default function MapControls(props: MapControlProps) {
                 >
                   <Typography variant={'caption'}>{ico.name}</Typography>
                   <Checkbox
-                    value={index}
                     checked={props.showIcons[index]}
                     onChange={()=>{
                       const a = props.showIcons;
                       a[index] = !a[index];
+                      console.log(a);
                       props.onSetShowIcons(a);
                     }}
                   />
