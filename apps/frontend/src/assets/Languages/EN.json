@@ -70,6 +70,12 @@
     "langDir.onFloor": " on floor",
     "langDir.takeElev": "Take elevator to Floor ",
     "langDir.takeStr": "Take stairs to Floor ",
+    "langDir.turnL": "Turn left ",
+    "langDir.turnR": "Turn right ",
+    "langDir.walkStrt": "Walk straight ",
+    "langDir.head": "Head ",
+    "langDir.towards": "towards ",
+    "langDir.downHall": "down the hall",
 
     "saniR.Header": "SANITATION REQUEST",
     "employeeN": "Employee Name",

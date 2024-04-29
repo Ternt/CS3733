@@ -63,8 +63,15 @@
 
   "langDir.currAt": "Actualmente te encuentras en ",
   "langDir.onFloor": " en el piso",
-  "langDir.takeElev": "Tomar el ascensor al Piso ",
-  "langDir.takeStr": "Tomar las escaleras al Piso ",
+  "langDir.takeElev": "Tome el ascensor al Piso ",
+  "langDir.takeStr": "Tome las escaleras al Piso ",
+  "langDir.turnL": "Gire a la izquierda ",
+  "langDir.turnR": "Gire a la derecha ",
+  "langDir.walkStrt": "Siga recto ",
+  "langDir.head": "Diríjase ",
+  "langDir.towards": "hacia ",
+  "langDir.downHall": "por el pasillo",
+
 
   "saniR.Header": "SOLICITUD DE SANITIZACIÓN",
   "employeeN": "Nombre del Empleado",
@@ -177,14 +184,14 @@
 
   "faq.PathQ": "P: ¿Cómo uso la Navegación de Rutas?",
   "faq.PathA": "R: Para usar la navegación de rutas, primero navega a la página del mapa. Luego selecciona una ubicación de inicio y fin de los menús desplegables. Finalmente, elige un algoritmo (A* si quieres la ruta óptima).",
-  "faq.AdminQ": "P: Soy un Administrador de Hospital, ¿cómo veo las solicitudes?",
-  "faq.AdminA": "R: Para ver todas las solicitudes, primero inicia sesión con una cuenta de administrador y navega a la página del tablero de administrador. Luego completa la información relevante y envía.",
+  "faq.AdminQ": "P: Soy un Administrador de Hospital, ¿Cómo veo las solicitudes?",
+  "faq.AdminA": "R: Primero inicie la sesión con una cuenta de administrador y navege a la página del tablero de administrador.",
   "faq.GiftQ": "P: ¿Cómo obtengo un regalo para un ser querido?",
   "faq.GiftA": "R: Para obtener un regalo para un ser querido, primero navega a la página de regalos. Luego agrega los ítems deseados a tu carrito. Finalmente, haz clic en Enviar y completa la compra.",
   "faq.LangQ": "P: Mi amigo no habla inglés, ¿cómo obtengo un traductor?",
-  "faq.LangA": "R: Para solicitar un traductor, primero navega a la página del traductor. Luego completa la información relevante y envía.",
+  "faq.LangA": "R: Para solicitar un traductor, primero navega a la página del traductor. Luego complete el formulario.",
   "faq.CleanQ": "P: Hay un derrame en el Café del Jardín, ¿cómo reporto esto?",
-  "faq.CleanA": "R: Para solicitar ayuda con este derrame, primero navega a la página de saneamiento. Luego completa la información relevante y envía.",
+  "faq.CleanA": "R: Para solicitar ayuda con este derrame, primero navega a la página de saneamiento. Luego complete el formulario.",
   "faq.FlwrQ": "P: ¿Cómo envío flores a un ser querido?",
   "faq.FlwrA": "R: Para obtener flores para un ser querido, primero navega a la página de flores, luego agrega los ítems deseados a tu carrito. Finalmente, haz clic en Enviar y completa la compra.",
 

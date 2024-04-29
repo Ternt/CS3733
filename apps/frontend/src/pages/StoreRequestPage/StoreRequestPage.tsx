@@ -149,12 +149,13 @@ function StoreRequestPage() {
                     }}
                 >
                     {items.map((item) => (
+
                         <ItemCard
                             id={item.id}
                             imageURL={item.imageURL}
-                            name={item.name}
+                            name={TranslateTo(item.name)}
                             price={item.price}
-                            description={item.description}
+                            description={TranslateTo(item.description)}
                             handleAdd={addItem}
                             type={item.type}
                         />
