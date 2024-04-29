@@ -77,15 +77,17 @@ function ItemCard(props: CardProps) {
                         </Typography>
                     </Box>
 
-                    <Typography
-                        color="text.secondary"
-                        textAlign={"left"}
-                        sx={{
-                            maxHeight: "5vh",
-                        }}
-                    >
-                        {props.description}
-                    </Typography>
+                        <Typography
+                            color="text.secondary"
+                            textAlign={"left"}
+                            sx={{
+                                maxHeight: "25vh",
+                                marginTop: "1vh",
+                                overflowY: "auto",
+                            }}
+                        >
+                            {props.description}
+                        </Typography>
                 </Box>
             </CardContent>
 

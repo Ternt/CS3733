@@ -22,6 +22,7 @@
   "services.Flwr": "Flores",
   "services.Gift": "Regalos",
   "services.Religious": "Religiosos",
+  "services.Interpreter": "Intérprete",
   "ourS.aboutUsDesc": "• Conoce más sobre el equipo que creó esta aplicación web",
   "ourS.IOS": "Aplicación para iOS",
   "ourS.IOSDesc": "• Echa un vistazo a nuestra aplicación para iOS",
@@ -110,8 +111,7 @@
   "flwrR.CarnationH": "Clavel",
   "flwrR.CarnationD": "Celebra la fuerza y la resiliencia con los claveles, símbolos de amor en tiempos difíciles.",
   "flwrR.OrchidH": "Orquídea",
-  "flwrR.OrchidD": "Inspira serenidad con la exquisita belleza de las orquídeas."
-}
+  "flwrR.OrchidD": "Inspira serenidad con la exquisita belleza de las orquídeas.",
 
   "giftR.TeddyH": "Osito de Peluche",
   "giftR.TeddyD": "Un lindo Osito de Peluche",
