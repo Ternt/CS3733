@@ -167,7 +167,7 @@ function App() {
                               toggleChatbot={()=>setChatbotOpen(!chatbotOpen)}
                               onSetLanguage={(l)=> {setlang(l);}}
                             />
-                            <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a",}}></Box>
+                            <Box key={"Navbar spacer"} sx={{width:'100%', height:'10vh', backgroundColor: "#012d5a", zIndex: 2}}></Box>
                             <Outlet />
                             <Chatbot
                               open={chatbotOpen}
