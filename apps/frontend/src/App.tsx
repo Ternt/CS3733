@@ -39,7 +39,7 @@ function App() {
             children: [
                 {
                     path: "*",
-                    element: <ErrorPage />
+                    element: <ErrorPage />,
                 },
                 {
                     path: "",
