@@ -30,22 +30,36 @@ const app: Express = express(); // Set up the backend
 import http from "http";
 import { Server } from "socket.io";
 const server = http.createServer(app);
+
 const io = new Server(server,{
     cors: {
         origin: "*",
         methods: ["GET", "POST"]
     }
 });
+type userData = {
+    userId: string;
+    x: number;
+    y: number;
+    tabId: number;
 
+};
+const currentUsers: userData[] = [];//when someone connects, add their socket id to the array, when they disconnect, remove it and send it as my data
 io.on('connection', (socket) => {
     console.log('a user connected');
+    currentUsers.push({userId: socket.id, x: 0, y: 0, tabId: 0});
 
-    socket.on('mousePosition', (data) => {
-        socket.broadcast.emit('mousePosition', data);
+    socket.on('mousePosition', (userData) => {
+        // Emit the 'mousePosition' event with the user's data
+        socket.broadcast.emit('mousePosition', userData);
+        currentUsers[currentUsers.findIndex((element) => element.userId === socket.id)] = userData;
     });
 
     socket.on('disconnect', () => {
-        console.log('user disconnected');
+        console.log('user disconnected: ', socket.id);
+        // Emit the 'userDisconnected' event with the user's ID
+        socket.broadcast.emit('userDisconnected', socket.id);
+        currentUsers.splice(currentUsers.findIndex((element) => element.userId === socket.id), 1);
     });
 });
 
