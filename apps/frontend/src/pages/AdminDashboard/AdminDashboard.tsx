@@ -5,16 +5,15 @@ import {useAuth0} from "@auth0/auth0-react";
 import {useMediaQuery} from "@mui/system";
 import Button from "@mui/material/Button";
 import {Box, CircularProgress, Typography} from "@mui/material";
+
 import ViewKanbanIcon from '@mui/icons-material/ViewKanban';
 import MapIcon from "@mui/icons-material/Map";
-import TableViewIcon from "@mui/icons-material/TableView";
-import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
-// import PersonIcon from '@mui/icons-material/Person';
+import TableChartSharpIcon from '@mui/icons-material/TableChartSharp';
+import PollSharpIcon from '@mui/icons-material/PollSharp';
 
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
 import MapCanvas from "../../components/Map/MapCanvas.tsx";
 import DataPage from "./DataPage.tsx";
-import Graphing from "./AnalyticsPage/Graphing.tsx";
 import ServiceRequestOverview from "./ServiceRequestOverview.tsx";
 import AnalyticsPage from "./AnalyticsPage/AnalyticsPage.tsx";
 
@@ -36,7 +35,6 @@ export default function AdminDashboard() {
         />,
         <AnalyticsPage/>,
         <DataPage/>,
-        <Graphing />,
     ];
 
     if(isLoading){
@@ -77,16 +75,15 @@ export default function AdminDashboard() {
                             borderColor: '#E4E4E4',
                         }}
                         value={0}
-                        tabs={["Menu", "Map", "Data", "Analytics","Charts"]}
+                        tabs={["Menu", "Map", "Charts", "Analytics"]}
                         onSelect={(i) => {
                             setSelectedTab(i);
                         }}
                     >
                         <ViewKanbanIcon/>
                         <MapIcon/>
-                        <SignalCellularAltIcon/>
-                        <TableViewIcon/>
-                        <SignalCellularAltIcon/>
+                        <TableChartSharpIcon/>
+                        <PollSharpIcon/>
                     </SidebarMenu>
 
                     {/* Tabs */}
