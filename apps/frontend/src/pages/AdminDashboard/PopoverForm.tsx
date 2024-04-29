@@ -164,6 +164,7 @@ export function PopoverForm(prop: PopoverFormProp){
 
                     {/* horizontal bar displaying employee, status, and priority */}
                     <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', px: 4, pb: 1}}>
+                        {/* Employee */}
                         <Box sx={{width: '15vw'}}>
                             <Typography>Employee</Typography>
                             <Box sx={{display: 'flex', flexDirection: 'row' , pb: 1}}>
@@ -180,6 +181,8 @@ export function PopoverForm(prop: PopoverFormProp){
                                     onChange={onChangeEmployee}></CustomAutoComplete>
                             </Box>
                         </Box>
+
+                        {/* Status */}
                         <Box sx={{width: '15vw'}}>
                             <Typography>Status</Typography>
                             <Box sx={{width: "100%"}}>
@@ -198,6 +201,8 @@ export function PopoverForm(prop: PopoverFormProp){
                                 </TextField>
                             </Box>
                         </Box>
+
+                        {/* Priority */}
                         <Box sx={{width: '15vw'}}>
                             <Typography>Priority</Typography>
                             <Typography sx={{pt: 2}}>{prop.data.priority}</Typography>
