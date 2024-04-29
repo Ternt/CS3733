@@ -59,7 +59,6 @@ export default function HeroPage() {
                 >
                     {TranslateTo("Disclaimer")}
                 </Typography>
-
             </Box>}
             <Box
                 component="img"
