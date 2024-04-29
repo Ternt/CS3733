@@ -59,7 +59,7 @@ function App() {
                     element: <ReligiousRequestForm/>,
                 },
                 {
-                    path: "/checkin-request",
+                    path: "/checkin",
                     element: <CheckInForm/>,
                 },
                 {

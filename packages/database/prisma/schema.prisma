@@ -282,6 +282,8 @@ enum PatientGender {
   TRANSGENDER
   NON_BINARY
   OTHER
+}
+
 enum AppointmentType {
   PHYSICAL_EXAMINATION
   CONSULTATION
