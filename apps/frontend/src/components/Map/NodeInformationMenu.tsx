@@ -61,20 +61,20 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
         );
     }
 
-  async function submitForm() {
+    async function submitForm() {
 
-    if(isComplete() && newNodeData !== null) {
-      const editedNode = {
-        nodeID: newNodeData.nodeID,
-        xcoord: Math.round(newNodeData.point.x - FLOOR_OFFSETS[newNodeData.point.z].x),
-        ycoord: Math.round(newNodeData.point.y - FLOOR_OFFSETS[newNodeData.point.z].y),
-        floor: newNodeData.floor,
-        building: newNodeData.building,
-        longName: newNodeData.longName,
-        shortName: newNodeData.shortName,
-        nodeType: newNodeData.nodeType
-      };
-      props.onChangeNode(newNodeData);
+        if (isComplete() && newNodeData !== null) {
+            const editedNode = {
+                nodeID: newNodeData.nodeID,
+                xcoord: Math.round(newNodeData.point.x - FLOOR_OFFSETS[newNodeData.point.z].x),
+                ycoord: Math.round(newNodeData.point.y - FLOOR_OFFSETS[newNodeData.point.z].y),
+                floor: newNodeData.floor,
+                building: newNodeData.building,
+                longName: newNodeData.longName,
+                shortName: newNodeData.shortName,
+                nodeType: newNodeData.nodeType
+            };
+            props.onChangeNode(newNodeData);
 
             // Send a PUT request to the server
             await fetch("/api/nodes/update", {
@@ -347,8 +347,9 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                             gap: 1
                         }}
                     >
-                        <Typography variant={'caption'} sx={{display: 'block', width: '100%'}}>Connected
-                            to:</Typography>
+                        <Typography variant={'caption'} sx={{display: 'block', width: '100%'}}>
+                            Connected to:
+                        </Typography>
                         {
                             // filter all edges that have this as a node, display the other node as the neighbors
                             // add neighbor button that brings up a text popup to add the selection
@@ -367,7 +368,10 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                                     props.onPulseUpdate();
                                 }}
                                               sx={{
-                                                  bgcolor: x.blocked ? 'lightyellow' : 'default',
+                                                  bgcolor: x.blocked ? '#fff391' : 'default',
+                                                  "&:hover": {
+                                                      bgcolor: 'b2a852',
+                                                  },
                                               }}
                                               onClick={() => toggleEdge(x)}
                                               key={x.startNode.nodeID + " " + x.endNode.nodeID}
@@ -377,6 +381,9 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                         <Chip label={"+"} variant="outlined" onClick={() => {
                             setAddingNeighor('');
                         }}/>
+                        <Typography variant={'caption'} sx={{display: 'block', width: '100%'}}>
+                            *Blocked edges are marked with yellow
+                        </Typography>
                     </Box>
                     <Box
                         sx={{
