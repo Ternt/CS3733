@@ -2,12 +2,14 @@ import React, {useState} from "react";
 import axios from "axios";
 import Modal from "@mui/material/Modal";
 import {Box, Button, TextField, Typography} from "@mui/material";
+import {useMediaQuery} from "@mui/system";
 
 export default function UploadGraphData(){
     const [employeeFile, setEmployeeFile] = useState<File | null>(null);
     const [open, setOpen] = useState<boolean>(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const matches = useMediaQuery('min-width: 300px');
 
     const handleNodeFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmployeeFile(event.target.files ? event.target.files[0] : null);
@@ -25,6 +27,7 @@ export default function UploadGraphData(){
             },
         });
     }
+
     return (
         <Box
             sx={{
@@ -38,7 +41,18 @@ export default function UploadGraphData(){
                 onClose={handleClose}
                 sx={{display: 'flex', justifyContent: 'center', alignItems: 'center',}}
             >
-                <Box sx={{height: '20vh', padding: 3, borderRadius: 1, bgcolor: '#FFFFFF'}}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 2,
+                        padding: 3,
+                        height: '15rem',
+                        width: (!matches)?'30%':'300px',
+                        borderRadius: 1,
+                        bgcolor: '#FFFFFF',
+                        minWidth: '300px',
+                    }}>
                     <Typography variant={"h6"}>Upload new data</Typography>
                     <Typography variant={"subtitle1"}>Employees</Typography>
                     <TextField

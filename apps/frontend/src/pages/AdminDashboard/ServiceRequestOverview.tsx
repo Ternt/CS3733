@@ -173,8 +173,8 @@ export default function ServiceRequestOverview(){
     }
 
     return(
-        <>
-            <Box sx={{backgroundColor: '#FFFFFF', width: '40%', height: '8vh', px: '1.5%', pt: '1.5%'}}>
+        <Box sx={{width: '100%', height: '100%'}}>
+            <Box sx={{backgroundColor: '#FFFFFF', width: '40em', height: '4em', pl: 3, pt: 3}}>
                 <CustomAutoComplete label={"Filter..."} employeeList={employeeList} onChange={onChange} onClear={onClear}/>
             </Box>
             <Box sx={{display: 'flex', flexDirection: 'row', overflowY: 'hidden', padding: 3, gap: 3}}>
@@ -198,6 +198,6 @@ export default function ServiceRequestOverview(){
                 })
                 }
             </Box>
-        </>
+        </Box>
     );
 }

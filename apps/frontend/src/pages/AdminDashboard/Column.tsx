@@ -15,7 +15,7 @@ type ColumnProp = {
 
 export default function Column(prop: ColumnProp){
     return(
-        <Box sx={{borderRadius: 2, bgcolor: '#E4E4E4', minWidth: '20vw', minHeight: '75vh', overflow: 'scroll'}}>
+        <Box sx={{borderRadius: 1, bgcolor: '#E4E4E4', minWidth: '22em', minHeight: '77vh', overflow: 'scroll'}}>
             <Typography
                 variant={'h5'}
                 sx={{
@@ -24,7 +24,7 @@ export default function Column(prop: ColumnProp){
                     display: 'flex',
                     justifyContent: 'center',
                     width: '100%',
-                    padding: 3
+                    padding: '0.5em'
                 }}>
                 {prop.title}
             </Typography>
@@ -33,7 +33,7 @@ export default function Column(prop: ColumnProp){
                     <div
                         ref={provided.innerRef}
                         {...provided.droppableProps}
-                        style={{display: 'flex', flexDirection: 'column', padding: '2%'}}
+                        style={{display: 'flex', flexDirection: 'column', padding: '0.5em'}}
                     >
                         {prop.tasks.map((service, index) => {
                             return(

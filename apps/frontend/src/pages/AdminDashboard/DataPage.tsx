@@ -44,104 +44,104 @@ export default function DataPage(){
     }, []);
 
     return(
-        <>
-            <Box sx={{width: '100%', height: '15vh', }}>
-                <Typography variant={"h4"} sx={{height: '10vh', padding: 3}}>
-                    Data Analytics
-                </Typography>
-                <Box sx={{display: 'flex', flexDirection: 'row', width: '95vw', height: '5vh'}}>
-                    {["Nodes", "Edges", "Employee"].map((value, i) => {
-                        return(
-                            <>
-                                <ButtonBase
-                                    onClick={() => setTab(i)}
-                                    sx={{
-                                        p: 0,
-                                        width: '5vw',
-                                        marginLeft: '1vw',
-                                        height: '100%',
-                                        textAlign: 'center',
-                                    }}
-                                    key={i}
-                                >
-                                    <Typography>
-                                        {value}
-                                    </Typography>
-                                    {i === tab ?
-                                        (<motion.div
-                                            style={{
-                                                backgroundColor: "#f6bd38",
-                                                width: '5vw',
-                                                marginTop: '5vh',
-                                                height: '0.2vh',
-                                                position: 'absolute'
-                                            }} layoutId={"tab_underline"}/>) : null}
-                                </ButtonBase>
+        <Box sx={{width: '100%', height: '15em', }}>
+            <Typography variant={"h4"} sx={{height: '3em', padding: 3}}>
+                Data Analytics
+            </Typography>
+            <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', height: '2.5em'}}>
+                {["Nodes", "Edges", "Employee"].map((value, i) => {
+                    return(
+                        <>
+                            <ButtonBase
+                                onClick={() => setTab(i)}
+                                sx={{
+                                    p: 0,
+                                    width: '5em',
+                                    marginLeft: '1.3em',
+                                    height: '100%',
+                                    textAlign: 'center',
+                                }}
+                                key={i}
+                            >
+                                <Typography>
+                                    {value}
+                                </Typography>
+                                {i === tab ?
+                                    (<motion.div
+                                        style={{
+                                            backgroundColor: "#f6bd38",
+                                            width: '5em',
+                                            marginTop: '2.35em',
+                                            height: '0.2em',
+                                            position: 'absolute'
+                                        }} layoutId={"tab_underline"}/>) : null}
+                            </ButtonBase>
 
-                            </>
-                        );
-                    })}
+                        </>
+                    );
+                })}
+            </Box>
+            {tab === 0 && (
+                <Box>
+                    <DataTable
+                        title={"Edges"}
+                        headers={["Node ID", "Short Name", "Long Name", "X", "Y", "Floor", "Building", "Type"]}
+                        rows={
+                            nodeTable.map((n)=>{return [n.nodeID, n.shortName, n.longName, n.xcoord+"", n.ycoord+"", n.floor, n.building, n.nodeType];})
+                        }>
+                        <>
+                            <UploadGraphData/>
+                            <DownloadCSV
+                                url={"/api/nodes/download"}
+                                filename={"nodes.csv"}
+                                title={"Nodes"}
+                            />
+                        </>
+                    </DataTable>
                 </Box>
-                {tab === 0 && (
-                    <Box>
-                        <DataTable
-                            title={"Edges"}
-                            headers={["Node ID", "Short Name", "Long Name", "X", "Y", "Floor", "Building", "Type"]}
-                            rows={
-                                nodeTable.map((n)=>{return [n.nodeID, n.shortName, n.longName, n.xcoord+"", n.ycoord+"", n.floor, n.building, n.nodeType];})
-                            }>
-                            <>
-                                <UploadGraphData/>
-                                <DownloadCSV
-                                    url={"/api/nodes/download"}
-                                    filename={"nodes.csv"}
-                                    title={"Nodes"}
-                                />
-                            </>
-                        </DataTable>
-                    </Box>
-                )}
-                {tab === 1 && (
-                    <Box>
+            )}
+            {tab === 1 && (
+                <Box>
 
+                    <DataTable
+                        title={"Edges"}
+                        headers={["Index","Start","End","Blocked"]}
+                        rows={
+                            edgeTable.map((e,i)=>{return [i+"",e.startNodeID,e.endNodeID,e.blocked+""];})
+                        }>
+                        <>
+                            <UploadGraphData/>
+                            <DownloadCSV
+                                url={"/api/edges/download"}
+                                filename={"edges.csv"}
+                                title={"Edges"}
+                            />
+                        </>
+                    </DataTable>
+                </Box>
+            )}
+            {tab === 2 && (
+                <Box>
+                    <Box>
                         <DataTable
-                            title={"Edges"}
-                            headers={["Index","Start","End","Blocked"]}
+                            title={"Employees"}
+                            headers={["Employee ID", "First", "Last"]}
                             rows={
-                                edgeTable.map((e,i)=>{return [i+"",e.startNodeID,e.endNodeID,e.blocked+""];})
+                                employeeTable.map((e)=>{return [e.id+"", e.firstName, e.lastName];})
                             }>
                             <>
                                 <UploadEmployeeData/>
-                                <DownloadCSV
-                                    url={"/api/edges/download"}
-                                    filename={"edges.csv"}
-                                    title={"Edges"}
-                                />
-                            </>
-                        </DataTable>
-                    </Box>
-                )}
-                {tab === 2 && (
-                    <Box>
-                        <Box>
-                            <DataTable
-                                title={"Employees"}
-                                headers={["Employee ID", "First", "Last"]}
-                                rows={
-                                    employeeTable.map((e)=>{return [e.id+"", e.firstName, e.lastName];})
-                                }>
                                 <DownloadCSV
                                     url={"/api/employees/download"}
                                     filename={"employees.csv"}
                                     title={"Employees"}
                                 />
-                            </DataTable>
-                        </Box>
+                            </>
+                        </DataTable>
                     </Box>
-                )}
+                </Box>
+            )}
 
-            </Box>
-
-        </>
+        </Box>
     );
 }

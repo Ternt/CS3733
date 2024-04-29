@@ -52,8 +52,8 @@ export default function ServiceRequestCard(prop: KanbanBoardProp){
                                 sx={{
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    padding: "5%",
-                                    paddingTop: "5%",
+                                    padding: 1,
+                                    paddingTop: 1,
                                 }}>
                                 <Typography variant="h6">{serviceRequest.location.longName}</Typography>
                             </CardContent>

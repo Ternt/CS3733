@@ -1,8 +1,9 @@
 import React, {useMemo, useState} from "react";
 
+import {useMediaQuery} from "@mui/system";
+import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import {MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField} from "@mui/material";
-import Box from "@mui/material/Box";
 
 type DataTableProps = {
     children: JSX.Element;
@@ -31,9 +32,11 @@ export default function DataTable(props: DataTableProps){
         setPage(0);
     };
 
+    const matches = useMediaQuery('(min-width:1000px)');
+
     return (
         <>
-            <Paper elevation={0} sx={{padding: 0}}>
+            <Paper elevation={0} sx={{padding: 0, width: '100%'}}>
                 <Toolbar variant={'dense'}
                          sx={{
                              color: '#E4E4E4',
@@ -41,7 +44,7 @@ export default function DataTable(props: DataTableProps){
                              borderBottom: 0,
                              borderLeft: 0,
                              borderRight: 0,
-                             height: '8vh'
+                             height: '4em'
                          }}>
                     {props.children}
                 </Toolbar>
@@ -52,6 +55,7 @@ export default function DataTable(props: DataTableProps){
                         borderBottom: 1,
                         borderLeft: 0,
                         borderRight: 0,
+                        width: (!matches)?'47.38em':'100%',
                     }}>
                     <Table sx={{ minWidth: 650 }} aria-label="Edge Table">
                         <TableHead>
@@ -76,7 +80,6 @@ export default function DataTable(props: DataTableProps){
                                                             required
                                                             select
                                                             value={cell[0]}
-                                                            margin="dense"
                                                             inputProps={{MenuProps: {disableScrollLock: true}}}
                                                             onChange={(event) => {
                                                                 console.log(event.target.value);
@@ -111,7 +114,7 @@ export default function DataTable(props: DataTableProps){
                     />
                 </Box>
             </Paper>
-            <Box id={"buffer"} sx={{height: '2vh', width: '100%'}}></Box>
+            <Box id={"buffer"} sx={{height: '2rem', width: '100%'}}></Box>
         </>
     );
 }
