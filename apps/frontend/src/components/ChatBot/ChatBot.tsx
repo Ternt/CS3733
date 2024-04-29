@@ -353,6 +353,7 @@ export default function Chatbot(props:ChatbotProps) {
                         onSetTranscript={setTranscript}
                     />
                 </DialogContent>
+
                 <DialogActions>
                     <Button onClick={() => {
                         setTranscript(null);
