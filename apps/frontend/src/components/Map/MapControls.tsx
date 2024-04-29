@@ -9,6 +9,7 @@ import {
   ToggleButton,
   ToggleButtonGroup, Typography
 } from "@mui/material";
+import Tooltip from '@mui/material/Tooltip';
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
@@ -169,9 +170,9 @@ export default function MapControls(props: MapControlProps) {
             bgcolor:'white'
           }}
         >
-          <ToggleButton value="normal"><TimelineIcon /></ToggleButton>
-          <ToggleButton value="edit"><EditIcon /></ToggleButton>
-          <ToggleButton value="heatmap"><LocalFireDepartmentIcon /></ToggleButton>
+          <Tooltip title="Node and Edge Display"><ToggleButton value="normal"><TimelineIcon /></ToggleButton></Tooltip>
+          <Tooltip title="Edit Map"><ToggleButton value="edit"><EditIcon /></ToggleButton></Tooltip>
+          <Tooltip title="Heatmap Display"><ToggleButton value="heatmap"><LocalFireDepartmentIcon /></ToggleButton></Tooltip>
         </ToggleButtonGroup>)}
       <Accordion
         defaultExpanded={false}
