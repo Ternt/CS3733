@@ -133,7 +133,22 @@ export default function createServiceRequestBody(body): any | undefined {
             delete body.name;
             delete body.language;
             break;
+        case "APPOINTMENT":
+            body.appointmentDetail = {
+                create: {
+                    patientName: body.patientName,
+                    patientEmail: body.patientEmail,
+                    aptType: body.aptType,
+                    date: body.date,
+                },
+            };
+            delete body.patientName;
+            delete body.patientEmail;
+            delete body.aptType;
+            delete body.date;
+            break;
     }
+    
 
     return body;
 }
