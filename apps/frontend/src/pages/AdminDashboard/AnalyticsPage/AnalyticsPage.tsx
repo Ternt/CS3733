@@ -76,11 +76,10 @@ export default function AnalyticsPage(){
     }, []);
 
     return(
-        <>
-
+        <Box sx={{width: '100%', height: '100%'}}>
             <PanelGroup autoSaveId={"page-group"} direction={"vertical"}>
                 <Panel maxSize={50} minSize={35} collapsible={true}>
-                    <Box sx={{display: 'flex', height: '100%', flexDirection: 'row', padding: 3}}>
+                    <Box sx={{display: 'flex', height: '100%', width: '100%', flexDirection: 'row', padding: 3}}>
                         <Resizable
                             defaultSize={{
                                 height: '100%',
@@ -146,6 +145,6 @@ export default function AnalyticsPage(){
 
                 </Panel>
             </PanelGroup>
-        </>
+        </Box>
     );
 }
