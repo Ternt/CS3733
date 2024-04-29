@@ -8,7 +8,7 @@ import QrCodeIcon from '@mui/icons-material/QrCode';
 type QRCodePopUpProp = {
     startNode: string;
     endNode: string;
-    algo: number;
+    algo: string;
 };
 
 export default function QRCodePopUp(props: QRCodePopUpProp) {

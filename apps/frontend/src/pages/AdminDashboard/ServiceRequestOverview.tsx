@@ -67,7 +67,7 @@ export default function ServiceRequestOverview(){
                         p: '1%',
                         display:'flex',
                         flexDirection:'row',
-                        gap: 2,
+                        gap: 1,
                     }}
                 >
                     {
@@ -80,8 +80,8 @@ export default function ServiceRequestOverview(){
                                         minHeight:'70vh',
                                         display:'flex',
                                         flexDirection:'column',
-                                        p: "0.5%",
-                                        backgroundColor: '#F1F1F1',
+                                        backgroundColor: '#ffffff',
+                                        boxShadow:3,
                                     }}
                                 >
                                     <CardContent>
@@ -90,10 +90,10 @@ export default function ServiceRequestOverview(){
                                             justifyContent: "center",
                                             alignItem: "center",
                                             width:'fill-available',
-                                            px: "5%",
-                                            pt: "4%",
-                                            pb: "2%",
+                                            py: "2%",
                                             backgroundColor: '#012d5a',
+                                            borderRadius:2,
+                                            boxShadow:2,
                                         }}>
                                             <Typography
                                                 variant={"h5"}
@@ -112,7 +112,12 @@ export default function ServiceRequestOverview(){
                                                 height: '65vh',
                                                 gap: "1rem",
                                                 overflow: 'scroll',
-                                                p: '5%',
+                                                '::-webkit-scrollbar': {
+                                                  display: 'none'
+                                                },
+                                                '-ms-overflow-style': 'none',  /* IE and Edge */
+                                                'scrollbar-width': 'none',  /* Firefox */
+                                                pt:1
                                             }}>
                                             {
                                                 filteredRequests.filter(x=> x.type === category).map((service) => {

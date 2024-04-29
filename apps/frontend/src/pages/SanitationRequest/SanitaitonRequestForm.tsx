@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {
     TextField,
     RadioGroup,
@@ -19,6 +19,7 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import FooterBar from "../../components/Footerbar/footer.tsx";
 
 type formFields = {
     name: string;
@@ -154,6 +155,7 @@ function SanitationRequestForm() {
     }
 
     return (
+      <>
         <Box
             sx={{
                 display: 'flex',
@@ -442,6 +444,8 @@ function SanitationRequestForm() {
                 </Grow>
             </Box>
         </Box>
+        <FooterBar />
+        </>
     );
 }
 

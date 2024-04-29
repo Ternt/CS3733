@@ -12,6 +12,7 @@ import {
 import {pieArcLabelClasses, PieChart} from '@mui/x-charts/PieChart';
 import * as React from "react";
 import axios, {AxiosResponse} from "axios";
+import FooterBar from "../../components/Footerbar/footer.tsx";
 
 type Interpreter = {
     language: string;
@@ -141,8 +142,9 @@ function LanguageInterpreterRequestForm() {
     };
 
     return (
+      <>
         <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-            <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', height: '70vh'}}>
+            <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
                 <Box
                     sx={{
                         display: 'flex',
@@ -444,6 +446,8 @@ function LanguageInterpreterRequestForm() {
 
             </Box>
         </Box>
+  <FooterBar />
+      </>
         );
 }
 

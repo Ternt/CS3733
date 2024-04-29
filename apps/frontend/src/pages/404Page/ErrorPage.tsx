@@ -1,6 +1,7 @@
 import {Box, Typography} from "@mui/material";
 import React from "react";
 import DirectionsCard from "./DirectionsCard.tsx";
+import FooterBar from "../../components/Footerbar/footer.tsx";
 
 export default function ErrorPage() {
     return (
@@ -81,6 +82,7 @@ export default function ErrorPage() {
                 <DirectionsCard />
 
             </Box>
+          <FooterBar />
         </>
     );
 }

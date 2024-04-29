@@ -13,10 +13,14 @@ export function speak(text: string) {
     utterance.addEventListener('end', () => {
         console.log('Speech synthesis ended');
         currentUtterance = null;
+        speechSynthesis.cancel();
     });
 
-    // Speak the text
     speechSynthesis.speak(utterance);
+
+    function startSpeech() {
+        speechSynthesis.speak(utterance);
+    }
 
     // Store the current utterance
     currentUtterance = utterance;
@@ -32,6 +36,14 @@ export function speak(text: string) {
         }
     }
 
+    // Function to reset the speech path
+
+
+    // Function to reset the speech path
+    function resetSpeech() {
+        speechSynthesis.cancel();
+    }
+
     // Function to resume the speech synthesis
     function resumeSpeech() {
         if (currentUtterance) {
@@ -42,5 +54,5 @@ export function speak(text: string) {
         }
     }
 
-    return { pauseSpeech, resumeSpeech };
+    return { pauseSpeech, resumeSpeech, resetSpeech, startSpeech };
 }

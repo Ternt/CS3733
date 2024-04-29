@@ -6,6 +6,7 @@ import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrow
 import OurServices from "./OurServices.tsx";
 import {useNavigate} from "react-router-dom";
 import TranslateTo from "../../helpers/multiLanguageSupport.ts";
+import FooterBar from "../../components/Footerbar/footer.tsx";
 
 export default function HeroPage() {
     const heroPage2Ref = useRef<HTMLDivElement | null>(null);
@@ -30,6 +31,7 @@ export default function HeroPage() {
 
 
     return (
+      <>
         <Box>
           {boxDisplay && <Box
                 sx = {{
@@ -169,5 +171,7 @@ export default function HeroPage() {
 
             </Box>
         </Box>
+  <FooterBar />
+      </>
     );
 }
