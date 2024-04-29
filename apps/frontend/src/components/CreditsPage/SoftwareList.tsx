@@ -2,6 +2,7 @@ import React from 'react';
 import SoftwareCard from "../Card/SoftwareCard.tsx";
 import { Masonry } from '@mui/lab';
 import {Container, Grid} from '@mui/material';
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 import Auth0 from "../../assets/CreditsIcons/auth0.svg";
 import Axios from "../../assets/CreditsIcons/axios.svg";
@@ -28,140 +29,140 @@ const SoftwareList = () => {
     const tools = [
         {
             name: 'Auth0',
-            description: 'An authentication and authorization platform',
+            description: TranslateTo("auth0.desc"),
             website: 'https://auth0.com/',
             icon: Auth0,
             height: "25rem"
         },
         {
             name: 'Axios',
-            description: 'A promise-based HTTP client for the browser and Node.js',
+            description: TranslateTo("axios.desc"),
             website: 'https://axios-http.com/',
             icon: Axios,
             height: "10rem"
         },
         {
             name: 'csv-parser',
-            description: 'A CSV parsing library for Node.js',
+            description: TranslateTo("csvP.desc"),
             website: 'https://www.npmjs.com/package/csv-parser',
             icon: CsvParser,
             height: "15rem"
         },
         {
             name: 'dayjs',
-            description: 'A minimalist JavaScript library for datetime manipulation',
+            description: TranslateTo("dayjs.desc"),
             website: 'https://day.js.org/',
             icon: Dayjs,
             height: "35rem"
         },
         {
             name: 'Docker',
-            description: 'Docker is a platform for developing, shipping, and running applications',
+            description: TranslateTo("docker.desc"),
             website: 'https://www.docker.com/',
             icon: Docker,
             height: "35rem"
         },
         {
             name: 'Express',
-            description: 'A web application framework for Node.js',
+            description: TranslateTo("express.desc"),
             website: 'https://expressjs.com/',
             icon: Express,
             height: "10rem"
         },
         {
             name: 'Eslint',
-            description: 'A pluggable JavaScript linter',
+            description: TranslateTo("eslint.desc"),
             website: 'https://eslint.org/',
             icon: Eslint,
             height: "25rem"
         },
         {
             name: 'Figma',
-            description: 'A collaborative interface design tool',
+            description: TranslateTo("figma.desc"),
             website: 'https://www.figma.com/',
             icon: Figma,
             height: "15rem"
         },
         {
             name: 'Framer Motion',
-            description: 'A production-ready motion library for React',
+            description: TranslateTo("framerM.desc"),
             website: 'https://www.framer.com/motion/',
             icon: FramerMotion,
             height: "25rem"
         },
         {
             name: 'Github',
-            description: 'A platform for hosting and collaborating on Git repositories',
+            description: TranslateTo("github.desc"),
             website: 'https://github.com/',
             icon: Github,
             height: "15rem"
         },
         {
             name: 'Material UI',
-            description: 'React components for faster and easier web development',
+            description: TranslateTo("MUI.desc"),
             website: 'https://mui.com/',
             icon: MaterialUI,
             height: "10rem"
         },
         {
             name: 'Node.js',
-            description: 'A JavaScript runtime built on Chrome\'s V8 JavaScript engine',
+            description: TranslateTo("node.desc"),
             website: 'https://nodejs.org/',
             icon: Nodejs,
             height: "20rem"
         },
         {
             name: 'OpenAI',
-            description: 'An AI research lab and deployment platform',
+            description: TranslateTo("openAI.desc"),
             website: 'https://openai.com/',
             icon: OpenAI,
             height: "35rem"
         },
         {
             name: 'prisma',
-            description: 'A modern database toolkit for TypeScript and Node.js',
+            description: TranslateTo("prisma.desc"),
             website: 'https://www.prisma.io/',
             icon: Prisma,
             height: "20rem"
         },
         {
             name: 'React',
-            description: 'A JavaScript library for building user interfaces',
+            description: TranslateTo("react.desc"),
             website: 'https://reactjs.org/',
             icon: ReactIcon,
             height: "30rem"
         },
         {
             name: 'Redux',
-            description: 'A predictable state container for JavaScript apps',
+            description: TranslateTo("redux.desc"),
             website: 'https://redux.js.org/',
             icon: Redux,
             height: "25rem"
         },
         {
             name: 'Taiga',
-            description: 'An open-source project management platform',
+            description: TranslateTo("taiga.desc"),
             website: 'https://www.taiga.io/',
             icon: Taiga,
             height: "15rem"
         },
         {
             name: 'twilio',
-            description: 'A cloud communications platform',
+            description: TranslateTo("twilio.desc"),
             website: 'https://www.twilio.com/',
             icon: Twilio,
             height: "20rem"
         },
         {
             name: 'Vite',
-            description: 'A build tool that aims to provide a faster and leaner development experience for modern web projects',
+            description: TranslateTo("vite.desc"),
             website: 'https://vitejs.dev/',
             icon: Vite,
             height: "25rem"
         },
         {
             name: 'Webstorm',
-            description: 'A powerful IDE for modern JavaScript development',
+            description: TranslateTo("webstorm.desc"),
             website: 'https://www.jetbrains.com/webstorm/',
             icon: Webstorm,
             height: "15rem"
