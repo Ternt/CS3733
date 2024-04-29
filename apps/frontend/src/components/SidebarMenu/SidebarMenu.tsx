@@ -39,7 +39,7 @@ export default function SidebarMenu(props: SidebarMenuProps) {
                                 justifyContent: "center",
                                 alignItems: "center",
                                 p: 2,
-                                transition: {xs: '0.1s', md: '0.1s'},
+                                transition: {xs: '0.5s', md: '0.3s'},
                             }}
                             onClick={() => {
                                 setSelectedTab(i);

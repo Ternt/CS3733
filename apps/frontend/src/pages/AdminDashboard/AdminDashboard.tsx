@@ -90,7 +90,7 @@ export default function AdminDashboard() {
                     </SidebarMenu>
 
                     {/* Tabs */}
-                    <Box sx={{overflowY: 'scroll', width: '100%'}}>
+                    <Box sx={{overflowY: 'scroll', width: '100%', zIndex: 1}}>
                         {tabSelector[selectedTab]}
                     </Box>
                 </Box>
