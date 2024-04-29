@@ -30,7 +30,7 @@ export default function SpeechRecognition() {
             flexDirection: 'column',
             alignItems: 'center',
             width: '100%',
-            height: '44vh',
+            height: '60vh',
             bgcolor: '#e4e4e4',
         }}>
             <Box sx={{
@@ -44,7 +44,7 @@ export default function SpeechRecognition() {
                 <Typography variant="h6" gutterBottom> Transcript: </Typography>
 
                 <Box sx={{
-                    height: '25vh',
+                    height: '40vh',
                     width: '75vw',
                     maxHeight: '100%',
                     maxWidth: '100%',

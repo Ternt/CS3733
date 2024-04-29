@@ -88,7 +88,7 @@ export default function Chatbot(props:ChatbotProps) {
 
     const [userMessage, setUserMessage] = useState('');
 
-    const [transcript, setTranscript] = useState("");
+    const [transcript, setTranscript] = useState<null | string>("");
 
     async function sendUserMessage() {
         setUserMessage('');
@@ -282,11 +282,11 @@ export default function Chatbot(props:ChatbotProps) {
             <Dialog
                 fullScreen
                 sx={{
-                    m: '8%'
+                    m: '5%'
                 }}
                 open={transcript !== null}
                 onClose={() => {
-                    setTranscript("");
+                    setTranscript(null);
                 }}
             >
                 <DialogTitle>Speech Recognition</DialogTitle>
@@ -295,11 +295,11 @@ export default function Chatbot(props:ChatbotProps) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => {
-                        setTranscript("");
+                        setTranscript(null);
                     }}>Cancel</Button>
                     <Button onClick={() => {
                         //handleSMSSend(phoneNumber!, NaturalLangPath, type);
-                        setTranscript("");
+                        setTranscript(null);
                     }}>Send</Button>
                 </DialogActions>
             </Dialog>
