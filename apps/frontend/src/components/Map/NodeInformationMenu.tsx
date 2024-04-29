@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import {edge, node} from "../../helpers/typestuff.ts";
 import CloseIcon from "@mui/icons-material/Close";
+import {FLOOR_OFFSETS} from "../../helpers/MapHelper.ts";
 
 type InfoMenuProp = {
   nodeData: node | null;
@@ -60,19 +61,19 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
   }
 
   async function submitForm() {
-    props.onChangeNode(newNodeData);
 
     if(isComplete() && newNodeData !== null) {
       const editedNode = {
         nodeID: newNodeData.nodeID,
-        xcoord: Math.round(newNodeData.point.x),
-        ycoord: Math.round(newNodeData.point.y),
+        xcoord: Math.round(newNodeData.point.x - FLOOR_OFFSETS[newNodeData.point.z].x),
+        ycoord: Math.round(newNodeData.point.y - FLOOR_OFFSETS[newNodeData.point.z].y),
         floor: newNodeData.floor,
         building: newNodeData.building,
         longName: newNodeData.longName,
         shortName: newNodeData.shortName,
         nodeType: newNodeData.nodeType
       };
+      props.onChangeNode(newNodeData);
 
       // Send a PUT request to the server
       await fetch("/api/nodes/update", {
@@ -82,6 +83,7 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
         },
         body: JSON.stringify(editedNode),
       });
+
       props.onPulseUpdate();
     }
   }
@@ -307,10 +309,12 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
               sx={{
                 display:'flex',
                 flexWrap:'wrap',
-                gap:1
+                gap:1,
+                overflowY:'scroll'
+
               }}
             >
-              <Typography variant={'caption'} sx={{display:'block', width:'100%'}}>Neighbors</Typography>
+              <Typography variant={'caption'} sx={{display:'block', width:'100%'}}>Connects To</Typography>
               {
                 // filter all edges that have this as a node, display the other node as the neighbors
                 // add neighbor button that brings up a text popup to add the selection
@@ -318,7 +322,9 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                   if(props.nodeData === null)return false;
                   if(x.startNode.nodeID === props.nodeData?.nodeID || x.endNode.nodeID === props.nodeData?.nodeID)return true;
                 }).map((x)=>{
-                    return (<Chip label={
+                    return (
+                      <Chip
+                        label={
                       (x.endNode.nodeID === props.nodeData?.nodeID)?
                         x.startNode.nodeID:
                         (x.startNode.nodeID === props.nodeData?.nodeID)?
