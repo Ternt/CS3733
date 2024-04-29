@@ -143,6 +143,13 @@ export default function createServiceRequestBody(body): any | undefined {
                     patientBirthday: body.patientBirthday,
                     appointmentDate: body.appointmentDate,
                     appointmentTime: body.appointmentTime,
+        case "APPOINTMENT":
+            body.appointmentDetail = {
+                create: {
+                    patientName: body.patientName,
+                    patientEmail: body.patientEmail,
+                    aptType: body.aptType,
+                    date: body.date,
                 },
             };
             delete body.patientName;
@@ -152,8 +159,11 @@ export default function createServiceRequestBody(body): any | undefined {
             delete body.patientBirthday;
             delete body.appointmentDate;
             delete body.appointmentTime;
+            delete body.aptType;
+            delete body.date;
             break;
     }
+    
 
     return body;
 }

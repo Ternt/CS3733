@@ -13,6 +13,7 @@ import EmployeeAutoComplete, {EmployeeAutocompleteOption} from "../../components
 type KanbanBoardProp = {
     serviceRequestData: ServiceRequest;
     employeeList: EmployeeAutocompleteOption[];
+    updateFunction: () => void;
 };
 
 export default function KanbanBoardCard(prop: KanbanBoardProp){
@@ -93,6 +94,8 @@ export default function KanbanBoardCard(prop: KanbanBoardProp){
 
         updateEmployeeRequests(newEmployee);
         if(statusChanged){updateAssignmentStatus("ASSIGNED");}
+
+        prop.updateFunction();
     };
 
     const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {

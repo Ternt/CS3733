@@ -89,6 +89,7 @@ enum ServiceRequestType {
   LANGUAGE
   RELIGIOUS
   CHECKIN
+  APPOINTMENT
 }
 
 enum ServiceRequestPriority {
@@ -124,6 +125,7 @@ model ServiceRequest {
   religiousDetail   ReligiousRequest?
   languageDetail    LanguageRequest?
   patientCheckIn    CheckInRequest?
+  appointmentDetail AppointmentRequest?
 }
 
 enum MaintenanceType {
@@ -280,4 +282,20 @@ enum PatientGender {
   TRANSGENDER
   NON_BINARY
   OTHER
+enum AppointmentType {
+  PHYSICAL_EXAMINATION
+  CONSULTATION
+  SURGERY
+  FOLLOW_UP
+  EMERGENCY_CARE
+}
+
+model AppointmentRequest {
+  request   ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
+  requestID Int            @unique
+
+  patientName  String
+  patientEmail String
+  aptType      AppointmentType
+  date         String
 }
