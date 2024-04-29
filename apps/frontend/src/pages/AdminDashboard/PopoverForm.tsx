@@ -1,14 +1,10 @@
 import {ChangeEvent, useState} from "react";
-// import {renderToString} from "react-dom/server";
 
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-// import Icon from "@mui/material/Icon";
-// import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import SubjectIcon from "@mui/icons-material/Subject";
 import InputBase from "@mui/material/InputBase";
-// import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import {IconButton, TextField} from "@mui/material";
 
@@ -72,8 +68,14 @@ export function PopoverForm(prop: PopoverFormProp){
             });
     }
 
+    const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
+        setServiceRequest({...serviceRequest, status: event.target.value});
+        updateAssignmentStatus(event.target.value);
+    };
+
     const onChangeEmployee = (newValue: AutoCompleteOption) => {
         let statusChanged = false;
+        let employeeChanged = true;
         function changeStatus(employee: AutoCompleteOption, currentStatus: string): string{
             if(currentStatus === "UNASSIGNED"){
                 statusChanged = true;
@@ -82,6 +84,12 @@ export function PopoverForm(prop: PopoverFormProp){
                 return currentStatus;
             }
         }
+
+        if(newValue.label === serviceRequest.assignedEmployee?.firstName + ' ' + serviceRequest.assignedEmployee?.lastName){
+            employeeChanged = false;
+        }
+
+        console.log();
 
         const name = newValue.label.split(" ");
         const newEmployee = {
@@ -98,18 +106,21 @@ export function PopoverForm(prop: PopoverFormProp){
                 status: changeStatus(newValue, serviceRequest.status),
             });
 
+        // api calls to change data
+        if(employeeChanged){
+            updateEmployeeRequests(newEmployee);
+        }
+
+        if(statusChanged){
+            updateAssignmentStatus("ASSIGNED");
+        }
+
+        // gets the new service data that's been changed
         prop.autocomplete.updateFunction();
-
-        updateEmployeeRequests(newEmployee);
-        if(statusChanged){updateAssignmentStatus("ASSIGNED");}
     };
 
-    const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
-        setServiceRequest({...serviceRequest, status: event.target.value});
-        updateAssignmentStatus(event.target.value);
-    };
 
-    // the most scuffed recursion function ever
+    // recursive traverses through the service request object. This is so we can render objects nested inside the root object.
     function recurseTree<Type extends object>(label: string, data: string | number | Type, informationField: JSX.Element) {
         if(Array.isArray(data)){ return informationField; }
 
@@ -134,6 +145,7 @@ export function PopoverForm(prop: PopoverFormProp){
             </>
         );
     }
+
 
     return(
         <>
@@ -164,7 +176,8 @@ export function PopoverForm(prop: PopoverFormProp){
 
                     {/* horizontal bar displaying employee, status, and priority */}
                     <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', px: 4, pb: 1}}>
-                        {/* Employee */}
+
+                        {/* employee */}
                         <Box sx={{width: '15vw'}}>
                             <Typography>Employee</Typography>
                             <Box sx={{display: 'flex', flexDirection: 'row' , pb: 1}}>
@@ -173,7 +186,7 @@ export function PopoverForm(prop: PopoverFormProp){
                                     sx={{width: '70%'}}
                                     disableClearable={true}
                                     label={
-                                            (prop.data.assignedEmployee?.firstName === undefined)?
+                                        (prop.data.assignedEmployee?.firstName === undefined)?
                                             "Unassigned":
                                             (prop.data.assignedEmployee.firstName + ' ' + prop.data.assignedEmployee.lastName)
                                     }
@@ -182,7 +195,7 @@ export function PopoverForm(prop: PopoverFormProp){
                             </Box>
                         </Box>
 
-                        {/* Status */}
+                        {/* status */}
                         <Box sx={{width: '15vw'}}>
                             <Typography>Status</Typography>
                             <Box sx={{width: "100%"}}>
@@ -202,7 +215,7 @@ export function PopoverForm(prop: PopoverFormProp){
                             </Box>
                         </Box>
 
-                        {/* Priority */}
+                        {/* priority */}
                         <Box sx={{width: '15vw'}}>
                             <Typography>Priority</Typography>
                             <Typography sx={{pt: 2}}>{prop.data.priority}</Typography>
@@ -245,28 +258,28 @@ export function PopoverForm(prop: PopoverFormProp){
                         <IconButton disabled={true} sx={{p: 0}}><SubjectIcon/></IconButton>
                         <Typography sx={{px: 1}}>Details</Typography>
                     </Box>
-                   <Box sx={{display: 'flex', flexDirection: 'column', px: 4, gap: 2}}>
-                       {
-                           Object.entries(prop.data)
-                               .filter((data) =>
-                                   (data[1] !== null) &&
-                                   (data[0] !== "requestID") &&
-                                   (data[0] !== "notes") &&
-                                   (data[0] !== "priority") &&
-                                   (data[0] !== "status") &&
-                                   (data[0] !== "type"))
-                               .map((data, index) => {
-                                   const form = recurseTree(data[0], data[1], <></>);
-                                   return(
-                                       <Box key={"field" + index} sx={{border: 1, borderRadius: 1, borderColor: "#E4E4E4"}}>
-                                           <Box sx={{display: 'flex', flexDirection: 'column'}}>
-                                               {form}
-                                           </Box>
-                                       </Box>
-                                   );
-                               })
-                       }
-                   </Box>
+                    <Box sx={{display: 'flex', flexDirection: 'column', px: 4, gap: 2}}>
+                        {
+                            Object.entries(prop.data)
+                                .filter((data) =>
+                                    (data[1] !== null) &&
+                                    (data[0] !== "requestID") &&
+                                    (data[0] !== "notes") &&
+                                    (data[0] !== "priority") &&
+                                    (data[0] !== "status") &&
+                                    (data[0] !== "type"))
+                                .map((data, index) => {
+                                    const form = recurseTree(data[0], data[1], <></>);
+                                    return(
+                                        <Box key={"field" + index} sx={{border: 1, borderRadius: 1, borderColor: "#E4E4E4"}}>
+                                            <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                                                {form}
+                                            </Box>
+                                        </Box>
+                                    );
+                                })
+                        }
+                    </Box>
                 </Box>
             </Modal>
         </>

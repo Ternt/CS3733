@@ -19,9 +19,6 @@ type KanbanBoardProp = {
 };
 
 export default function ServiceRequestCard(prop: KanbanBoardProp){
-    // a service request
-    const [serviceRequest] = useState<ServiceRequest>(prop.serviceRequestData);
-
     // for opening and closing the form
     const [open, setOpen] = useState<boolean>(false);
     const handleOpen = () => setOpen(true);
@@ -35,12 +32,15 @@ export default function ServiceRequestCard(prop: KanbanBoardProp){
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                 >
+                    {/* the form that appears when you click a service request card */}
                     <PopoverForm
                         open={open}
                         onClose={handleClose}
-                        data={serviceRequest}
+                        data={prop.serviceRequestData}
                         autocomplete={prop.autocomplete}
                     />
+
+                    {/* components making up the card */}
                     <Card
                         elevation={1}
                         sx={{
@@ -48,45 +48,45 @@ export default function ServiceRequestCard(prop: KanbanBoardProp){
                             borderRadius: 2,
                             margin: 1,
                         }}>
-                            <CardContent
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    padding: 1,
-                                    paddingTop: 1,
-                                }}>
-                                <Typography variant="h6">{serviceRequest.location.longName}</Typography>
-                            </CardContent>
+                        <CardContent
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                padding: 1,
+                                paddingTop: 1,
+                            }}>
+                            <Typography variant="h6">{prop.serviceRequestData.location.longName}</Typography>
+                        </CardContent>
 
-                            <Box
+                        <Box
+                            sx={{
+                                backgroundColor: "#F1F1F1",
+                                display: "flex",
+                                flexDirection: "row",
+                            }}>
+                            <IconButton
+                                onClick={handleOpen}
                                 sx={{
-                                    backgroundColor: "#F1F1F1",
+                                    p: 1,
                                     display: "flex",
-                                    flexDirection: "row",
-                                }}>
-                                <IconButton
-                                    onClick={handleOpen}
-                                    sx={{
-                                        p: 1,
-                                        display: "flex",
-                                        justifyContent: "flex-start",
-                                        alignItems: 'center',
-                                    }}
-                                >
-                                    <SubjectIcon></SubjectIcon>
-                                </IconButton>
-                                <Divider orientation={"vertical"} variant={"middle"} flexItem></Divider>
-                                <Typography
-                                    sx={{
-                                        p: 1,
-                                        display: "flex",
-                                        justifyContent: "flex-end",
-                                        alignItems: 'center',
-                                    }}
-                                >
-                                    ID{serviceRequest.requestID}
-                                </Typography>
-                            </Box>
+                                    justifyContent: "flex-start",
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <SubjectIcon></SubjectIcon>
+                            </IconButton>
+                            <Divider orientation={"vertical"} variant={"middle"} flexItem></Divider>
+                            <Typography
+                                sx={{
+                                    p: 1,
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    alignItems: 'center',
+                                }}
+                            >
+                                ID{prop.serviceRequestData.requestID}
+                            </Typography>
+                        </Box>
                     </Card>
                 </div>
             )}

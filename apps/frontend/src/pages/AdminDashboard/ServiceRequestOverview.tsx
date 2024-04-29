@@ -76,7 +76,6 @@ export default function ServiceRequestOverview(){
 
 
     function updateServiceRequestData(){
-
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
             const parsed = JSON.parse(JSON.stringify(initialData));
             res.data.forEach((serviceRequest: ServiceRequest) => {
@@ -174,9 +173,12 @@ export default function ServiceRequestOverview(){
 
     return(
         <Box sx={{width: '100%', height: '100%'}}>
+            {/* filter */}
             <Box sx={{backgroundColor: '#FFFFFF', width: '40em', height: '4em', pl: 3, pt: 3}}>
                 <CustomAutoComplete label={"Filter..."} employeeList={employeeList} onChange={onChange} onClear={onClear}/>
             </Box>
+
+            {/* columns + drag drop context */}
             <Box sx={{display: 'flex', flexDirection: 'row', overflowY: 'hidden', padding: 3, gap: 3}}>
                 {state.columnOrder.map((columnID) => {
                     const column = state.columns[columnID];

@@ -22,6 +22,8 @@ export default function AdminDashboard() {
     const { isAuthenticated, isLoading } = useAuth0();
     const navigate = useNavigate();
     const [selectedTab, setSelectedTab] = useState(0);
+
+    // For conditional styling. Different styles applied depending on size of screen.
     const matches = useMediaQuery('(min-width: 900px)');
 
     const tabSelector = [
@@ -67,6 +69,7 @@ export default function AdminDashboard() {
                         overflow:'hidden',
                     }}
                 >
+                    {/* Sidebar */}
                     <SidebarMenu
                         isActive={matches}
                         sx={{
@@ -85,6 +88,8 @@ export default function AdminDashboard() {
                         <TableViewIcon/>
                         <SignalCellularAltIcon/>
                     </SidebarMenu>
+
+                    {/* Tabs */}
                     <Box sx={{overflowY: 'scroll', width: '100%'}}>
                         {tabSelector[selectedTab]}
                     </Box>

@@ -1,4 +1,3 @@
-// import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Droppable } from "@hello-pangea/dnd";
@@ -16,6 +15,8 @@ type ColumnProp = {
 export default function Column(prop: ColumnProp){
     return(
         <Box sx={{borderRadius: 1, bgcolor: '#E4E4E4', minWidth: '22em', minHeight: '77vh', overflow: 'scroll'}}>
+
+            {/* column header */}
             <Typography
                 variant={'h5'}
                 sx={{
@@ -28,6 +29,8 @@ export default function Column(prop: ColumnProp){
                 }}>
                 {prop.title}
             </Typography>
+
+            {/* service request cards */}
             <Droppable droppableId={prop.id}>
                 {provided => (
                     <div
