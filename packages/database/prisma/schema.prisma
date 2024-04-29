@@ -122,7 +122,6 @@ model ServiceRequest {
   maintenanceDetail MaintenanceRequest?
   religiousDetail   ReligiousRequest?
   languageDetail    LanguageRequest?
-
 }
 
 enum MaintenanceType {
@@ -243,19 +242,19 @@ model ReligiousRequest {
 }
 
 enum LanguageType {
-    SPANISH
-    CHINESE
-    FRENCH
+  SPANISH
+  CHINESE
+  FRENCH
 }
 
 model LanguageRequest {
-  request         ServiceRequest  @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
-  requestID       Int             @unique
-  name            String
-  language        LanguageType
+  request   ServiceRequest @relation(fields: [requestID], references: [requestID], onDelete: Cascade)
+  requestID Int            @unique
+  name      String
+  language  LanguageType
 }
 
 model LanguageInterpreterCount {
-  language        LanguageType    @unique
-  count           Int
+  language LanguageType @unique
+  count    Int
 }

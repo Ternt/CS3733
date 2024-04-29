@@ -1,12 +1,12 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
-import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Grid, Box } from '@mui/material';
 
-const useStyles = makeStyles({
+const useStyles ={
     root: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        objectFit: 'contain',
         cursor: 'pointer',
         '&:hover': {
             backgroundColor: '#f5f5f5',
@@ -22,10 +22,12 @@ const useStyles = makeStyles({
         justifyContent: 'center',
     },
     icon: {
-        maxWidth: '100%',
-        maxHeight: '100%',
+        maxWidth: '90%',
+        maxHeight: '90%',
+        aspectRatio: "16/9",
+        objectFit: "contain",
     },
-});
+};
 
 type SoftwareItemProps = {
     name: string,
@@ -36,7 +38,7 @@ type SoftwareItemProps = {
 };
 
 export default function SoftwareItem(props: SoftwareItemProps ){
-    const classes = useStyles();
+    // const classes = useStyles();
 
     const handleClick = () => {
         if (props.website) {
@@ -45,19 +47,21 @@ export default function SoftwareItem(props: SoftwareItemProps ){
     };
 
     return (
-        <Card className={classes.root} onClick={handleClick} sx={{ height: props.height + "3rem" }}>
-            <div className={classes.iconContainer}>
-                <CardMedia
-                    component="img"
-                    image={props.icon}
-                    alt={`${props.name} icon`}
-                    className={classes.icon}
-                />
-            </div>
-            <CardContent>
-                <Typography variant="h6">{props.name}</Typography>
-                <Typography variant="body2">{props.description}</Typography>
-            </CardContent>
-        </Card>
+        <Grid container justifyContent="center" spacing={3}>
+            <Card sx={useStyles.root} onClick={handleClick}>
+                <Box sx={useStyles.iconContainer}>
+                    <CardMedia
+                        component="img"
+                        image={props.icon}
+                        alt={`${props.name} icon`}
+                        sx={useStyles.icon}
+                    />
+                </Box>
+                <CardContent>
+                    <Typography variant="h6">{props.name}</Typography>
+                    <Typography variant="body2">{props.description}</Typography>
+                </CardContent>
+            </Card>
+        </Grid>
     );
 };

@@ -1,18 +1,18 @@
 import React from 'react';
 import SoftwareCard from "../Card/SoftwareCard.tsx";
 import { Masonry } from '@mui/lab';
+import {Container, Grid} from '@mui/material';
 
-import Auth0 from "../../assets/CreditsIcons/auth0.png";
+import Auth0 from "../../assets/CreditsIcons/auth0.svg";
 import Axios from "../../assets/CreditsIcons/axios.svg";
-import CsvParser from "../../assets/CreditsIcons/docker.svg"; //
+import CsvParser from "../../assets/CreditsIcons/csv.png"; //
 import Dayjs from "../../assets/CreditsIcons/DayJS.png";
 import Docker from "../../assets/CreditsIcons/docker.svg";
-import Express from "../../assets/CreditsIcons/docker.svg"; //
+import Express from "../../assets/CreditsIcons/express.svg";
 import Eslint from "../../assets/CreditsIcons/esLint.svg";
-import Figma from "../../assets/CreditsIcons/docker.svg"; //
-import FramerMotion from "../../assets/CreditsIcons/docker.svg"; //
-import FuzzySearch from "../../assets/CreditsIcons/docker.svg"; //
-import Github from "../../assets/CreditsIcons/docker.svg"; //
+import Figma from "../../assets/CreditsIcons/figma.png";
+import FramerMotion from "../../assets/CreditsIcons/framerMColor.svg";
+import Github from "../../assets/CreditsIcons/github.svg";
 import MaterialUI from "../../assets/CreditsIcons/MUI.svg";
 import Nodejs from "../../assets/CreditsIcons/nodeJS.svg";
 import OpenAI from "../../assets/CreditsIcons/openAI.svg";
@@ -22,7 +22,7 @@ import Redux from "../../assets/CreditsIcons/redux.svg";
 import Taiga from "../../assets/CreditsIcons/taiga.webp";
 import Twilio from "../../assets/CreditsIcons/twilio_mark.svg";
 import Vite from "../../assets/CreditsIcons/vite.svg";
-import Webstorm from "../../assets/CreditsIcons/docker.svg"; //
+import Webstorm from "../../assets/CreditsIcons/WebStorm_Icon.svg";
 
 const SoftwareList = () => {
     const tools = [
@@ -56,7 +56,7 @@ const SoftwareList = () => {
         },
         {
             name: 'Docker',
-            description: 'Docker is a platform for developing, shipping, and running applications. It enables developers to package applications and dependencies into containers for easy deployment across different environments.',
+            description: 'Docker is a platform for developing, shipping, and running applications',
             website: 'https://www.docker.com/',
             icon: Docker,
             height: "35rem"
@@ -88,13 +88,6 @@ const SoftwareList = () => {
             website: 'https://www.framer.com/motion/',
             icon: FramerMotion,
             height: "25rem"
-        },
-        {
-            name: 'Fuzzy-search',
-            description: 'A library for fuzzy searching strings',
-            website: 'https://fusejs.io/',
-            icon: FuzzySearch,
-            height: "10rem"
         },
         {
             name: 'Github',
@@ -171,26 +164,28 @@ const SoftwareList = () => {
             description: 'A powerful IDE for modern JavaScript development',
             website: 'https://www.jetbrains.com/webstorm/',
             icon: Webstorm,
-            height: "35rem"
+            height: "15rem"
         }
     ];
 
     return (
-        <div style={{ marginTop: '3rem' }}>
-            <Masonry columns={3} spacing={2}>
-                {/*<h2>Software Tools, Libraries, and Frameworks</h2>*/}
-                {tools.map((tool, index) => (
-                    <SoftwareCard
-                        key={index}
-                        name={tool.name.charAt(0).toUpperCase() + tool.name.slice(1)}
-                        description={tool.description}
-                        website={tool.website}
-                        icon={tool.icon}
-                        height = {tool.height}
-                    />
-                ))}
-            </Masonry>
-        </div>
+        <Container style={{ marginTop: '5rem' }}>
+            <Grid container justifyContent="center" spacing={3}>
+                <Masonry columns={4} spacing={2}>
+                    {/*<h2>Software Tools, Libraries, and Frameworks</h2>*/}
+                    {tools.map((tool, index) => (
+                        <SoftwareCard
+                            key={index}
+                            name={tool.name.charAt(0).toUpperCase() + tool.name.slice(1)}
+                            description={tool.description}
+                            website={tool.website}
+                            icon={tool.icon}
+                            height = {tool.height}
+                        />
+                    ))}
+                </Masonry>
+            </Grid>
+        </Container>
     );
 };
 
