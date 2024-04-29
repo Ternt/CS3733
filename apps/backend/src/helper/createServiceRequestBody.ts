@@ -133,6 +133,26 @@ export default function createServiceRequestBody(body): any | undefined {
             delete body.name;
             delete body.language;
             break;
+        case "CHECKIN":
+            body.patientCheckIn = {
+                create: {
+                    patientName: body.patientName,
+                    patientEmail: body.patientEmail,
+                    patientAddress: body.patientAddress,
+                    patientGender: body.patientGender,
+                    patientBirthday: body.patientBirthday,
+                    appointmentDate: body.appointmentDate,
+                    appointmentTime: body.appointmentTime,
+                },
+            };
+            delete body.patientName;
+            delete body.patientEmail;
+            delete body.patientAddress;
+            delete body.patientGender;
+            delete body.patientBirthday;
+            delete body.appointmentDate;
+            delete body.appointmentTime;
+            break;
     }
 
     return body;
