@@ -6,9 +6,12 @@ import Typography from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
 import { motion } from "framer-motion";
 
-// import DownloadCSV from "../../components/DataHandling/DownloadCSV.tsx";
+import DownloadCSV from "../../components/DataHandling/DownloadCSV.tsx";
 import DataTable from "../../components/DataHandling/DataTable.tsx";
 import {Node} from "./../../helpers/typestuff.ts";
+
+import UploadGraphData from "../../components/DataHandling/UploadGraphData.tsx";
+import UploadEmployeeData from "../../components/DataHandling/UploadEmployeeData.tsx";
 
 
 type edge = {
@@ -81,51 +84,58 @@ export default function DataPage(){
                 </Box>
                 {tab === 0 && (
                     <Box>
-                        {/*<DownloadCSV*/}
-                        {/*    url={"/api/nodes/download"}*/}
-                        {/*    filename={"nodes.csv"}*/}
-                        {/*    title={"Nodes"}*/}
-                        {/*/>*/}
                         <DataTable
                             title={"Edges"}
                             headers={["Node ID", "Short Name", "Long Name", "X", "Y", "Floor", "Building", "Type"]}
                             rows={
                                 nodeTable.map((n)=>{return [n.nodeID, n.shortName, n.longName, n.xcoord+"", n.ycoord+"", n.floor, n.building, n.nodeType];})
-                            }
-                        />
+                            }>
+                            <>
+                                <UploadGraphData/>
+                                <DownloadCSV
+                                    url={"/api/nodes/download"}
+                                    filename={"nodes.csv"}
+                                    title={"Nodes"}
+                                />
+                            </>
+                        </DataTable>
                     </Box>
                 )}
                 {tab === 1 && (
                     <Box>
-                        {/*<DownloadCSV*/}
-                        {/*    url={"/api/edges/download"}*/}
-                        {/*    filename={"edges.csv"}*/}
-                        {/*    title={"Edges"}*/}
-                        {/*/>*/}
+
                         <DataTable
                             title={"Edges"}
                             headers={["Index","Start","End","Blocked"]}
                             rows={
                                 edgeTable.map((e,i)=>{return [i+"",e.startNodeID,e.endNodeID,e.blocked+""];})
-                            }
-                        />
+                            }>
+                            <>
+                                <UploadEmployeeData/>
+                                <DownloadCSV
+                                    url={"/api/edges/download"}
+                                    filename={"edges.csv"}
+                                    title={"Edges"}
+                                />
+                            </>
+                        </DataTable>
                     </Box>
                 )}
                 {tab === 2 && (
                     <Box>
                         <Box>
-                            {/*<DownloadCSV*/}
-                            {/*    url={"/api/employees/download"}*/}
-                            {/*    filename={"employees.csv"}*/}
-                            {/*    title={"Employees"}*/}
-                            {/*/>*/}
                             <DataTable
                                 title={"Employees"}
                                 headers={["Employee ID", "First", "Last"]}
                                 rows={
                                     employeeTable.map((e)=>{return [e.id+"", e.firstName, e.lastName];})
-                                }
-                            />
+                                }>
+                                <DownloadCSV
+                                    url={"/api/employees/download"}
+                                    filename={"employees.csv"}
+                                    title={"Employees"}
+                                />
+                            </DataTable>
                         </Box>
                     </Box>
                 )}
