@@ -22,7 +22,7 @@ type PopoverFormProp = {
 export function PopoverForm(prop: PopoverFormProp){
     const [serviceRequest, setServiceRequest] = useState<ServiceRequest>(prop.data);
 
-    function updateAssignmentStatus(newStatus: string){
+    async function updateAssignmentStatus(newStatus: string){
         const updatedStatus = {
             requestID: serviceRequest.requestID,
             status: newStatus
@@ -45,7 +45,7 @@ export function PopoverForm(prop: PopoverFormProp){
             });
     }
 
-    function updateEmployeeRequests(newEmployee: AssignedEmployee){
+    async function updateEmployeeRequests(newEmployee: AssignedEmployee){
         const newEmployeeService = {
             employeeID: newEmployee?.id,
             requestID: serviceRequest.requestID
@@ -68,12 +68,12 @@ export function PopoverForm(prop: PopoverFormProp){
             });
     }
 
-    const onChangeAssignment = (event: ChangeEvent<HTMLInputElement>) => {
+    const onChangeAssignment = async (event: ChangeEvent<HTMLInputElement>) => {
         setServiceRequest({...serviceRequest, status: event.target.value});
-        updateAssignmentStatus(event.target.value);
+        await updateAssignmentStatus(event.target.value);
     };
 
-    const onChangeEmployee = (newValue: AutoCompleteOption) => {
+    const onChangeEmployee = async (newValue: AutoCompleteOption) => {
         let statusChanged = false;
         let employeeChanged = true;
         function changeStatus(employee: AutoCompleteOption, currentStatus: string): string{
@@ -108,11 +108,11 @@ export function PopoverForm(prop: PopoverFormProp){
 
         // api calls to change data
         if(employeeChanged){
-            updateEmployeeRequests(newEmployee);
+            await updateEmployeeRequests(newEmployee);
         }
 
         if(statusChanged){
-            updateAssignmentStatus("ASSIGNED");
+            await updateAssignmentStatus("ASSIGNED");
         }
 
         // gets the new service data that's been changed
