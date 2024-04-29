@@ -1,33 +1,44 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
-import { Card, CardContent, Typography } from '@mui/material';
-import CardMedia from "@mui/material/CardMedia";
+import { Card, CardContent, CardMedia, Typography, Grid, Box } from '@mui/material';
 
-const useStyles = makeStyles({
+const useStyles ={
     root: {
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
+        objectFit: 'contain',
         cursor: 'pointer',
         '&:hover': {
             backgroundColor: '#f5f5f5',
         },
     },
-    media: {
-        width: 50,
-        height: 50,
-        marginRight: 20,
+    iconContainer: {
+        minWidth: '8rem',
+        minHeight: '8rem',
+        maxWidth: '16rem',
+        maxHeight: '16rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-});
-
-type SoftwareItemProps = {
-    icon: string;
-    name: string;
-    description: string;
-    website: string;
+    icon: {
+        maxWidth: '90%',
+        maxHeight: '90%',
+        aspectRatio: "16/9",
+        objectFit: "contain",
+    },
 };
 
-function  SoftwareItem(props:SoftwareItemProps){
-    const classes = useStyles();
+type SoftwareItemProps = {
+    name: string,
+    description: string,
+    website: string,
+    height: string,
+    icon: string
+};
+
+export default function SoftwareItem(props: SoftwareItemProps ){
+    // const classes = useStyles();
 
     const handleClick = () => {
         if (props.website) {
@@ -36,14 +47,21 @@ function  SoftwareItem(props:SoftwareItemProps){
     };
 
     return (
-        <Card className={classes.root} onClick={handleClick}>
-            <CardMedia className={classes.media} component="img" image={props.icon} alt={`${name} icon`} />
-            <CardContent>
-                <Typography variant="h6">{props.name}</Typography>
-                <Typography variant="body2">{props.description}</Typography>
-            </CardContent>
-        </Card>
+        <Grid container justifyContent="center" spacing={3}>
+            <Card sx={useStyles.root} onClick={handleClick}>
+                <Box sx={useStyles.iconContainer}>
+                    <CardMedia
+                        component="img"
+                        image={props.icon}
+                        alt={`${props.name} icon`}
+                        sx={useStyles.icon}
+                    />
+                </Box>
+                <CardContent>
+                    <Typography variant="h6">{props.name}</Typography>
+                    <Typography variant="body2">{props.description}</Typography>
+                </CardContent>
+            </Card>
+        </Grid>
     );
 };
-
-export default SoftwareItem;
