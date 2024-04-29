@@ -5,7 +5,7 @@ import MapIcon from "@mui/icons-material/Map";
 import TableViewIcon from "@mui/icons-material/TableView";
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 import MapCanvas from "../../components/Map/MapCanvas.tsx";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import DisplayCSV from "../../components/DataHandling/DisplayCSV.tsx";
 import Graphing from "./Graphing.tsx";
 import ServiceRequestOverview from "./ServiceRequestOverview.tsx";
@@ -16,11 +16,52 @@ import PersonIcon from '@mui/icons-material/Person';
 import UploadGraphData from "../../components/DataHandling/UploadGraphData.tsx";
 import EmployeeTable from "../../components/DataHandling/EmployeeTable.tsx";
 import UploadEmployeeData from "../../components/DataHandling/UploadEmployeeData.tsx";
+import { io } from 'socket.io-client';
+import mouseCursor from "../../assets/mouse-cursor.jpg";
+
+
 
 export default function AdminDashboard() {
   const { isAuthenticated, isLoading } = useAuth0();
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(0);
+  const [otherUserMousePosition, setOtherUserMousePosition] = useState<{ [id: string]: { id: string, x: number, y: number, tabId: number } }>({});
+  useEffect(() => {
+        // Connect to the server using link, prob amazon link in future
+        const socket = io('http://localhost:3005');
+        console.log('Selected tab:', selectedTab);
+
+        const handleMouseMove = (event: MouseEvent) => {
+            // Include the user ID when emitting the mouse position
+            const userData = { id: socket.id, x: event.clientX, y: event.clientY, tabId: selectedTab };
+
+            socket.emit('mousePosition', userData);
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+
+        // Listen for mouse position events from the server
+        socket.on('mousePosition', (userData) => {
+            setOtherUserMousePosition(prevState => ({
+                ...prevState,
+                [userData.id]: userData
+            }));
+        });
+
+      socket.on('userDisconnected', (userId) => {
+          console.log('userDisconnected event triggered with userId: ', userId);
+          setOtherUserMousePosition(prevState => {
+                const newState = { ...prevState };
+                delete newState[userId];
+                return newState;
+          });
+      });
+
+      return () => {
+          window.removeEventListener('mousemove', handleMouseMove);
+          socket.disconnect();
+      };
+  }, [selectedTab]);
 
   const tabSelector = [
     <ServiceRequestOverview/>,
@@ -92,6 +133,39 @@ export default function AdminDashboard() {
             {tabSelector[selectedTab]}
           </Box>
         </Box>
+          {
+              Object.values(otherUserMousePosition).filter((x)=>x.tabId===selectedTab).map((userData) => (
+                      <div
+                          key={userData.id} // Use the user's ID as the key
+                          style={{
+                              position: 'absolute',
+                              top: userData.y,
+                              left: userData.x,
+                              zIndex: 1000,
+                          }}
+                      >
+                          <img
+                              src={mouseCursor}
+                              alt="mouse cursor"
+                              style={{
+                                  width: '15px',
+                                  height: '15px',
+                              }}
+                          />
+                          <span
+                              style={{
+                                  position: 'absolute',
+                                  top: '-20px',
+                                  right: '0',
+                                  backgroundColor: 'transparent',
+                                  color: 'black',
+                                  padding: '2px',
+                                  fontSize: '15px',
+                              }}
+                          >{userData.id}</span>
+                      </div>
+                  ))
+          }
       </>
     );
   }
