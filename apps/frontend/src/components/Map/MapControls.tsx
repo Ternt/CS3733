@@ -9,6 +9,7 @@ import {
   ToggleButton,
   ToggleButtonGroup, Typography
 } from "@mui/material";
+import Tooltip from '@mui/material/Tooltip';
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
@@ -144,17 +145,46 @@ export default function MapControls(props: MapControlProps) {
         top: '12vh',
         right: 16,
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         flexWrap: "nowrap",
+        gap:'1rem'
       }}
     >
+      <Box
+        sx={{
+          display:'flex',
+          flexDirection:'column',
+          justifyContent: 'flex-start',
+          flexWrap: 'nowrap',
+          alignItems: 'stretch',
+        }}
+      >
+        { props.showViewModeSelector && (<ToggleButtonGroup
+          value={props.viewMode}
+          exclusive
+          onChange={(e,n)=>{
+            if(n===null)return;
+            props.onSetViewMode(n);
+          }}
+          sx={{
+            bgcolor:'white'
+          }}
+        >
+          <Tooltip title="Node and Edge Display"><ToggleButton value="normal"><TimelineIcon /></ToggleButton></Tooltip>
+          <Tooltip title="Edit Map"><ToggleButton value="edit"><EditIcon /></ToggleButton></Tooltip>
+          <Tooltip title="Heatmap Display"><ToggleButton value="heatmap"><LocalFireDepartmentIcon /></ToggleButton></Tooltip>
+        </ToggleButtonGroup>)}
       <Accordion
         defaultExpanded={false}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
           Icons
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails
+          sx={{
+            p:'.75rem'
+          }}
+        >
           {
             ICONS.map((ico, index)=>{
               return(
@@ -163,16 +193,22 @@ export default function MapControls(props: MapControlProps) {
                   sx={{
                     display:'flex',
                     flexDirection:'row',
+                    p:0
                   }}
                 >
-                  <Typography variant={'caption'}>{ico.name}</Typography>
+                  <Typography
+                    variant={'subtitle2'}
+                  >{ico.name}</Typography>
                   <Checkbox
-                    value={index}
                     checked={props.showIcons[index]}
                     onChange={()=>{
                       const a = props.showIcons;
                       a[index] = !a[index];
+                      console.log(a);
                       props.onSetShowIcons(a);
+                    }}
+                    sx={{
+                      py:0
                     }}
                   />
                 </Box>
@@ -181,6 +217,7 @@ export default function MapControls(props: MapControlProps) {
           }
         </AccordionDetails>
       </Accordion>
+      </Box>
       <Box
         sx={{
           display:'flex',
@@ -249,21 +286,6 @@ export default function MapControls(props: MapControlProps) {
             })
         }
       </Box>
-      { props.showViewModeSelector && (<ToggleButtonGroup
-          value={props.viewMode}
-          exclusive
-          onChange={(e,n)=>{
-            if(n===null)return;
-            props.onSetViewMode(n);
-          }}
-          sx={{
-            bgcolor:'white'
-          }}
-        >
-          <ToggleButton value="normal"><TimelineIcon /></ToggleButton>
-          <ToggleButton value="edit"><EditIcon /></ToggleButton>
-          <ToggleButton value="heatmap"><LocalFireDepartmentIcon /></ToggleButton>
-        </ToggleButtonGroup>)}
         <Snackbar
           anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
           open={notification !== ''}
