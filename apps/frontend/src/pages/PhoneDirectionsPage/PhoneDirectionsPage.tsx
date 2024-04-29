@@ -16,6 +16,10 @@ import {FLOOR_NAMES} from "../../helpers/MapHelper.ts";
 import * as React from "react";
 
 import {getIconFromDirectionType} from "../GetIconFromDirectionType.tsx";
+import {speak} from "../../components/TextToSpeech/TextToSpeech.tsx";
+import PauseIcon from "@mui/icons-material/Pause";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import Button from "@mui/material/Button";
 import MapCanvas from "../../components/Map/MapCanvas.tsx";
 
 export default function PhoneDirectionsPage(){
@@ -53,6 +57,9 @@ export default function PhoneDirectionsPage(){
 
         setPath();
     }, [startLocation, endLocation, algo]);
+
+    const [TTS,setTTS] = useState<boolean | null>(null);
+
     if(startLocation === null || startLocation === '' || endLocation === null || endLocation === ''){
       return (
         <>
@@ -61,6 +68,14 @@ export default function PhoneDirectionsPage(){
         </>
       );
     }
+
+    const TTSPath = `${natLangPath.reduce<string[]>((acc, obj) => {
+        const messageStrings = obj.messages.map((message) => {
+            return` ${message.a}`;
+        });
+        return acc.concat(messageStrings);
+    }, []).concat('end').join('\n')}`;
+
     return (
       <Box sx={{
         height: '100%',
@@ -91,72 +106,107 @@ export default function PhoneDirectionsPage(){
             mobile
           />
         </Box>
-        <Box
-          sx={{
-            width:'100vw',
-            zIndex:10,
-            bgcolor:'white',
-          }}
-        >
-          <Typography variant={"h3"} sx={{textAlign:'center'}}>Directions</Typography>
-          {natLangPath.map((d, index) => {
-            if (d.floor === -1) {
-              return (
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    flexWrap: 'nowrap',
-                    gap: 1
-                  }}
-                >
-                  {getIconFromDirectionType(directionTypes.HELP)}
-                  <Typography
-                    key={"dir-1in" + index}
-                  >
-                    Select a start and end location
-                  </Typography>
-                </Box>
-              );
-            }
+        <Typography variant={"h3"} sx={{textAlign:'center'}}>Directions</Typography>
+        {natLangPath.map((d, index) => {
+          if (d.floor === -1) {
             return (
-              <Accordion
-                key={"direct" + index}
-                defaultExpanded={index === 0}
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  flexWrap: 'nowrap',
+                  gap: 1
+                }}
               >
-                <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                  <Typography>
-                    {FLOOR_NAMES[d.floor]}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {d.messages.map((m, i) => {
-                    return (
-                      <Box
-                        sx={{
-                          py: 1,
-                          width: '100%',
-                          display: 'flex',
-                          flexDirection: 'row',
-                          flexWrap: 'nowrap',
-                          gap: 1
-                        }}
-                      >
-                        {getIconFromDirectionType(m.t)}
-                        <Typography
-                          key={"dir" + i + "in" + index}
-                        >
-                          {m.a}
-                        </Typography>
-                      </Box>
-                    );
-                  })}
-                </AccordionDetails>
-              </Accordion>
+                {getIconFromDirectionType(directionTypes.HELP)}
+                <Typography
+                  key={"dir-1in" + index}
+                >
+                  Select a start and end location
+                </Typography>
+              </Box>
             );
-          })}
-        </Box>
+          }
+          return (
+            <Accordion
+              key={"direct" + index}
+              defaultExpanded={index === 0}
+
+            >
+              <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+                <Typography>
+                  {FLOOR_NAMES[d.floor]}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                {d.messages.map((m, i) => {
+                  return (
+                    <Box
+                      sx={{
+                        py: 1,
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        flexWrap: 'nowrap',
+                        gap: 1
+                      }}
+                    >
+                      {getIconFromDirectionType(m.t)}
+                      <Typography
+                        key={"dir" + i + "in" + index}
+                      >
+                        {m.a}
+                      </Typography>
+                    </Box>
+                  );
+                })}
+              </AccordionDetails>
+            </Accordion>
+          );
+        })}
+          <Box sx={{
+              display:'flex',
+              justifyContent: 'center',
+              my: '3%',
+          }}>
+              <Button
+                  onClick={() => {
+                      console.log(TTSPath);
+                      if(TTS == null){
+                          speak(TTSPath);
+                          setTTS(true);
+                      }
+
+                      else if(TTS){
+                          speak(TTSPath).pauseSpeech();
+                          setTTS(false);
+                      }
+
+                      else if(!TTS){
+                          speak(TTSPath).resumeSpeech();
+                          setTTS(true);
+                      }
+                  }}
+                  sx={{
+                      backgroundColor: '#012d5a',
+                      color: 'white',
+                      height: '100%',
+                      width: '20vw',
+                      display: 'flex',
+                      alignItems: 'center',
+                      "&:hover": {
+                          background: "#1a426a",
+                      },
+                  }}
+              >
+                  {TTS ? <PauseIcon/> : <PlayArrowIcon/>}
+
+                  <Box sx={{display: 'flex', justifyContent: 'center', flex: 1}}>
+                      TTS
+                  </Box>
+              </Button>
+          </Box>
       </Box>
     );
 };

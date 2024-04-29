@@ -16,6 +16,7 @@ import {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 import {edge, node} from "../../helpers/typestuff.ts";
 import CloseIcon from "@mui/icons-material/Close";
+import {FLOOR_OFFSETS} from "../../helpers/MapHelper.ts";
 
 type InfoMenuProp = {
     nodeData: node | null;
@@ -60,20 +61,20 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
         );
     }
 
-    async function submitForm() {
-        props.onChangeNode(newNodeData);
+  async function submitForm() {
 
-        if (isComplete() && newNodeData !== null) {
-            const editedNode = {
-                nodeID: newNodeData.nodeID,
-                xcoord: Math.round(newNodeData.point.x),
-                ycoord: Math.round(newNodeData.point.y),
-                floor: newNodeData.floor,
-                building: newNodeData.building,
-                longName: newNodeData.longName,
-                shortName: newNodeData.shortName,
-                nodeType: newNodeData.nodeType
-            };
+    if(isComplete() && newNodeData !== null) {
+      const editedNode = {
+        nodeID: newNodeData.nodeID,
+        xcoord: Math.round(newNodeData.point.x - FLOOR_OFFSETS[newNodeData.point.z].x),
+        ycoord: Math.round(newNodeData.point.y - FLOOR_OFFSETS[newNodeData.point.z].y),
+        floor: newNodeData.floor,
+        building: newNodeData.building,
+        longName: newNodeData.longName,
+        shortName: newNodeData.shortName,
+        nodeType: newNodeData.nodeType
+      };
+      props.onChangeNode(newNodeData);
 
             // Send a PUT request to the server
             await fetch("/api/nodes/update", {
