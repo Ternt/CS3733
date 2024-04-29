@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios, {AxiosResponse} from 'axios';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 
@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import {AssignedEmployee, ServiceRequest, AutoCompleteOption} from '../../helpers/typestuff.ts';
 import CustomAutoComplete from '../../components/CustomAutoComplete.tsx';
 import Column from './Column.tsx';
+import Typography from "@mui/material/Typography";
 
 
 export interface Column<T>{
@@ -173,32 +174,39 @@ export default function ServiceRequestOverview(){
 
     return(
         <Box sx={{width: '100%', height: '100%'}}>
-            {/* filter */}
-            <Box sx={{backgroundColor: '#FFFFFF', width: '40em', height: '4em', pl: 3, pt: 3}}>
-                <CustomAutoComplete label={"Filter..."} employeeList={employeeList} onChange={onChange} onClear={onClear}/>
-            </Box>
+            <Typography variant={"h4"} sx={{height: '3em', padding: 3}}>
+                Data Analytics
+            </Typography>
 
-            {/* columns + drag drop context */}
-            <Box sx={{display: 'flex', flexDirection: 'row', overflowY: 'hidden', padding: 3, gap: 3}}>
-                {state.columnOrder.map((columnID) => {
-                    const column = state.columns[columnID];
-                    return(
-                        <DragDropContext
-                            key={column.id}
-                            onDragEnd={result => onDragEnd(result)}
-                        >
-                            <Column
-                                id={column.id}
-                                title={column.title}
-                                tasks={column.tasks}
-                                autocomplete={{
-                                    employeeList: employeeList,
-                                    updateFunction: updateServiceRequestData
-                            }}/>
-                        </DragDropContext>
-                    );
-                })
-                }
+
+            <Box sx={{borderTop: 1, borderColor: '#E4E4E4'}}>
+                {/* filter */}
+                <Box sx={{backgroundColor: '#FFFFFF', width: '40em', height: '4em', pl: 2, pt: 2}}>
+                    <CustomAutoComplete label={"Filter..."} employeeList={employeeList} onChange={onChange} onClear={onClear}/>
+                </Box>
+
+                {/* columns + drag drop context */}
+                <Box sx={{display: 'flex', flexDirection: 'row', overflowY: 'hidden', pl: 2, gap: 3}}>
+                    {state.columnOrder.map((columnID) => {
+                        const column = state.columns[columnID];
+                        return(
+                            <DragDropContext
+                                key={column.id}
+                                onDragEnd={result => onDragEnd(result)}
+                            >
+                                <Column
+                                    id={column.id}
+                                    title={column.title}
+                                    tasks={column.tasks}
+                                    autocomplete={{
+                                        employeeList: employeeList,
+                                        updateFunction: updateServiceRequestData
+                                    }}/>
+                            </DragDropContext>
+                        );
+                    })
+                    }
+                </Box>
             </Box>
         </Box>
     );
