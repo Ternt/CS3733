@@ -115,7 +115,7 @@ async function getLanguageDirection(path: string[]){
                     if (!directions[directions.length - 1].message.startsWith('Walk straight')){
                         directions.pop();
                         distance = distance + Math.sqrt(dx**2 + dy**2);
-                        directions.push({message:"Walk straight " +Math.round(distance / PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
+                        directions.push({message:TranslateTo("langDir.walkStrt") +Math.round(distance / PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
 
                     }
                     i = i + 2;
