@@ -29,15 +29,28 @@ type TempInterpreterFormProps = {
 }
 
 function LanguageInterpreterRequestForm() {
+
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogMessage, setDialogMessage] = useState("");
+    const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");
+    const [submitDialogFlag, setSubmitDialogFlag] = useState(false);
+    const [data, setData] = useState<Interpreter[]>([]);
+    const [formInput, setFormInput] = useState<TempInterpreterFormProps>({
+        name: "",
+        location: "",
+        language: "",
+        priority: "",
+        status: "",
+        interpreterRemain: [],
+    });
+
+    const isComplete = (): boolean => {
+        return Object.values(formInput).every((value) => value !== "");
+    };
+
     useEffect(() => {
         document.title = "Language Interpreter Request";
     });
-
-    const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");
-    const [submitDialogFlag, setSubmitDialogFlag] = useState(false);
-
-    const iniData: Interpreter[] = [];
-    const [data, setData] = useState(iniData);
 
     useEffect(() => {
         axios.get('/api/language-interpreter').then((res: AxiosResponse) => {
@@ -47,31 +60,10 @@ function LanguageInterpreterRequestForm() {
         console.log("initial language data fetched");
     }, []);
 
-
-
-    const [formInput, setFormInput] = useState<TempInterpreterFormProps>({
-        name: "",
-        location: "",
-        language: "",
-        priority: "",
-        status: "",
-        interpreterRemain: iniData,
-    });
-
-
-    const isComplete = (): boolean => {
-        return Object.values(formInput).every((value) => value !== "");
-    };
-
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [dialogMessage, setDialogMessage] = useState("");
-    // const handleDialogClose = () =>{
-    //     setSubmitDialogFlag(!submitDialogFlag);
-    // };
-
     const handleDialogClose = () =>{
         setSubmitDialogFlag(!submitDialogFlag);
     };
+
     const handleSubmitForm = () => {
         if (isComplete()) {
             const selectedLanguageData = data.find(item => item.language === formInput.language.toUpperCase());
@@ -88,7 +80,6 @@ function LanguageInterpreterRequestForm() {
                 }
                 return item;
             });
-
 
             setData(newData);
             setFormInput({...formInput, interpreterRemain: newData});
@@ -349,26 +340,7 @@ function LanguageInterpreterRequestForm() {
                             </DialogActions>
                         </Dialog>
 
-                        {/*<Dialog open={submitDialogFlag}>*/}
-                        {/*    <DialogTitle></DialogTitle>*/}
-                        {/*    <DialogContent>*/}
-                        {/*        <Typography>{submitDialogText}</Typography>*/}
-                        {/*    </DialogContent>*/}
-                        {/*    <DialogActions>*/}
-                        {/*        <Button*/}
-                        {/*            sx={{*/}
-                        {/*                display: "flex",*/}
-                        {/*                justifyContent: "center",*/}
-                        {/*            }}*/}
-                        {/*            onClick={handleDialogClose}>*/}
-                        {/*            CLOSE*/}
-                        {/*        </Button>*/}
-                        {/*    </DialogActions>*/}
-                        {/*</Dialog>*/}
-
-
                     </Box>
-
                 </Box>
 
                 <Box
@@ -439,11 +411,8 @@ function LanguageInterpreterRequestForm() {
                             width={400}
                             height={200}
                         />
-
                     </Box>
-
                 </Box>
-
             </Box>
         </Box>
   <FooterBar />
