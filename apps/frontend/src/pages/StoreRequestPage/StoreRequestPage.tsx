@@ -137,10 +137,10 @@ function StoreRequestPage() {
                     sx={{
                         display: 'flex',
                         flexWrap: 'wrap',
-                        width: '80%',
+                        width: '98%',
                         m: '3vh',
-                        justifyContent: 'justify-start',
-                        gap: '3vh',
+                        justifyContent: 'stretch',
+                        gap: '2rem',
                         '& > *': {
                             '&:hover': {
                                 transform: 'translateY(-8px)',
