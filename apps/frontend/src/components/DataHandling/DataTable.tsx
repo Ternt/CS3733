@@ -1,20 +1,11 @@
-import Toolbar from "@mui/material/Toolbar";
-import {
-    MenuItem,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow, TextField,
-} from "@mui/material";
 import React, {useMemo, useState} from "react";
+
+import Toolbar from "@mui/material/Toolbar";
+import {MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField} from "@mui/material";
 import Box from "@mui/material/Box";
 
-
 type DataTableProps = {
+    children: JSX.Element;
     headers:string[];
     rows:(string[] | string )[][];
     title:string;
@@ -22,7 +13,6 @@ type DataTableProps = {
 };
 
 export default function DataTable(props: DataTableProps){
-
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const visibleRows = useMemo(() =>
@@ -52,7 +42,9 @@ export default function DataTable(props: DataTableProps){
                              borderLeft: 0,
                              borderRight: 0,
                              height: '8vh'
-                         }}/>
+                         }}>
+                    {props.children}
+                </Toolbar>
                 <TableContainer
                     sx={{
                         color: '#E4E4E4',
