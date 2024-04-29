@@ -12,7 +12,8 @@ import {
     FLOOR_NAME_TO_INDEX,
     getMapData,
     MAP_BASE,
-    FLOOR_IDS
+    FLOOR_IDS,
+    FLOOR_OFFSETS
 } from "../../helpers/MapHelper.ts";
 import Tooltip from '@mui/material/Tooltip';
 
@@ -34,6 +35,7 @@ type mapCanvasProps = {
     onGetNearestNode?: (node: node | null) => void;
     mobile?: boolean;
 };
+
 
 export default function MapCanvas(props: mapCanvasProps) {
 
@@ -138,7 +140,7 @@ export default function MapCanvas(props: mapCanvasProps) {
               return ico.points.map(p=> {
                 if(p.z !== viewingFloor)
                   return <></>;
-                return <image x={p.x * X_MULT} y={p.y * Y_MULT} width={8} height={8} href={ico.icon} key={ico.name}/>;
+                return <image x={p.x * X_MULT} y={p.y * Y_MULT} width={8} height={8} href={ico.icon} key={ico.name+"x"+p.x+"y"+p.y+"z"+p.z}/>;
               });
             })
           }
@@ -177,18 +179,15 @@ export default function MapCanvas(props: mapCanvasProps) {
     // rendering
     useEffect(() => {
         setRenderData({
-            n: nodes.filter((n: node) => n.point.z === props.defaultFloor),
-            e: edges.filter((e: edge) => e.startNode.point.z === props.defaultFloor),
+            n: nodes.filter((n: node) => n.point.z === viewingFloor),
+            e: edges.filter((e: edge) => e.startNode.point.z === viewingFloor),
         });
         //setViewingFloor(viewingFloor);
-    }, [edges, nodes, props.defaultFloor]);
+    }, [edges, nodes, viewingFloor]);
 
     function handleSetViewingFloor(i: number) {
-        // update the render data
-        setRenderData({
-            n: nodes.filter((n: node) => n.point.z === i),
-            e: edges.filter((e: edge) => e.startNode.point.z === i),
-        });
+        if(i !== viewingFloor)
+          setPathing({...pathing, nearestNode:null});
         setViewingFloor(i);
         setCameraControl({
             ...cameraControl,
@@ -213,74 +212,74 @@ export default function MapCanvas(props: mapCanvasProps) {
             }
 
             function drawPoint(p: vec2, name: string, selected: boolean, dragging: boolean, id: string) {
-                p = vecToCanvSpace(p);
-                if (p.z !== viewingFloor) return;
-                return (
-                    <AnimatePresence>
-                        <Tooltip title={name}>
-                            <motion.ellipse
-                                initial={{
-                                    opacity: dragging ? 1 : 0,
-                                    scale: dragging ? (selected ? 1.5 : 1) : 0,
-                                    fill: "#012d5a"
-                                }}
-                                exit={{
-                                    opacity: dragging ? 1 : 0,
-                                    scale: dragging ? (selected ? 1.5 : 1) : 0,
-                                    fill: "#012d5a"
-                                }}
-                                animate={{opacity: 1, scale: (selected ? 1.5 : 1), fill: selected ? "red" : "#012d5a"}}
-                                transition={{
-                                    duration: dragging ? 0 : 2,
-                                    delay: 0,
-                                    ease: [0, 0.11, 0.2, 1.01]
-                                }}
-                                style={{
-                                    filter: "drop-shadow(1px 1px 2px #00000020)"
-                                }}
-                                key={"Point " + p.x + "," + p.y + "," + p.z}
-                                cx={p.x}
-                                cy={p.y}
-                                rx={NODE_SIZE}
-                                ry={NODE_SIZE}
-                                id={id}
-                            />
-                        </Tooltip>
-                    </AnimatePresence>);
+              p = vecToCanvSpace(p);
+              if (p.z !== viewingFloor) return;
+              const ellipse = <motion.ellipse
+                initial={{
+                  opacity: dragging ? 1 : 0,
+                  scale: dragging ? (selected ? 1.5 : 1) : 0,
+                  fill: "#012d5a"
+                }}
+                exit={{
+                  opacity: dragging ? 1 : 0,
+                  scale: dragging ? (selected ? 1.5 : 1) : 0,
+                  fill: "#012d5a"
+                }}
+                animate={{opacity: 1, scale: (selected ? 1.5 : 1), fill: selected ? "#ef0202" : "#012d5a"}}
+                transition={{
+                  duration: dragging ? 0 : 2,
+                  delay: 0,
+                  ease: [0, 0.11, 0.2, 1.01]
+                }}
+                style={{
+                  filter: "drop-shadow(1px 1px 2px #00000020)"
+                }}
+                key={"Point " + p.x + "," + p.y + "," + p.z}
+                cx={p.x}
+                cy={p.y}
+                rx={NODE_SIZE}
+                ry={NODE_SIZE}
+                id={id}
+              />;
+              return (
+                <AnimatePresence>
+                  {!dragging && <Tooltip title={name}>{ellipse}</Tooltip>}
+                  {dragging && ellipse}
+                </AnimatePresence>);
             }
 
-            function drawLine(a: vec2, b: vec2, color: string, width: number, noAnimate: boolean) {
-                if (a.z !== viewingFloor) return;
-                a = vecToCanvSpace(a);
-                b = vecToCanvSpace(b);
-                return <motion.line
-                    key={"Edge " + a.x + "," + a.y + "," + a.z + "," + b.x + "," + b.y + "," + b.z}
-                    x1={a.x}
-                    y1={a.y}
-                    x2={b.x}
-                    y2={b.y}
-                    stroke={color}
-                    strokeLinecap={"round"}
-                    initial={{strokeWidth: noAnimate ? 1.2 : 0}}
-                    animate={{strokeWidth: viewMode === 'heatmap' ? width! : 1.2}}
-                    transition={{
-                        duration: noAnimate ? 0 : (viewMode === 'heatmap' ? 2 : 0.5),
-                        delay: viewMode === 'heatmap' ? .5 : 0,
-                        ease: [0, 0.71, 0.2, 1.01]
-                    }}
-                    style={{
-                        filter: "drop-shadow(1px 1px 2px #000)"
-                    }}
-                />;
-            }
+          function drawLine(a: vec2, b: vec2, color: string, width: number, noAnimate: boolean) {
+            if (a.z !== viewingFloor) return;
+            a = vecToCanvSpace(a);
+            b = vecToCanvSpace(b);
+            return <motion.line
+              key={"Edge " + a.x + "," + a.y + "," + a.z + "," + b.x + "," + b.y + "," + b.z}
+              x1={a.x}
+              y1={a.y}
+              x2={b.x}
+              y2={b.y}
+              stroke={color}
+              strokeLinecap={"round"}
+              initial={{strokeWidth: noAnimate ? 1.2 : 0}}
+              animate={{strokeWidth: viewMode === 'heatmap' ? width! : 1.2}}
+              transition={{
+                duration: noAnimate ? 0 : (viewMode === 'heatmap' ? 2 : 0.5),
+                delay: viewMode === 'heatmap' ? .5 : 0,
+                ease: [0, 0.71, 0.2, 1.01]
+              }}
+              style={{
+                filter: "drop-shadow(1px 1px 2px #000)"
+              }}
+            />;
+          }
 
-            // pathfinding here
-            const svgElements = [];
-            if (props.pathfinding) {
-                if (
-                    (pathing.selectedPoint === null &&
-                        (props.endLocation === undefined || props.endLocation === "")) ||
-                    (!pathing.path ||
+          // pathfinding here
+          const svgElements = [];
+          if (props.pathfinding) {
+            if (
+              (pathing.selectedPoint === null &&
+                (props.endLocation === undefined || props.endLocation === "")) ||
+              (!pathing.path ||
                         pathing.path.length < 1)
                 )
                     return;
@@ -708,17 +707,10 @@ export default function MapCanvas(props: mapCanvasProps) {
     }, []);
 
     function initializeData() {
+      console.log("init");
         axios.get("/api/map").then((res: AxiosResponse) => {
             const ns: node[] = [];
             const es: edge[] = [];
-
-            const FLOOR_OFFSETS = [
-                {x: 45, y: -20},
-                {x: 20, y: 3},
-                {x: 0, y: 0},
-                {x: 0, y: 0},
-                {x: 0, y: 0},
-            ];
 
             for (const r of res.data.nodes) {
                 const v: vec2 = {
@@ -755,7 +747,6 @@ export default function MapCanvas(props: mapCanvasProps) {
             setEdges(es);
         });
     }
-
     // Update pathing if selection dropdown changes
     useEffect(() => {
         if (props.endLocation !== "" && props.endLocation !== undefined) {
