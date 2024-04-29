@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {useNavigate} from "react-router-dom";
 import {useAuth0} from "@auth0/auth0-react";
 
+import {useMediaQuery} from "@mui/system";
 import Button from "@mui/material/Button";
 import {Box, CircularProgress, Typography} from "@mui/material";
 import ViewKanbanIcon from '@mui/icons-material/ViewKanban';
@@ -21,6 +22,7 @@ export default function AdminDashboard() {
     const { isAuthenticated, isLoading } = useAuth0();
     const navigate = useNavigate();
     const [selectedTab, setSelectedTab] = useState(0);
+    const matches = useMediaQuery('(min-width: 900px)');
 
     const tabSelector = [
         <ServiceRequestOverview/>,
@@ -57,14 +59,16 @@ export default function AdminDashboard() {
             <>
                 <Box
                     sx={{
-                        width: "100vw",
-                        height: "80vh",
+                        width: "100%",
+                        height: "90vh",
                         display: "flex",
                         flexDirection: "row",
-                        flexWrap: "nowrap",
+                        flexWrap: 'nowrap',
+                        overflow:'hidden',
                     }}
                 >
                     <SidebarMenu
+                        isActive={matches}
                         sx={{
                             borderRight: 1,
                             borderColor: '#E4E4E4',
@@ -81,12 +85,7 @@ export default function AdminDashboard() {
                         <TableViewIcon/>
                         <SignalCellularAltIcon/>
                     </SidebarMenu>
-                    <Box
-                        sx={{
-                            height: "90vh",
-                            width: "92vw",
-                        }}
-                    >
+                    <Box sx={{overflowY: 'scroll', width: '100%'}}>
                         {tabSelector[selectedTab]}
                     </Box>
                 </Box>
