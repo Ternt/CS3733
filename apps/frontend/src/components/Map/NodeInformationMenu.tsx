@@ -355,6 +355,7 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                             }).map((x) => {
                                 const stagedEdge = stagedEdges.find(se => se.startNode.nodeID === x.startNode.nodeID && se.endNode.nodeID === x.endNode.nodeID);
                                 const isBlocked = stagedEdge ? stagedEdge.blocked : x.blocked;
+                                const hoverColor = isBlocked ? '#e6e18c' : '#default';
 
                                 return (<Chip label={
                                     (x.endNode.nodeID === props.nodeData?.nodeID) ?
@@ -367,9 +368,10 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                                     props.onPulseUpdate();
                                 }}
                                               sx={{
-                                                  bgcolor: (
-                                                      isBlocked
-                                                  ) ? '#fff391' : 'default',
+                                                  bgcolor: isBlocked ? '#fff391' : 'default',
+                                                  '&:hover': {
+                                                      bgcolor: `${hoverColor} !important`,
+                                                  },
                                               }}
                                               onClick={() => toggleEdge(x)}
                                               key={x.startNode.nodeID + " " + x.endNode.nodeID}
