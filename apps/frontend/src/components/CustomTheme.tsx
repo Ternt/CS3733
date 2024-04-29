@@ -47,6 +47,22 @@ const theme = createTheme({
                         },
                     },
                 },
+
+                {
+                    // Applies to buttons with "contained" variant and "error" color.
+                    props: {variant: "contained", color: "error"},
+                    style: {
+                        backgroundColor: "#cc0000", // Background color for secondary contained buttons.
+                        color: "#FFFFFF", // Text color for secondary contained buttons.
+
+                        // Styles for hovering over secondary contained buttons.
+                        "&:hover": {
+                            outline: "3px solid #cc0000", // Adds an outline on hover.
+                            backgroundColor: "#FFFFFF", // Changes background color on hover.
+                            color: "#cc0000", // Changes text color on hover.
+                        },
+                    },
+                },
             ],
         },
         // Customizations for the MuiOutlinedInput component.
