@@ -27,7 +27,7 @@ export default function AdminDashboard() {
 
     useEffect(() => {
         // Connect to the server using link, prob amazon link in future
-        const socket = io('http://localhost:3000');
+        const socket = io('http://localhost:3005');
 
         // Emit mouse position to the server
         const handleMouseMove = (event: MouseEvent) => {

@@ -17,12 +17,25 @@ import path from "path";
 import { createDatabase } from "./helper/createDatabase.ts";
 import {auth} from "express-oauth2-jwt-bearer";
 // import { generateHeatmapData } from "./helper/generateHeatmapData.ts";
-const _ = require('./helper/bigIntFix.ts');
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore: Unreachable code error
+BigInt.prototype.toJSON = function (): string {
+    return this.toString();
+};
+
+
+const app: Express = express(); // Set up the backend
+
 import http from "http";
 import { Server } from "socket.io";
-const app: Express = express(); // Set up the backend
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server,{
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
 
 io.on('connection', (socket) => {
     console.log('a user connected');
@@ -36,8 +49,8 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(3000, () => {
-    console.log('listening on *:3000');
+server.listen(3005, () => {
+    console.log('listening on *:3005');
 });
 
 
