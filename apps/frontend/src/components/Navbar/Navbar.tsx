@@ -25,6 +25,8 @@ import ChurchIcon from '@mui/icons-material/Church';
 import RedeemIcon from '@mui/icons-material/Redeem';
 import TranslateIcon from '@mui/icons-material/Translate';
 import MedicationIcon from '@mui/icons-material/Medication';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 export type ResponsiveAppBarProps = {
     chatbotOpen: boolean;
@@ -44,7 +46,11 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
         {label: TranslateTo("services.Flwr"), path: "/flower-request", icon:<LocalFloristIcon/>},
         {label: TranslateTo("services.Gift"), path: "/gift-request", icon:<RedeemIcon/>},
         {label: TranslateTo("services.Religious"), path: "/religious-request", icon:<ChurchIcon/>},
+        {label: TranslateTo("services.Checkin"), path: "/checkin", icon:<CheckCircleOutlineIcon/>},
+        {label: TranslateTo("services.Appointment"), path: "/appointment", icon:<PendingActionsIcon/>},
     ];
+
+ 
 
     const navigate = useNavigate();
     const {user, isAuthenticated, isLoading} = useAuth0();

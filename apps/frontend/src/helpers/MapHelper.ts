@@ -42,3 +42,11 @@ export function FLOOR_NAME_TO_INDEX(f: string) {
   console.error("No index for " + f);
   return -1;
 }
+
+export const FLOOR_OFFSETS = [
+  {x: 45, y: -20},
+  {x: 20, y: 3},
+  {x: 0, y: 0},
+  {x: 0, y: 0},
+  {x: 0, y: 0},
+];
