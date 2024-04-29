@@ -85,8 +85,8 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                 body: JSON.stringify(editedNode),
             });
 
-            await Promise.all(stagedEdges.map(async (edge) => {
-                await fetch('/api/edges/update', {
+            for (const edge of stagedEdges) {
+                await fetch("/api/edges/update", {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -98,7 +98,7 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                         heat: edge.heat,
                     }),
                 });
-            }));
+            }
 
             setStagedEdges([]); // clear after submitting
 
@@ -124,20 +124,16 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
         });
     }
 
+    // toggles the edge's blocked value (on click)
+    // if edge is already in stagedEdges, just flip value
+    // else push the edge and flip
     function toggleEdge(edge: edge) {
-        const updatedEdge = {
-            ...edge,
-            blocked: !edge.blocked,
-        };
+        const index = stagedEdges.findIndex(e => e.startNode.nodeID === edge.startNode.nodeID && e.endNode.nodeID === edge.endNode.nodeID);
 
-        setStagedEdges(prev => {
-            const index = prev.findIndex(e => e.startNode.nodeID === edge.startNode.nodeID && e.endNode.nodeID === edge.endNode.nodeID);
-            if (index > -1) {
-                return [...prev.slice(0, index), updatedEdge, ...prev.slice(index + 1)];
-            } else {
-                return [...prev, updatedEdge];
-            }
-        });
+        if (index >= 0) {
+            const updatedEdge = stagedEdges.map((e, idx) => idx === index ? {...e, blocked: !e.blocked} : e);
+            setStagedEdges(updatedEdge);
+        } else setStagedEdges([...stagedEdges, {...edge, blocked: !edge.blocked}]);
     }
 
 
@@ -357,6 +353,9 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                                 if (props.nodeData === null) return false;
                                 if (x.startNode.nodeID === props.nodeData?.nodeID || x.endNode.nodeID === props.nodeData?.nodeID) return true;
                             }).map((x) => {
+                                const stagedEdge = stagedEdges.find(se => se.startNode.nodeID === x.startNode.nodeID && se.endNode.nodeID === x.endNode.nodeID);
+                                const isBlocked = stagedEdge ? stagedEdge.blocked : x.blocked;
+
                                 return (<Chip label={
                                     (x.endNode.nodeID === props.nodeData?.nodeID) ?
                                         x.startNode.nodeID :
@@ -368,10 +367,9 @@ export default function NodeInformationMenu(props: InfoMenuProp) {
                                     props.onPulseUpdate();
                                 }}
                                               sx={{
-                                                  bgcolor: x.blocked ? '#fff391' : 'default',
-                                                  "&:hover": {
-                                                      bgcolor: 'b2a852',
-                                                  },
+                                                  bgcolor: (
+                                                      isBlocked
+                                                  ) ? '#fff391' : 'default',
                                               }}
                                               onClick={() => toggleEdge(x)}
                                               key={x.startNode.nodeID + " " + x.endNode.nodeID}
