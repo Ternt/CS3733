@@ -25,6 +25,7 @@ import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 import HowToPage from "./pages/howToPage/howToPage.tsx";
 import CreditsPage from "./pages/CreditsPage/CreditsPage.tsx";
 import ReligiousRequestForm from "./pages/ReligiousRequestPage/ReligiousRequestPage.tsx";
+import CheckInForm from "./pages/PatientCheckInRequest/PatientCheckIn2.tsx";
 import AppointmentPage from "./pages/MaintenancePage/AppointmentPage.tsx";
 
 
@@ -56,6 +57,10 @@ function App() {
                 {
                     path: "/religious-request",
                     element: <ReligiousRequestForm/>,
+                },
+                {
+                    path: "/checkin-request",
+                    element: <CheckInForm/>,
                 },
                 {
                     path: "/sanitation",

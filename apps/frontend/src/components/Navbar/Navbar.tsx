@@ -44,7 +44,10 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
         {label: TranslateTo("services.Flwr"), path: "/flower-request", icon:<LocalFloristIcon/>},
         {label: TranslateTo("services.Gift"), path: "/gift-request", icon:<RedeemIcon/>},
         {label: TranslateTo("services.Religious"), path: "/religious-request", icon:<ChurchIcon/>},
+        {label: TranslateTo("services.PatientCheckIn2"), path: "/checkin-request"},
     ];
+
+ 
 
     const navigate = useNavigate();
     const {user, isAuthenticated, isLoading} = useAuth0();
