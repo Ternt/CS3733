@@ -18,8 +18,28 @@ import { createDatabase } from "./helper/createDatabase.ts";
 import {auth} from "express-oauth2-jwt-bearer";
 // import { generateHeatmapData } from "./helper/generateHeatmapData.ts";
 const _ = require('./helper/bigIntFix.ts');
-
+import http from "http";
+import { Server } from "socket.io";
 const app: Express = express(); // Set up the backend
+const server = http.createServer(app);
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+
+    socket.on('mousePosition', (data) => {
+        socket.broadcast.emit('mousePosition', data);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+});
+
+server.listen(3000, () => {
+    console.log('listening on *:3000');
+});
+
 
 // uncomment if you want to generate heatmap data again
 // generateHeatmapData();

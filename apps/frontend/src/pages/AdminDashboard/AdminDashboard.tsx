@@ -5,7 +5,7 @@ import MapIcon from "@mui/icons-material/Map";
 import TableViewIcon from "@mui/icons-material/TableView";
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 import MapCanvas from "../../components/Map/MapCanvas.tsx";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import DisplayCSV from "../../components/DataHandling/DisplayCSV.tsx";
 import Graphing from "./Graphing.tsx";
 import ServiceRequestOverview from "./ServiceRequestOverview.tsx";
@@ -16,11 +16,37 @@ import PersonIcon from '@mui/icons-material/Person';
 import UploadGraphData from "../../components/DataHandling/UploadGraphData.tsx";
 import EmployeeTable from "../../components/DataHandling/EmployeeTable.tsx";
 import UploadEmployeeData from "../../components/DataHandling/UploadEmployeeData.tsx";
+import { io } from 'socket.io-client';
+
+
 
 export default function AdminDashboard() {
   const { isAuthenticated, isLoading } = useAuth0();
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(0);
+
+    useEffect(() => {
+        // Connect to the server using link, prob amazon link in future
+        const socket = io('http://localhost:3000');
+
+        // Emit mouse position to the server
+        const handleMouseMove = (event: MouseEvent) => {
+            socket.emit('mousePosition', { x: event.clientX, y: event.clientY });
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+
+        // Listen for mouse position events from the server
+        socket.on('mousePosition', (data) => {
+            console.log(`Mouse position of another user: ${data.x}, ${data.y}`);
+            // handle the data as needed
+        });
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            socket.disconnect();
+        };
+    }, []);
 
   const tabSelector = [
     <ServiceRequestOverview/>,
