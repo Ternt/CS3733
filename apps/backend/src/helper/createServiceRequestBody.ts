@@ -1,6 +1,6 @@
 
 // @ts-expect-error any type fine
-export default function createServiceRequestBody(body): any | undefined {
+export default function createServiceRequestBody(body){
     if (body === undefined) {
         return undefined;
     }
