@@ -4,24 +4,31 @@ import {Box, Button, Typography} from "@mui/material";
 import MicIcon from '@material-ui/icons/Mic';
 import MicOffIcon from '@material-ui/icons/MicOff';
 
-export default function SpeechRecognition() {
+type SpeechRecognitionProps = {
+    language: string;
+    onSetTranscript: (transcript: string | null) => void;
+    transcript: string | null;
+};
+
+
+export default function SpeechRecognition(props: SpeechRecognitionProps) {
     const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
 
     const recognition = new SpeechRecognition();
     const [isListening, setIsListening] = useState(false);
-    const [transcript, setTranscript] = useState('');
 
     recognition.continuous = true;
-    recognition.lang = "en-US";
+    recognition.lang = props.language;
     recognition.interimResults = true;
 
     if (!SpeechRecognition) {
         console.error("Web Speech API not supported in this browser");
     }
 
+
     recognition.onresult = (event) => {
-        setTranscript(event.results[0][0].transcript);
+        props.onSetTranscript(event.results[0][0].transcript);
     };
 
     return (
@@ -30,11 +37,11 @@ export default function SpeechRecognition() {
             flexDirection: 'column',
             alignItems: 'center',
             width: '100%',
-            height: '60vh',
+            height: '100%',
             bgcolor: '#e4e4e4',
         }}>
             <Box sx={{
-                mt: 2,
+                pt: '1rem',
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -44,30 +51,30 @@ export default function SpeechRecognition() {
                 <Typography variant="h6" gutterBottom> Transcript: </Typography>
 
                 <Box sx={{
-                    height: '40vh',
+                    height: '30vh',
                     width: '75vw',
                     maxHeight: '100%',
                     maxWidth: '100%',
                     overflowY: 'scroll',
                 }}>
                     <Typography variant="body1" align="center">
-                        {transcript}
+                        {isListening ? (
+                            <Box display="flex" alignItems="center" justifyContent="center">
+                                <CircularProgress size={24}/>
+                                <Typography> Listening... </Typography>
+                            </Box>
+                        ) : (
+                            props.transcript ? (
+                                <></>
+                            ) : (
+                                <Typography variant="body1" color="textSecondary"> Select a Language then Click the "Start Listening" button to
+                                    begin. </Typography>
+                            )
+                        )}
+                        {props.transcript}
                     </Typography>
                 </Box>
             </Box>
-
-            {isListening ? (
-                <Box display="flex" alignItems="center" justifyContent="center">
-                    <CircularProgress size={24}/>
-                    <Typography> Listening... </Typography>
-                </Box>
-            ) : (
-                transcript ? (
-                    <></>
-                ) : (
-                    <Typography variant="body1" color="textSecondary"> Click the "Start Listening" button to begin. </Typography>
-                )
-            )}
 
 
             <Box
@@ -87,6 +94,7 @@ export default function SpeechRecognition() {
                         }}
 
                         sx={{
+                            mr: '3%',
                             width: '20%',
                         }}
 
@@ -115,7 +123,7 @@ export default function SpeechRecognition() {
                 <Button
                     variant="contained" color="error"
                     onClick={() => {
-                        setTranscript("");
+                        props.onSetTranscript("");
                         setIsListening(false);
                         recognition.abort();
                     }}
