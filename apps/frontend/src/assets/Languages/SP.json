@@ -197,8 +197,9 @@
 
   "menu": "Menú",
   "map": "Mapa",
-  "analytics": "Análisis",
+  "data": "Data",
   "charts": "Gráficas",
+  "employee": "Empleados",
   "filter": "Filtro",
 
   "medicine": "MEDICINA",
@@ -221,8 +222,9 @@
   "chooseFile": "Elegir Archivo",
   "noChooseFile": "Ningún archivo seleccionado",
   "upload": "SUBIR",
-  "downloadNode": "DESCARGAR NODOS CSV",
-  "downloadEdge": "DESCARGAR BORDES CSV",
+  "downloadNode": "DESCARGAR CSV DE NODOS",
+  "downloadEdge": "DESCARGAR CSV DE BORDES",
+  "downloadEmployee": "ESCARGAR CSV DE EMPLEADOS",
 
   "deleteNode": "BORRAR NODO",
   "saveNode": "GUARDAR NODO",
@@ -230,7 +232,39 @@
 
   "spanish": "Español",
   "english": "Inglés",
-  "french": "Francés"
+  "french": "Francés",
+
+  "abtUs.Meet": "Conoce al Equipo",
+  "abtUs.TY": "¡Gracias!",
+  "abtUs.Dpt": "Departamento de Ciencias de Computos de WPI",
+  "abtUs.Class": "Ingeniería de Software CS3733-D24",
+  "professor": "Profesor",
+  "teamCoach": "Team Coach",
+  "abtUs.ST": "También queremos darle un agradecimiento especial al Hospital Brigham and Women y su representante, Andrew Shinn",
+  "abtUs.disclaimer": "Los mapas y datos del Hospital Brigham & Women utilizados en esta aplicación están protegidos por derechos de autor y se proporcionan únicamente con fines educativos.",
+
+  "Auth0": "Una plataforma de autenticación y autorización",
+  "Axios": "Un cliente HTTP basado en promesas para el navegador y Node.js",
+  "csv-parser": "Una biblioteca de análisis CSV para Node.js",
+  "dayjs": "Una biblioteca JavaScript minimalista para manipulación de fechas y horas",
+  "Express": "Un marco de aplicación web para Node.js",
+  "Eslint": "Un linteador de JavaScript plugable",
+  "Figma": "Una herramienta de diseño de interfaz colaborativa",
+  "Framer Motion": "Una biblioteca de animación lista para producción para React",
+  "Fuzzy-search": "Una biblioteca para buscar cadenas de manera difusa",
+  "Github": "Una plataforma para alojar y colaborar en repositorios de Git",
+  "Material UI": "Componentes de React para un desarrollo web más rápido y sencillo",
+  "Node.js": "Un tiempo de ejecución de JavaScript construido sobre el motor JavaScript V8 de Chrome",
+  "OpenAI": "Un laboratorio de investigación de IA y plataforma de implementación",
+  "prisma": "Un moderno conjunto de herramientas de base de datos para TypeScript y Node.js",
+  "React": "Una biblioteca de JavaScript para construir interfaces de usuario",
+  "Redux": "Un contenedor de estado predecible para aplicaciones JavaScript",
+  "Taiga": "Una plataforma de gestión de proyectos de código abierto",
+  "twilio": "Una plataforma de comunicaciones en la nube",
+  "Vite": "Una herramienta de compilación que tiene como objetivo proporcionar una experiencia de desarrollo más rápida y más delgada para proyectos web modernos",
+  "Webstorm": "Un potente entorno de desarrollo integrado para el desarrollo moderno de JavaScript"
+
+
 
 
 }

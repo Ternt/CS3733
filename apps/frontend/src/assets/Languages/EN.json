@@ -200,8 +200,9 @@
 
     "menu": "Menu",
     "map": "Map",
-    "analytics": "Analytics",
+    "data": "Data",
     "charts": "Charts",
+    "employee": "Employee",
     "filter": "Filter",
 
     "medicine": "MEDICINE",
@@ -226,6 +227,7 @@
     "upload": "UPLOAD",
     "downloadNode": "DOWNLOAD NODES CSV",
     "downloadEdge": "DOWNLOAD EDGES CSV",
+  "downloadEmployee": "DOWNLOAD EMPLOYEES CSV",
 
     "deleteNode": "DELETE NODE",
     "saveNode": "SAVE NODE",
@@ -233,5 +235,37 @@
 
     "spanish": "Spanish",
     "english": "English",
-    "french": "French"
+    "french": "French",
+
+  "abtUs.Meet": "Meet the Team",
+  "abtUs.TY": "Thank You!",
+  "abtUs.Dpt": "WPI CS Department",
+  "abtUs.Class": "CS3733-D24 Software Engineering",
+  "professor": "Professor",
+  "teamCoach": "Team Coach",
+  "abtUs.ST": "Also a special thank you to Brigham and Women’s Hospital and their representative, Andrew Shinn",
+  "abtUs.disclaimer": "The Brigham & Women’s Hospital maps and data used in this application are copyrighted and provided for the sole use of educational purposes.",
+
+  "Auth0": "An authentication and authorization platform",
+  "Axios": "A promise-based HTTP client for the browser and Node.js",
+  "csv-parser": "A CSV parsing library for Node.js",
+  "dayjs": "A minimalist JavaScript library for datetime manipulation",
+  "Express": "A web application framework for Node.js",
+  "Eslint": "A pluggable JavaScript linter",
+  "Figma": "A collaborative interface design tool",
+  "Framer Motion": "A production-ready motion library for React",
+  "Fuzzy-search": "A library for fuzzy searching strings",
+  "Github": "A platform for hosting and collaborating on Git repositories",
+  "Material UI": "React components for faster and easier web development",
+  "Node.js": "A JavaScript runtime built on Chrome's V8 JavaScript engine",
+  "OpenAI": "An AI research lab and deployment platform",
+  "prisma": "A modern database toolkit for TypeScript and Node.js",
+  "React": "A JavaScript library for building user interfaces",
+  "Redux": "A predictable state container for JavaScript apps",
+  "Taiga": "An open-source project management platform",
+  "twilio": "A cloud communications platform",
+  "Vite": "A build tool that aims to provide a faster and leaner development experience for modern web projects",
+  "Webstorm": "A powerful IDE for modern JavaScript development"
+
+
 }
