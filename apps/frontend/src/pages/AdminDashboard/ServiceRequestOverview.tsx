@@ -17,7 +17,7 @@ export default function ServiceRequestOverview(){
     const reqTypes = ["MEDICINE", "SANITATION", "GIFT", "MAINTENANCE", "LANGUAGE", "RELIGIOUS"];
     const [filteredRequests, setFilteredRequests] = useState<ServiceRequest[]>([]);
 
-    useEffect(()=>{
+    function updateKanbanBoard(){
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
             setServiceRequests(res.data);
             setFilteredRequests(res.data);
@@ -35,6 +35,10 @@ export default function ServiceRequestOverview(){
             });
             setEmployeeList(employeeDropdownOptions);
         });
+    }
+
+    useEffect(()=>{
+        updateKanbanBoard();
     }, []);
 
     function onChange(value: EmployeeAutocompleteOption){
@@ -122,7 +126,12 @@ export default function ServiceRequestOverview(){
                                             {
                                                 filteredRequests.filter(x=> x.type === category).map((service) => {
                                                     return(
-                                                        <KanbanBoardCard key={service.requestID} serviceRequestData={service} employeeList={employeeList} />
+                                                        <KanbanBoardCard
+                                                            key={service.requestID}
+                                                            serviceRequestData={service}
+                                                            employeeList={employeeList}
+                                                            updateFunction={updateKanbanBoard}
+                                                        />
                                                     );
                                                 })
                                             }

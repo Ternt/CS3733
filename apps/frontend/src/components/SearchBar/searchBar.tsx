@@ -64,7 +64,7 @@ function SearchBar(props: searchBarProps) {
     return (
         <Search
             sx={{
-                height: "6vh",
+                height: "2.25rem",
                 color: "white",
                 bgcolor: "white",
                 border: (props ? props.border : "none"),
@@ -81,7 +81,7 @@ function SearchBar(props: searchBarProps) {
                 placeholder={TranslateTo("Searchbar")}
                 inputProps={{"aria-label": "search"}}
                 sx={{
-                    height: "6vh",
+                    height: "2.25rem",
                 }}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 onKeyDown={handleKeyDown}
