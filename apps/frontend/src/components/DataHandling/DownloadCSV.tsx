@@ -26,6 +26,7 @@ export default function DownloadCSV(props: DownloadCSVProps){
       <Button
         variant="contained"
         onClick={() => handleDownload(props.url, props.filename)}
+        sx={{boxShadow: 0}}
       >
         Download {props.title} CSV
       </Button>
