@@ -8,11 +8,13 @@ import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import TranslateIcon from '@mui/icons-material/Translate';
 import React from "react";
+import FooterBar from "../../components/Footerbar/footer.tsx";
 
 
 function HowToPage() {
 
     return (
+      <>
         <Box
             sx={{
                 display: 'flex',
@@ -89,6 +91,8 @@ function HowToPage() {
                 </Grid>
             </Box>
         </Box>
+        <FooterBar />
+        </>
     );
 }
 

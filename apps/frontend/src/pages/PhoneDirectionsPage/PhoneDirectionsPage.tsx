@@ -16,6 +16,11 @@ import {FLOOR_NAMES} from "../../helpers/MapHelper.ts";
 import * as React from "react";
 
 import {getIconFromDirectionType} from "../GetIconFromDirectionType.tsx";
+import {speak} from "../../components/TextToSpeech/TextToSpeech.tsx";
+import PauseIcon from "@mui/icons-material/Pause";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import Button from "@mui/material/Button";
+import MapCanvas from "../../components/Map/MapCanvas.tsx";
 
 export default function PhoneDirectionsPage(){
   const [natLangPath, setNatLangPath] = useState<{
@@ -24,19 +29,14 @@ export default function PhoneDirectionsPage(){
   }[]>([]);    const [searchParams] = useSearchParams();
     const startLocation = searchParams.get('startLocation');
     const endLocation = searchParams.get('endLocation');
-    const algo = searchParams.get('algo') || '0';
-    let numericSearchAlgorithm = parseInt(algo, 10);
+    const algo = searchParams.get('algo') || 'astar';
 
-    if (isNaN(numericSearchAlgorithm)) {
-        console.error('Invalid search algorithm number provided, setting to default.');
-        numericSearchAlgorithm = 0; // default
-    }
 
     useEffect(() => {
         async function setPath() {
             console.log(startLocation, endLocation);
             if(startLocation === null || endLocation === null) return;
-          const res = await NaturalLanguageDirection(startLocation, endLocation, numericSearchAlgorithm);
+          const res = await NaturalLanguageDirection(startLocation, endLocation, algo);
           if (res !== undefined) {
             const m: { messages: { a: string, t: directionTypes }[], floor: number }[] = [];
             let cf = -1;
@@ -56,7 +56,10 @@ export default function PhoneDirectionsPage(){
         }
 
         setPath();
-    }, [startLocation, endLocation, numericSearchAlgorithm]);
+    }, [startLocation, endLocation, algo]);
+
+    const [TTS,setTTS] = useState<boolean | null>(null);
+
     if(startLocation === null || startLocation === '' || endLocation === null || endLocation === ''){
       return (
         <>
@@ -65,9 +68,16 @@ export default function PhoneDirectionsPage(){
         </>
       );
     }
+
+    const TTSPath = `${natLangPath.reduce<string[]>((acc, obj) => {
+        const messageStrings = obj.messages.map((message) => {
+            return` ${message.a}`;
+        });
+        return acc.concat(messageStrings);
+    }, []).concat('end').join('\n')}`;
+
     return (
       <Box sx={{
-        mt:'5vh',
         height: '100%',
         width: '100%',
         backgroundColor: 'white',
@@ -80,6 +90,22 @@ export default function PhoneDirectionsPage(){
         borderTop: ' 1px solid black',
         pb: '5rem',
       }}>
+        <Box
+          sx={{
+            aspectRatio:'1/1',
+            width:'100vw',
+            objectFit:'cover',
+            overflow:'clip'
+          }}
+        >
+          <MapCanvas
+            defaultFloor={2}
+            pathfinding={algo}
+            startLocation={startLocation}
+            endLocation={endLocation}
+            mobile
+          />
+        </Box>
         <Typography variant={"h3"} sx={{textAlign:'center'}}>Directions</Typography>
         {natLangPath.map((d, index) => {
           if (d.floor === -1) {
@@ -139,6 +165,48 @@ export default function PhoneDirectionsPage(){
             </Accordion>
           );
         })}
+          <Box sx={{
+              display:'flex',
+              justifyContent: 'center',
+              my: '3%',
+          }}>
+              <Button
+                  onClick={() => {
+                      console.log(TTSPath);
+                      if(TTS == null){
+                          speak(TTSPath);
+                          setTTS(true);
+                      }
+
+                      else if(TTS){
+                          speak(TTSPath).pauseSpeech();
+                          setTTS(false);
+                      }
+
+                      else if(!TTS){
+                          speak(TTSPath).resumeSpeech();
+                          setTTS(true);
+                      }
+                  }}
+                  sx={{
+                      backgroundColor: '#012d5a',
+                      color: 'white',
+                      height: '100%',
+                      width: '20vw',
+                      display: 'flex',
+                      alignItems: 'center',
+                      "&:hover": {
+                          background: "#1a426a",
+                      },
+                  }}
+              >
+                  {TTS ? <PauseIcon/> : <PlayArrowIcon/>}
+
+                  <Box sx={{display: 'flex', justifyContent: 'center', flex: 1}}>
+                      TTS
+                  </Box>
+              </Button>
+          </Box>
       </Box>
     );
 };

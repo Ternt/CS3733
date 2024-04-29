@@ -10,5 +10,6 @@ module.exports = {
         "no-empty-function": "warn",
         "prefer-const": "warn",
         "@typescript-eslint/no-empty-interface": "warn",
+        '@typescript-eslint/no-var-requires': 0,
     },
 };
