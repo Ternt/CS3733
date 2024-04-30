@@ -91,8 +91,8 @@ export default function AnalyticsPage(){
 
     return(
         <>
-            <Box sx={{width: '100%', height: '10em', }}>
-                <Typography variant={"h4"} sx={{height: '3.5em', padding: 3}}>
+            <Box sx={{width: '100%', height: '8rem', }}>
+                <Typography variant={"h4"} sx={{height: '2.5em', padding: 3}}>
                     Data Analytics
                 </Typography>
                 <Box sx={{display: 'flex', borderBottom: 1, borderColor: '#E4E4E4', flexDirection: 'row', width: '100%', height: '2.5em'}}>
@@ -205,6 +205,7 @@ export default function AnalyticsPage(){
                                                         vertical: 'top',
                                                         horizontal: 'left',
                                                     },
+                                                    hidden: true,
                                                 }
                                             }}
                                             series={[{
