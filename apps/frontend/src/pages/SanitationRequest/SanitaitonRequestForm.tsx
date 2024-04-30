@@ -34,7 +34,7 @@ type formFields = {
 
 function SanitationRequestForm() {
     useEffect(() => {
-        document.title = "Sanitation Request";
+        document.title = TranslateTo("title.Sani");
     });
 
     const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");

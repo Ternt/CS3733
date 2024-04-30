@@ -28,7 +28,7 @@ type formInputs = {
 
 function CheckInForm () {
     useEffect(() => {
-        document.title = "Patient Check In";
+        document.title = TranslateTo("title.CheckIn");
     });
 
     //const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");

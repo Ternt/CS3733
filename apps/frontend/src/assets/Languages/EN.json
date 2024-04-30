@@ -317,5 +317,17 @@
 
   "pie.Spanish": "SPANISH",
   "pie.Chinese": "CHINESE",
-  "pie.French": "FRENCH"
+  "pie.French": "FRENCH",
+
+  "heroP.findwaysub": "Use our map to find where you want to go!",
+
+  "title.Medi": "Medicine Request",
+  "title.Checkout": "Checkout",
+  "title.LangInter": "Language Interpreter Request",
+  "title.CheckIn": "Patient Check In",
+  "title.Religion": "Religious Service Request",
+  "title.Sani": "Sanitation Request",
+  "title.GiftR": "Gift Request"
+
+
 }

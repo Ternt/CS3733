@@ -34,7 +34,7 @@ type form = {
 
 function MedicineRequestForm() {
     useEffect(() => {
-        document.title = "Medicine Request";
+        document.title = TranslateTo("title.Medi");
     });
 
     const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");

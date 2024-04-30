@@ -315,7 +315,17 @@
 
   "pie.Spanish": "ESPAÑOL",
   "pie.Chinese": "CHINESE",
-  "pie.French": "FRANCÉS"
+  "pie.French": "FRANCÉS",
+
+  "heroP.findwaysub": "Use nuestro mapa para llegar a donde desee!",
+
+  "title.Medi": "Solicitud de Medicamentos",
+  "title.Checkout": "Pago",
+  "title.LangInter": "Solicitud de Intérprete de Idiomas",
+  "title.CheckIn": "Registro de Pacientes",
+  "title.Religion": "Solicitud de Servicio Religioso",
+  "title.Sani": "Solicitud de Sanitización",
+  "title.GiftR": "Solicitud de Regalos"
 
 
 }
