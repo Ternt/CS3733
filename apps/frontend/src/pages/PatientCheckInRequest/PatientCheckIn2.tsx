@@ -219,6 +219,7 @@ function CheckInForm () {
                             required
                             select
                             label={TranslateTo("gender")}
+                            inputProps={{ MenuProps: { disableScrollLock: true } }}
                             value={formInput.gender}
                             onChange={(e) => handleChange('gender', e.target.value)}
                         >

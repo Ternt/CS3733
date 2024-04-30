@@ -224,6 +224,7 @@ function LanguageInterpreterRequestForm() {
                                     select
                                     label="Language Required"
                                     value={formInput.language}
+                                    inputProps={{ MenuProps: { disableScrollLock: true } }}
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => setFormInput({
                                         ...formInput,
                                         language: e.target.value
@@ -262,6 +263,7 @@ function LanguageInterpreterRequestForm() {
                                     select
                                     label={TranslateTo("status")}
                                     value={formInput.status}
+                                    inputProps={{ MenuProps: { disableScrollLock: true } }}
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => setFormInput({
                                         ...formInput,
                                         status: e.target.value
