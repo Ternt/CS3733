@@ -282,7 +282,9 @@ export default function Chatbot(props:ChatbotProps) {
                         </Typography>
                     </Button>
 
-                    <Button onClick={() => setTranscript("")} sx={{
+                    <Button onClick={() => {
+                        setTranscript("");
+                    }} sx={{
                         mt: '10px',
                     }}>
                         <MicIcon/>
