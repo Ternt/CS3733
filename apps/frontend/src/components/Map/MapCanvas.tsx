@@ -415,7 +415,7 @@ export default function MapCanvas(props: mapCanvasProps) {
             longName: "A new node",
             building: "Unknown building",
             shortName: "A new node",
-            floor: FLOOR_IDS[viewingFloor],
+            floor: ["L2", "L1", "1", "2", "3"][viewingFloor],
         };
         const N = nodes;
         N.push(newNode);
@@ -729,6 +729,7 @@ export default function MapCanvas(props: mapCanvasProps) {
             const es: edge[] = [];
 
             for (const r of res.data.nodes) {
+              console.log(r.floor, FLOOR_NAME_TO_INDEX(r.floor),FLOOR_OFFSETS[FLOOR_NAME_TO_INDEX(r.floor)]);
                 const v: vec2 = {
                     x: FLOOR_OFFSETS[FLOOR_NAME_TO_INDEX(r.floor)].x + r.xcoord,
                     y: FLOOR_OFFSETS[FLOOR_NAME_TO_INDEX(r.floor)].y + r.ycoord,
