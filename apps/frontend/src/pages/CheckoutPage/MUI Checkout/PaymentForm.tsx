@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
 import SimCardRoundedIcon from "@mui/icons-material/SimCardRounded";
+import TranslateTo from "../../../helpers/multiLanguageSupport.ts";
 
 import { styled } from "@mui/system";
 
@@ -60,7 +61,7 @@ export default function PaymentForm(props:PaymentFormProps) {
             }}
           >
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography variant="subtitle2">Credit card</Typography>
+              <Typography variant="subtitle2">{TranslateTo("credit.CC")}</Typography>
               <CreditCardRoundedIcon sx={{ color: "text.secondary" }} />
             </Box>
             <SimCardRoundedIcon
@@ -80,7 +81,7 @@ export default function PaymentForm(props:PaymentFormProps) {
             >
               <FormGrid sx={{ flexGrow: 1 }}>
                 <FormLabel htmlFor="card-number" required>
-                  Card number
+                    {TranslateTo("credit.CNum")}
                 </FormLabel>
                 <OutlinedInput
                   id="card-number"
@@ -94,7 +95,7 @@ export default function PaymentForm(props:PaymentFormProps) {
               </FormGrid>
               <FormGrid sx={{ maxWidth: "20%" }}>
                 <FormLabel htmlFor="cvv" required>
-                  CVV
+                    {TranslateTo("cvv")}
                 </FormLabel>
                 <OutlinedInput
                   id="cvv"
@@ -110,7 +111,7 @@ export default function PaymentForm(props:PaymentFormProps) {
             <Box sx={{ display: "flex", gap: 2 }}>
               <FormGrid sx={{ flexGrow: 1 }}>
                 <FormLabel htmlFor="card-name" required>
-                  Name
+                    {TranslateTo("name")}
                 </FormLabel>
                 <OutlinedInput
                   id="card-name"
@@ -124,7 +125,7 @@ export default function PaymentForm(props:PaymentFormProps) {
               </FormGrid>
               <FormGrid sx={{ flexGrow: 1 }}>
                 <FormLabel htmlFor="card-expiration" required>
-                  Expiration date
+                    {TranslateTo("expDate")}
                 </FormLabel>
                 <OutlinedInput
                   id="card-expiration"
@@ -140,7 +141,7 @@ export default function PaymentForm(props:PaymentFormProps) {
           </Box>
           <FormControlLabel
             control={<Checkbox name="saveCard" />}
-            label="Remember this Card"
+            label={TranslateTo("credit.Rmbr")}
           />
         </Box>
     </Stack>

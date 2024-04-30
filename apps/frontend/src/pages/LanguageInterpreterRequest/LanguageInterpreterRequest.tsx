@@ -13,6 +13,7 @@ import {pieArcLabelClasses, PieChart} from '@mui/x-charts/PieChart';
 import * as React from "react";
 import axios, {AxiosResponse} from "axios";
 import FooterBar from "../../components/Footerbar/footer.tsx";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 type Interpreter = {
     language: string;
@@ -65,9 +66,6 @@ function LanguageInterpreterRequestForm() {
 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogMessage, setDialogMessage] = useState("");
-    // const handleDialogClose = () =>{
-    //     setSubmitDialogFlag(!submitDialogFlag);
-    // };
 
     const handleDialogClose = () =>{
         setSubmitDialogFlag(!submitDialogFlag);
@@ -172,7 +170,7 @@ function LanguageInterpreterRequestForm() {
                             component="h1"
                             align="center"
                         >
-                            LANGUAGE INTERPRETER REQUEST
+                            {TranslateTo("langR.Header")}
                         </Typography>
                     </Box>
 
@@ -207,7 +205,7 @@ function LanguageInterpreterRequestForm() {
                             >
                                 <TextField
                                     required
-                                    label="Employee Name"
+                                    label={TranslateTo("employeeN")}
                                     value={formInput.name}
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => setFormInput({
                                         ...formInput,
@@ -217,7 +215,7 @@ function LanguageInterpreterRequestForm() {
                                 />
 
                                 <LocationDropdown
-                                    label="Location"
+                                    label={TranslateTo("location")}
                                     value={formInput.location}
                                     onChange={(value: string) => setFormInput({...formInput, location: value})}
                                 />
@@ -232,16 +230,16 @@ function LanguageInterpreterRequestForm() {
                                     })}
                                     fullWidth
                                 >
-                                    <MenuItem value="Spanish">Spanish</MenuItem>
-                                    <MenuItem value="French">French</MenuItem>
-                                    <MenuItem value="Chinese">Chinese</MenuItem>
+                                    <MenuItem value="Spanish">{TranslateTo("spanish")}</MenuItem>
+                                    <MenuItem value="French">{TranslateTo("french")}</MenuItem>
+                                    <MenuItem value="English">{TranslateTo("english")}</MenuItem>
                                 </TextField>
 
                                 <TextField
                                     required
                                     select
                                     id="priority-select"
-                                    label={"Priority"}
+                                    label={TranslateTo("priority")}
                                     margin="normal"
                                     inputProps={{MenuProps: {disableScrollLock: true}}}
                                     value={formInput.priority}
@@ -253,16 +251,16 @@ function LanguageInterpreterRequestForm() {
                                     }}
                                     sx={{marginY: 0,}}
                                 >
-                                    <MenuItem value={"LOW"}>Low</MenuItem>
-                                    <MenuItem value={"MEDIUM"}>Medium</MenuItem>
-                                    <MenuItem value={"HIGH"}>High</MenuItem>
-                                    <MenuItem value={"EMERGENCY"}>Emergency</MenuItem>
+                                    <MenuItem value={"Low"}>{TranslateTo("priority.low")}</MenuItem>
+                                    <MenuItem value={"Medium"}>{TranslateTo("priority.med")}</MenuItem>
+                                    <MenuItem value={"High"}>{TranslateTo("priority.high")}</MenuItem>
+                                    <MenuItem value={"Emergency"}>{TranslateTo("priority.emergency")}</MenuItem>
                                 </TextField>
 
                                 <TextField
                                     required
                                     select
-                                    label="Status"
+                                    label={TranslateTo("status")}
                                     value={formInput.status}
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => setFormInput({
                                         ...formInput,
@@ -270,10 +268,10 @@ function LanguageInterpreterRequestForm() {
                                     })}
                                     fullWidth
                                 >
-                                    <MenuItem value="Unassigned">Unassigned</MenuItem>
-                                    <MenuItem value="Assigned">Assigned</MenuItem>
-                                    <MenuItem value="In Progress">In Progress</MenuItem>
-                                    <MenuItem value="Closed">Closed</MenuItem>
+                                    <MenuItem value="Unassigned">{TranslateTo("status.un")}</MenuItem>
+                                    <MenuItem value="Assigned">{TranslateTo("status.as")}</MenuItem>
+                                    <MenuItem value="In Progress">{TranslateTo("status.in")}</MenuItem>
+                                    <MenuItem value="Closed">{TranslateTo("status.cl")}</MenuItem>
                                 </TextField>
 
 
@@ -286,7 +284,7 @@ function LanguageInterpreterRequestForm() {
                                         sx={{margin: 1}}
                                         onClick={clearForm}
                                     >
-                                        Clear
+                                        {TranslateTo("clear")}
                                     </Button>
 
                                     <Button
@@ -297,7 +295,7 @@ function LanguageInterpreterRequestForm() {
                                         disabled={!isComplete()}
                                         onClick={handleSubmitForm}
                                     >
-                                        Submit
+                                        {TranslateTo("submit")}
                                     </Button>
                                 </Box>
 
@@ -329,7 +327,7 @@ function LanguageInterpreterRequestForm() {
                                     sx={{margin: 1}}
                                     onClick={() => setDialogOpen(false)}
                                 >
-                                    Close
+                                    {TranslateTo("close")}
                                 </Button>
                             </DialogActions>
                         </Dialog>
@@ -344,7 +342,7 @@ function LanguageInterpreterRequestForm() {
                                 <Button
                                     onClick={handleDialogClose}
                                 >
-                                    Close
+                                    {TranslateTo("close")}
                                 </Button>
                             </DialogActions>
                         </Dialog>
@@ -398,7 +396,7 @@ function LanguageInterpreterRequestForm() {
                             component="h1"
                             align="center"
                         >
-                            INTERPRETER AVAILABILITY
+                            {TranslateTo("langR.AvailHeader")}
                         </Typography>
                     </Box>
 

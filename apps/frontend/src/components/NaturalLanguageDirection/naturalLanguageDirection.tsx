@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import {FLOOR_NAME_TO_INDEX} from "../../helpers/MapHelper.ts";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 type node = {
     xcoord: number;
@@ -47,22 +48,22 @@ async function getLanguageDirection(path: string[]){
         const nextNode = nodeTable.find(nodes => nodes.nodeID === path[i + 1])!;
 
         if (i === 0) {
-            directions.push({message:"You are currently at " +currentNodeName + " on floor " + currentNode.floor, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.START});
+            directions.push({message: TranslateTo("langDir.currAt") +currentNodeName + TranslateTo("langDir.onFloor") + currentNode.floor, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.START});
         }
 
         else if (currentNode.floor != nextNode.floor) {
             if (currentNode.nodeType === "ELEV") {
-                directions.push({message:`Take elevator to floor ${nextNode.floor}`, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.ELEVATOR});
+                directions.push({message: TranslateTo("langDir.takeElev")  + nextNode.floor, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.ELEVATOR});
             }
             else {
-                directions.push({message:`Take stairs to floor ${nextNode.floor}`, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STAIRS});
+                directions.push({message: TranslateTo("langDir.takeStr")  + nextNode.floor, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STAIRS});
             }
             // add the direction when exit the stair/elev
             // "head towards: " find the name of the next node in path that's not a hall
             i++;
             const nextNodeNameWithType = findNextNodeWithType(nodeTable, path, i+1);
-            const nn =  nextNodeNameWithType.toUpperCase().indexOf('HALL') === -1 ? "towards "+nextNodeNameWithType : "down the hall";
-            directions.push({message:`Head ${nn}`, floor: FLOOR_NAME_TO_INDEX(nextNode.floor!), type:directionTypes.STRAIGHT});
+            const nn =  nextNodeNameWithType.toUpperCase().indexOf('HALL') === -1 ? TranslateTo("langDir.towards") +nextNodeNameWithType : TranslateTo("langDir.downHall");
+            directions.push({message: TranslateTo("langDir.head") + nn, floor: FLOOR_NAME_TO_INDEX(nextNode.floor!), type:directionTypes.STRAIGHT});
 
         } else {
             const dx: number = nextNode.xcoord - currentNode.xcoord;
@@ -99,14 +100,14 @@ async function getLanguageDirection(path: string[]){
             }
 
                 if ((Math.abs(directionChange) < Math.PI / 4) || (Math.abs(directionChange - 2*Math.PI) < Math.PI / 4) || (Math.abs(directionChange + 2*Math.PI) < Math.PI / 4)) {
-                    if (!directions[directions.length - 1].message.startsWith('Walk straight')){
+                    if (!directions[directions.length - 1].message.startsWith(TranslateTo("langDir.walkStrt"))){
                         distance = Math.sqrt(dx**2 + dy**2);
-                        directions.push({message:"Walk straight " +Math.round(distance / PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
+                        directions.push({message: TranslateTo("langDir.walkStrt") +Math.round(distance / PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
                     }
                     else {
                         directions.pop();
                         distance = distance + Math.sqrt(dx**2 + dy**2);
-                        directions.push({message:"Walk straight " +Math.round(distance / PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
+                        directions.push({message:TranslateTo("langDir.walkStrt") +Math.round(distance / PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
                     }
                 }
 
@@ -114,7 +115,7 @@ async function getLanguageDirection(path: string[]){
                     if (!directions[directions.length - 1].message.startsWith('Walk straight')){
                         directions.pop();
                         distance = distance + Math.sqrt(dx**2 + dy**2);
-                        directions.push({message:"Walk straight " +Math.round(distance / PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
+                        directions.push({message:TranslateTo("langDir.walkStrt") +Math.round(distance / PIXELS_PER_FOOT) + "ft", floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.STRAIGHT});
 
                     }
                     i = i + 2;
@@ -124,14 +125,14 @@ async function getLanguageDirection(path: string[]){
                   const cn = currentNodeName === undefined ? "" : currentNodeName!;
                   const nn =  cn.toUpperCase().indexOf('HALL') === -1 ? (" at "+cn) : "";
                   if (directionChange > 0) {
-                    directions.push({message: "Turn right" +nn, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.RIGHT});
+                    directions.push({message: TranslateTo("langDir.turnR") +nn, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.RIGHT});
                   } else {
-                    directions.push({message:"Turn left" +nn, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.LEFT});
+                    directions.push({message:TranslateTo("langDir.turnL") +nn, floor: FLOOR_NAME_TO_INDEX(currentNode.floor!), type:directionTypes.LEFT});
                   }
                 }
         }}
     const endingNode = nodeTable.find(nodes => nodes.nodeID === path[path.length - 1])!;
-    directions.push({message: "You are now at " +endingNode.longName, floor: FLOOR_NAME_TO_INDEX(endingNode.floor!), type:directionTypes.END});
+    directions.push({message: TranslateTo("langDir.currAt") +endingNode.longName, floor: FLOOR_NAME_TO_INDEX(endingNode.floor!), type:directionTypes.END});
     return directions;
 }
 

@@ -9,7 +9,7 @@ import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import TranslateIcon from '@mui/icons-material/Translate';
 import React from "react";
 import FooterBar from "../../components/Footerbar/footer.tsx";
-
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 function HowToPage() {
 
@@ -58,36 +58,34 @@ function HowToPage() {
                 >
                     <ServiceBox path={"/map"}
                                 icon={<MapIcon/>}
-                                header={"Q: How do I use Pathfinding"}
-                                descriptiveText={"A: To use pathfinding, first navigate to the map page. Then select a start and end location from the dropdown menus. Finally, choose a algorithm (A* if you want the optimal path)."}/>
-
+                                header={TranslateTo("faq.PathQ")}
+                                descriptiveText={TranslateTo("faq.PathA")}/>
 
                     <ServiceBox path={"/gift-request"}
                                 icon={<CardGiftcardIcon/>}
-                                header={"Q: How do I get a gift for a loved one?"}
-                                descriptiveText={"A: To get a gift for a loved one, first navigate to the gift page. Then add the desired items to your cart. Finally, click on Submit and complete checking out."}/>
+                                header={TranslateTo("faq.GiftQ")}
+                                descriptiveText={TranslateTo("faq.GiftA")}/>
 
                     <ServiceBox path={"/sanitation"}
                                 icon={<CleaningServicesIcon/>}
-                                header={"Q: There is a spill in the Garden Cafe, how do I report this?"}
-                                descriptiveText={"A: To notify janitors of a spill, first navigate to the sanitation page. Then fill out the relevant information and submit."}/>
+                                header={TranslateTo("faq.CleanQ")}
+                                descriptiveText={TranslateTo("faq.CleanA")}/>
 
 
                     <ServiceBox path={"/admin"}
                                 icon={<SupervisorAccountIcon/>}
-                                header={"Q: I am a hospital Admin, how do I see the requests"}
-                                descriptiveText={"A: To view all the requests, first login with an admin account and navigate to the admin dashboard page. Then fill out the relevant information and submit"}/>
+                                header={TranslateTo("faq.AdminQ")}
+                                descriptiveText={TranslateTo("faq.AdminA")}/>
 
                     <ServiceBox path={"/interpreter"}
                                 icon={<TranslateIcon/>}
-                                header={"Q: My friend doesn't speak english, How do I get a translator?"}
-                                descriptiveText={"A: To request a translator, first navigate to the translator page. Then fill out the relevant information and submit."}/>
+                                header={TranslateTo("faq.LangQ")}
+                                descriptiveText={TranslateTo("faq.LangA")}/>
 
                     <ServiceBox path={"/flower-request"}
                                 icon={<LocalFloristIcon/>}
-                                header={"Q: How do I send flowers to a loved one?"}
-                                descriptiveText={"A: To get a gift for a loved one, first navigate to the flower page. Then add the desired items to your cart. Finally, click on Submit and complete checking out."}/>
-
+                                header={TranslateTo("faq.FlwrQ")}
+                                descriptiveText={TranslateTo("faq.FlwrA")}/>
                 </Grid>
             </Box>
         </Box>
