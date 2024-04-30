@@ -61,10 +61,14 @@ async function getLanguageDirection(path: string[]){
             // add the direction when exit the stair/elev
             // "head towards: " find the name of the next node in path that's not a hall
             i++;
-            const nextNodeNameWithType = findNextNodeWithType(nodeTable, path, i+1);
-            const nn =  nextNodeNameWithType.toUpperCase().indexOf('HALL') === -1 ? TranslateTo("langDir.towards") +nextNodeNameWithType : TranslateTo("langDir.downHall");
-            directions.push({message: TranslateTo("langDir.head") + nn, floor: FLOOR_NAME_TO_INDEX(nextNode.floor!), type:directionTypes.STRAIGHT});
-
+            if(i === path.length - 1){
+                continue;
+            }
+            else{
+                const nextNodeNameWithType = findNextNodeWithType(nodeTable, path, i+1);
+                const nn =  nextNodeNameWithType.toUpperCase().indexOf('HALL') === -1 ? TranslateTo("langDir.towards") +nextNodeNameWithType : TranslateTo("langDir.downHall");
+                directions.push({message: TranslateTo("langDir.head") + nn, floor: FLOOR_NAME_TO_INDEX(nextNode.floor!), type:directionTypes.STRAIGHT});
+            }
         } else {
             const dx: number = nextNode.xcoord - currentNode.xcoord;
             const dy: number = nextNode.ycoord - currentNode.ycoord;
