@@ -174,8 +174,8 @@ export default function ServiceRequestOverview(){
 
     return(
         <Box sx={{width: '100%', height: '100%'}}>
-            <Typography variant={"h4"} sx={{height: '3em', padding: 3}}>
-                Data Analytics
+            <Typography variant={"h4"} sx={{height: '2.5em', padding: 3}}>
+                Service Request Overview
             </Typography>
 
 

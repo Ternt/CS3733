@@ -45,8 +45,8 @@ export default function DataPage(){
 
     return(
         <Box sx={{width: '100%', height: '15em', }}>
-            <Typography variant={"h4"} sx={{height: '3em', padding: 3}}>
-                Data Analytics
+            <Typography variant={"h4"} sx={{height: '2.5em', padding: 3}}>
+                Data Tables
             </Typography>
             <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', height: '2.5em'}}>
                 {["Nodes", "Edges", "Employee"].map((value, i) => {
