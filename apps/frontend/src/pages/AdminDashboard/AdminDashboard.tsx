@@ -116,15 +116,15 @@ export default function AdminDashboard() {
                             borderColor: '#E4E4E4',
                         }}
                         value={0}
-                        tabs={["Menu", "Map", "Charts", "Analytics"]}
+                        tabs={["Menu", "Map","Analytics", "Charts"]}
                         onSelect={(i) => {
                             setSelectedTab(i);
                         }}
                     >
                         <ViewKanbanIcon/>
                         <MapIcon/>
-                        <TableChartSharpIcon/>
                         <PollSharpIcon/>
+                        <TableChartSharpIcon/>
                     </SidebarMenu>
 
                     {/* Tabs */}
