@@ -30,7 +30,7 @@ function StoreRequestPage() {
     const [items, setItems] = useState<Item[]>([]);
 
     useEffect(() => { // todo fix bug that causes api to be called twice
-        document.title = "Gift Request";
+        document.title = "Hospital Store";
 
         axios.get<Item[]>("/api/cart-items").then((res: AxiosResponse) => {
             setItems(res.data.filter(
