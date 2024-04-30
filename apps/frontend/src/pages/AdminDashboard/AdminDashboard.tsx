@@ -28,8 +28,8 @@ export default function AdminDashboard() {
     const { isAuthenticated, isLoading } = useAuth0();
     const navigate = useNavigate();
     const [selectedTab, setSelectedTab] = useState(0);
-  const [otherUserMousePosition, setOtherUserMousePosition] = useState<{ [id: string]: { id: string, x: number, y: number, tabId: number } }>({});
-  useEffect(() => {
+    const [otherUserMousePosition, setOtherUserMousePosition] = useState<{ [id: string]: { id: string, x: number, y: number, tabId: number } }>({});
+    useEffect(() => {
         // Connect to the server using link, prob amazon link in future
         const socket = io('http://localhost:3005');
         console.log('Selected tab:', selectedTab);
@@ -51,20 +51,20 @@ export default function AdminDashboard() {
             }));
         });
 
-      socket.on('userDisconnected', (userId) => {
-          console.log('userDisconnected event triggered with userId: ', userId);
-          setOtherUserMousePosition(prevState => {
+        socket.on('userDisconnected', (userId) => {
+            console.log('userDisconnected event triggered with userId: ', userId);
+            setOtherUserMousePosition(prevState => {
                 const newState = { ...prevState };
                 delete newState[userId];
                 return newState;
-          });
-      });
+            });
+        });
 
-      return () => {
-          window.removeEventListener('mousemove', handleMouseMove);
-          socket.disconnect();
-      };
-  }, [selectedTab]);
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            socket.disconnect();
+        };
+    }, [selectedTab]);
 
     // For conditional styling. Different styles applied depending on size of screen.
     const matches = useMediaQuery('(min-width: 900px)');

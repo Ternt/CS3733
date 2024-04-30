@@ -11,7 +11,6 @@ export default function Wongprism() {
         justifyContent:'center',
         alignItems:'center',
         width:'100%',
-
       }}
     >
       <Typography variant={"h2"}>And a special thanks to Prof. Wong!</Typography>
