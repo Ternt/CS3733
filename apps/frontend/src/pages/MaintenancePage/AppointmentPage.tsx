@@ -16,6 +16,7 @@ import {DateCalendar} from "@mui/x-date-pickers/DateCalendar";
 import dayjs from "dayjs";
 import EventIcon from "@mui/icons-material/Event";
 import TranslateTo from '../../helpers/multiLanguageSupport.ts';
+import FooterBar from "../../components/Footerbar/footer.tsx";
 
 type formFields = {
     name: string;
@@ -97,6 +98,7 @@ function AppointmentPage() {
     }
 
         return (
+            <>
         <Box
             display="flex"
             height="90vh"
@@ -278,6 +280,14 @@ function AppointmentPage() {
                         </FormControl>
                     </Box>
                 </Paper>
+                <Typography
+                    variant={"caption"}
+                    sx={{
+                        px: "25%"
+                    }}
+                >
+                    Made by Brett
+                </Typography>
             </Box>
             <Box
                 width="40%"
@@ -334,8 +344,10 @@ function AppointmentPage() {
                             </Box>
                     }
                         </Grow>
-            </Box>
-        </Box>
+                    </Box>
+                </Box>
+                <FooterBar />
+            </>
     );
 }
 
