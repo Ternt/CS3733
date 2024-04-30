@@ -29,7 +29,7 @@ export default function AnalyticsPage(){
     return(
         <>
             <Box sx={{width: '100%', height: '10em', }}>
-                <Typography variant={"h4"} sx={{height: '3em', padding: 3}}>
+                <Typography variant={"h4"} sx={{height: '3.5em', padding: 3}}>
                     Data Analytics
                 </Typography>
                 <Box sx={{display: 'flex', borderBottom: 1, borderColor: '#E4E4E4', flexDirection: 'row', width: '100%', height: '2.5em'}}>
@@ -58,7 +58,7 @@ export default function AnalyticsPage(){
                                                 marginTop: '2.35em',
                                                 height: '0.2em',
                                                 position: 'absolute'
-                                            }} layoutId={"tab_underline"}/>) : null}
+                                            }} layoutId={"chart_tab_underline"}/>) : null}
                                 </ButtonBase>
 
                             </>
@@ -68,21 +68,56 @@ export default function AnalyticsPage(){
             </Box>
 
             {/* Top panel */}
-                <Box
-                    sx={{
-                        width: "100%",
-                        height: "100%",
-                    }}
-                >
-                    <BarChart
-                        width={500}
-                        height={300}
-                        series={[
-                            { data: siteData, label: 'Page visits', id: 'pvId' },
-                        ]}
-                        xAxis={[{ data: xLabels, scaleType: 'band' }]}
-                    />
-                </Box>
+            {tab == 0 && (
+                <>
+                    <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', height: '100%', padding: 3}}>
+                        <Box sx={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}>
+                            <Box sx={{width: '100%', height: '4em'}}>
+                                <Typography
+                                    variant={"h5"}
+                                    sx={{display: 'flex', justifyContent: 'center'}}
+                                >
+                                    The site got {
+                                    // First line just formats the number
+                                    new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(
+                                        siteData.reduce((acc, number) => acc+number, 0))
+                                } visits in the last week
+                                </Typography>
+                            </Box>
+                            <Box
+                                sx={{
+                                    transition: {xs: '0.0s', md: '0.2s'},
+                                    width: {xs: '40em', md: '100%'},
+                                    height: "100%",}}>
+                                <BarChart
+                                    width={undefined}
+                                    height={600}
+                                    series={[
+                                        { data: siteData, label: 'Page visits', id: 'pvId' },
+                                    ]}
+                                    xAxis={[{ data: xLabels, scaleType: 'band' }]}
+                                />
+                            </Box>
+                        </Box>
+                        <Box sx={{display: 'flex',bgcolor: '#FF0000', width: '18em', height: '8em'}}>
+                            <Box sx={{display: 'flex', flexDirection: 'column', width: '100%', padding: 1}}>
+                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                    <Typography sx={{width: '80%'}}>
+                                        Page visits
+                                    </Typography>
+                                    <Box sx={{width: '20%'}}>
+                                    </Box>
+                                </Box>
+                                <Typography variant={"h5"} sx={{display: 'flex', height: '100%', alignItems: 'center'}}>36,030</Typography>
+                                <Box sx={{display:'flex', alignItems: 'center',width: '100%', height: '3em'}}>
+                                    <Typography>36,030</Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
+                </>
+            )}
+
         </>
     );
 }
