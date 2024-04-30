@@ -34,7 +34,22 @@ export type ResponsiveAppBarProps = {
     onSetLanguage: (l: string) => void;
 }
 
+
+
+
 export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
+
+    const [state, setState] = useState(false);
+
+    const handleSetLanguage = (l: string) => {
+        localStorage.setItem("language", l);
+        props.onSetLanguage(l);
+        window.location.reload();
+    };
+
+    const navigate = useNavigate();
+    const {user, isAuthenticated, isLoading} = useAuth0();
+
 
     const staffServices = [
         {label: TranslateTo("services.Sanitation"), path: "/sanitation", icon:<CleaningServicesIcon/>},
@@ -46,14 +61,12 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
         {label: TranslateTo("services.Flwr"), path: "/flower-request", icon:<LocalFloristIcon/>},
         {label: TranslateTo("services.Gift"), path: "/gift-request", icon:<RedeemIcon/>},
         {label: TranslateTo("services.Religious"), path: "/religious-request", icon:<ChurchIcon/>},
-        {label: TranslateTo("services.Checkin"), path: "/checkin", icon:<CheckCircleOutlineIcon/>},
+        {label: TranslateTo("services.CheckIn"), path: "/checkin", icon:<CheckCircleOutlineIcon/>},
         {label: TranslateTo("services.Appointment"), path: "/appointment", icon:<PendingActionsIcon/>},
     ];
 
  
 
-    const navigate = useNavigate();
-    const {user, isAuthenticated, isLoading} = useAuth0();
     const handleMenuItemClick = (path: string) => {
         navigate(path);
     };
@@ -64,8 +77,6 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
             permissionLevel = 2;
         }
     }
-
-  const [state, setState] = useState(false);
 
 
     return (
@@ -143,7 +154,7 @@ export default function ResponsiveAppBar(props: ResponsiveAppBarProps) {
                 <LanguageSelect
                   toggleChatbot={props.toggleChatbot}
                   chatbotOpen={props.chatbotOpen}
-                  onSetLanguage={props.onSetLanguage}
+                  onSetLanguage={handleSetLanguage}
                 />
                 <SearchBar/>
                 <LoginButton/>

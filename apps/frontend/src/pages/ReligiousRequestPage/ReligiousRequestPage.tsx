@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 // import EventIcon from '@mui/icons-material/Event';
 import LocationDropdown from "../../components/LocationDropdown.tsx";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 import FooterBar from "../../components/Footerbar/footer.tsx";
 
 
@@ -203,26 +204,26 @@ function ReligiousRequestForm() {
                             component="h1"
                             align="center"
                         >
-                            RELIGIOUS SERVICES
+                            {TranslateTo("relR.Header")}
                         </Typography>
                     </Box>
                     <FormControl fullWidth sx={{ mt: 3, gap: 2, px: '3%', }}>
                         <TextField
                             required
-                            label="Patient or Requestor Name"
+                            label={TranslateTo("relR.PName")}
                             value={formInput.name}
                             onChange={(e) => handleChange('name', e.target.value)}
                         />
                         <TextField
                             required
                             select
-                            label="Service Type"
+                            label={TranslateTo("relR.SrvType")}
                             value={formInput.serviceType}
                             onChange={(e) => handleChange('serviceType', e.target.value)}
                         >
-                            <MenuItem value="CHAPEL">Chapel</MenuItem>
-                            <MenuItem value="BEDSIDE">Bedside</MenuItem>
-                            <MenuItem value="COMMUNAL">Communal</MenuItem>
+                            <MenuItem value="CHAPEL">{TranslateTo("chapel")}</MenuItem>
+                            <MenuItem value="BEDSIDE">{TranslateTo("bedside")}</MenuItem>
+                            <MenuItem value="COMMUNAL">{TranslateTo("communal")}</MenuItem>
                         </TextField>
                         <Box sx={{marginY: 0}}><LocationDropdown
                             onChange={(v: string) => {
@@ -230,7 +231,7 @@ function ReligiousRequestForm() {
                             }}
                             value={formInput.hospitalRoom}
                             filterTypes={["HALL"]}
-                            label={"Location"}
+                            label={TranslateTo("location")}
                         /></Box>
                         <TextField
                             required
@@ -240,13 +241,13 @@ function ReligiousRequestForm() {
                         />
                         <TextField
                             required
-                            label="Religious Leader Name"
+                            label={TranslateTo("relR.LeaderN")}
                             value={formInput.religiousLeaderName}
                             onChange={(e) => handleChange('religiousLeaderName', e.target.value)}
                         />
                         <TextField
                             required
-                            label="Date"
+                            label={TranslateTo("date")}
                             type="date"
                             InputLabelProps={{ shrink: true }}
                             value={formInput.date}
@@ -267,13 +268,13 @@ function ReligiousRequestForm() {
                         <TextField
                             required
                             select
-                            label="Status"
+                            label={TranslateTo("status")}
                             value={formInput.status}
                             onChange={(e) => handleChange('status', e.target.value)}
                         >
-                            <MenuItem value="Scheduled">Scheduled</MenuItem>
-                            <MenuItem value="Completed">Completed</MenuItem>
-                            <MenuItem value="Cancelled">Cancelled</MenuItem>
+                            <MenuItem value="Scheduled">{TranslateTo("status.sc")}</MenuItem>
+                            <MenuItem value="Completed">{TranslateTo("status.comp")}</MenuItem>
+                            <MenuItem value="Cancelled">{TranslateTo("status.cancel")}</MenuItem>
                         </TextField>
                     </FormControl>
                     <Box sx={{display: "flex", justifyContent: "space-between", mt:2}}>
@@ -284,7 +285,7 @@ function ReligiousRequestForm() {
                             sx={{margin: 1}}
                             onClick={clearForm}
                         >
-                            Clear
+                            {TranslateTo("clear")}
                         </Button>
 
                         <Button
@@ -295,7 +296,7 @@ function ReligiousRequestForm() {
                             disabled={!isComplete()}
                             onClick={submitForm}
                         >
-                            Submit
+                            {TranslateTo("submit")}
                         </Button>
                     </Box>
                 </Box>
@@ -328,18 +329,18 @@ function ReligiousRequestForm() {
                         }}
                     >
                         <Typography variant="h6" align="center" gutterBottom>
-                            Religious Population Distribution in Boston
+                            {TranslateTo("relR.PieH")}
                         </Typography>
                         <PieChart
                             series={[
                                 {
                                     data: [
-                                        { id: 0, value: 58, label: 'Christianity' },
-                                        { id: 1, value: 15, label: 'Islam' },
-                                        { id: 2, value: 10, label: 'Judaism' },
-                                        { id: 3, value: 8, label: 'Hinduism' },
-                                        { id: 4, value: 9, label: 'Buddhism' },
-                                        { id: 5, value: 2, label: 'Other' },
+                                        { id: 0, value: 58, label: TranslateTo("christianity")},
+                                        { id: 1, value: 15, label: TranslateTo("islam") },
+                                        { id: 2, value: 10, label: TranslateTo("judaism") },
+                                        { id: 3, value: 8, label: TranslateTo("hinduism") },
+                                        { id: 4, value: 9, label: TranslateTo("buddhism") },
+                                        { id: 5, value: 2, label: TranslateTo("other") },
                                     ],
                                 },
                             ]}
@@ -364,7 +365,7 @@ function ReligiousRequestForm() {
                         }}
                     >
                         <Typography variant="h6" align="center" gutterBottom>
-                            Religious Growth Trends in Boston
+                            {TranslateTo("relR.LineH")}
                         </Typography>
                         <LineChart
                             xAxis={[
@@ -377,25 +378,25 @@ function ReligiousRequestForm() {
                             series={[
                                 {
                                     id: 'Christianity',
-                                    label: 'Christainity Growth',
+                                    label: TranslateTo("christianity"),
                                     data: ChristianityGrowth,
                                     color: '#377eb8',
                                 },
                                 {
                                     id: 'Islam',
-                                    label: 'Islam Growth',
+                                    label: TranslateTo("islam"),
                                     data: IslamGrowth,
                                     color: '#ff7f00'
                                 },
                                 {
                                     id: 'Hinduism',
-                                    label: 'Hinduism Growth',
+                                    label: TranslateTo("hinduism"),
                                     data: HinduismGrowth,
                                     color: '#4daf4a'
                                 },
                                 {
                                     id: 'Buddhism',
-                                    label: 'Buddhism Growth',
+                                    label: TranslateTo("buddhism"),
                                     data: BuddhismGrowth,
                                     color: '#984ea3'
                                 },

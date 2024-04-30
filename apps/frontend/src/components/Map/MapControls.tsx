@@ -20,6 +20,7 @@ import TimelineIcon from '@mui/icons-material/Timeline';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {ICONS} from "./MapIcons.tsx";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 type MapControlProps = {
   floor: number;
@@ -40,7 +41,7 @@ export default function MapControls(props: MapControlProps) {
   const [notification, setNotification] = useState('');
 
   useEffect(() => {
-    setNotification("Viewing "+ FLOOR_NAMES[props.floor]);
+    setNotification(TranslateTo("viewing")+ FLOOR_NAMES[props.floor]);
   }, [props.floor]);
 
   if(props.mobile){

@@ -15,6 +15,7 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DateCalendar} from "@mui/x-date-pickers/DateCalendar";
 import dayjs from "dayjs";
 import EventIcon from "@mui/icons-material/Event";
+import TranslateTo from '../../helpers/multiLanguageSupport.ts';
 
 type formFields = {
     name: string;
@@ -141,7 +142,7 @@ function AppointmentPage() {
                                 fontFamily: 'Open Sans',
                                 fontWeight: 600
                         }}>
-                            Schedule Appointment
+                            {TranslateTo("schedApp.Header")}
                         </Typography>
                     </Box>
                     <Box
@@ -161,7 +162,7 @@ function AppointmentPage() {
                                 required
                                 fullWidth
                                 value={formInput.name}
-                                label="Full Name"
+                                label={TranslateTo("schedApp.FN")}
                                 variant="outlined"
                                 onChange={(event) => {
                                     setFormInput({
@@ -174,7 +175,7 @@ function AppointmentPage() {
                                 required
                                 fullWidth
                                 value={formInput.email}
-                                label="Email"
+                                label={TranslateTo("schedApp.Email")}
                                 variant="outlined"
                                 type="email"
                                 onChange={(event) => {
@@ -187,7 +188,7 @@ function AppointmentPage() {
                             <TextField
                                 required
                                 fullWidth
-                                label={"Date"}
+                                label={TranslateTo("date")}
                                 value={formInput.date}
                                 onChange={(event) => {
                                     setFormInput({
@@ -224,15 +225,15 @@ function AppointmentPage() {
                                     });
                                 }}
                             >
-                                <MenuItem value="Physical Examination">Physical Examination</MenuItem>
-                                <MenuItem value="Consultation">Consultation</MenuItem>
-                                <MenuItem value="Surgery">Surgery</MenuItem>
-                                <MenuItem value="Follow-up">Follow-up</MenuItem>
-                                <MenuItem value="Emergency Care">Emergency Care</MenuItem>
+                                <MenuItem value="Physical Examination">{TranslateTo("physExam")}</MenuItem>
+                                <MenuItem value="Consultation">{TranslateTo("consultation")}</MenuItem>
+                                <MenuItem value="Surgery">{TranslateTo("surgery")}</MenuItem>
+                                <MenuItem value="Follow-up">{TranslateTo("followUp")}</MenuItem>
+                                <MenuItem value="Emergency Care">{TranslateTo("emergencyCare")}</MenuItem>
                             </TextField>
                             <TextField
                                 fullWidth
-                                label="Notes"
+                                label={TranslateTo("notes")}
                                 variant="outlined"
                                 multiline
                                 rows={4}
@@ -249,7 +250,7 @@ function AppointmentPage() {
                                 onClick={submitForm}
                                 disabled={!isComplete()}
                             >
-                                Submit
+                                {TranslateTo("submit")}
                             </Button>
 
                             <Dialog open={submitDialogFlag}>
@@ -264,7 +265,7 @@ function AppointmentPage() {
                                             justifyContent: "center",
                                         }}
                                         onClick={handleDialogClose}>
-                                        CLOSE
+                                        {TranslateTo("close")}
                                     </Button>
                                 </DialogActions>
                             </Dialog>
@@ -300,7 +301,7 @@ function AppointmentPage() {
                                         component="h1"
                                         align="center"
                                     >
-                                        Date
+                                        {TranslateTo("date")}
                                     </Typography>
                                 </Box>
                                 <Box

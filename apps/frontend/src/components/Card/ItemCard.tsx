@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
 import {Typography} from "@mui/material";
 import {Item} from "../../pages/StoreRequestPage/StoreRequestPage.tsx";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 type CardProps = {
     id: string;
@@ -76,15 +77,17 @@ function ItemCard(props: CardProps) {
                         </Typography>
                     </Box>
 
-                    <Typography
-                        color="text.secondary"
-                        textAlign={"left"}
-                        sx={{
-                            maxHeight: "1vw",
-                        }}
-                    >
-                        {props.description}
-                    </Typography>
+                        <Typography
+                            color="text.secondary"
+                            textAlign={"left"}
+                            sx={{
+                                maxHeight: "25vh",
+                                marginTop: "1vh",
+                                overflowY: "auto",
+                            }}
+                        >
+                            {props.description}
+                        </Typography>
                 </Box>
             </CardContent>
 
@@ -102,7 +105,7 @@ function ItemCard(props: CardProps) {
                     color="secondary"
                     onClick={() => props.handleAdd(getItem())}
                 >
-                    Add Item
+                    {TranslateTo("cart.AddI")}
                 </Button>
             </CardActions>
         </Card>

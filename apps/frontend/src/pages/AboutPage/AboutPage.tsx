@@ -13,6 +13,7 @@ import rayyan from '../../assets/TeamPictures/Rayyan.png';
 import thinh from '../../assets/TeamPictures/Thinh.jpg';
 import yuhan from '../../assets/TeamPictures/Yuhan.png';
 import zach from '../../assets/TeamPictures/Zach.jpg';
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 
 function AboutPage() {
@@ -89,7 +90,7 @@ function AboutPage() {
                         mt: "-7%",
                     }}
                 >
-                    Meet the Team
+                    {TranslateTo("abtUs.Meet")}
                 </Typography>
                 <CarouselComponent slides={slidesData}/>
             </Box>
@@ -118,7 +119,7 @@ function AboutPage() {
                         color={"white"}
                         variant="h1"
                     >
-                        Thank You!
+                        {TranslateTo("abtUs.TY")}
                     </Typography>
 
                     <Box
@@ -133,7 +134,7 @@ function AboutPage() {
                             color={"white"}
                             variant="h5"
                         >
-                            WPI CS Department
+                            {TranslateTo("abtUs.Dpt")}
                         </Typography>
                         <Box sx={{
                             flexGrow: 1,
@@ -144,7 +145,7 @@ function AboutPage() {
                             color={"white"}
                             variant="h5"
                         >
-                            CS3733-D24 Software Engineering
+                            {TranslateTo("abtUs.Class")}
                         </Typography>
                     </Box>
 
@@ -160,7 +161,7 @@ function AboutPage() {
                             color={"white"}
                             variant="h5"
                         >
-                            Professor
+                            {TranslateTo("professor")}
                         </Typography>
                         <Box sx={{
                             flexGrow: 1,
@@ -186,7 +187,7 @@ function AboutPage() {
                             color={"white"}
                             variant="h5"
                         >
-                            Team Coach
+                            {TranslateTo("teamCoach")}
                         </Typography>
                         <Box sx={{
                             flexGrow: 1,
@@ -200,7 +201,7 @@ function AboutPage() {
                         color={"#f6bd38"}
                         variant="h4"
                     >
-                        Also a special thank you to Brigham and Women’s Hospital and their representative, Andrew Shinn<br/>
+                        {TranslateTo("abtUs.ST")}<br/>
                     </Typography>
                     <Typography
                         pb={2.3}
@@ -210,8 +211,7 @@ function AboutPage() {
                             textDecoration: "underline"
                         }}
                     >
-                        The Brigham & Women’s Hospital maps and data used in this application are copyrighted and provided
-                        for the sole use of educational purposes.<br/>
+                        {TranslateTo("abtUs.disclaimer")}<br/>
                     </Typography>
                 </motion.div>
             </Box>

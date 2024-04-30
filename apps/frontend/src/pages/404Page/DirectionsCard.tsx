@@ -1,6 +1,7 @@
 import {Box, Card, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import mapImage from "../../assets/BWHospitalMaps/02_for_thumbnail.png";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 export default function DirectionsCard() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ export default function DirectionsCard() {
             p: '1rem',
           }}
       >
-        Looking For Directions?
+          {TranslateTo('error.directions')}
       </Typography>
     </Box>
     <Box sx={{
@@ -75,14 +76,14 @@ export default function DirectionsCard() {
         <Typography
             sx={{
               fontFamily: "Open Sans",
-              fontSize: "2rem",
+              fontSize: "1.5rem",
               textAlign: "center",
               fontWeight: 675,
               color: "secondary.main",
               p: '1rem',
             }}
         >
-          Try our map!
+            {TranslateTo("error.tryMap")}
         </Typography>
       </Box>
     </Box>
