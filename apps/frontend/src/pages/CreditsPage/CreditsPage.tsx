@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
 import GroupsIcon from '@mui/icons-material/Groups';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import Face6Icon from '@mui/icons-material/Face6';
 import React, { useState } from "react";
 import StaffGrid from "../../components/CreditsPage/StaffGrid.tsx";
 import SoftwareList from "../../components/CreditsPage/SoftwareList.tsx";
@@ -39,6 +40,7 @@ export default function CreditsPage() {
                     >
                         <GroupsIcon/>
                         <LibraryBooksIcon/>
+                        <Face6Icon/>
                     </SidebarMenu>
                     <Box
                         sx={{
