@@ -1,35 +1,99 @@
-import {Box, Card} from "@mui/material";
-import {Typography} from "@mui/material";
-import {useEffect, useState} from "react";
-import axios, {AxiosResponse} from "axios";
-import KanbanBoardCard from "./KanbanBoardCard.tsx";
-import {AssignedEmployee, ServiceRequest} from "../../helpers/typestuff.ts";
-import * as React from "react";
-import EmployeeAutoComplete, {EmployeeAutocompleteOption} from "../../components/EmployeeAutoComplete.tsx";
-import CardContent from "@mui/material/CardContent";
-// import {RequestInspectionDialogue} from "./RequestInspectionDialogue.tsx";
+import React, { useEffect, useState } from 'react';
+import axios, {AxiosResponse} from 'axios';
+import { DragDropContext, DropResult } from '@hello-pangea/dnd';
+
+import Box from '@mui/material/Box';
+
+import {AssignedEmployee, ServiceRequest, AutoCompleteOption} from '../../helpers/typestuff.ts';
+import CustomAutoComplete from '../../components/CustomAutoComplete.tsx';
+import Column from './Column.tsx';
+import Typography from "@mui/material/Typography";
 
 
+export interface Column<T>{
+    [key: string]: T
+}
+
+export interface ColumnData{
+    columns: Column<column>;
+    columnOrder: string[];
+}
+
+export type column = {
+    id: string;
+    title: string;
+    tasks: ServiceRequest[];
+};
+
+const initialData : ColumnData = {
+    columns: {
+        "medicine": {
+            id: 'medicine',
+            title: 'MEDICINE',
+            tasks: [],
+        },
+        "sanitation": {
+            id: 'sanitation',
+            title: 'SANITATION',
+            tasks: [],
+        },
+        "gift": {
+            id: 'gift',
+            title: 'GIFT',
+            tasks: [],
+        },
+        "maintenance": {
+            id: 'maintenance',
+            title: 'MAINTENANCE',
+            tasks: [],
+        },
+        "language": {
+            id: 'language',
+            title: 'LANGUAGE',
+            tasks: [],
+        },
+        "religious": {
+            id: 'religious',
+            title: 'RELIGIOUS',
+            tasks: [],
+        }
+    },
+    columnOrder: ['medicine', 'sanitation', 'gift', 'maintenance', 'language', 'religious']
+};
 
 export default function ServiceRequestOverview(){
-    const [serviceRequests, setServiceRequests] = useState<ServiceRequest[]>([]);
-    const [employeeList, setEmployeeList] = useState<EmployeeAutocompleteOption[]>([]);
-    const reqTypes = ["MEDICINE", "SANITATION", "GIFT", "MAINTENANCE", "LANGUAGE", "RELIGIOUS"];
-    const [filteredRequests, setFilteredRequests] = useState<ServiceRequest[]>([]);
 
-    function updateKanbanBoard(){
+    // current state of the kanban board
+    const [state , setState] = useState<ColumnData>(initialData);
+
+    // original state of the kanban board before filtering
+    const [originalState, setOriginalState] = useState<ColumnData>(initialData);
+
+    // an array of employees for the autocomplete
+    const [employeeList, setEmployeeList] = useState<AutoCompleteOption[]>([]);
+
+    // an array of changes made to the kanban board
+    // const [historyBuffer, setHistoryBuffer] = useState<{requestId: number}>();
+
+
+    function updateServiceRequestData(){
         axios.get('/api/service-requests').then((res: AxiosResponse) => {
-            setServiceRequests(res.data);
-            setFilteredRequests(res.data);
+            const parsed = JSON.parse(JSON.stringify(initialData));
+            res.data.forEach((serviceRequest: ServiceRequest) => {
+                const id = serviceRequest.type.toLowerCase();
+                parsed.columns[id].tasks.push(serviceRequest);
+            });
+            setState(parsed);
+            setOriginalState(parsed);
         });
         axios.get('/api/employees').then((res: AxiosResponse) => {
             if(res.status !== 200){
-                console.error("die");
+                console.error('die');
             }
-            const employeeDropdownOptions: EmployeeAutocompleteOption[] = [];
+            const employeeDropdownOptions: AutoCompleteOption[] = [];
             res.data.forEach((employee: AssignedEmployee)=> {
                 employeeDropdownOptions.push({
-                    label: employee.firstName + " " + employee.lastName,
+                    label: employee.firstName + ' ' + employee.lastName,
                     id: employee.id,
                 });
             });
@@ -37,117 +101,113 @@ export default function ServiceRequestOverview(){
         });
     }
 
-    useEffect(()=>{
-        updateKanbanBoard();
+    useEffect(() => {
+        updateServiceRequestData();
     }, []);
 
-    function onChange(value: EmployeeAutocompleteOption){
-        setFilteredRequests(serviceRequests.filter((request) => request.assignedEmployee?.id === value.id));
+
+    /**
+     * event handling for dragging
+     * @param result - an object which stores event data, for example, information of source and destination, type of drag event, etc.
+     */
+    function onDragEnd(result: DropResult){
+        const {destination, source} = result;
+
+        // return if destination is null
+        if(!destination){
+            return;
+        }
+
+        if(source.droppableId === destination.droppableId
+            && source.index === destination.index) {
+            return;
+        }
+
+        // swapping places in the array
+        const column = state.columns[source.droppableId];
+        const newTaskIds = Array.from(column.tasks);
+        newTaskIds.splice(source.index, 1);
+        newTaskIds.splice(destination.index, 0, state.columns[source.droppableId].tasks[source.index]);
+
+        const newColumn: column = {
+            ...column,
+            tasks: newTaskIds
+        };
+
+        const newState: ColumnData = {
+            ...state,
+            columns: {
+                ...state.columns,
+                [newColumn.id]: newColumn
+            }
+        };
+
+        setState(newState);
+    }
+
+    function onChange(value: AutoCompleteOption){
+        let accumulatedFilter = state;
+        accumulatedFilter.columnOrder.forEach((columnId) => {
+            const column = state.columns[columnId];
+            const filteredTasks = column.tasks.filter((request) => request.assignedEmployee?.id === value.id);
+
+            const newColumn: column = {
+                ...column,
+                tasks: filteredTasks
+            };
+
+            accumulatedFilter = {
+                ...accumulatedFilter,
+                columns: {
+                    ...accumulatedFilter.columns,
+                    [newColumn.id]: newColumn
+                }
+            };
+        });
+
+        setState(accumulatedFilter);
     }
 
     function onClear(){
-        setFilteredRequests(serviceRequests);
+        setState(originalState);
     }
 
     return(
-        <>
-            <Box>
-                <Box sx={{px: '1.5%', pt: '1.5%', backgroundColor: '#FFFFFF', width: '40%'}}>
-                    <EmployeeAutoComplete
-                        onClear={onClear}
-                        onChange={(label: EmployeeAutocompleteOption) => {
-                            onChange(label);
-                        }}
-                        label={"Filter..."} employeeList={employeeList}
-                        disableClearable={false}
-                    >
-                    </EmployeeAutoComplete>
+        <Box sx={{width: '100%', height: '100%'}}>
+            <Typography variant={"h4"} sx={{height: '3em', padding: 3}}>
+                Data Analytics
+            </Typography>
+
+
+            <Box sx={{borderTop: 1, borderColor: '#E4E4E4'}}>
+                {/* filter */}
+                <Box sx={{backgroundColor: '#FFFFFF', width: '40em', height: '4em', pl: 2, pt: 2}}>
+                    <CustomAutoComplete label={"Filter..."} employeeList={employeeList} onChange={onChange} onClear={onClear}/>
                 </Box>
-                <Box
-                    sx={{
-                        height: "78vh",
-                        width:'100%',
-                        overflowY:'hidden',
-                        p: '1%',
-                        display:'flex',
-                        flexDirection:'row',
-                        gap: 1,
-                    }}
-                >
-                    {
-                        reqTypes.map((category)=>{
-                            return (
-                                <Card
-                                    key={category}
-                                    sx={{
-                                        minWidth: "25vw",
-                                        minHeight:'70vh',
-                                        display:'flex',
-                                        flexDirection:'column',
-                                        backgroundColor: '#ffffff',
-                                        boxShadow:3,
-                                    }}
-                                >
-                                    <CardContent>
-                                        <Box sx={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItem: "center",
-                                            width:'fill-available',
-                                            py: "2%",
-                                            backgroundColor: '#012d5a',
-                                            borderRadius:2,
-                                            boxShadow:2,
-                                        }}>
-                                            <Typography
-                                                variant={"h5"}
-                                                sx={{
-                                                    textAlign:'center',
-                                                    color: '#f6bd38',
-                                                    fontWeight: 500,
-                                                }}>{category}
-                                            </Typography>
-                                        </Box>
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                width: '100%',
-                                                height: '65vh',
-                                                gap: "1rem",
-                                                overflow: 'scroll',
-                                                '::-webkit-scrollbar': {
-                                                  display: 'none'
-                                                },
-                                                '-ms-overflow-style': 'none',  /* IE and Edge */
-                                                'scrollbar-width': 'none',  /* Firefox */
-                                                pt:1
-                                            }}>
-                                            {
-                                                filteredRequests.filter(x=> x.type === category).map((service) => {
-                                                    return(
-                                                        <KanbanBoardCard
-                                                            key={service.requestID}
-                                                            serviceRequestData={service}
-                                                            employeeList={employeeList}
-                                                            updateFunction={updateKanbanBoard}
-                                                        />
-                                                    );
-                                                })
-                                            }
-                                        </Box>
-                                    </CardContent>
-                                </Card>
-                            );})
+
+                {/* columns + drag drop context */}
+                <Box sx={{display: 'flex', flexDirection: 'row', overflowY: 'hidden', pl: 2, gap: 3}}>
+                    {state.columnOrder.map((columnID) => {
+                        const column = state.columns[columnID];
+                        return(
+                            <DragDropContext
+                                key={column.id}
+                                onDragEnd={result => onDragEnd(result)}
+                            >
+                                <Column
+                                    id={column.id}
+                                    title={column.title}
+                                    tasks={column.tasks}
+                                    autocomplete={{
+                                        employeeList: employeeList,
+                                        updateFunction: updateServiceRequestData
+                                    }}/>
+                            </DragDropContext>
+                        );
+                    })
                     }
                 </Box>
-                {/*<RequestInspectionDialogue*/}
-                {/*    selectedRequest={selectedCard}*/}
-                {/*    onCloseDialogue={()=>{*/}
-                {/*        setSelectedCard(null);*/}
-                {/*    }}*/}
-                {/*/>*/}
             </Box>
-        </>
+        </Box>
     );
 }
