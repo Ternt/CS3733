@@ -413,7 +413,7 @@ export default function MapPage() {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={()=> {setPhoneNumber(null);}}>{TranslateTo("cancel")}</Button>
-                        <Button onClick={() => {handleSMSSend(phoneNumber!, NaturalLangPath); setPhoneNumber(null);}}>{TranslateTo("send")}</Button>
+                        <Button onClick={() => {handleSMSSend(phoneNumber!, NaturalLangPath, type); setPhoneNumber(null);}}>{TranslateTo("send")}</Button>
                     </DialogActions>
                 </Dialog>
 

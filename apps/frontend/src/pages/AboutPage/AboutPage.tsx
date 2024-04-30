@@ -17,6 +17,9 @@ import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 
 function AboutPage() {
+    useEffect(() => {
+      document.title = "About";
+    });
     const slidesData = [
         {text1: 'Brett Gerlach', text2: 'Front End Engineer', image: brett},
         {text1: 'Warwick Barker', text2: 'Scrum Master', image: warwick},

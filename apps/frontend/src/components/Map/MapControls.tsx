@@ -197,9 +197,6 @@ export default function MapControls(props: MapControlProps) {
                     p:0
                   }}
                 >
-                  <Typography
-                    variant={'subtitle2'}
-                  >{ico.name}</Typography>
                   <Checkbox
                     checked={props.showIcons[index]}
                     onChange={()=>{
@@ -212,6 +209,9 @@ export default function MapControls(props: MapControlProps) {
                       py:0
                     }}
                   />
+                  <Typography
+                    variant={'subtitle2'}
+                  >{ico.name}</Typography>
                 </Box>
               );
             })
