@@ -50,7 +50,7 @@
   "priority.emergency": "Emergencia",
   "status.un": "Sin Asignar",
   "status.as": "Asignado",
-  "status.in": "En_Progreso",
+  "status.in": "En Progreso",
   "status.cl": "Cerrado",
   "status.sc": "Programado",
   "status.comp": "Completado",
@@ -172,6 +172,7 @@
   "relR.PName": "Nombre del Paciente o Solicitante",
   "relR.SrvType": "Tipo de Servicio",
   "relR.LeaderN": "Nombre del Líder Religioso",
+  "relR.EndL": "Ubicación Final",
   "relR.PieH": "Distribución de la Población Religiosa en Boston",
   "christianity": "Cristianismo",
   "islam": "Islam",
@@ -259,7 +260,7 @@
   "framerM.desc": "Una biblioteca de animación lista para producción para React",
   "github.desc": "Una plataforma para alojar y colaborar en repositorios Git",
   "MUI.desc": "Componentes React para un desarrollo web más rápido y sencillo",
-  "node.js.desc": "Un tiempo de ejecución de JavaScript construido sobre el motor JavaScript V8 de Chrome",
+  "node.desc": "Un tiempo de ejecución de JavaScript construido sobre el motor JavaScript V8 de Chrome",
   "openAI.desc": "Un laboratorio de investigación en IA y plataforma de implementación",
   "prisma.desc": "Un conjunto de herramientas de base de datos moderno para TypeScript y Node.js",
   "react.desc": "Una biblioteca de JavaScript para construir interfaces de usuario",
@@ -310,7 +311,11 @@
   "L1": "Sótano 1",
   "F1": "Piso 1",
   "F2": "Piso 2",
-  "F3": "Piso 3"
+  "F3": "Piso 3",
+
+  "pie.Spanish": "ESPAÑOL",
+  "pie.Chinese": "CHINESE",
+  "pie.French": "FRANCÉS"
 
 
 }

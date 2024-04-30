@@ -235,7 +235,7 @@ function ReligiousRequestForm() {
                         /></Box>
                         <TextField
                             required
-                            label="End Location"
+                            label={TranslateTo("relR.EndL")}
                             value={formInput.endLocation}
                             onChange={(e) => handleChange('endLocation', e.target.value)}
                         />
@@ -256,7 +256,7 @@ function ReligiousRequestForm() {
                         />
                         <TextField
                             required
-                            label="Time"
+                            label={TranslateTo("time")}
                             type="time"
                             InputLabelProps={{ shrink: true }}
                             value={formInput.time}

@@ -173,6 +173,7 @@
     "relR.Header": "RELIGIOUS SERVICES",
     "relR.PName": "Patient or Requestor Name",
     "relR.SrvType": "Service Type",
+    "relR.EndL": "End Location",
     "relR.LeaderN": "Religious Leader Name",
     "relR.PieH": "Religious Population Distribution in Boston",
     "christianity": "Christianity",
@@ -261,7 +262,7 @@
   "framerM.desc": "A production-ready motion library for React",
   "github.desc": "A platform for hosting and collaborating on Git repositories",
   "MUI.desc": "React components for faster and easier web development",
-  "node.js.desc": "A JavaScript runtime built on Chrome's V8 JavaScript engine",
+  "node.desc": "A JavaScript runtime built on Chrome's V8 JavaScript engine",
   "openAI.desc": "An AI research lab and deployment platform",
   "prisma.desc": "A modern database toolkit for TypeScript and Node.js",
   "react.desc": "A JavaScript library for building user interfaces",
@@ -312,5 +313,9 @@
   "L1": "Lower 1",
   "F1": "Floor 1",
   "F2": "Floor 2",
-  "F3": "Floor 3"
+  "F3": "Floor 3",
+
+  "pie.Spanish": "SPANISH",
+  "pie.Chinese": "CHINESE",
+  "pie.French": "FRENCH"
 }
