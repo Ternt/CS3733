@@ -302,9 +302,15 @@
   "error.pageNoExist": "Al parecer, la página que usted ha tratado de accesar no existe.",
 
   "error.directions": "¿Buscando direciones?",
-  "error.tryMap": "Utilicé nuestro mapa!"
+  "error.tryMap": "Utilicé nuestro mapa!",
 
+  "viewing": "Observando ",
 
+  "L2": "Sótano 2",
+  "L1": "Sótano 1",
+  "F1": "Piso 1",
+  "F2": "Piso 2",
+  "F3": "Piso 3"
 
 
 }
