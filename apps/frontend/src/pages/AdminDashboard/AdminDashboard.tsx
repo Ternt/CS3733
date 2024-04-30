@@ -22,6 +22,9 @@ import mouseCursor from "../../assets/mouse-cursor.jpg";
 
 
 export default function AdminDashboard() {
+    useEffect(() => {
+      document.title = "Admin Dashboard";
+    });
     const { isAuthenticated, isLoading } = useAuth0();
     const navigate = useNavigate();
     const [selectedTab, setSelectedTab] = useState(0);

@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Box, Button, Typography} from "@mui/material";
 import heroImage from "../../assets/baby.jpg";
 //import heroImage2 from "../../assets/baby2.jpg";
@@ -11,6 +11,9 @@ import { motion } from "framer-motion";
 import Spline from "@splinetool/react-spline";
 
 export default function HeroPage() {
+    useEffect(() => {
+      document.title = "Home";
+    });
     const heroPage2Ref = useRef<HTMLDivElement | null>(null);
     const [wong, setWong] = useState(false);
 
