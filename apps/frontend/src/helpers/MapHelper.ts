@@ -1,8 +1,8 @@
-import L0 from "../assets/BWHospitalMapsOLD/L2.png";
-import L1 from "../assets/BWHospitalMapsOLD/L1.png";
-import L2 from "../assets/BWHospitalMapsOLD/F1.png";
-import L3 from "../assets/BWHospitalMapsOLD/F2.png";
-import L4 from "../assets/BWHospitalMapsOLD/F3.png";
+import L0 from "../assets/BWHospitalMaps/L2.png";
+import L1 from "../assets/BWHospitalMaps/L1.png";
+import L2 from "../assets/BWHospitalMaps/F1.png";
+import L3 from "../assets/BWHospitalMaps/F2.png";
+import L4 from "../assets/BWHospitalMaps/F3.png";
 import TranslateTo from "../helpers/multiLanguageSupport.ts";
 export const MAPS = [L0, L1, L2, L3, L4];
 export const FLOOR_IDS = ["L2", "L1", "F1", "F2", "F3"];

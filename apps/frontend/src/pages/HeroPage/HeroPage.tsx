@@ -117,13 +117,14 @@ export default function HeroPage() {
                     display:'flex',
                     flexDirection:'column',
                     gap:'2rem',
+                    width:'50vw'
                   }}
                   initial={{
                       top: "50vh",
                       opacity: 0
                   }}
                   animate={{
-                      top: "35vh",
+                      top: "30vh",
                       opacity: 1
                   }}
                   transition={{
