@@ -218,6 +218,7 @@ function AppointmentPage() {
                                 label="Appointment Type"
                                 defaultValue=""
                                 variant="outlined"
+                                inputProps={{ MenuProps: { disableScrollLock: true } }}
                                 onChange={(event) => {
                                     setFormInput({
                                         ...formInput,
