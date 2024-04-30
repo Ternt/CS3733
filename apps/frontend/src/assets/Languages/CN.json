@@ -1,6 +1,5 @@
 {
   "heroP.findway": "导航",
-  "heroP.findwaysub": "",
   "heroP.map": "地图",
   "heroP.learnMore": "了解更多",
   "ourS.aboutUs": "关于我们",
@@ -37,22 +36,19 @@
   "ourS.creditsDesc": "• 特别感谢使这个项目的贡献者",
   "additionalInfo": "附加信息",
   "SERVICES": "服务",
-  "Logout": "等出",
+  "Logout": "登出",
   "Login": "登录",
   "Searchbar": "搜索...",
   "Disclaimer": "免责声明：本网站是WPI CS 3733软件工程课程（Wong教授）的学期项目练习，\n不应与真实的Brigham & Women's Hospital网站混淆。（点击此框的任何位置即可关闭）",
-
   "langR.Header": "翻译员申请",
   "langR.EName": "员工姓名",
   "langR.LangR": "西班牙语",
   "langR.AvailHeader": "翻译员空闲",
-
   "priority": "优先级",
   "priority.low": "低",
   "priority.med": "中",
   "priority.high": "高",
   "priority.emergency": "紧急",
-
   "status.un": "未分配",
   "status.as": "已分配",
   "status.in": "进行中",
@@ -60,7 +56,6 @@
   "status.sc": "已计划",
   "status.comp": "已完成",
   "status.cancel": "已取消",
-
   "mapP.NavMenu": "导航菜单",
   "mapP.selectStrtEnd": "选择起始和结束位置",
   "mapP.sendSMS": "发送短信",
@@ -71,15 +66,15 @@
   "cancel": "取消",
   "send": "发送",
 
-  "langDir.currAt": "您当前在 ",
-  "langDir.onFloor": " 在 ",
+  "langDir.currAt": "您当前在",
+  "langDir.onFloor": "在楼层",
   "langDir.takeElev": "乘电梯到楼层 ",
   "langDir.takeStr": "走楼梯到楼层 ",
-  "langDir.turnL": "左转 ",
-  "langDir.turnR": "右转 ",
-  "langDir.walkStrt": "直行 ",
-  "langDir.head": "朝 ",
-  "langDir.towards": "向 ",
+  "langDir.turnL": "左转",
+  "langDir.turnR": "右转",
+  "langDir.walkStrt": "直行",
+  "langDir.head": "朝",
+  "langDir.towards": "向",
   "langDir.downHall": "楼道走",
 
   "saniR.Header": "清洁服务",
@@ -130,9 +125,9 @@
   "giftR.SucculentH": "多肉植物",
   "giftR.SucculentD": "生机勃勃的多肉植物",
   "giftR.BlanketH": "毯子",
-  "giftR.BlanketD": "温暖的毯子",
+  "giftR.BlanketD": "温暖的毛毯",
   "giftR.GiftBH": "礼品篮",
-  "giftR.GiftBD": "得到一个装满美食的礼品篮",
+  "giftR.GiftBD": "一个装满美食的礼品篮",
 
   "cart.AddI": "添加商品",
   "cart.Cart": "购物车",
@@ -229,9 +224,9 @@
   "chooseFile": "选择文件",
   "noChooseFile": "未选择文件",
   "upload": "上传",
-  "downloadNode": "下载节点CSV",
-  "downloadEdge": "下载边CSV",
-  "downloadEmployee": "下载员工 CSV",
+  "downloadNode": "下载节点CSV表格",
+  "downloadEdge": "下载节点连接线CSV表格",
+  "downloadEmployee": "下载员工CSV表格",
 
   "deleteNode": "删除节点",
   "saveNode": "保存节点",
@@ -247,8 +242,8 @@
   "abtUs.Class": "CS3733-D24 软件工程",
   "professor": "教授",
   "teamCoach": "团队教练",
-  "abtUs.ST": "特别感谢 Brigham and Women’s Hospital 及其代表 Andrew Shinn",
-  "abtUs.disclaimer": "本应用中使用的 Brigham & Women’s Hospital 的地图和数据版权所有，仅供教育用途。",
+  "abtUs.ST": "特别感谢布莱根姆妇女医院及其代表 Andrew Shinn",
+  "abtUs.disclaimer": "本应用中使用的布莱根姆妇女医院的地图和数据版权所有，仅供教育用途。",
 
   "auth0.desc": "一个认证和授权平台",
   "axios.desc": "一个基于Promise的HTTP客户端，适用于浏览器和Node.js",
@@ -312,5 +307,19 @@
   "L1": "负1楼",
   "F1": "1楼",
   "F2": "2楼",
-  "F3": "3楼"
+  "F3": "3楼",
+
+  "pie.Spanish": "西班牙语",
+  "pie.Chinese": "中文",
+  "pie.French": "法语",
+
+  "heroP.findwaysub": "用我们的地图来导航去您的目的地!",
+
+  "title.Medi": "药品配送服务",
+  "title.Checkout": "结账",
+  "title.LangInter": "翻译员需求",
+  "title.CheckIn": "病患登记",
+  "title.Religion": "宗教服务需求",
+  "title.Sani": "清洁服务",
+  "title.HStore": "医院商店"
 }
