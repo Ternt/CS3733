@@ -31,7 +31,7 @@ export default function AdminDashboard() {
     const [otherUserMousePosition, setOtherUserMousePosition] = useState<{ [id: string]: { id: string, x: number, y: number, tabId: number } }>({});
     useEffect(() => {
         // Connect to the server using link, prob amazon link in future
-        const socket = io('http://localhost:3005');
+        const socket = io('https://ec2-18-217-227-54.us-east-2.compute.amazonaws.com/:3005');
         console.log('Selected tab:', selectedTab);
 
         const handleMouseMove = (event: MouseEvent) => {
