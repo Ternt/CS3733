@@ -68,7 +68,7 @@ export const ICONS = [
         ]
     },
     {
-        name: "ELEVATOR_ICON_1",
+        name: "ELEVATOR",
         icon: ELEVATOR_ICON_1,
         points: [
             {x:1616, y:2726, z:0},
@@ -136,7 +136,7 @@ export const ICONS = [
         ]
     },
     {
-        name: "ELEVATOR_ICON_2",
+        name: "STAFF ELEVATOR",
         icon: ELEVATOR_ICON_2,
         points: [
             {x:1261, y:2734, z:0},
@@ -203,7 +203,7 @@ export const ICONS = [
         ]
     },
     {
-        name: "ESCALATOR_ICON",
+        name: "ESCALATOR",
         icon: ESCALATOR_ICON,
         points: [
             {x:1703, y:2088, z:1},
@@ -217,7 +217,7 @@ export const ICONS = [
         ]
     },
     {
-        name: "EXIT_ICON",
+        name: "EXIT",
         icon: EXIT_ICON,
         points: [
 
