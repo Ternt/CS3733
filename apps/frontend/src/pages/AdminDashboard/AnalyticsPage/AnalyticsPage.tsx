@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import axios from "axios";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -7,12 +8,29 @@ import Typography from "@mui/material/Typography";
 // import Paper from "@mui/material/Paper";
 // import {CChartBar} from "@coreui/react-chartjs";
 // import {CircularProgress} from "@mui/material";
-import {BarChart} from "@mui/x-charts";
+
+import {BarChart, PieChart} from "@mui/x-charts";
 
 import ButtonBase from "@mui/material/ButtonBase";
 import {motion} from "framer-motion";
 
+type DataObject = {
+    [key: string]: Data
+}
+
+type Data = {
+    id: number;
+    value: number;
+    label: string;
+};
+
+type BarChartData = {
+    data: number[]
+}
+
 export default function AnalyticsPage(){
+    const [serviceData, setServiceData] = useState<Data[]>([{id: 0, value: 0, label: ''}]);
+    const [employeeData] = useState<BarChartData[]>([{data: [2, 3, 4, 5]}]);
     const [tab, setTab] = useState<number>(0);
 
     const siteData = [2400, 1398, 9800, 3908, 4800, 3800, 4300];
@@ -25,6 +43,51 @@ export default function AnalyticsPage(){
         'Fri',
         'Sat',
     ];
+
+    useEffect(() => {
+        // Fetch service request
+        axios.get('/api/service-requests')
+            .then(response => {
+                // Prepare data for pie chart
+                if(response.status !== 200) {return;}
+
+                let dataID = 0;
+                function createDataObject(acc: DataObject, dataGroup: string[], filterString: string){
+                    if(dataGroup.includes(filterString)) {
+                        const id = filterString;
+                        if(acc[id] === undefined){
+                            acc[id] = {
+                                id: dataID,
+                                value: (acc[id]===undefined)?0:(acc[id].value + 1),
+                                // TRANSLATE HERE MAURI VVV
+                                label: filterString,
+                            };
+                            dataID += 1;
+                        }
+                        acc[id].value += 1;
+                    }
+                    return acc;
+                }
+
+                const requestTypes = ['MAINTENANCE', 'SANITATION', 'FLOWER', 'GIFT', 'MEDICINE', 'RELIGIOUS'];
+                const serviceData = response.data
+                    .reduce((acc: DataObject, request: { type: string }) => {
+                        return createDataObject(acc, requestTypes, request.type);
+                    }, {});
+
+                const statusTypes = ['UNASSIGNED', 'ASSIGNED', 'IN_PROGRESS', 'CLOSED'];
+                const employeeData = response.data.reduce((acc: DataObject , request: { status: string }) => {
+                    return createDataObject(acc, statusTypes, request.status);
+                }, {});
+
+                console.log(Object.values(employeeData));
+                setServiceData(Object.values(serviceData));
+            })
+            .catch(error => console.error(error));
+    }, []);
+
+    console.log(employeeData);
+    console.log(serviceData);
 
     return(
         <>
@@ -70,12 +133,26 @@ export default function AnalyticsPage(){
             {/* Top panel */}
             {tab == 0 && (
                 <>
-                    <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', height: '100%', padding: 3}}>
-                        <Box sx={{display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}>
+                    <Box sx={{display: 'flex', flexDirection: 'row', width: '100%', height: '75vh'}}>
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            width: '100%',
+                            height: '100%',
+                            borderRight: 1,
+                            borderColor: '#E4E4EE'
+                        }}>
                             <Box sx={{width: '100%', height: '4em'}}>
                                 <Typography
                                     variant={"h5"}
-                                    sx={{display: 'flex', justifyContent: 'center'}}
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        pl: 3,
+                                        py: 2,
+                                        borderBottom: 1,
+                                        borderColor: '#E4E4E4'
+                                    }}
                                 >
                                     The site got {
                                     // First line just formats the number
@@ -86,9 +163,13 @@ export default function AnalyticsPage(){
                             </Box>
                             <Box
                                 sx={{
-                                    transition: {xs: '0.0s', md: '0.2s'},
-                                    width: {xs: '40em', md: '100%'},
-                                    height: "100%",}}>
+                                    transition: '0.5s',
+                                    width: '100%',
+                                    height: "100%",
+                                    minWidth: '600px',
+                                    pl: 3,
+                                    py: 2,
+                                }}>
                                 <BarChart
                                     width={undefined}
                                     height={600}
@@ -99,18 +180,42 @@ export default function AnalyticsPage(){
                                 />
                             </Box>
                         </Box>
-                        <Box sx={{display: 'flex',bgcolor: '#FF0000', width: '18em', height: '8em'}}>
-                            <Box sx={{display: 'flex', flexDirection: 'column', width: '100%', padding: 1}}>
-                                <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                    <Typography sx={{width: '80%'}}>
-                                        Page visits
-                                    </Typography>
-                                    <Box sx={{width: '20%'}}>
+                        <Box sx={{display: 'flex', flexDirection: 'column',width: '100%'}}>
+                            <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
+                                <Box sx={{display: 'flex', height: '100%', width: '100%', flexDirection: 'column'}}>
+                                    <Typography
+                                    variant={"h5"}
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        pl: 3,
+                                        py: 2,
+                                        borderBottom: 1,
+                                        borderColor: '#E4E4E4'
+                                    }}
+                                >
+                                        Service Requests
+                                </Typography>
+                                    <Box sx={{display: 'flex',width: '100%', height: '30em'}}>
+                                        <PieChart
+                                            colors={['#ef476f', '#f78c6b', '#f6bd38', '#9f8be8', '#003a96', '#012d5a']}
+                                            slotProps={{
+                                                legend: {
+                                                    position: {
+                                                        vertical: 'top',
+                                                        horizontal: 'left',
+                                                    },
+                                                }
+                                            }}
+                                            series={[{
+                                                arcLabel: (item) => `${item.label} (${item.value})`,
+                                                arcLabelMinAngle: 45,
+                                                data: serviceData,
+                                            }]}
+                                            width={undefined}
+                                            height={undefined}
+                                        />
                                     </Box>
-                                </Box>
-                                <Typography variant={"h5"} sx={{display: 'flex', height: '100%', alignItems: 'center'}}>36,030</Typography>
-                                <Box sx={{display:'flex', alignItems: 'center',width: '100%', height: '3em'}}>
-                                    <Typography>36,030</Typography>
                                 </Box>
                             </Box>
                         </Box>
