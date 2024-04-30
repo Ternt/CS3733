@@ -7,12 +7,24 @@ import Typography from "@mui/material/Typography";
 // import Paper from "@mui/material/Paper";
 // import {CChartBar} from "@coreui/react-chartjs";
 // import {CircularProgress} from "@mui/material";
+import {BarChart} from "@mui/x-charts";
 
 import ButtonBase from "@mui/material/ButtonBase";
 import {motion} from "framer-motion";
 
 export default function AnalyticsPage(){
     const [tab, setTab] = useState<number>(0);
+
+    const siteData = [2400, 1398, 9800, 3908, 4800, 3800, 4300];
+    const xLabels = [
+        'Sun',
+        'Mon',
+        'Tue',
+        'Wed',
+        'Thu',
+        'Fri',
+        'Sat',
+    ];
 
     return(
         <>
@@ -56,9 +68,21 @@ export default function AnalyticsPage(){
             </Box>
 
             {/* Top panel */}
-            {tab == 0 && (
-                <></>
-            )}
+                <Box
+                    sx={{
+                        width: "100%",
+                        height: "100%",
+                    }}
+                >
+                    <BarChart
+                        width={500}
+                        height={300}
+                        series={[
+                            { data: siteData, label: 'Page visits', id: 'pvId' },
+                        ]}
+                        xAxis={[{ data: xLabels, scaleType: 'band' }]}
+                    />
+                </Box>
         </>
     );
 }
