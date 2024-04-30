@@ -66,7 +66,7 @@ export function LanguageSelect(props: ResponsiveAppBarProps) {
                             srcSet="https://flagcdn.com/w80/pr.png 2x"
                             width="40"
                             alt="Puerto Rico"/>
-                        Spanish
+                        Español
                     </MenuItem>
                 </Popover>
             </>

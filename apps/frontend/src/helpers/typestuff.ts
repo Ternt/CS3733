@@ -15,6 +15,7 @@ export type node = {
 export type edge = {
   startNode: node;
   endNode: node;
+  blocked: boolean;
   heat: number;
 };
 

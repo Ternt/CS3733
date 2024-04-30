@@ -6,6 +6,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import TranslateTo from "../../../helpers/multiLanguageSupport.ts";
 
 type ReviewProps = {
   orderDetails:{
@@ -29,7 +30,7 @@ export default function Review(props:ReviewProps) {
         <Stack spacing={2}>
             <List disablePadding>
                 <ListItem sx={{py: 1, px: 0}}>
-                    <ListItemText primary="Total"  secondary="Plus taxes"/>
+                    <ListItemText primary={TranslateTo("total")}  secondary={TranslateTo("plusTax")}/>
                     <Typography variant="subtitle1" sx={{fontWeight: 700}}>
                       $ {props.orderTotal}
                     </Typography>
@@ -44,37 +45,37 @@ export default function Review(props:ReviewProps) {
             >
                 <div>
                     <Typography variant="subtitle2" gutterBottom>
-                        Order details
+                        {TranslateTo("orderInfo")}
                     </Typography>
                     <Typography gutterBottom>Employee Name: {props.orderDetails.name}</Typography>
                     <Typography color="text.secondary" gutterBottom>
-                        Priority: {props.orderDetails.priority}
+                        {TranslateTo("priority")}: {props.orderDetails.priority}
                     </Typography>
                     <Typography color="text.secondary" gutterBottom>
-                        Location: {props.orderDetails.location}
+                        {TranslateTo("location")}: {props.orderDetails.location}
                     </Typography>
                     <Typography color="text.secondary" gutterBottom>
-                        Shipping Type: {props.orderDetails.shippingType}
+                        {TranslateTo("shippingType")}: {props.orderDetails.shippingType}
                     </Typography>
                     <Typography color="text.secondary" gutterBottom>
-                        Status: {props.orderDetails.status}
+                        {TranslateTo("status")}: {props.orderDetails.status}
                     </Typography>
                 </div>
 
 
                 <div>
                     <Typography variant="subtitle2" gutterBottom>
-                        Card details
+                        {TranslateTo("cardD")}
                     </Typography>
                     <Typography gutterBottom>Card Holder Name: {props.cardDetails.cardHolderName}</Typography>
                     <Typography color="text.secondary" gutterBottom>
-                        Card Number: {props.cardDetails.cardNumber}
+                        {TranslateTo("cardNum")}: {props.cardDetails.cardNumber}
                     </Typography>
                     <Typography color="text.secondary" gutterBottom>
-                        CVV: {props.cardDetails.cvv}
+                        {TranslateTo("cvv")}: {props.cardDetails.cvv}
                     </Typography>
                     <Typography color="text.secondary" gutterBottom>
-                        Expiration Data: {props.cardDetails.expirationDate}
+                        {TranslateTo("expDate")}: {props.cardDetails.expirationDate}
                     </Typography>
                 </div>
             </Stack>

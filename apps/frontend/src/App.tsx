@@ -24,6 +24,8 @@ import ErrorPage from "./pages/404Page/ErrorPage.tsx";
 import HowToPage from "./pages/howToPage/howToPage.tsx";
 import CreditsPage from "./pages/CreditsPage/CreditsPage.tsx";
 import ReligiousRequestForm from "./pages/ReligiousRequestPage/ReligiousRequestPage.tsx";
+import CheckInForm from "./pages/PatientCheckInRequest/PatientCheckIn2.tsx";
+import AppointmentPage from "./pages/MaintenancePage/AppointmentPage.tsx";
 
 
 export const LanguageContext = createContext("en");
@@ -54,6 +56,10 @@ function App() {
                 {
                     path: "/religious-request",
                     element: <ReligiousRequestForm/>,
+                },
+                {
+                    path: "/checkin",
+                    element: <CheckInForm/>,
                 },
                 {
                     path: "/sanitation",
@@ -122,18 +128,23 @@ function App() {
                 {
                     path: "/interpreter",
                     element: <LanguageInterpreterRequestForm/>
+                },
+                {
+                    path: "/appointment",
+                    element: <AppointmentPage/>
                 }
             ],
         },
     ]);
 
-
     return (
+
         <ThemeProvider theme={CustomTheme}>
             {" "}
             {/* Wrap RouterProvider with ThemeProvider */}
             <RouterProvider router={router}/>
         </ThemeProvider>
+
     );
 
     function Root() {

@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import {styled} from "@mui/system";
 import {MenuItem, TextField} from "@mui/material";
 import LocationDropdown from "../../../components/LocationDropdown.tsx";
+import TranslateTo from "../../../helpers/multiLanguageSupport.ts";
 
 const FormGrid = styled(Grid)(() => ({
     display: "flex",
@@ -32,7 +33,7 @@ export default function OrderInfo(props: OrderInfoProps) {
         <Grid container spacing={3}>
             <FormGrid item xs={12}>
                 <FormLabel htmlFor="first-name" required>
-                    Employee name
+                    {TranslateTo("employeeN")}
                 </FormLabel>
                 <TextField
                     id="name-input"
@@ -54,7 +55,7 @@ export default function OrderInfo(props: OrderInfoProps) {
 
             <FormGrid item xs={12}>
                 <FormLabel htmlFor="last-name" required>
-                    Priority
+                    {TranslateTo("priority")}
                 </FormLabel>
                 <TextField
                     sx={{
@@ -70,16 +71,16 @@ export default function OrderInfo(props: OrderInfoProps) {
                       props.onUpdateFormInfo({...props.orderDetails, priority: e.target.value});
                     }}
                 >
-                    <MenuItem value={"Low"}>Low</MenuItem>
-                    <MenuItem value={"Medium"}>Medium</MenuItem>
-                    <MenuItem value={"High"}>High</MenuItem>
-                    <MenuItem value={"Emergency"}>Emergency</MenuItem>
+                    <MenuItem value={"LOW"}>{TranslateTo("priority.low")}</MenuItem>
+                    <MenuItem value={"MEDIUM"}>{TranslateTo("priority.med")}</MenuItem>
+                    <MenuItem value={"HIGH"}>{TranslateTo("priority.high")}</MenuItem>
+                    <MenuItem value={"EMERGENCY"}>{TranslateTo("priority.emergency")}</MenuItem>
                 </TextField>
             </FormGrid>
 
             <FormGrid item xs={12}>
                 <FormLabel htmlFor="last-name" required>
-                    Location
+                    {TranslateTo("location")}
                 </FormLabel>
                 <LocationDropdown
                     label={""}
@@ -92,7 +93,7 @@ export default function OrderInfo(props: OrderInfoProps) {
 
             <FormGrid item xs={12}>
                 <FormLabel htmlFor="last-name" required>
-                    Shipping Type
+                    {TranslateTo("cart.ShipT")}
                 </FormLabel>
                 <TextField
                     sx={{
@@ -108,15 +109,15 @@ export default function OrderInfo(props: OrderInfoProps) {
                       props.onUpdateFormInfo({...props.orderDetails, shippingType: e.target.value});
                     }}
                 >
-                    <MenuItem value={"Standard"}>Standard</MenuItem>
-                    <MenuItem value={"Express"}>Express</MenuItem>
+                    <MenuItem value={"Standard"}>{TranslateTo("standard")}</MenuItem>
+                    <MenuItem value={"Express"}>{TranslateTo("express")}</MenuItem>
                 </TextField>
             </FormGrid>
 
 
             <FormGrid item xs={12}>
                 <FormLabel htmlFor="last-name" required>
-                    Status
+                    {TranslateTo("status")}
                 </FormLabel>
                 <TextField
                     sx={{
@@ -132,10 +133,10 @@ export default function OrderInfo(props: OrderInfoProps) {
                       props.onUpdateFormInfo({...props.orderDetails, status: e.target.value});
                     }}
                 >
-                    <MenuItem value={"Unassigned"}>Unassigned</MenuItem>
-                    <MenuItem value={"Assigned"}>Assigned</MenuItem>
-                    <MenuItem value={"In Progress"}>In Progress</MenuItem>
-                    <MenuItem value={"Closed"}>Closed</MenuItem>
+                    <MenuItem value={"UNASSIGNED"}>{TranslateTo("status.un")}</MenuItem>
+                    <MenuItem value={"ASSIGNED"}>{TranslateTo("status.as")}</MenuItem>
+                    <MenuItem value={"IN_PROGRESS"}>{TranslateTo("status.in")}</MenuItem>
+                    <MenuItem value={"CLOSED"}>{TranslateTo("status.cl")}</MenuItem>
                 </TextField>
             </FormGrid>
 

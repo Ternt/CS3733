@@ -30,6 +30,7 @@ import {useEffect, useState} from "react";
 import {Item} from "../../StoreRequestPage/StoreRequestPage.tsx";
 
 import axios from "axios";
+import TranslateTo from "../../../helpers/multiLanguageSupport.ts";
 
 const steps = ["Order Information", "Payment details", "Review your order"];
 
@@ -194,7 +195,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                                 onClick={() => handleReturnShopping()}
                                 sx={{ml: "-4vw"}}
                             >
-                                Continue Shopping
+                                {TranslateTo("continueShop")}
                             </Button>
                         </Box>
                         <Box
@@ -342,7 +343,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                                                     display: {xs: "none", sm: "flex"},
                                                 }}
                                             >
-                                                Previous
+                                                {TranslateTo("previous")}
                                             </Button>
                                         )}
                                         {activeStep !== 0 && (
@@ -355,7 +356,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                                                     display: {xs: "flex", sm: "none"},
                                                 }}
                                             >
-                                                Previous
+                                                {TranslateTo("previous")}
                                             </Button>
                                         )}
                                         <Button
@@ -367,7 +368,7 @@ export default function Checkout({checkoutType, returnPath}: CheckoutProps) {
                                                 width: {xs: "100%", sm: "fit-content"},
                                             }}
                                         >
-                                            {activeStep === steps.length - 1 ? "Place order" : "Next"}
+                                            {activeStep === steps.length - 1 ? TranslateTo("placeOrder") : TranslateTo("next")}
                                         </Button>
                                     </Box>
                                 </>

@@ -17,6 +17,7 @@ import {
     FormLabel, InputAdornment, IconButton, Grow, Dialog, DialogContent, DialogTitle, DialogActions,
 } from "@mui/material";
 import EventIcon from '@mui/icons-material/Event';
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 import FooterBar from "../../components/Footerbar/footer.tsx";
 
 type form = {
@@ -179,7 +180,7 @@ function MedicineRequestForm() {
                     component="h1"
                     align="center"
                 >
-                    MEDICINE REQUEST
+                    {TranslateTo("mediR.Header")}
                 </Typography>
             </Box>
 
@@ -213,7 +214,7 @@ function MedicineRequestForm() {
                     >
                         <TextField
                             required
-                            label="Patient Name"
+                            label={TranslateTo("mediR.PName")}
                             onChange={handlePatientNameInput}
                             margin="normal"
                             value={formInput.patientName}
@@ -223,7 +224,7 @@ function MedicineRequestForm() {
 
                         <TextField
                             required
-                            label={"Name of Primary Physician"}
+                            label={TranslateTo("mediR.PhysicianName")}
                             onChange={handlePhysicianNameInput}
                             margin="normal"
                             value={formInput.physicianName}
@@ -235,7 +236,7 @@ function MedicineRequestForm() {
                             required
                             select
                             id="priority-select"
-                            label={"Priority"}
+                            label={TranslateTo("priority")}
                             margin="normal"
                             inputProps={{ MenuProps: { disableScrollLock: true } }}
                             value={formInput.priority}
@@ -247,10 +248,10 @@ function MedicineRequestForm() {
                             }}
                             sx={{marginY: 0,}}
                         >
-                            <MenuItem value={"LOW"}>Low</MenuItem>
-                            <MenuItem value={"MEDIUM"}>Medium</MenuItem>
-                            <MenuItem value={"HIGH"}>High</MenuItem>
-                            <MenuItem value={"EMERGENCY"}>Emergency</MenuItem>
+                            <MenuItem value={"Low"}>{TranslateTo("priority.low")}</MenuItem>
+                            <MenuItem value={"Medium"}>{TranslateTo("priority.med")}</MenuItem>
+                            <MenuItem value={"High"}>{TranslateTo("priority.high")}</MenuItem>
+                            <MenuItem value={"Emergency"}>{TranslateTo("priority.emergency")}</MenuItem>
                         </TextField>
 
                         {/* Location Dropdown */}
@@ -266,7 +267,7 @@ function MedicineRequestForm() {
                         {/* Datepicker */}
                         <Box>
                             <TextField
-                                label={"Date"}
+                                label={TranslateTo("date")}
                                 value={formInput.date}
                                 InputProps={{
                                     readOnly: true,
@@ -289,7 +290,7 @@ function MedicineRequestForm() {
                                 required
                                 select
                                 id="medicine-select"
-                                label={"Medicine"}
+                                label={TranslateTo("mediR.MedicineType")}
                                 inputProps={{MenuProps: {disableScrollLock: true}}}
                                 value={formInput.medicine}
                                 onChange={(event) => {
@@ -300,9 +301,9 @@ function MedicineRequestForm() {
                                 }}
                                 sx={{width: "60%", pr: "5%"}}
                             >
-                                <MenuItem value={"PAIN_KILLERS"}>PainKillers</MenuItem>
-                                <MenuItem value={"TYLENOL"}>Tylenol</MenuItem>
-                                <MenuItem value={"PARACETAMOL"}>Paracetamol</MenuItem>
+                                <MenuItem value={"PainKillers"}>{TranslateTo("medType.PainK")}</MenuItem>
+                                <MenuItem value={"Tylenol"}>{TranslateTo("medType.Tylenol")}</MenuItem>
+                                <MenuItem value={"Paracetamol"}>{TranslateTo("medType.Paracetamol")}</MenuItem>
                             </TextField>
 
                             <TextField
@@ -321,7 +322,7 @@ function MedicineRequestForm() {
 
                         {/* Radio button group for forms of medicine */}
                         <Box sx={{marginY: 0, width: '100%'}}>
-                            <FormLabel id="medicine-form">Form</FormLabel>
+                            <FormLabel id="medicine-form">{TranslateTo("mediR.Form")}</FormLabel>
                             <RadioGroup
                                 name="medicine-form"
                                 aria-labelledby="medicine-form"
@@ -342,31 +343,31 @@ function MedicineRequestForm() {
                                     <Box sx={{width: "50%"}}><FormControlLabel
                                         value="POWDER"
                                         control={<Radio/>}
-                                        label="Powder"
+                                        label={TranslateTo("ingestType.Powder")}
                                     /></Box>
                                     <Box><FormControlLabel
                                         value="TAB_OR_CAP"
                                         control={<Radio/>}
-                                        label="Tab/Cap"
+                                        label={TranslateTo("ingestType.Tab")}
                                     /></Box>
                                 </Box>
                                 <Box sx={{display: "flex"}}>
                                     <Box sx={{width: "50%"}}><FormControlLabel
                                         value="CHEWABLE"
                                         control={<Radio/>}
-                                        label="Chewable"
+                                        label={TranslateTo("ingestType.Chewable")}
                                     /></Box>
                                     <Box><FormControlLabel
                                         value="LIQUID"
                                         control={<Radio/>}
-                                        label="Liquid"
+                                        label={TranslateTo("ingestType.Liquid")}
                                     /></Box>
                                 </Box>
                                 <Box sx={{display: "flex"}}>
                                     <FormControlLabel
                                         value="INHALER"
                                         control={<Radio/>}
-                                        label="Inhaler"
+                                        label={TranslateTo("ingestType.Inhaler")}
                                     />
                                 </Box>
                             </RadioGroup>
@@ -377,7 +378,7 @@ function MedicineRequestForm() {
                             required
                             select
                             value={formInput.status}
-                            label={"Status"}
+                            label={TranslateTo("status")}
                             margin="normal"
                             inputProps={{MenuProps: {disableScrollLock: true}}}
                             onChange={(event) => {
@@ -388,10 +389,10 @@ function MedicineRequestForm() {
                             }}
                             sx={{marginY: 0}}
                         >
-                            <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
-                            <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>
-                            <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
-                            <MenuItem value={"CLOSED"}>Closed</MenuItem>
+                            <MenuItem value={"UNASSIGNED"}>{TranslateTo("status.un")}</MenuItem>
+                            <MenuItem value={"ASSIGNED"}>{TranslateTo("status.as")}</MenuItem>
+                            <MenuItem value={"IN_PROGRESS"}>{TranslateTo("status.in")}</MenuItem>
+                            <MenuItem value={"CLOSED"}>{TranslateTo("status.cl")}</MenuItem>
                         </TextField>
 
                         {/* Submit and clear Button */}
@@ -414,7 +415,7 @@ function MedicineRequestForm() {
                                 disabled={!isComplete()}
                                 onClick={submitForm}
                             >
-                                Submit
+                                {TranslateTo("submit")}
                             </Button>
                         </Box>
 
@@ -428,7 +429,7 @@ function MedicineRequestForm() {
                                 <Button
                                     onClick={handleDialogClose}
                                 >
-                                    Close
+                                    {TranslateTo("close")}
                                 </Button>
                             </DialogActions>
                         </Dialog>
@@ -459,7 +460,7 @@ function MedicineRequestForm() {
                             component="h1"
                             align="center"
                         >
-                            Date
+                            {TranslateTo("date")}
                         </Typography>
                     </Box>
                     <Box
