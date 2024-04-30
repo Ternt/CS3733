@@ -3,11 +3,14 @@ import SidebarMenu from "../../components/SidebarMenu/SidebarMenu.tsx";
 import GroupsIcon from '@mui/icons-material/Groups';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import Face6Icon from '@mui/icons-material/Face6';
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import SoftwareList from "../../components/CreditsPage/SoftwareList.tsx";
 import Wongprism from "../../components/Wongprism.tsx";
 
 export default function CreditsPage() {
+    useEffect(() => {
+      document.title = "Credits";
+    });
     const [selectedTab, setSelectedTab] = useState(0);
     let tabInject = <></>;
 

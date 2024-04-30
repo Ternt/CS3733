@@ -15,7 +15,7 @@ export default function SpeechRecognition(props: SpeechRecognitionProps) {
     const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    const recognition = new SpeechRecognition();
+    const [recognition] = useState(new SpeechRecognition());
     const [isListening, setIsListening] = useState(false);
 
     recognition.continuous = true;
@@ -28,6 +28,7 @@ export default function SpeechRecognition(props: SpeechRecognitionProps) {
 
 
     recognition.onresult = (event) => {
+        console.log("On Result");
         props.onSetTranscript(event.results[0][0].transcript);
     };
 

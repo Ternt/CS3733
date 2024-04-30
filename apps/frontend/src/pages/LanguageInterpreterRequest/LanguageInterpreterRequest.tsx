@@ -31,7 +31,7 @@ type TempInterpreterFormProps = {
 
 function LanguageInterpreterRequestForm() {
     useEffect(() => {
-        document.title = "Language Interpreter Request";
+        document.title = TranslateTo("title.LangInter");
     });
 
     const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");

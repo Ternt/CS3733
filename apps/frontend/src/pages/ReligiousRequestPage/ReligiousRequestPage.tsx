@@ -82,7 +82,7 @@ const BuddhismGrowth = [
 
 function ReligiousRequestForm() {
     useEffect(() => {
-        document.title = "Religious Service Request";
+        document.title = TranslateTo("title.Religion");
     });
 
     // const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(false);

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Box,
     Paper,
@@ -27,6 +27,9 @@ type formFields = {
 };
 
 function AppointmentPage() {
+    useEffect(() => {
+      document.title = "Appointment Scheduling";
+    });
     const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");
     const [submitDialogFlag, setSubmitDialogFlag] = useState(false);
     const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(true);

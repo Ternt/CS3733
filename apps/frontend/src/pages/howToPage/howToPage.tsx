@@ -7,11 +7,14 @@ import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import TranslateIcon from '@mui/icons-material/Translate';
-import React from "react";
+import React, { useEffect } from "react";
 import FooterBar from "../../components/Footerbar/footer.tsx";
 import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 function HowToPage() {
+    useEffect(() => {
+      document.title = "FAQ";
+    });
 
     return (
       <>

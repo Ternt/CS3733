@@ -49,7 +49,7 @@ export default function MapCanvas(props: mapCanvasProps) {
         downPos: {x: 0, y: 0},
     });
     const [showIcons, setShowIcons] = useState<boolean[]>(Array.from(ICONS, () => {
-        return false;
+        return true;
     }));
     const [viewMode, setViewMode] = useState('normal');
     const [viewingFloor, setViewingFloor] = useState(props.defaultFloor);
