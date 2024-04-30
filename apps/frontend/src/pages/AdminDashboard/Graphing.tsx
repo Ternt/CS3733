@@ -17,6 +17,8 @@ const GraphPage = () => {
     const [serviceData, setServiceData] = useState<ChartData | null>(null);
     const [employeeData, setEmployeeData] = useState<ChartData | null>(null);
 
+
+
     useEffect(() => {
         // Fetch service request
         fetchData();
