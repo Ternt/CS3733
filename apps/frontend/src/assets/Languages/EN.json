@@ -53,7 +53,7 @@
     "priority.emergency": "Emergency",
 
     "status.un": "Unassigned",
-    "status.as": "Assgined",
+    "status.as": "Assigned",
     "status.in": "In Progress",
     "status.cl": "Closed",
     "status.sc": "Scheduled",
