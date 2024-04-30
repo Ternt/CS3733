@@ -7,6 +7,7 @@ import OurServices from "./OurServices.tsx";
 import {useNavigate} from "react-router-dom";
 import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 import FooterBar from "../../components/Footerbar/footer.tsx";
+import { motion } from "framer-motion";
 
 export default function HeroPage() {
     const heroPage2Ref = useRef<HTMLDivElement | null>(null);
@@ -29,148 +30,171 @@ export default function HeroPage() {
 
     const [boxDisplay, setBoxDisplay] = useState(true);
 
+    const itemVariants = {
+        hidden: { opacity: 0, y: 75 },
+        visible: { opacity: 1, y: 0 }
+    };
 
     return (
       <>
-        <Box>
-          {boxDisplay && <Box
-                sx = {{
-                    position: "absolute",
-                    translate: "15vw 1vh",
-                    width: '70%',
-                    p: '1rem',
-                    zIndex: 2,
-                    border: "3px solid #cc0000",
-                    backgroundColor: "red",
-                    opacity: 0.5,
-                    borderRadius: "10px",
-                    "&:hover": {opacity: 1},
-                }}
-                onClick={hideDisclaimerBox}
-            >
-                <Typography
-                    variant = "caption"
-                    sx = {{
-                        display: 'inline-block',
-                        fontSize: '1rem',
-                        lineHeight: '1.4',
-                        color: "white",
-                    }}
-                >
-                    {TranslateTo("Disclaimer")}
-                </Typography>
-            </Box>}
-            <Box
-                component="img"
-                className={"logo"}
-                src={
-                  wong ? heroImage2 : heroImage
-                }
-                alt={"logo"}
-                sx={{
-                    width: "100vw",
-                    height: "90vh",
-                    objectFit: "cover",
-                    overflow: "hidden",
-                    filter: "brightness(45%) blur(1px)",
-                    padding: 0,
-                }}
-            ></Box>
-            <Box
-                sx={{
-                    position: 'absolute',
-                    top: "35vh",
-                    left: "2vw",
-                }}
-            >
-                <Typography
-                    sx={{
-                        fontFamily: "Open Sans",
-                        fontSize: "5rem",
-                        textAlign: "left",
-                        fontWeight: 1000,
-                        color: "#f1f1f1",
-                        p: '1rem',
-                    }}
-                >
-                    {TranslateTo("heroP.findway")}
-                </Typography>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: {xs: 'column', sm: 'row'},
-                        flexWrap: 'wrap',
-                        gap: '3rem',
-                        marginLeft: '3%'
-                    }}
-                >
-                    <Button
-                        key="Map"
-                        onClick={() => {handleMenuItemClick("/map");}}
-                        sx={{
-                            minWidth: "15rem",
-                            px: '2rem',
-                            color: "black",
-                            transition: "all 0.2s ease-in-out",
-                            fontSize: "20px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            background: "#f6bd38",
-                            "&:hover": {background: "#f8cd69", color: "black"},
-                        }}
-                    >
-                        <Typography variant="h6" mr={1}>
-                            {TranslateTo("heroP.map")}
-                        </Typography>
-                    </Button>
-                    <Button
-                        key="learnMore"
-                        onClick={handleLearnMoreClick}
-                        sx={{
-                            minWidth: "15rem",
-                            px: '2rem',
-                            py: '1rem',
-                            color: "white",
-                            transition: "all 0.2s ease-in-out",
-                            fontSize: "20px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            background: "#012d5a",
-                            "&:hover": {background: "#1a426a", color: "white"},
-                        }}
-                    >
-                        <Typography variant="h6" mr={1}>
-                            {TranslateTo("heroP.learnMore")}
-                        </Typography>
-                        <KeyboardDoubleArrowDownIcon/>
-                    </Button>
-                </Box>
-            </Box>
-            <Box ref={heroPage2Ref}>
-                <OurServices/>
-            </Box>
-            <Box
-              sx={{
-                position:'absolute',
-                width:'300px',
-                height:'300px',
-                top:'50%',
-                left:'50%',
-                transform:'translate(0%,-50%)'
-              }}
-              onMouseOver={()=>{
-                setWong(true);
-              }}
-              onMouseLeave={()=>{
-                setWong(false);
-              }}
-            >
+          <Box>
+              {boxDisplay && <Box
+                  sx={{
+                      position: "absolute",
+                      translate: "15vw 1vh",
+                      width: '70%',
+                      p: '1rem',
+                      zIndex: 2,
+                      border: "3px solid #cc0000",
+                      backgroundColor: "red",
+                      opacity: 0.5,
+                      borderRadius: "10px",
+                      "&:hover": {opacity: 1},
+                  }}
+                  onClick={hideDisclaimerBox}
+              >
+                  <Typography
+                      variant="caption"
+                      sx={{
+                          display: 'inline-block',
+                          fontSize: '1rem',
+                          lineHeight: '1.4',
+                          color: "white",
+                      }}
+                  >
+                      {TranslateTo("Disclaimer")}
+                  </Typography>
 
+              </Box>
+              }
+              <Box
+                  component="img"
+                  className={"logo"}
+                  src={
+                      wong ? heroImage2 : heroImage
+                  }
+                  alt={"logo"}
+                  sx={{
+                      width: "100vw",
+                      height: "90vh",
+                      objectFit: "cover",
+                      overflow: "hidden",
+                      filter: "brightness(45%) blur(1px)",
+                      padding: 0,
+                  }}
+              >
+              </Box>
+              <motion.div
+                  variants={itemVariants}
+                  initial={{
+                      position: 'absolute',
+                      top: "50vh",
+                      left: "2vw",
+                      opacity: 0
+                  }}
+                  animate={{
+                      position: 'absolute',
+                      top: "35vh",
+                      left: "2vw",
+                      opacity: 1
+                  }}
+                  transition={{
+                      stiffness: 300,
+                      damping: 20,
+                      duration: .85,
+                      delay: 0.5
+                  }}
+              >
+                  <Typography
+                      sx={{
+                          fontFamily: "Open Sans",
+                          fontSize: "5rem",
+                          textAlign: "left",
+                          fontWeight: 1000,
+                          color: "#f1f1f1",
+                          p: '1rem',
+                      }}
+                  >
+                      {TranslateTo("heroP.findway")}
+                  </Typography>
+                  <Box
+                      sx={{
+                          display: 'flex',
+                          flexDirection: {xs: 'column', sm: 'row'},
+                          flexWrap: 'wrap',
+                          gap: '3rem',
+                          marginLeft: '3%'
+                      }}
+                  >
+                      <Button
+                          key="Map"
+                          onClick={() => {
+                              handleMenuItemClick("/map");
+                          }}
+                          sx={{
+                              minWidth: "15rem",
+                              px: '2rem',
+                              color: "black",
+                              transition: "all 0.2s ease-in-out",
+                              fontSize: "20px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              background: "#f6bd38",
+                              "&:hover": {background: "#f8cd69", color: "black"},
+                          }}
+                      >
+                          <Typography variant="h6" mr={1}>
+                              {TranslateTo("heroP.map")}
+                          </Typography>
+                      </Button>
+                      <Button
+                          key="learnMore"
+                          onClick={handleLearnMoreClick}
+                          sx={{
+                              minWidth: "15rem",
+                              px: '2rem',
+                              py: '1rem',
+                              color: "white",
+                              transition: "all 0.2s ease-in-out",
+                              fontSize: "20px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              background: "#012d5a",
+                              "&:hover": {background: "#1a426a", color: "white"},
+                          }}
+                      >
+                          <Typography variant="h6" mr={1}>
+                              {TranslateTo("heroP.learnMore")}
+                          </Typography>
+                          <KeyboardDoubleArrowDownIcon/>
+                      </Button>
+                  </Box>
+              </motion.div>
+              <Box ref={heroPage2Ref}>
+                  <OurServices/>
+              </Box>
+              <Box
+                  sx={{
+                      position: 'absolute',
+                      width: '300px',
+                      height: '300px',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(0%,-50%)'
+                  }}
+                  onMouseOver={() => {
+                      setWong(true);
+                  }}
+                      onMouseLeave={() => {
+                          setWong(false);
+                      }}
+                  >
+
+                  </Box>
             </Box>
-        </Box>
-  <FooterBar />
+          <FooterBar/>
       </>
-    );
+);
 }
