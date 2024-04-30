@@ -34,7 +34,7 @@
     "ourS.FAQDesc": "• Answers to frequently asked questions and how to guides",
     "ourS.Credits": "Credits",
     "ourS.creditsDesc": "• Special Thanks to the people who made this project possible",
-    "additionalInfo": "Additional Information",
+    "additionalInfo": "Brigham and Women's Hospital",
     "SERVICES": "SERVICES",
     "Logout": "Logout",
     "Login": "Login",
@@ -242,7 +242,7 @@
     "english": "English",
     "french": "French",
 
-  "abtUs.Meet": "Meet the Team",
+  "abtUs.Meet": "Meet The Team",
   "abtUs.TY": "Thank You!",
   "abtUs.Dpt": "WPI CS Department",
   "abtUs.Class": "CS3733-D24 Software Engineering",

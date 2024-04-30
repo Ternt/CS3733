@@ -523,6 +523,21 @@ export default function MapCanvas(props: mapCanvasProps) {
                 distance: 15
             });
             setDraggingNode(closestNode);
+        }else{
+            // todo DELETE THIS UTIL
+            const x2 = ((x - cameraControl.pan.x) * cameraControl.zoom) / X_MULT;
+            const y2 = ((y - cameraControl.pan.y) * cameraControl.zoom) / Y_MULT;
+            const copyContent = async (text:string) => {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    console.log('Content copied to clipboard');
+                } catch (err) {
+                    console.error('Failed to copy: ', err);
+                }
+            };
+            copyContent("{x:"+Math.round(x2)+", y:"+Math.round(y2)+", z:"+viewingFloor+"},");
+
+
         }
     }
 

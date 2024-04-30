@@ -219,6 +219,7 @@ function ReligiousRequestForm() {
                             select
                             label={TranslateTo("relR.SrvType")}
                             value={formInput.serviceType}
+                            inputProps={{ MenuProps: { disableScrollLock: true } }}
                             onChange={(e) => handleChange('serviceType', e.target.value)}
                         >
                             <MenuItem value="CHAPEL">{TranslateTo("chapel")}</MenuItem>
@@ -269,6 +270,7 @@ function ReligiousRequestForm() {
                             required
                             select
                             label={TranslateTo("status")}
+                            inputProps={{ MenuProps: { disableScrollLock: true } }}
                             value={formInput.status}
                             onChange={(e) => handleChange('status', e.target.value)}
                         >

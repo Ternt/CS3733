@@ -367,4 +367,4 @@ export default function Chatbot(props:ChatbotProps) {
             </Dialog>
         </Box>
     );
-}
+};

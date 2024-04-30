@@ -16,6 +16,7 @@ import {DateCalendar} from "@mui/x-date-pickers/DateCalendar";
 import dayjs from "dayjs";
 import EventIcon from "@mui/icons-material/Event";
 import TranslateTo from '../../helpers/multiLanguageSupport.ts';
+import FooterBar from "../../components/Footerbar/footer.tsx";
 
 type formFields = {
     name: string;
@@ -29,6 +30,7 @@ function AppointmentPage() {
     const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");
     const [submitDialogFlag, setSubmitDialogFlag] = useState(false);
     const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(true);
+    const [formMenuTransform, setFormMenuTransform] = useState<number>(0);
     const [formInput, setFormInput] = useState<formFields>({
         name: "",
         email: "",
@@ -96,6 +98,7 @@ function AppointmentPage() {
     }
 
         return (
+            <>
         <Box
             display="flex"
             height="90vh"
@@ -108,6 +111,9 @@ function AppointmentPage() {
                     position: 'relative',
                     display: 'flex',
                     flexDirection: 'column',
+                    transform: `translate(${formMenuTransform}px)`,
+                    transition: '0.5s',
+                    transitionDelay: (calendarMenuFlag? '0ms':'100ms'),
                 }}
             >
                 <Paper
@@ -202,6 +208,7 @@ function AppointmentPage() {
                                         <InputAdornment position="end">
                                             <IconButton onClick={() => {
                                                 setCalendarMenuFlag(!calendarMenuFlag);
+                                                setFormMenuTransform((calendarMenuFlag?150:0));
                                                 console.log(calendarMenuFlag);
                                             }}>
                                                 <EventIcon/>
@@ -218,6 +225,7 @@ function AppointmentPage() {
                                 label="Appointment Type"
                                 defaultValue=""
                                 variant="outlined"
+                                inputProps={{ MenuProps: { disableScrollLock: true } }}
                                 onChange={(event) => {
                                     setFormInput({
                                         ...formInput,
@@ -272,6 +280,14 @@ function AppointmentPage() {
                         </FormControl>
                     </Box>
                 </Paper>
+                <Typography
+                    variant={"caption"}
+                    sx={{
+                        px: "25%"
+                    }}
+                >
+                    Made by Brett
+                </Typography>
             </Box>
             <Box
                 width="40%"
@@ -328,8 +344,10 @@ function AppointmentPage() {
                             </Box>
                     }
                         </Grow>
-            </Box>
-        </Box>
+                    </Box>
+                </Box>
+                <FooterBar />
+            </>
     );
 }
 
