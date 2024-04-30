@@ -64,8 +64,8 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(443, () => {
-    console.log('listening on *:3005');
+server.listen(3002, () => {
+    console.log('listening on *:3002');
 });
 
 
