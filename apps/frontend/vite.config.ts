@@ -23,6 +23,6 @@ export default defineConfig({
   },
   plugins: [react(), eslint()],
   optimizeDeps: {
-    exclude: ['splinetool/react-spline']
+    exclude: ['splinetool/react-spline','hello-pangea_dnd']
   }
 });
