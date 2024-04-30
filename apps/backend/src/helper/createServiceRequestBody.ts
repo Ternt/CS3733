@@ -1,5 +1,6 @@
 
-export default function createServiceRequestBody(body): any | undefined {
+// @ts-expect-error any type fine
+export default function createServiceRequestBody(body){
     if (body === undefined) {
         return undefined;
     }
@@ -133,7 +134,41 @@ export default function createServiceRequestBody(body): any | undefined {
             delete body.name;
             delete body.language;
             break;
+        case "CHECKIN":
+            body.patientCheckIn = {
+              create: {
+                patientName: body.patientName,
+                patientEmail: body.patientEmail,
+                patientAddress: body.patientAddress,
+                patientGender: body.patientGender,
+                patientBirthday: body.patientBirthday,
+                appointmentDate: body.appointmentDate,
+                appointmentTime: body.appointmentTime
+              },
+            };
+          delete body.patientName;
+          delete body.patientEmail;
+          delete body.patientAddress;
+          delete body.patientGender;
+          delete body.patientBirthday;
+          delete body.appointmentDate;
+          delete body.appointmentTime;
+          break;
+        case "APPOINTMENT":
+            body.appointmentDetail = {
+                create: {
+                    patientName: body.patientName,
+                    patientEmail: body.patientEmail,
+                    aptType: body.aptType,
+                    date: body.date,
+                },
+            };
+            delete body.patientName;
+            delete body.patientEmail;
+            delete body.aptType;
+            delete body.date;
+            break;
     }
-
+    
     return body;
 }
