@@ -49,6 +49,7 @@ export default function HeroPage() {
                       backgroundColor: "rgba(238,33,33,0.94)",
                       borderRadius: "10px",
                       filter:'dropShadow(3px 3px 3px #000000a0)',
+                      cursor: 'pointer'
                     }}
                     initial={{
                       translate: "15vw -20vh",
@@ -87,6 +88,7 @@ export default function HeroPage() {
               }
               <Box
                   component="img"
+                  draggable={false}
                   className={"logo"}
                   src={
                       wong ? heroImage : heroImage

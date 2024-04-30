@@ -33,7 +33,7 @@ function CheckInForm () {
 
     //const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");
     // const [submitDialogFlag, setSubmitDialogFlag] = useState(false);
-    const [calendarMenuFlag, setCalendarMenuFlag] = useState<null | string>(null);
+    const [calendarMenuFlag, setCalendarMenuFlag] = useState<null | string>("bday");
     const [formMenuTransform, setFormMenuTransform] = useState<number>(0);
     const [formInput, setFormInput] = useState<formInputs>({
         name: "",
@@ -62,19 +62,6 @@ function CheckInForm () {
     function handleChange(prop: keyof formInputs, value: string) {
         setFormInput({...formInput, [prop]: value});
     }
-
-    // const handleDialogClose = () =>{
-    //     setSubmitDialogFlag(!submitDialogFlag);
-    // };
-
-    // function handlePhysicianNameInput(e: ChangeEvent<HTMLInputElement>) {
-    //     setFormInput({...formInput, physicianName: e.target.value});
-    // }
-    //
-    // function handlePatientNameInput(e: ChangeEvent<HTMLInputElement>) {
-    //     setFormInput({...formInput, patientName: e.target.value});
-    // }
-
     function submitForm(){
         if (isComplete()) {
             console.log("Patient is succesfully checked in");
@@ -145,7 +132,7 @@ function CheckInForm () {
                 width: '40%',
                 transform: `translate(${formMenuTransform}px)`,
                 transition: '0.5s',
-                transitionDelay: calendarMenuFlag? '0ms':'100ms',
+                transitionDelay: calendarMenuFlag!==null? '0ms':'100ms',
             }}
         >
             <Box
@@ -327,21 +314,6 @@ function CheckInForm () {
                                 {TranslateTo("button.CheckIn")}
                             </Button>
                         </Box>
-
-                        {/*<Dialog*/}
-                        {/*    open={submitDialogFlag}>*/}
-                        {/*    <DialogTitle></DialogTitle>*/}
-                        {/*    <DialogContent>*/}
-                        {/*        <Typography>{submitDialogText}</Typography>*/}
-                        {/*    </DialogContent>*/}
-                        {/*    <DialogActions>*/}
-                        {/*        <Button*/}
-                        {/*            onClick={handleDialogClose}*/}
-                        {/*        >*/}
-                        {/*            Close*/}
-                        {/*        </Button>*/}
-                        {/*    </DialogActions>*/}
-                        {/*</Dialog>*/}
                     </FormControl>
                 </form>
             </Box>
@@ -350,7 +322,11 @@ function CheckInForm () {
 
 
         <Box sx={{mt: '3%'}}>
-            <Grow in={calendarMenuFlag!==null} {...calendarMenuFlag? {timeout:1000}:{}}>{
+            <Grow
+              in={calendarMenuFlag!==null}
+              {...(calendarMenuFlag!==null? {timeout:1000}:{})}
+            >
+              {
                 <Box>
                     <Box
                         sx={{
