@@ -29,6 +29,7 @@ function AppointmentPage() {
     const [submitDialogText, setSubmitDialogText] = useState("Request Submitted");
     const [submitDialogFlag, setSubmitDialogFlag] = useState(false);
     const [calendarMenuFlag, setCalendarMenuFlag] = useState<boolean>(true);
+    const [formMenuTransform, setFormMenuTransform] = useState<number>(0);
     const [formInput, setFormInput] = useState<formFields>({
         name: "",
         email: "",
@@ -108,6 +109,9 @@ function AppointmentPage() {
                     position: 'relative',
                     display: 'flex',
                     flexDirection: 'column',
+                    transform: `translate(${formMenuTransform}px)`,
+                    transition: '0.5s',
+                    transitionDelay: (calendarMenuFlag? '0ms':'100ms'),
                 }}
             >
                 <Paper
@@ -202,6 +206,7 @@ function AppointmentPage() {
                                         <InputAdornment position="end">
                                             <IconButton onClick={() => {
                                                 setCalendarMenuFlag(!calendarMenuFlag);
+                                                setFormMenuTransform((calendarMenuFlag?150:0));
                                                 console.log(calendarMenuFlag);
                                             }}>
                                                 <EventIcon/>
