@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -13,6 +13,7 @@ import {
     InputAdornment, IconButton, Grow,
 } from "@mui/material";
 import EventIcon from '@mui/icons-material/Event';
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 type formInputs = {
     name: string;
@@ -164,7 +165,7 @@ function CheckInForm () {
                     component="h1"
                     align="center"
                 >
-                    PATIENT CHECK IN
+                    {TranslateTo("checkIn.Header")}
                 </Typography>
             </Box>
 
@@ -198,40 +199,40 @@ function CheckInForm () {
                     >
                         <TextField
                             required
-                            label="Patient Name"
+                            label={TranslateTo("checkIn.PName")}
                             value={formInput.name}
                             onChange={(e) => handleChange('name', e.target.value)}
                         />
                         <TextField
                             required
-                            label="Email Address"
+                            label={TranslateTo("checkIn.EmailAdd")}
                             value={formInput.email}
                             onChange={(e) => handleChange('email', e.target.value)}
                         />
                         <TextField
                             required
-                            label="Address"
+                            label={TranslateTo("address")}
                             value={formInput.address}
                             onChange={(e) => handleChange('address', e.target.value)}
                         />
                         <TextField
                             required
                             select
-                            label="Gender"
+                            label={TranslateTo("gender")}
                             value={formInput.gender}
                             onChange={(e) => handleChange('gender', e.target.value)}
                         >
-                            <MenuItem value={"MALE"}>Male</MenuItem>
-                            <MenuItem value={"FEMALE"}>Female</MenuItem>
-                            <MenuItem value={"TRANSGENDER"}>Transgender</MenuItem>
-                            <MenuItem value={"NON_BINARY"}>Non-binary</MenuItem>
-                            <MenuItem value={"OTHER"}>Other</MenuItem>
+                            <MenuItem value={"MALE"}>{TranslateTo("gender.male")}</MenuItem>
+                            <MenuItem value={"FEMALE"}>{TranslateTo("gender.female")}</MenuItem>
+                            <MenuItem value={"TRANSGENDER"}>{TranslateTo("gender.Trans")}</MenuItem>
+                            <MenuItem value={"NON_BINARY"}>{TranslateTo("gender.NonBi")}</MenuItem>
+                            <MenuItem value={"OTHER"}>{TranslateTo("other")}</MenuItem>
                         </TextField>
 
                         {/* Datepicker for Patient Birthday */}
                         <Box>
                             <TextField
-                                label={"Birthday"}
+                                label={TranslateTo("checkIn.Birthday")}
                                 value={formInput.birthday}
                                 InputProps={{
                                     readOnly: true,
@@ -251,7 +252,7 @@ function CheckInForm () {
                         {/* Datepicker for Appointment Date */}
                         <Box>
                             <TextField
-                                label={"Appointment Date"}
+                                label={TranslateTo("checkIn.AppDate")}
                                 value={formInput.appointmentDate}
                                 InputProps={{
                                     readOnly: true,
@@ -270,7 +271,7 @@ function CheckInForm () {
 
                         <TextField
                             required
-                            label="Time"
+                            label={TranslateTo("time")}
                             type="time"
                             InputLabelProps={{ shrink: true }}
                             value={formInput.appointmentTime}
@@ -285,7 +286,7 @@ function CheckInForm () {
                             required
                             select
                             value={formInput.status}
-                            label={"Status"}
+                            label={TranslateTo("status")}
                             margin="normal"
                             inputProps={{MenuProps: {disableScrollLock: true}}}
                             onChange={(event) => {
@@ -296,10 +297,10 @@ function CheckInForm () {
                             }}
                             sx={{marginY: 0}}
                         >
-                            <MenuItem value={"UNASSIGNED"}>Unassigned</MenuItem>
-                            <MenuItem value={"ASSIGNED"}>Assigned</MenuItem>
-                            <MenuItem value={"IN_PROGRESS"}>In Progress</MenuItem>
-                            <MenuItem value={"CLOSED"}>Closed</MenuItem>
+                            <MenuItem value={"UNASSIGNED"}>{TranslateTo("status.un")}</MenuItem>
+                            <MenuItem value={"ASSIGNED"}>{TranslateTo("status.as")}</MenuItem>
+                            <MenuItem value={"IN_PROGRESS"}>{TranslateTo("status.in")}</MenuItem>
+                            <MenuItem value={"CLOSED"}>{TranslateTo("status.cl")}</MenuItem>
                         </TextField>
 
                         {/* Submit and clear Button */}
@@ -311,7 +312,7 @@ function CheckInForm () {
                                 sx={{margin: 1}}
                                 onClick={clearForm}
                             >
-                                CLEAR
+                                {TranslateTo("clear")}
                             </Button>
 
                             <Button
@@ -322,7 +323,7 @@ function CheckInForm () {
                                 disabled={!isComplete()}
                                 onClick={submitForm}
                             >
-                                CHECK IN
+                                {TranslateTo("button.CheckIn")}
                             </Button>
                         </Box>
 
@@ -367,7 +368,7 @@ function CheckInForm () {
                             component="h1"
                             align="center"
                         >
-                            Date
+                            {TranslateTo("date")}
                         </Typography>
                     </Box>
                     <Box

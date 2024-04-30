@@ -17,12 +17,16 @@
     "navB.Map": "Map",
     "navB.Admin": "Admin",
     "navB.ServiceReq": "Service",
+
     "services.Sanitation": "Sanitation",
     "services.Medicine": "Medicine Delivery",
     "services.Religious": "Religious",
     "services.Interpreter": "Interpreter",
     "services.Flwr": "Flowers",
     "services.Gift": "Gifts",
+    "services.Appointment": "Appointment",
+
+
     "ourS.aboutUsDesc": "• Learn more about the team who created this web app",
     "ourS.IOS": "iOS App",
     "ourS.IOSDesc": "• Check out our iOS app",
@@ -50,7 +54,7 @@
 
     "status.un": "Unassigned",
     "status.as": "Assgined",
-    "status.in": "In_progress",
+    "status.in": "In Progress",
     "status.cl": "Closed",
     "status.sc": "Scheduled",
     "status.comp": "Completed",
@@ -67,7 +71,7 @@
     "send": "Send",
 
     "langDir.currAt": "You are currently at ",
-    "langDir.onFloor": " on floor",
+    "langDir.onFloor": " on Floor ",
     "langDir.takeElev": "Take elevator to Floor ",
     "langDir.takeStr": "Take stairs to Floor ",
     "langDir.turnL": "Turn left ",
@@ -265,8 +269,42 @@
   "taiga.desc": "An open-source project management platform",
   "twilio.desc": "A cloud communications platform",
   "vite.desc": "A build tool that aims to provide a faster and leaner development experience for modern web projects",
-  "webstorm.desc": "A powerful IDE for modern JavaScript development"
+  "webstorm.desc": "A powerful IDE for modern JavaScript development",
 
+  "services.CheckIn": "Check-In",
+  "button.CheckIn": "CHECK IN",
+
+  "checkIn.Header": "PATIENT CHECK IN",
+  "checkIn.PName": "Patient Name",
+  "checkIn.EmailAdd": "Email Address",
+  "checkIn.Birthday": "Birthday",
+  "checkIn.AppDate": "Appointment Date",
+
+  "address": "Address",
+  "gender": "Gender",
+  "gender.male": "Male",
+  "gender.female": "Female",
+  "gender.Trans": "Transgender",
+  "gender.NonBi": "Non-Binary",
+
+  "schedApp.Header": "Schedule Appointment",
+  "schedApp.FN": "Full Name",
+  "schedApp.Email": "Email",
+  "appType": "Appointment Type",
+
+  "physExam": "Physical Examination",
+  "consultation": "Consultation",
+  "surgery": "Surgery",
+  "followUp": "Follow-up",
+  "emergencyCare": "Emergency Care",
+
+  "notes": "Notes",
+
+  "generalInfo": "General Information: ",
+  "error.pageNoExist": "Looks like the page you're looking for doesn't exist",
+
+  "error.directions": "Looking For Directions?",
+  "error.tryMap": "Try our map!"
 
 
 }

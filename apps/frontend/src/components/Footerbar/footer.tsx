@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Box, Container, Typography, Link, Grid } from '@mui/material';
 import brighamLogo from "../../assets/logo.png";
 import HarvardLogo from "../../assets/HarvardMedicalSchoolLogo.png";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 export default function Footer() {
 
@@ -40,7 +41,7 @@ export default function Footer() {
                             75 Francis Street, Boston MA 02115
                         </Typography>
                         <Typography variant="subtitle1">
-                            General Information: 617-732-5500
+                            {TranslateTo("generalInfo")} 617-732-5500
                         </Typography>
                         <Typography variant="subtitle1">
                             New Patients: 800-294-9999

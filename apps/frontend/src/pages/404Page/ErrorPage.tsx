@@ -2,6 +2,7 @@ import {Box, Typography} from "@mui/material";
 import React from "react";
 import DirectionsCard from "./DirectionsCard.tsx";
 import FooterBar from "../../components/Footerbar/footer.tsx";
+import TranslateTo from "../../helpers/multiLanguageSupport.ts";
 
 export default function ErrorPage() {
     return (
@@ -64,7 +65,7 @@ export default function ErrorPage() {
                                 pt: 0,
                             }}
                         >
-                            Looks like the page you're looking for doesn't exist
+                            {TranslateTo("error.pageNoExist")}
                         </Typography>
                     </Box>
                     <Box sx={{

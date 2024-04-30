@@ -17,12 +17,16 @@
   "navB.Map": "Mapa",
   "navB.Admin": "Administración",
   "navB.ServiceReq": "Solicitudes de Servicio",
+
   "services.Sanitation": "Sanitarios",
   "services.Medicine": "Entrega de Medicamentos",
   "services.Flwr": "Flores",
   "services.Gift": "Regalos",
   "services.Religious": "Religiosos",
   "services.Interpreter": "Intérprete",
+  "services.Appointment": "Cita",
+
+
   "ourS.aboutUsDesc": "• Conoce más sobre el equipo que creó esta aplicación web",
   "ourS.IOS": "Aplicación para iOS",
   "ourS.IOSDesc": "• Echa un vistazo a nuestra aplicación para iOS",
@@ -44,7 +48,7 @@
   "priority.med": "Media",
   "priority.high": "Alta",
   "priority.emergency": "Emergencia",
-  "status.un": "Sin_Asignar",
+  "status.un": "Sin Asignar",
   "status.as": "Asignado",
   "status.in": "En_Progreso",
   "status.cl": "Cerrado",
@@ -63,7 +67,7 @@
   "send": "Enviar",
 
   "langDir.currAt": "Actualmente te encuentras en ",
-  "langDir.onFloor": " en el piso",
+  "langDir.onFloor": " en el Piso ",
   "langDir.takeElev": "Tome el ascensor al Piso ",
   "langDir.takeStr": "Tome las escaleras al Piso ",
   "langDir.turnL": "Gire a la izquierda ",
@@ -263,8 +267,42 @@
   "taiga.desc": "Una plataforma de gestión de proyectos de código abierto",
   "twilio.desc": "Una plataforma de comunicaciones en la nube",
   "vite.desc": "Una herramienta de construcción que tiene como objetivo proporcionar una experiencia de desarrollo más rápida y liviana para proyectos web modernos",
-  "webstorm.desc": "Un IDE potente para el desarrollo de JavaScript moderno"
+  "webstorm.desc": "Un IDE potente para el desarrollo de JavaScript moderno",
 
+  "services.CheckIn": "Regístrese",
+  "button.CheckIn": "REGISTRAR",
+
+  "checkIn.Header": "REGISTRO DE PACIENTES",
+  "checkIn.PName": "Nombre del Paciente",
+  "checkIn.EmailAdd": "Correo Electrónico",
+  "checkIn.Birthday": "Fecha de Nacimiento",
+  "checkIn.AppDate": "Fecha de la Cita",
+
+  "address": "Dirección",
+  "gender": "Género",
+  "gender.male": "Masculino",
+  "gender.female": "Femenino",
+  "gender.Trans": "Transgénero",
+  "gender.NonBi": "No Binario",
+
+  "schedApp.Header": "Programar Cita",
+  "schedApp.FN": "Nombre Completo",
+  "schedApp.Email": "Correo Electrónico",
+  "appType": "Tipo de Cita",
+
+  "physExam": "Examen Físico",
+  "consultation": "Consulta",
+  "surgery": "Cirugía",
+  "followUp": "Seguimiento",
+  "emergencyCare": "Atención de Emergencia",
+
+  "notes": "Notas",
+
+  "generalInfo": "Informacion General: ",
+  "error.pageNoExist": "Al parecer, la página que usted ha tratado de accesar no existe.",
+
+  "error.directions": "¿Buscando direciones?",
+  "error.tryMap": "Utilicé nuestro mapa!"
 
 
 
