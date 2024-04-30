@@ -68,6 +68,14 @@ export function LanguageSelect(props: ResponsiveAppBarProps) {
                             alt="Puerto Rico"/>
                         Español
                     </MenuItem>
+                    <MenuItem onClick={() => handleLanguageSelect('cn')}>
+                        <img
+                            src="https://flagcdn.com/w40/cn.png"
+                            srcSet="https://flagcdn.com/w80/cn.png 2x"
+                            width="40"
+                            alt="China Mainland"/>
+                        简体中文
+                    </MenuItem>
                 </Popover>
             </>
         );
