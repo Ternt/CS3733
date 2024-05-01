@@ -23,6 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {evaluateHeatGradient} from "../../helpers/colorHelper.ts";
 import {AnimatePresence, motion} from "framer-motion";
 import {ICONS} from "./MapIcons.tsx";
+import {io} from "socket.io-client";
 
 const NODE_SIZE = 3.1;
 
@@ -441,6 +442,7 @@ export default function MapCanvas(props: mapCanvasProps) {
             body: JSON.stringify(editedNode),
         });
         setPathing({...pathing, nearestNode: newNode});
+        ws.emit('updateMap', true);
         initializeData();
     }
 
@@ -722,6 +724,13 @@ export default function MapCanvas(props: mapCanvasProps) {
         initializeData();
     }, []);
 
+    const [ws] = useState(io());
+
+    ws.on('updateMap', (userData) => {
+        console.log("Updated ",userData);
+        initializeData();
+    });
+
     function initializeData() {
         console.log("init");
         axios.get("/api/map").then((res: AxiosResponse) => {
@@ -845,6 +854,7 @@ export default function MapCanvas(props: mapCanvasProps) {
                             });
                         }}
                         onPulseUpdate={() => {
+                            ws.emit('updateMap', true);
                             initializeData();
                         }}
                         edges={edges}
