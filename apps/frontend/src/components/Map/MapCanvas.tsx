@@ -23,7 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {evaluateHeatGradient} from "../../helpers/colorHelper.ts";
 import {AnimatePresence, motion} from "framer-motion";
 import {ICONS} from "./MapIcons.tsx";
-import {io} from "socket.io-client";
+import {io, Socket} from "socket.io-client";
 
 const NODE_SIZE = 3.1;
 
@@ -42,7 +42,7 @@ export default function MapCanvas(props: mapCanvasProps) {
 
     const X_MULT = getMapData().width / MAP_BASE.WIDTH;
     const Y_MULT = getMapData().height / MAP_BASE.HEIGHT;
-
+    const ws= useRef<Socket | null>(null);
     // map data
     const [mouseData, setMouseData] = useState({
         pos: {x: 0, y: 0},
@@ -442,7 +442,8 @@ export default function MapCanvas(props: mapCanvasProps) {
             body: JSON.stringify(editedNode),
         });
         setPathing({...pathing, nearestNode: newNode});
-        ws.emit('updateMap', true);
+        if(ws.current != null)
+            ws.current.emit('updateMap', true);
         initializeData();
     }
 
@@ -650,7 +651,8 @@ export default function MapCanvas(props: mapCanvasProps) {
 
         setMouseData({...mouseData, down: false});
         setDraggingNode(null);
-        setDraggingNode(null);
+        if(ws.current != null)
+            ws.current.emit('updateMap', true);
     }
 
     useEffect(() => {
@@ -718,18 +720,23 @@ export default function MapCanvas(props: mapCanvasProps) {
             }
         }
     }, [cameraControl, edges, nodes, pathing, pathing.algo, props.pathfinding, props.startLocation, viewingFloor]);
-
     // Init data
     useEffect(() => {
         initializeData();
+        ws.current = io();
+        ws.current.on('updateMap', (userData) => {
+            console.log("Updated ",userData);
+            initializeData();
+        });
+        return () => {
+            if (ws.current != null) {
+                ws.current.disconnect();
+            }
+        };
     }, []);
 
-    const [ws] = useState(io());
 
-    ws.on('updateMap', (userData) => {
-        console.log("Updated ",userData);
-        initializeData();
-    });
+
 
     function initializeData() {
         console.log("init");
@@ -854,7 +861,8 @@ export default function MapCanvas(props: mapCanvasProps) {
                             });
                         }}
                         onPulseUpdate={() => {
-                            ws.emit('updateMap', true);
+                            if(ws.current != null)
+                                ws.current.emit('updateMap', true);
                             initializeData();
                         }}
                         edges={edges}
