@@ -21,7 +21,7 @@
     "dev:docker": "docker-compose -f docker-compose.dev.yaml up --build --renew-anon-volumes -d",
     "db": "docker-compose -f docker-compose.db.yaml up --build",
     "dev:stop": "docker-compose -f docker-compose.dev.yaml down --volumes --rmi local",
-    "deploy": "docker-compose -f docker-compose.prod.yaml up --build -d",
+    "deploy": "BACKEND_PORT=80 && docker-compose -f docker-compose.prod.yaml up --build -d",
     "deploy:stop": "docker-compose -f docker-compose.prod.yaml down",
     "sync": "node scripts/sync.mjs",
     "setup": "yarn install && yarn build:dev",

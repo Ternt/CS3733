@@ -13,6 +13,12 @@ export default defineConfig({
     port: parseInt(process.env.FRONTEND_PORT),
     proxy: {
       "/api": process.env.BACKEND_SOURCE + ":" + process.env.BACKEND_PORT,
+      "/socket.io": {
+          target: "ws://" + process.env.BACKEND_SOURCE.replace("http://","") + ":" + process.env.BACKEND_PORT,
+          changeOrigin:true,
+          // rewrite: (path) => path.replace(/^\/http/, 'ws'),
+          ws: true,
+      }
     },
     watch: {
       usePolling: true,

@@ -44,8 +44,7 @@ ENV NODE_ENV=production
 
 # Expose the port
 EXPOSE $PRODUCTION_PORT
-
-
+EXPOSE 3002
 
 # Production front builder. Creates a maximally trimmed out image
 FROM installer AS prod-frontend-builder
@@ -76,7 +75,7 @@ RUN yarn turbo prune --scope=backend --docker
 # Stage to run production frontend
 FROM prod-base AS prod-frontend
 WORKDIR /$WORKDIR
-
+ENV BACKEND_SOURCE=$BACKEND_SOURCE
 # Copy the packages from production to our working directory
 COPY --from=prod-frontend-builder ["/$WORKDIR/out/json", "/$WORKDIR/out/yarn.lock", "/$WORKDIR/out/full", "./"]
 
@@ -147,6 +146,7 @@ EXPOSE $BACKEND_PORT
 
 # Expose the default DEBUGGER port
 EXPOSE 9229
+EXPOSE 3002
 
 # PG User Info
 ENV POSTGRES_USER=$POSTGRES_USER
@@ -157,7 +157,7 @@ ENV POSTGRES_PORT=$POSTGRES_PORT
 ENV POSTGRES_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_CONTAINER}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public"
 
 # Run with CMD, since dev may want to use other commands
-CMD ["yarn", "turbo", "run", "dev:push", "--filter=backend"]
+CMD ["yarn", "turbo", "run", "dev", "--filter=backend"]
 
 
 

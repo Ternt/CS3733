@@ -27,6 +27,7 @@
     "jose": "^5.2.4",
     "morgan": "~1.9.1",
     "pg": "^8.11.0",
+    "socket.io": "^4.7.5",
     "ts-node": "^10.9.1",
     "tsconfig-custom": "workspace:*",
     "twilio": "^5.0.4",

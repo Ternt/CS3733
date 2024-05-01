@@ -3,6 +3,7 @@ x-prod-args: &prod-args
   # Port that both servers will run production on
   PRODUCTION_PORT: &prod-port 80
   PORT: *prod-port # Duplicate this under the name that the env variable will expect. Build args will override as necessary
+  BACKEND_SOURCE: ec2-18-222-110-127.us-east-2.compute.amazonaws.com
 
 x-db-info: &db-args
   POSTGRES_PASSWORD: c3RqkRT5cGVNqoU9K5qk
@@ -52,6 +53,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+
     # Traefik requirement
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -91,7 +93,7 @@ services:
 
       # Despite the "loadbalancer" naming, this just describes what port this container exposes
       - "traefik.http.services.frontend-https.loadbalancer.server.port=80"
-    image: wbarker18/team-d-prod-front:frontend
+    image: nrog234/deploying-please-work:frontend
     restart: always
     healthcheck:
       *health-check
@@ -121,12 +123,12 @@ services:
 
       # The 443 entrypoint is the actual site
       - "traefik.http.routers.backend-https.entrypoints=websecure"
-      - "traefik.http.routers.backend-https.rule=Host(`ec2-18-217-227-54.us-east-2.compute.amazonaws.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.backend-https.rule=Host(`ec2-18-222-110-127.us-east-2.compute.amazonaws.com`) && PathRegexp(`(/api)|(/socket.io)`) "
       - "traefik.http.routers.backend-https.tls=true"
 
       # Despite the "loadbalancer" naming, this just describes what port this container exposes
       - "traefik.http.services.backend-https.loadbalancer.server.port=80"
-    image: wbarker18/team-d-prod-front:backend
+    image: nrog234/deploying-please-work:backend
     restart: always
     healthcheck:
       *health-check
