@@ -22,13 +22,11 @@ import {auth} from "express-oauth2-jwt-bearer";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unreachable code error
 BigInt.prototype.toJSON = function (): string {
-    return this.toString();
+  return this.toString();
 };
 
 
 const app: Express = express(); // Set up the backend
-
-
 
 
 // uncomment if you want to generate heatmap data again
@@ -80,9 +78,9 @@ app.use("/healthcheck", (req, res) => {
 
 // Create the auth middleware
 const authMiddleware = auth({
-    audience: "/api",
-    issuerBaseURL: "dev-0kmc0cto8b1g261n.us.auth0.com",
-    tokenSigningAlg: "RS256",
+  audience: "/api",
+  issuerBaseURL: "dev-0kmc0cto8b1g261n.us.auth0.com",
+  tokenSigningAlg: "RS256",
 });
 
 // Apply the auth middleware only to the /secure route
@@ -90,11 +88,11 @@ app.use('/secure', authMiddleware);
 
 // Now only the /secure route requires authentication
 app.get('/secure', (req, res) => {
-    res.send('This is a secure route');
+  res.send('This is a secure route');
 });
 
 app.get('/public', (req, res) => {
-    res.send('This is a public route');
+  res.send('This is a public route');
 });
 
 /**
