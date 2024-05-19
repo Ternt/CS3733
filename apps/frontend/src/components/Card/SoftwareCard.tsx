@@ -8,6 +8,7 @@ const useStyles ={
         alignItems: 'center',
         objectFit: 'contain',
         cursor: 'pointer',
+        height: '18rem',
         '&:hover': {
             backgroundColor: '#f5f5f5',
         },
