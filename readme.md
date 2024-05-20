@@ -33,7 +33,6 @@ WPI CS3733-D24 Software Engineering, Prof. Wong
 The homepage is the central hub of the website. It is mainly used for users to feel more comfortable with the website and the hospital in general. Scrolling down, you can see some extra buttons to get to different sections. For users, it is an easy way to get to different important sections in the NavBar such as the Map/Pathfinding page, and for viewing many different service requests and if you’re logged in as an admin, it allows you to view the admin page.
 
 ********
-q
 # NavBar
 
 The NavBar includes links to the Map page, Service requests dropdown menu, the AI Chatbot, translation dropdown, search bar for searching for individual pages and a link to the login menu. It is an easy way for users to find essential features so that they feel more comfortable with the hospital. When the login button is pressed, you will be linked to login and when youre logged in, the button will change to a logout button. When logout is pressed, you will be directly logged out.
@@ -83,19 +82,19 @@ Additionally if you wish to switch your Start and End locations just click on th
 We provide various accessibility features to maximize user comfortability.
 
 
-# TTS:<a id="tts"></a>
+# TTS<a id="tts"></a>
 
 By clicking on the TTS (text to speech) button, the language instruction of the path will be read out loud.
 
 
-# Mobile:<a id="mobile"></a>
+# Mobile<a id="mobile"></a>
 
 ****![](https://lh7-us.googleusercontent.com/30kkF97xeUyoM-QCwEyGtLFslbyWuHaf69eDxwU0aeIunhqzZSiX3DDsfHorB1D0zw_2EVTDPJadf-iMZuDuVP7Ptjw69vwAXoTAfkTjgQ68tdRnED-65zmtgcyPYFCsa7hzlPyFUhIMuk0pAYzUXSQ)****
 
 Once directions are generated, users can input their phone number to either receive a voice call or text containing the directions, allowing them to still have them after leaving the kiosk.
 
 
-# QR Code:<a id="qr-code"></a>
+# QR Code<a id="qr-code"></a>
 
 ****![](https://lh7-us.googleusercontent.com/3N_pvqDSRslP9Mt203cbTCHUkAvycQnRlTeXRe_8SWWNuVrdPumdDBbSKSxYrEi3oFSbBlKxPyG5hR_5upHG0hHRfz9iC6QFXGD06zlJ3WkbMJZYJXIscMuhjk7s59P_nbO7ex1SyTG_Twp5jjX0A7Q)****
 
@@ -217,7 +216,7 @@ Heatmap mode simulates all the possible paths in the hospital and calculates whi
 ********
 
 
-# Editing:<a id="editing"></a>
+# Map Editing<a id="editing"></a>
 
 ****![](https://lh7-us.googleusercontent.com/n1ppi_LrZb8N2GgoEsyhL_6jLZ5dFGEODOP8XaLfr-HOBwGtKqwjTJuB6jb4vX_s52gPjBbpJ8Q7h0oweQCA41koEimTODXWBE2i1sgNTGDWEyE5jcHgCXJE0bVIXOxPtHxwRBzSZ3plcrXPYz6Tq44)****
 
@@ -226,7 +225,7 @@ Heatmap mode simulates all the possible paths in the hospital and calculates whi
 Clicking the pencil opens up the Map Editor, where all the nodes and edges will be visible. Double-clicking anywhere generates a new node with a custom ID; clicking on a node opens up the Node Information Menu, where various properties can be changed. Clicking the “+” allows you to add a neighbor node, designated with the node ID, and clicking on a neighbor-node-chip toggles the “blocked” property of their respective edge.
 
 
-# Heatmap:<a id="heatmap"></a>
+# Heatmap<a id="heatmap"></a>
 
 ****![](https://lh7-us.googleusercontent.com/W0B8CjptEkZ55hFiRP9u49iwBt-iCQhvzVs3PGRkQUAkj6EYRq4cFGk60fINCYI8xrDHGRrerIL0u3Mb_21IAkuMt8Y2tvA9lL3xWoj47SsT70MxQMewQ-i7-fhhZPK9kVjDGKbb4FUYBgQ9p2DYWUs)****
 
@@ -257,7 +256,7 @@ At the top of each there is a button for uploading and downloading the data as C
 
 # Admin - Multiple Users <a id="admin---multiple-users"></a>
 
-[link to video of multiuser admin](https://drive.google.com/file/d/1s4gHErO1n9BIKdHDRK88x8M9RGYwIsAm/view?usp=sharing)
+[Demo Video](https://drive.google.com/file/d/1s4gHErO1n9BIKdHDRK88x8M9RGYwIsAm/view?usp=sharing)
 
 In admin, if you and one or more other admins are on the same tab of the page, you will be able to see their cursors and what they are working on. If it is on Map Page, when someone updates the nodes or edges, it will update for all other users at the same time.
 
@@ -289,7 +288,7 @@ This feature allows visitors to translate the webpage into the provided language
 
 
 
-# About Us button<a id="about-us-button"></a>
+# About Us<a id="about-us-button"></a>
 
 ****![](https://lh7-us.googleusercontent.com/3NoDgVViXVP8uWVEhvdEEASksi5AczXQSDuIN1QzjiSXSD5omkA3vjS8QAV1Z4Ye0y4P8HG4fukngvDNY16Mmve7dxB3QDnTEuRjdmhd5J1sddajDkyU47xU-Jf2p4Abm2lplNzqIakUFiDg2tEHjBo)****
 
@@ -351,7 +350,7 @@ A: To get flowers for a loved one, first navigate to the flower page, Then add y
 ********
 
 
-# Credits button - Libraries<a id="credits-button---libraries"></a>
+# Credits - Libraries<a id="credits-button---libraries"></a>
 
 ****![](https://lh7-us.googleusercontent.com/G9sL9c9IRXQuCIeff3Xv-3RsK1iELjCzj7F8lH-1tINGZZMXSJesRkPF_T_0gJfr9xEAvT4SXqIMjQHSyP8wYQCwf2iNGVrY51DohhlIM3wDaoIF1ZtnNR7jNJacRjbBM_u0sdrCZUtCmuCIWKPNA7M)****
 
@@ -360,7 +359,7 @@ The credits button takes you to the Library section of the credits page which sh
 ********
 
 
-# Credits button - Special Thanks<a id="credits-button---special-thanks"></a>
+# Credits - Special Thanks<a id="credits-button---special-thanks"></a>
 
 ****![](https://lh7-us.googleusercontent.com/Z9Pvo7wL-ddOKQVEnnYwRZWUZLlKOonEP3IO9kTEyFzUETRBS25y-m8wMgbo3sk4HIGBCbQ_ZXPR9qiIYTcl0di1bkQX4QXujv7uTSCBsPg2RXNGz2B_1pMGSvlIzeJZ4GFBn4eGwDYicmOtMRca25M)****
 
