@@ -1,4 +1,4 @@
-**User Manual**
+# User Manual
 
 WPI CS3733-D24 Software Engineering, Prof. Wong
 
