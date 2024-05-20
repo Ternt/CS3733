@@ -27,82 +27,13 @@ WPI CS3733-D24 Software Engineering, Prof. Wong
 
 ********
 
-**Table of Contents**
-
-[**Home Page ****3**](#home-page)
-
-[**Extra Section below Hero ****4**](#extra-section-below-hero)
-
-[**About Us button ****5**](#about-us-button)
-
-[**IOS App ****6**](#ios-app)
-
-[**FAQs ****7**](#faqs)
-
-[**Credits button - Libraries ****8**](#credits-button---libraries)
-
-[**Credits button - Special Thanks ****9**](#credits-button---special-thanks)
-
-[**Login Page ****10**](#login-page)
-
-[**Map Page ****11**](#map-page)
-
-[**Map Page - Pathfinding ****12**](#map-page---pathfinding)
-
-[**Map Page - Language Instruction ****13**](https://docs.google.com/document/d/1TpPKwb3VoHEe1bn96oHzfoafFdOsywyC6HHWkMBg3M0/edit#heading=h.vjumza5f9xsx)
-
-[**Map Page - Extra Features ****14**](#map-page---extra-features)
-
-[**TTS: ****14**](#tts)
-
-[**Mobile: ****15**](#mobile)
-
-[**QR Code: ****16**](#qr-code)
-
-[**Service Request - Dropdown ****17**](#service-request---dropdown)
-
-[**Service Request - Flowers ****18**](#service-request---flowers)
-
-[**Service Request - Gifts ****19**](#service-request---gifts)
-
-[**Checkout Page ****20**](#checkout-page)
-
-[**Service Request - Religious Services ****22**](#service-request---religious-services)
-
-[**Service Request - Appointment ****24**](#service-request---appointment)
-
-[**Service Request - Sanitation ****25**](#service-request---sanitation)
-
-[**Service Request - Medicine Delivery ****26**](#service-request---medicine-delivery)
-
-[**Service Request - Language Interpreter ****27**](#service-request---language-interpreter)
-
-[**Admin Page - Overview ****28**](#admin-page---overview)
-
-[**Admin Page - Map ****29**](#admin-page---map)
-
-[**Editing: ****30**](#editing)
-
-[**Heatmap: ****31**](#admin---tables)
-
-[**Admin - Data Analytics ****32**](https://docs.google.com/document/d/1TpPKwb3VoHEe1bn96oHzfoafFdOsywyC6HHWkMBg3M0/edit#heading=h.1424b9w4gmqs)
-
-[**Admin - Charts ****33**](#admin---multiple-users)
-
-[**Employees: ****34**](https://docs.google.com/document/d/1TpPKwb3VoHEe1bn96oHzfoafFdOsywyC6HHWkMBg3M0/edit#heading=h.7uilfhstnlv5)
-
-[**Admin - Multiple Users ****35**](#translation---spanish-and-chinese)
-
-[**ChatBot ****36**](https://docs.google.com/document/d/1TpPKwb3VoHEe1bn96oHzfoafFdOsywyC6HHWkMBg3M0/edit#heading=h.ioinhajuxw00)
-
-[**Translation - Spanish and Chinese ****37**](https://docs.google.com/document/d/1TpPKwb3VoHEe1bn96oHzfoafFdOsywyC6HHWkMBg3M0/edit#heading=h.lryzng6iykfh)
-
-
 # Home Page<a id="home-page"></a>
 
 ****![](https://lh7-us.googleusercontent.com/clSCdV9hswVkVYGVYlRsmBIsD_MCkX3vk5bwAaiOMA6rMFRr5C-aVQEMP5IyM74s_vmmBDtIppDtzADbqChGf_l8H2WeOtLxKCGpq7XRzQN36tqt6PeUFP--yPILzwgB6Y8KazmEQBNZF4z_zt7-Y08)****
 The homepage is the central hub of the website. It is mainly used for users to feel more comfortable with the website and the hospital in general. Scrolling down, you can see some extra buttons to get to different sections. For users, it is an easy way to get to different important sections in the NavBar such as the Map/Pathfinding page, and for viewing many different service requests and if you’re logged in as an admin, it allows you to view the admin page.
 
+********
+q
 # NavBar
 
 The NavBar includes links to the Map page, Service requests dropdown menu, the AI Chatbot, translation dropdown, search bar for searching for individual pages and a link to the login menu. It is an easy way for users to find essential features so that they feel more comfortable with the hospital. When the login button is pressed, you will be linked to login and when youre logged in, the button will change to a logout button. When logout is pressed, you will be directly logged out.
@@ -117,87 +48,6 @@ The NavBar includes links to the Map page, Service requests dropdown menu, the A
 This extra section is for a few extra features that were not important enough to include in the NavBar. The first two links “Brigham and Women’s Hospital” and “Brigham and Women’s Faulkner Hospital” take you to the official pages of the buildings on the Brigham and Women’s Hospital website. The “About Us” page is a link to a page with us on it and another feature. The IOS app button doesn’t go anywhere, the FAQ gives a link to commonly asked questions with answers, and the credits gives credit to software we used and our professor.
 
 ********
-
-
-# About Us button<a id="about-us-button"></a>
-
-****![](https://lh7-us.googleusercontent.com/3NoDgVViXVP8uWVEhvdEEASksi5AczXQSDuIN1QzjiSXSD5omkA3vjS8QAV1Z4Ye0y4P8HG4fukngvDNY16Mmve7dxB3QDnTEuRjdmhd5J1sddajDkyU47xU-Jf2p4Abm2lplNzqIakUFiDg2tEHjBo)****
-
-****![](https://lh7-us.googleusercontent.com/eGaid6EC7hKn_WtRljo8b7TwxzTGwFa9bSlt8poqvxrVqcOEvEgWZbUpIYZGbPcGQD_DpBDSxVhrvAOOkYNNO4Fg_q0HEX_mzJOJAKwL50pLTpgCJY_WRF_AwW-ifr9d33MvL_5q05jioH0cA1578GY)****
-
-As stated previously, this is our About us page that includes a carousel with all of our names with pictures and positions on the team. Scrolling down, we have a thank you page for our class with term, our professor, our team coach and a thank you to Brigham and Women’s Hospital and their representative.
-
-********
-
-
-# IOS App<a id="ios-app"></a>
-
-****![](https://lh7-us.googleusercontent.com/OZCIBMQEvzKMsTqMfrjJ2nRePYfq15o8qnYVe8WtAWQKcCvHKLHbqdXQUC4E5i79_aj7rje6I5SvpL5ohJgal0QQZVvGkWyjgVM5HyXQD68dNRWWrVCUnjgpTZ73oPDvdsk-JhzDpOhh7F877EQmDwI)****
-
-****![](https://lh7-us.googleusercontent.com/9DP-1QmIuCsP1TVfShfk2PhW3Zs6ytHtMI_MithN02FoVyX7Rgbin0P6Sb49_xrtBLljS2UJnQ-w0dhy2u6b4AjSzjuDbyJHioK4sdnNbckCsPxP5O_q5_HWG-HNmu8huZwXOMaRgmSducRtjdVu__k)****
-
-The iOS app provides a concise user experience, including only the most used features of the website such as the map and gift request. 
-
-Unfortunately the app is not currently available to download.
-
-********
-
-
-# FAQs<a id="faqs"></a>
-
-****![](https://lh7-us.googleusercontent.com/8jFstPdsv9XqIav1bfSrBFV5LbDK4R7YbfPCx15N7dSTpnU3FUYl7r1PX3527Z9rPEAQWgrYWOl4VE6Rz5GBee3kth2FRkIkBhLtHbqGWg7617zx4XuXS4gQoHTE8-6eRGJONTQriUVE_AHtJkVUGK0)****
-
-Our FAQ page has common questions with answers for:
-
-Q: How do I use Pathfinding **(takes you to the map page)**
-
-A: To use pathfinding, first navigate to the map page. Then select a start and end location from the dropdown menus. Finally, choose an algorithm (A\* if you want the optimal path). 
-
-
-## Q: How do I get a gift for a loved one? (Takes you to the gift request page)<a id="q-how-do-i-get-a-gift-for-a-loved-one-takes-you-to-the-gift-request-page"></a>
-
-A: To get a gift for a loved one, first navigate to the gift page. Then add the desired items to your cart. Finally, click on Submit and complete checking out.
-
-
-## Q: There is a spill in the Garden Cafe, how do I report this? (Takes you to the sanitation page)<a id="q-there-is-a-spill-in-the-garden-cafe-how-do-i-report-this-takes-you-to-the-sanitation-page"></a>
-
-A: To request help with this spill, first navigate to the sanitation page. Then fill out the relevant information and submit.
-
-
-## Q: I am a hospital Admin, how do I see the requests? (takes you to the admin dashboard page)<a id="q-i-am-a-hospital-admin-how-do-i-see-the-requests-takes-you-to-the-admin-dashboard-page"></a>
-
-A: To view all the requests, first login with an admin account and navigate to the admin dashboard page. Then fill our the relevant information and submit.
-
-
-## Q: My friend doesn't speak english, How do I get a translator? (takes you to the translator request page)<a id="q-my-friend-doesnt-speak-english-how-do-i-get-a-translator-takes-you-to-the-translator-request-page"></a>
-
-A: To request a translator, first navigate to the translator page. Then fill out the relevant information and submit.
-
-
-## Q: How do I send flowers to a loved one? (takes you to the flower delivery page)<a id="q-how-do-i-send-flowers-to-a-loved-one-takes-you-to-the-flower-delivery-page"></a>
-
-A: To get flowers for a loved one, first navigate to the flower page, Then add your desired items to your cart. Finally, click on Submit and complete the checking out.
-
-********
-
-
-# Credits button - Libraries<a id="credits-button---libraries"></a>
-
-****![](https://lh7-us.googleusercontent.com/G9sL9c9IRXQuCIeff3Xv-3RsK1iELjCzj7F8lH-1tINGZZMXSJesRkPF_T_0gJfr9xEAvT4SXqIMjQHSyP8wYQCwf2iNGVrY51DohhlIM3wDaoIF1ZtnNR7jNJacRjbBM_u0sdrCZUtCmuCIWKPNA7M)****
-
-The credits button takes you to the Library section of the credits page which shows all of our libraries and software that we have used along with images of them and when pressed will bring you to the webpage of the libraries. The credits page also includes a sidebar which has the libraries/main page for credits and special thanks.
-
-********
-
-
-# Credits button - Special Thanks<a id="credits-button---special-thanks"></a>
-
-****![](https://lh7-us.googleusercontent.com/Z9Pvo7wL-ddOKQVEnnYwRZWUZLlKOonEP3IO9kTEyFzUETRBS25y-m8wMgbo3sk4HIGBCbQ_ZXPR9qiIYTcl0di1bkQX4QXujv7uTSCBsPg2RXNGz2B_1pMGSvlIzeJZ4GFBn4eGwDYicmOtMRca25M)****
-
-As a special thank you to Professor Wong, we have embedded a live rendered 3d model of his face with a particle emitter. The page, when audio is enabled, will also play a parody of Never Gonna Give You Up by Rick Astley sung in Professor Wong’s voice synthesized by an AI model trained on his lectures. This was done to demonstrate the capabilities of web graphics and AI speech which could be further applied in other sections of the website.
-
-********
-
 
 # Login Page<a id="login-page"></a>
 
@@ -436,3 +286,84 @@ Note that the chatbot is powered by ChatGPT and while it is very good most of th
 ****![](https://lh7-us.googleusercontent.com/0Ha5NMRtbG6PuroAAk2P4XpU3oSyt5Ejtl7XioMztm0ORlXEQFZBYtY2nJYARCwf59lBr8BtZkzWvnVwwenQhwm7xO8GeLVD10leQn7zjL41AJV4BQPAzxnDSA0kp9DhfG-FlYlBn9Hf8aFHUhhLLb0)****
 
 This feature allows visitors to translate the webpage into the provided languages. This was created to make the webpage more accessible to users whose first language is not English. To translate the webpage, click on the globe on the Navigation Bar and choose the language you wish to translate the webpage into. If you want to switch languages again, repeat the previous instructions.
+
+
+
+# About Us button<a id="about-us-button"></a>
+
+****![](https://lh7-us.googleusercontent.com/3NoDgVViXVP8uWVEhvdEEASksi5AczXQSDuIN1QzjiSXSD5omkA3vjS8QAV1Z4Ye0y4P8HG4fukngvDNY16Mmve7dxB3QDnTEuRjdmhd5J1sddajDkyU47xU-Jf2p4Abm2lplNzqIakUFiDg2tEHjBo)****
+
+****![](https://lh7-us.googleusercontent.com/eGaid6EC7hKn_WtRljo8b7TwxzTGwFa9bSlt8poqvxrVqcOEvEgWZbUpIYZGbPcGQD_DpBDSxVhrvAOOkYNNO4Fg_q0HEX_mzJOJAKwL50pLTpgCJY_WRF_AwW-ifr9d33MvL_5q05jioH0cA1578GY)****
+
+As stated previously, this is our About us page that includes a carousel with all of our names with pictures and positions on the team. Scrolling down, we have a thank you page for our class with term, our professor, our team coach and a thank you to Brigham and Women’s Hospital and their representative.
+
+********
+
+
+# IOS App<a id="ios-app"></a>
+
+****![](https://lh7-us.googleusercontent.com/OZCIBMQEvzKMsTqMfrjJ2nRePYfq15o8qnYVe8WtAWQKcCvHKLHbqdXQUC4E5i79_aj7rje6I5SvpL5ohJgal0QQZVvGkWyjgVM5HyXQD68dNRWWrVCUnjgpTZ73oPDvdsk-JhzDpOhh7F877EQmDwI)****
+
+****![](https://lh7-us.googleusercontent.com/9DP-1QmIuCsP1TVfShfk2PhW3Zs6ytHtMI_MithN02FoVyX7Rgbin0P6Sb49_xrtBLljS2UJnQ-w0dhy2u6b4AjSzjuDbyJHioK4sdnNbckCsPxP5O_q5_HWG-HNmu8huZwXOMaRgmSducRtjdVu__k)****
+
+The iOS app provides a concise user experience, including only the most used features of the website such as the map and gift request. 
+
+Unfortunately the app is not currently available to download.
+
+********
+
+
+# FAQs<a id="faqs"></a>
+
+****![](https://lh7-us.googleusercontent.com/8jFstPdsv9XqIav1bfSrBFV5LbDK4R7YbfPCx15N7dSTpnU3FUYl7r1PX3527Z9rPEAQWgrYWOl4VE6Rz5GBee3kth2FRkIkBhLtHbqGWg7617zx4XuXS4gQoHTE8-6eRGJONTQriUVE_AHtJkVUGK0)****
+
+Our FAQ page has common questions with answers for:
+
+Q: How do I use Pathfinding **(takes you to the map page)**
+
+A: To use pathfinding, first navigate to the map page. Then select a start and end location from the dropdown menus. Finally, choose an algorithm (A\* if you want the optimal path). 
+
+
+## Q: How do I get a gift for a loved one? (Takes you to the gift request page)<a id="q-how-do-i-get-a-gift-for-a-loved-one-takes-you-to-the-gift-request-page"></a>
+
+A: To get a gift for a loved one, first navigate to the gift page. Then add the desired items to your cart. Finally, click on Submit and complete checking out.
+
+
+## Q: There is a spill in the Garden Cafe, how do I report this? (Takes you to the sanitation page)<a id="q-there-is-a-spill-in-the-garden-cafe-how-do-i-report-this-takes-you-to-the-sanitation-page"></a>
+
+A: To request help with this spill, first navigate to the sanitation page. Then fill out the relevant information and submit.
+
+
+## Q: I am a hospital Admin, how do I see the requests? (takes you to the admin dashboard page)<a id="q-i-am-a-hospital-admin-how-do-i-see-the-requests-takes-you-to-the-admin-dashboard-page"></a>
+
+A: To view all the requests, first login with an admin account and navigate to the admin dashboard page. Then fill our the relevant information and submit.
+
+
+## Q: My friend doesn't speak english, How do I get a translator? (takes you to the translator request page)<a id="q-my-friend-doesnt-speak-english-how-do-i-get-a-translator-takes-you-to-the-translator-request-page"></a>
+
+A: To request a translator, first navigate to the translator page. Then fill out the relevant information and submit.
+
+
+## Q: How do I send flowers to a loved one? (takes you to the flower delivery page)<a id="q-how-do-i-send-flowers-to-a-loved-one-takes-you-to-the-flower-delivery-page"></a>
+
+A: To get flowers for a loved one, first navigate to the flower page, Then add your desired items to your cart. Finally, click on Submit and complete the checking out.
+
+********
+
+
+# Credits button - Libraries<a id="credits-button---libraries"></a>
+
+****![](https://lh7-us.googleusercontent.com/G9sL9c9IRXQuCIeff3Xv-3RsK1iELjCzj7F8lH-1tINGZZMXSJesRkPF_T_0gJfr9xEAvT4SXqIMjQHSyP8wYQCwf2iNGVrY51DohhlIM3wDaoIF1ZtnNR7jNJacRjbBM_u0sdrCZUtCmuCIWKPNA7M)****
+
+The credits button takes you to the Library section of the credits page which shows all of our libraries and software that we have used along with images of them and when pressed will bring you to the webpage of the libraries. The credits page also includes a sidebar which has the libraries/main page for credits and special thanks.
+
+********
+
+
+# Credits button - Special Thanks<a id="credits-button---special-thanks"></a>
+
+****![](https://lh7-us.googleusercontent.com/Z9Pvo7wL-ddOKQVEnnYwRZWUZLlKOonEP3IO9kTEyFzUETRBS25y-m8wMgbo3sk4HIGBCbQ_ZXPR9qiIYTcl0di1bkQX4QXujv7uTSCBsPg2RXNGz2B_1pMGSvlIzeJZ4GFBn4eGwDYicmOtMRca25M)****
+
+As a special thank you to Professor Wong, we have embedded a live rendered 3d model of his face with a particle emitter. The page, when audio is enabled, will also play a parody of Never Gonna Give You Up by Rick Astley sung in Professor Wong’s voice synthesized by an AI model trained on his lectures. This was done to demonstrate the capabilities of web graphics and AI speech which could be further applied in other sections of the website.
+
+********
